@@ -1,0 +1,11 @@
+#!mojo mojo:sky_viewer
+<sky>
+<style>
+ h1 { font-size: 2em; margin: 1em; }
+ p { margin: 0.5em 1em; color: #bcd8f5; font-weight: 900; }
+</style>
+<h1>Mojo Home</h1>
+<a href='//mojo/embedded_app.mojo'>embeded_app</a>
+<a href='//mojo/sample_app.mojo'>sample_app</a>
+<a href='//mojo/surfaces_app.mojo'>surfaces_app</a>
+</sky>
