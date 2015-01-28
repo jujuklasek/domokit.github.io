@@ -1,0 +1,276 @@
+<!-- Copyright 2014 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<import src="/gen/mojo/public/sky/bindings.sky" as="bindings" />
+<import src="/gen/mojo/public/sky/codec.sky" as="codec" />
+<import src="/gen/mojo/public/sky/connection.sky" as="connection" />
+<import src="/gen/mojo/public/sky/core.sky" as="core" />
+<import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<import src="/gen/mojo/services/navigation/public/interfaces/navigation.mojom.sky" as="navigation$" />
+<script>
+
+  function DebugPanelHost_CloseTopWindow_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  DebugPanelHost_CloseTopWindow_Params.prototype.initDefaults_ = function() {
+  };
+  DebugPanelHost_CloseTopWindow_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  DebugPanelHost_CloseTopWindow_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, DebugPanelHost_CloseTopWindow_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  DebugPanelHost_CloseTopWindow_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  DebugPanelHost_CloseTopWindow_Params.decode = function(decoder) {
+    var packed;
+    var val = new DebugPanelHost_CloseTopWindow_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  DebugPanelHost_CloseTopWindow_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(DebugPanelHost_CloseTopWindow_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  function DebugPanelHost_NavigateTo_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  DebugPanelHost_NavigateTo_Params.prototype.initDefaults_ = function() {
+    this.url = null;
+  };
+  DebugPanelHost_NavigateTo_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  DebugPanelHost_NavigateTo_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, DebugPanelHost_NavigateTo_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate DebugPanelHost_NavigateTo_Params.url
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  DebugPanelHost_NavigateTo_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  DebugPanelHost_NavigateTo_Params.decode = function(decoder) {
+    var packed;
+    var val = new DebugPanelHost_NavigateTo_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.url = decoder.decodeStruct(codec.String);
+    return val;
+  };
+
+  DebugPanelHost_NavigateTo_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(DebugPanelHost_NavigateTo_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.String, val.url);
+  };
+
+  function DebugPanelHost_SetNavigationTarget_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  DebugPanelHost_SetNavigationTarget_Params.prototype.initDefaults_ = function() {
+    this.target = 0;
+  };
+  DebugPanelHost_SetNavigationTarget_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  DebugPanelHost_SetNavigationTarget_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, DebugPanelHost_SetNavigationTarget_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  DebugPanelHost_SetNavigationTarget_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  DebugPanelHost_SetNavigationTarget_Params.decode = function(decoder) {
+    var packed;
+    var val = new DebugPanelHost_SetNavigationTarget_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.target = decoder.decodeStruct(codec.Int32);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  DebugPanelHost_SetNavigationTarget_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(DebugPanelHost_SetNavigationTarget_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Int32, val.target);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  var kDebugPanelHost_CloseTopWindow_Name = 0;
+  var kDebugPanelHost_NavigateTo_Name = 1;
+  var kDebugPanelHost_SetNavigationTarget_Name = 2;
+
+  function DebugPanelHostProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  DebugPanelHostProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  DebugPanelHostProxy.prototype.closeTopWindow = function() {
+    var params = new DebugPanelHost_CloseTopWindow_Params();
+    var builder = new codec.MessageBuilder(
+        kDebugPanelHost_CloseTopWindow_Name,
+        codec.align(DebugPanelHost_CloseTopWindow_Params.encodedSize));
+    builder.encodeStruct(DebugPanelHost_CloseTopWindow_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  DebugPanelHostProxy.prototype.navigateTo = function(url) {
+    var params = new DebugPanelHost_NavigateTo_Params();
+    params.url = url;
+    var builder = new codec.MessageBuilder(
+        kDebugPanelHost_NavigateTo_Name,
+        codec.align(DebugPanelHost_NavigateTo_Params.encodedSize));
+    builder.encodeStruct(DebugPanelHost_NavigateTo_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  DebugPanelHostProxy.prototype.setNavigationTarget = function(target) {
+    var params = new DebugPanelHost_SetNavigationTarget_Params();
+    params.target = target;
+    var builder = new codec.MessageBuilder(
+        kDebugPanelHost_SetNavigationTarget_Name,
+        codec.align(DebugPanelHost_SetNavigationTarget_Params.encodedSize));
+    builder.encodeStruct(DebugPanelHost_SetNavigationTarget_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+
+  function DebugPanelHostStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  DebugPanelHostStub.prototype = Object.create(bindings.StubBase.prototype);
+  DebugPanelHostStub.prototype.closeTopWindow = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.closeTopWindow && bindings.StubBindings(this).delegate.closeTopWindow();
+  }
+  DebugPanelHostStub.prototype.navigateTo = function(url) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.navigateTo && bindings.StubBindings(this).delegate.navigateTo(url);
+  }
+  DebugPanelHostStub.prototype.setNavigationTarget = function(target) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.setNavigationTarget && bindings.StubBindings(this).delegate.setNavigationTarget(target);
+  }
+
+  DebugPanelHostStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kDebugPanelHost_CloseTopWindow_Name:
+      var params = reader.decodeStruct(DebugPanelHost_CloseTopWindow_Params);
+      this.closeTopWindow();
+      return true;
+    case kDebugPanelHost_NavigateTo_Name:
+      var params = reader.decodeStruct(DebugPanelHost_NavigateTo_Params);
+      this.navigateTo(params.url);
+      return true;
+    case kDebugPanelHost_SetNavigationTarget_Name:
+      var params = reader.decodeStruct(DebugPanelHost_SetNavigationTarget_Params);
+      this.setNavigationTarget(params.target);
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  DebugPanelHostStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateDebugPanelHostRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kDebugPanelHost_CloseTopWindow_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = DebugPanelHost_CloseTopWindow_Params;
+      break;
+      case kDebugPanelHost_NavigateTo_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = DebugPanelHost_NavigateTo_Params;
+      break;
+      case kDebugPanelHost_SetNavigationTarget_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = DebugPanelHost_SetNavigationTarget_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateDebugPanelHostResponse(messageValidator) {
+    return validator.validationError.NONE;
+  }
+
+  var DebugPanelHost = {
+    name: 'mojo::examples::DebugPanelHost',
+    proxyClass: DebugPanelHostProxy,
+    stubClass: DebugPanelHostStub,
+    validateRequest: validateDebugPanelHostRequest,
+    validateResponse: null,
+  };
+  DebugPanelHostStub.prototype.validator = validateDebugPanelHostRequest;
+  DebugPanelHostProxy.prototype.validator = null;
+
+
+  var exports = {};
+  exports.DebugPanelHost = DebugPanelHost;
+
+  module.exports = exports;
+</script>

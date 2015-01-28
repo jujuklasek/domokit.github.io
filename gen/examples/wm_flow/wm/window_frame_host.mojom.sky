@@ -1,0 +1,335 @@
+<!-- Copyright 2014 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<import src="/gen/mojo/public/sky/bindings.sky" as="bindings" />
+<import src="/gen/mojo/public/sky/codec.sky" as="codec" />
+<import src="/gen/mojo/public/sky/connection.sky" as="connection" />
+<import src="/gen/mojo/public/sky/core.sky" as="core" />
+<import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<script>
+
+  function WindowFrameHost_ActivateWindow_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  WindowFrameHost_ActivateWindow_Params.prototype.initDefaults_ = function() {
+  };
+  WindowFrameHost_ActivateWindow_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  WindowFrameHost_ActivateWindow_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, WindowFrameHost_ActivateWindow_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  WindowFrameHost_ActivateWindow_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  WindowFrameHost_ActivateWindow_Params.decode = function(decoder) {
+    var packed;
+    var val = new WindowFrameHost_ActivateWindow_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  WindowFrameHost_ActivateWindow_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(WindowFrameHost_ActivateWindow_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  function WindowFrameHost_CloseWindow_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  WindowFrameHost_CloseWindow_Params.prototype.initDefaults_ = function() {
+  };
+  WindowFrameHost_CloseWindow_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  WindowFrameHost_CloseWindow_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, WindowFrameHost_CloseWindow_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  WindowFrameHost_CloseWindow_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  WindowFrameHost_CloseWindow_Params.decode = function(decoder) {
+    var packed;
+    var val = new WindowFrameHost_CloseWindow_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  WindowFrameHost_CloseWindow_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(WindowFrameHost_CloseWindow_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  function WindowFrameHost_SetCapture_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  WindowFrameHost_SetCapture_Params.prototype.initDefaults_ = function() {
+    this.frame_has_capture = false;
+  };
+  WindowFrameHost_SetCapture_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  WindowFrameHost_SetCapture_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, WindowFrameHost_SetCapture_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  WindowFrameHost_SetCapture_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  WindowFrameHost_SetCapture_Params.decode = function(decoder) {
+    var packed;
+    var val = new WindowFrameHost_SetCapture_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.frame_has_capture = decoder.decodeStruct(codec.Uint8);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  WindowFrameHost_SetCapture_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(WindowFrameHost_SetCapture_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Uint8, val.frame_has_capture);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  function WindowFrameHost_ToggleMaximize_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  WindowFrameHost_ToggleMaximize_Params.prototype.initDefaults_ = function() {
+  };
+  WindowFrameHost_ToggleMaximize_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  WindowFrameHost_ToggleMaximize_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, WindowFrameHost_ToggleMaximize_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  WindowFrameHost_ToggleMaximize_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  WindowFrameHost_ToggleMaximize_Params.decode = function(decoder) {
+    var packed;
+    var val = new WindowFrameHost_ToggleMaximize_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  WindowFrameHost_ToggleMaximize_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(WindowFrameHost_ToggleMaximize_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  var kWindowFrameHost_ActivateWindow_Name = 0;
+  var kWindowFrameHost_CloseWindow_Name = 1;
+  var kWindowFrameHost_SetCapture_Name = 2;
+  var kWindowFrameHost_ToggleMaximize_Name = 3;
+
+  function WindowFrameHostProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  WindowFrameHostProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  WindowFrameHostProxy.prototype.activateWindow = function() {
+    var params = new WindowFrameHost_ActivateWindow_Params();
+    var builder = new codec.MessageBuilder(
+        kWindowFrameHost_ActivateWindow_Name,
+        codec.align(WindowFrameHost_ActivateWindow_Params.encodedSize));
+    builder.encodeStruct(WindowFrameHost_ActivateWindow_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  WindowFrameHostProxy.prototype.closeWindow = function() {
+    var params = new WindowFrameHost_CloseWindow_Params();
+    var builder = new codec.MessageBuilder(
+        kWindowFrameHost_CloseWindow_Name,
+        codec.align(WindowFrameHost_CloseWindow_Params.encodedSize));
+    builder.encodeStruct(WindowFrameHost_CloseWindow_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  WindowFrameHostProxy.prototype.setCapture = function(frame_has_capture) {
+    var params = new WindowFrameHost_SetCapture_Params();
+    params.frame_has_capture = frame_has_capture;
+    var builder = new codec.MessageBuilder(
+        kWindowFrameHost_SetCapture_Name,
+        codec.align(WindowFrameHost_SetCapture_Params.encodedSize));
+    builder.encodeStruct(WindowFrameHost_SetCapture_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  WindowFrameHostProxy.prototype.toggleMaximize = function() {
+    var params = new WindowFrameHost_ToggleMaximize_Params();
+    var builder = new codec.MessageBuilder(
+        kWindowFrameHost_ToggleMaximize_Name,
+        codec.align(WindowFrameHost_ToggleMaximize_Params.encodedSize));
+    builder.encodeStruct(WindowFrameHost_ToggleMaximize_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+
+  function WindowFrameHostStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  WindowFrameHostStub.prototype = Object.create(bindings.StubBase.prototype);
+  WindowFrameHostStub.prototype.activateWindow = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.activateWindow && bindings.StubBindings(this).delegate.activateWindow();
+  }
+  WindowFrameHostStub.prototype.closeWindow = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.closeWindow && bindings.StubBindings(this).delegate.closeWindow();
+  }
+  WindowFrameHostStub.prototype.setCapture = function(frame_has_capture) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.setCapture && bindings.StubBindings(this).delegate.setCapture(frame_has_capture);
+  }
+  WindowFrameHostStub.prototype.toggleMaximize = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.toggleMaximize && bindings.StubBindings(this).delegate.toggleMaximize();
+  }
+
+  WindowFrameHostStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kWindowFrameHost_ActivateWindow_Name:
+      var params = reader.decodeStruct(WindowFrameHost_ActivateWindow_Params);
+      this.activateWindow();
+      return true;
+    case kWindowFrameHost_CloseWindow_Name:
+      var params = reader.decodeStruct(WindowFrameHost_CloseWindow_Params);
+      this.closeWindow();
+      return true;
+    case kWindowFrameHost_SetCapture_Name:
+      var params = reader.decodeStruct(WindowFrameHost_SetCapture_Params);
+      this.setCapture(params.frame_has_capture);
+      return true;
+    case kWindowFrameHost_ToggleMaximize_Name:
+      var params = reader.decodeStruct(WindowFrameHost_ToggleMaximize_Params);
+      this.toggleMaximize();
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  WindowFrameHostStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateWindowFrameHostRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kWindowFrameHost_ActivateWindow_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = WindowFrameHost_ActivateWindow_Params;
+      break;
+      case kWindowFrameHost_CloseWindow_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = WindowFrameHost_CloseWindow_Params;
+      break;
+      case kWindowFrameHost_SetCapture_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = WindowFrameHost_SetCapture_Params;
+      break;
+      case kWindowFrameHost_ToggleMaximize_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = WindowFrameHost_ToggleMaximize_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateWindowFrameHostResponse(messageValidator) {
+    return validator.validationError.NONE;
+  }
+
+  var WindowFrameHost = {
+    name: 'examples::WindowFrameHost',
+    proxyClass: WindowFrameHostProxy,
+    stubClass: WindowFrameHostStub,
+    validateRequest: validateWindowFrameHostRequest,
+    validateResponse: null,
+  };
+  WindowFrameHostStub.prototype.validator = validateWindowFrameHostRequest;
+  WindowFrameHostProxy.prototype.validator = null;
+
+
+  var exports = {};
+  exports.WindowFrameHost = WindowFrameHost;
+
+  module.exports = exports;
+</script>

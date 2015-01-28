@@ -1,0 +1,396 @@
+<!-- Copyright 2014 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<import src="/gen/mojo/public/sky/bindings.sky" as="bindings" />
+<import src="/gen/mojo/public/sky/codec.sky" as="codec" />
+<import src="/gen/mojo/public/sky/connection.sky" as="connection" />
+<import src="/gen/mojo/public/sky/core.sky" as="core" />
+<import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<script>
+
+  function RecipeChangeValue(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  RecipeChangeValue.prototype.initDefaults_ = function() {
+    this.old_value = null;
+    this.new_value = null;
+  };
+  RecipeChangeValue.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  RecipeChangeValue.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, RecipeChangeValue.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate RecipeChangeValue.old_value
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 0, 1, codec.Uint8, true, [0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate RecipeChangeValue.new_value
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 8, 1, codec.Uint8, true, [0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  RecipeChangeValue.encodedSize = codec.kStructHeaderSize + 16;
+
+  RecipeChangeValue.decode = function(decoder) {
+    var packed;
+    var val = new RecipeChangeValue();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.old_value = decoder.decodeArrayPointer(codec.Uint8);
+    val.new_value = decoder.decodeArrayPointer(codec.Uint8);
+    return val;
+  };
+
+  RecipeChangeValue.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(RecipeChangeValue.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeArrayPointer(codec.Uint8, val.old_value);
+    encoder.encodeArrayPointer(codec.Uint8, val.new_value);
+  };
+
+  function RecipeValueStore_UpdateValues_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  RecipeValueStore_UpdateValues_Params.prototype.initDefaults_ = function() {
+    this.values = null;
+  };
+  RecipeValueStore_UpdateValues_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  RecipeValueStore_UpdateValues_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, RecipeValueStore_UpdateValues_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate RecipeValueStore_UpdateValues_Params.values
+    err = messageValidator.validateMapPointer(offset + codec.kStructHeaderSize + 0, false, codec.String, new codec.ArrayOf(codec.Uint8), false);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  RecipeValueStore_UpdateValues_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  RecipeValueStore_UpdateValues_Params.decode = function(decoder) {
+    var packed;
+    var val = new RecipeValueStore_UpdateValues_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.values = decoder.decodeMapPointer(codec.String, new codec.ArrayOf(codec.Uint8));
+    return val;
+  };
+
+  RecipeValueStore_UpdateValues_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(RecipeValueStore_UpdateValues_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeMapPointer(codec.String, new codec.ArrayOf(codec.Uint8), val.values);
+  };
+
+  function RecipeValueStore_SetObserver_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  RecipeValueStore_SetObserver_Params.prototype.initDefaults_ = function() {
+    this.observer = null;
+  };
+  RecipeValueStore_SetObserver_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  RecipeValueStore_SetObserver_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, RecipeValueStore_SetObserver_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate RecipeValueStore_SetObserver_Params.observer
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  RecipeValueStore_SetObserver_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  RecipeValueStore_SetObserver_Params.decode = function(decoder) {
+    var packed;
+    var val = new RecipeValueStore_SetObserver_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.observer = decoder.decodeStruct(codec.Handle);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  RecipeValueStore_SetObserver_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(RecipeValueStore_SetObserver_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Handle, val.observer);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  function RecipeValueStoreObserver_OnValuesChanged_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  RecipeValueStoreObserver_OnValuesChanged_Params.prototype.initDefaults_ = function() {
+    this.changed_values = null;
+  };
+  RecipeValueStoreObserver_OnValuesChanged_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  RecipeValueStoreObserver_OnValuesChanged_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, RecipeValueStoreObserver_OnValuesChanged_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate RecipeValueStoreObserver_OnValuesChanged_Params.changed_values
+    err = messageValidator.validateMapPointer(offset + codec.kStructHeaderSize + 0, false, codec.String, new codec.PointerTo(RecipeChangeValue), false);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  RecipeValueStoreObserver_OnValuesChanged_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  RecipeValueStoreObserver_OnValuesChanged_Params.decode = function(decoder) {
+    var packed;
+    var val = new RecipeValueStoreObserver_OnValuesChanged_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.changed_values = decoder.decodeMapPointer(codec.String, new codec.PointerTo(RecipeChangeValue));
+    return val;
+  };
+
+  RecipeValueStoreObserver_OnValuesChanged_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(RecipeValueStoreObserver_OnValuesChanged_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeMapPointer(codec.String, new codec.PointerTo(RecipeChangeValue), val.changed_values);
+  };
+
+  var kRecipeValueStore_UpdateValues_Name = 0;
+  var kRecipeValueStore_SetObserver_Name = 1;
+
+  function RecipeValueStoreProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  RecipeValueStoreProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  RecipeValueStoreProxy.prototype.updateValues = function(values) {
+    var params = new RecipeValueStore_UpdateValues_Params();
+    params.values = values;
+    var builder = new codec.MessageBuilder(
+        kRecipeValueStore_UpdateValues_Name,
+        codec.align(RecipeValueStore_UpdateValues_Params.encodedSize));
+    builder.encodeStruct(RecipeValueStore_UpdateValues_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  RecipeValueStoreProxy.prototype.setObserver = function(observer) {
+    var params = new RecipeValueStore_SetObserver_Params();
+    params.observer = core.isHandle(observer) ? observer : connection.bindImpl(observer, RecipeValueStoreObserver);
+    var builder = new codec.MessageBuilder(
+        kRecipeValueStore_SetObserver_Name,
+        codec.align(RecipeValueStore_SetObserver_Params.encodedSize));
+    builder.encodeStruct(RecipeValueStore_SetObserver_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+
+  function RecipeValueStoreStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  RecipeValueStoreStub.prototype = Object.create(bindings.StubBase.prototype);
+  RecipeValueStoreStub.prototype.updateValues = function(values) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.updateValues && bindings.StubBindings(this).delegate.updateValues(values);
+  }
+  RecipeValueStoreStub.prototype.setObserver = function(observer) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.setObserver && bindings.StubBindings(this).delegate.setObserver(connection.bindHandleToProxy(observer, RecipeValueStoreObserver));
+  }
+
+  RecipeValueStoreStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kRecipeValueStore_UpdateValues_Name:
+      var params = reader.decodeStruct(RecipeValueStore_UpdateValues_Params);
+      this.updateValues(params.values);
+      return true;
+    case kRecipeValueStore_SetObserver_Name:
+      var params = reader.decodeStruct(RecipeValueStore_SetObserver_Params);
+      this.setObserver(params.observer);
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  RecipeValueStoreStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateRecipeValueStoreRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kRecipeValueStore_UpdateValues_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = RecipeValueStore_UpdateValues_Params;
+      break;
+      case kRecipeValueStore_SetObserver_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = RecipeValueStore_SetObserver_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateRecipeValueStoreResponse(messageValidator) {
+    return validator.validationError.NONE;
+  }
+
+  var RecipeValueStore = {
+    name: 'recipes::RecipeValueStore',
+    proxyClass: RecipeValueStoreProxy,
+    stubClass: RecipeValueStoreStub,
+    validateRequest: validateRecipeValueStoreRequest,
+    validateResponse: null,
+  };
+  RecipeValueStoreStub.prototype.validator = validateRecipeValueStoreRequest;
+  RecipeValueStoreProxy.prototype.validator = null;
+
+  var kRecipeValueStoreObserver_OnValuesChanged_Name = 0;
+
+  function RecipeValueStoreObserverProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  RecipeValueStoreObserverProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  RecipeValueStoreObserverProxy.prototype.onValuesChanged = function(changed_values) {
+    var params = new RecipeValueStoreObserver_OnValuesChanged_Params();
+    params.changed_values = changed_values;
+    var builder = new codec.MessageBuilder(
+        kRecipeValueStoreObserver_OnValuesChanged_Name,
+        codec.align(RecipeValueStoreObserver_OnValuesChanged_Params.encodedSize));
+    builder.encodeStruct(RecipeValueStoreObserver_OnValuesChanged_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+
+  function RecipeValueStoreObserverStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  RecipeValueStoreObserverStub.prototype = Object.create(bindings.StubBase.prototype);
+  RecipeValueStoreObserverStub.prototype.onValuesChanged = function(changed_values) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.onValuesChanged && bindings.StubBindings(this).delegate.onValuesChanged(changed_values);
+  }
+
+  RecipeValueStoreObserverStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kRecipeValueStoreObserver_OnValuesChanged_Name:
+      var params = reader.decodeStruct(RecipeValueStoreObserver_OnValuesChanged_Params);
+      this.onValuesChanged(params.changed_values);
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  RecipeValueStoreObserverStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateRecipeValueStoreObserverRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kRecipeValueStoreObserver_OnValuesChanged_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = RecipeValueStoreObserver_OnValuesChanged_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateRecipeValueStoreObserverResponse(messageValidator) {
+    return validator.validationError.NONE;
+  }
+
+  var RecipeValueStoreObserver = {
+    name: 'recipes::RecipeValueStoreObserver',
+    proxyClass: RecipeValueStoreObserverProxy,
+    stubClass: RecipeValueStoreObserverStub,
+    validateRequest: validateRecipeValueStoreObserverRequest,
+    validateResponse: null,
+  };
+  RecipeValueStoreObserverStub.prototype.validator = validateRecipeValueStoreObserverRequest;
+  RecipeValueStoreObserverProxy.prototype.validator = null;
+
+
+  var exports = {};
+  exports.RecipeChangeValue = RecipeChangeValue;
+  exports.RecipeValueStore = RecipeValueStore;
+  exports.RecipeValueStoreObserver = RecipeValueStoreObserver;
+
+  module.exports = exports;
+</script>

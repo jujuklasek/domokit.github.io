@@ -1,0 +1,139 @@
+<!-- Copyright 2014 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<import src="/gen/mojo/public/sky/bindings.sky" as="bindings" />
+<import src="/gen/mojo/public/sky/codec.sky" as="codec" />
+<import src="/gen/mojo/public/sky/connection.sky" as="connection" />
+<import src="/gen/mojo/public/sky/core.sky" as="core" />
+<import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<script>
+
+  function BrowserHost_NavigateTo_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  BrowserHost_NavigateTo_Params.prototype.initDefaults_ = function() {
+    this.url = null;
+  };
+  BrowserHost_NavigateTo_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  BrowserHost_NavigateTo_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, BrowserHost_NavigateTo_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate BrowserHost_NavigateTo_Params.url
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  BrowserHost_NavigateTo_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  BrowserHost_NavigateTo_Params.decode = function(decoder) {
+    var packed;
+    var val = new BrowserHost_NavigateTo_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.url = decoder.decodeStruct(codec.String);
+    return val;
+  };
+
+  BrowserHost_NavigateTo_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(BrowserHost_NavigateTo_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.String, val.url);
+  };
+
+  var kBrowserHost_NavigateTo_Name = 0;
+
+  function BrowserHostProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  BrowserHostProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  BrowserHostProxy.prototype.navigateTo = function(url) {
+    var params = new BrowserHost_NavigateTo_Params();
+    params.url = url;
+    var builder = new codec.MessageBuilder(
+        kBrowserHost_NavigateTo_Name,
+        codec.align(BrowserHost_NavigateTo_Params.encodedSize));
+    builder.encodeStruct(BrowserHost_NavigateTo_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+
+  function BrowserHostStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  BrowserHostStub.prototype = Object.create(bindings.StubBase.prototype);
+  BrowserHostStub.prototype.navigateTo = function(url) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.navigateTo && bindings.StubBindings(this).delegate.navigateTo(url);
+  }
+
+  BrowserHostStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kBrowserHost_NavigateTo_Name:
+      var params = reader.decodeStruct(BrowserHost_NavigateTo_Params);
+      this.navigateTo(params.url);
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  BrowserHostStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateBrowserHostRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kBrowserHost_NavigateTo_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = BrowserHost_NavigateTo_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateBrowserHostResponse(messageValidator) {
+    return validator.validationError.NONE;
+  }
+
+  var BrowserHost = {
+    name: 'mojo::examples::BrowserHost',
+    proxyClass: BrowserHostProxy,
+    stubClass: BrowserHostStub,
+    validateRequest: validateBrowserHostRequest,
+    validateResponse: null,
+  };
+  BrowserHostStub.prototype.validator = validateBrowserHostRequest;
+  BrowserHostProxy.prototype.validator = null;
+
+
+  var exports = {};
+  exports.BrowserHost = BrowserHost;
+
+  module.exports = exports;
+</script>

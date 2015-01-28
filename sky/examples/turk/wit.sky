@@ -1,0 +1,25 @@
+<import src="/sky/framework/xmlhttprequest.sky" as="XMLHttpRequest" />
+
+<script>
+var ACCESS_TOKEN = "MQKXKL62VHFAVM6HHGU6PXZ4QJ2ONSBV";
+var VERSION = "20141119";
+var POST_URL = "https://api.wit.ai/speech";
+
+function sendToWit(array_buffer, content_type, callback) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', POST_URL);
+  xhr.setRequestHeader("Authorization", "Bearer " + ACCESS_TOKEN);
+  xhr.setRequestHeader("Accept", "application/vnd.wit." + VERSION);
+  xhr.setRequestHeader("Content-Type", content_type);
+  xhr.onload = function(event) {
+    // Probably this should be responseJson.
+    callback(xhr.responseText);
+  }
+  xhr.onerror = function(error) {
+    throw error;
+  }
+  xhr.send(array_buffer);
+}
+
+module.exports = sendToWit;
+</script>

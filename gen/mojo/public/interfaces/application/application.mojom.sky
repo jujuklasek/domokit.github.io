@@ -1,0 +1,305 @@
+<!-- Copyright 2014 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<import src="/gen/mojo/public/sky/bindings.sky" as="bindings" />
+<import src="/gen/mojo/public/sky/codec.sky" as="codec" />
+<import src="/gen/mojo/public/sky/connection.sky" as="connection" />
+<import src="/gen/mojo/public/sky/core.sky" as="core" />
+<import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<import src="/gen/mojo/public/interfaces/application/service_provider.mojom.sky" as="service_provider$" />
+<import src="/gen/mojo/public/interfaces/application/shell.mojom.sky" as="shell$" />
+<script>
+
+  function Application_Initialize_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Application_Initialize_Params.prototype.initDefaults_ = function() {
+    this.shell = null;
+    this.args = null;
+  };
+  Application_Initialize_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Application_Initialize_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Application_Initialize_Params.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Application_Initialize_Params.shell
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Application_Initialize_Params.args
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 8, 8, codec.String, true, [0, 0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Application_Initialize_Params.encodedSize = codec.kStructHeaderSize + 16;
+
+  Application_Initialize_Params.decode = function(decoder) {
+    var packed;
+    var val = new Application_Initialize_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.shell = decoder.decodeStruct(codec.Handle);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    val.args = decoder.decodeArrayPointer(codec.String);
+    return val;
+  };
+
+  Application_Initialize_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Application_Initialize_Params.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStruct(codec.Handle, val.shell);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.encodeArrayPointer(codec.String, val.args);
+  };
+
+  function Application_AcceptConnection_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Application_AcceptConnection_Params.prototype.initDefaults_ = function() {
+    this.requestor_url = null;
+    this.services = null;
+    this.exposed_services = null;
+  };
+  Application_AcceptConnection_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Application_AcceptConnection_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Application_AcceptConnection_Params.encodedSize, 3);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Application_AcceptConnection_Params.requestor_url
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Application_AcceptConnection_Params.services
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 8, true)
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Application_AcceptConnection_Params.exposed_services
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 12, true)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Application_AcceptConnection_Params.encodedSize = codec.kStructHeaderSize + 16;
+
+  Application_AcceptConnection_Params.decode = function(decoder) {
+    var packed;
+    var val = new Application_AcceptConnection_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.requestor_url = decoder.decodeStruct(codec.String);
+    val.services = decoder.decodeStruct(codec.Handle);
+    val.exposed_services = decoder.decodeStruct(codec.Handle);
+    return val;
+  };
+
+  Application_AcceptConnection_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Application_AcceptConnection_Params.encodedSize);
+    encoder.writeUint32(3);
+    encoder.encodeStruct(codec.String, val.requestor_url);
+    encoder.encodeStruct(codec.Handle, val.services);
+    encoder.encodeStruct(codec.Handle, val.exposed_services);
+  };
+
+  function Application_RequestQuit_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Application_RequestQuit_Params.prototype.initDefaults_ = function() {
+  };
+  Application_RequestQuit_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Application_RequestQuit_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Application_RequestQuit_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Application_RequestQuit_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  Application_RequestQuit_Params.decode = function(decoder) {
+    var packed;
+    var val = new Application_RequestQuit_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  Application_RequestQuit_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Application_RequestQuit_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  var kApplication_Initialize_Name = 0;
+  var kApplication_AcceptConnection_Name = 1;
+  var kApplication_RequestQuit_Name = 2;
+
+  function ApplicationProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  ApplicationProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  ApplicationProxy.prototype.initialize = function(shell, args) {
+    var params = new Application_Initialize_Params();
+    params.shell = core.isHandle(shell) ? shell : connection.bindImpl(shell, shell$.Shell);
+    params.args = args;
+    var builder = new codec.MessageBuilder(
+        kApplication_Initialize_Name,
+        codec.align(Application_Initialize_Params.encodedSize));
+    builder.encodeStruct(Application_Initialize_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  ApplicationProxy.prototype.acceptConnection = function(requestor_url, services, exposed_services) {
+    var params = new Application_AcceptConnection_Params();
+    params.requestor_url = requestor_url;
+    params.services = core.isHandle(services) ? services : connection.bindProxy(services, service_provider$.ServiceProvider);
+    params.exposed_services = core.isHandle(exposed_services) ? exposed_services : connection.bindImpl(exposed_services, service_provider$.ServiceProvider);
+    var builder = new codec.MessageBuilder(
+        kApplication_AcceptConnection_Name,
+        codec.align(Application_AcceptConnection_Params.encodedSize));
+    builder.encodeStruct(Application_AcceptConnection_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  ApplicationProxy.prototype.requestQuit = function() {
+    var params = new Application_RequestQuit_Params();
+    var builder = new codec.MessageBuilder(
+        kApplication_RequestQuit_Name,
+        codec.align(Application_RequestQuit_Params.encodedSize));
+    builder.encodeStruct(Application_RequestQuit_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+
+  function ApplicationStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  ApplicationStub.prototype = Object.create(bindings.StubBase.prototype);
+  ApplicationStub.prototype.initialize = function(shell, args) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.initialize && bindings.StubBindings(this).delegate.initialize(connection.bindHandleToProxy(shell, shell$.Shell), args);
+  }
+  ApplicationStub.prototype.acceptConnection = function(requestor_url, services, exposed_services) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.acceptConnection && bindings.StubBindings(this).delegate.acceptConnection(requestor_url, connection.bindHandleToStub(services, service_provider$.ServiceProvider), connection.bindHandleToProxy(exposed_services, service_provider$.ServiceProvider));
+  }
+  ApplicationStub.prototype.requestQuit = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.requestQuit && bindings.StubBindings(this).delegate.requestQuit();
+  }
+
+  ApplicationStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kApplication_Initialize_Name:
+      var params = reader.decodeStruct(Application_Initialize_Params);
+      this.initialize(params.shell, params.args);
+      return true;
+    case kApplication_AcceptConnection_Name:
+      var params = reader.decodeStruct(Application_AcceptConnection_Params);
+      this.acceptConnection(params.requestor_url, params.services, params.exposed_services);
+      return true;
+    case kApplication_RequestQuit_Name:
+      var params = reader.decodeStruct(Application_RequestQuit_Params);
+      this.requestQuit();
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  ApplicationStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateApplicationRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kApplication_Initialize_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = Application_Initialize_Params;
+      break;
+      case kApplication_AcceptConnection_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = Application_AcceptConnection_Params;
+      break;
+      case kApplication_RequestQuit_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = Application_RequestQuit_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateApplicationResponse(messageValidator) {
+    return validator.validationError.NONE;
+  }
+
+  var Application = {
+    name: 'mojo::Application',
+    proxyClass: ApplicationProxy,
+    stubClass: ApplicationStub,
+    validateRequest: validateApplicationRequest,
+    validateResponse: null,
+  };
+  ApplicationStub.prototype.validator = validateApplicationRequest;
+  ApplicationProxy.prototype.validator = null;
+
+
+  var exports = {};
+  exports.Application = Application;
+
+  module.exports = exports;
+</script>

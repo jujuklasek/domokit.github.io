@@ -1,0 +1,229 @@
+<!-- Copyright 2014 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<import src="/gen/mojo/public/sky/bindings.sky" as="bindings" />
+<import src="/gen/mojo/public/sky/codec.sky" as="codec" />
+<import src="/gen/mojo/public/sky/connection.sky" as="connection" />
+<import src="/gen/mojo/public/sky/core.sky" as="core" />
+<import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<import src="/gen/mojo/services/geometry/public/interfaces/geometry.mojom.sky" as="geometry$" />
+<import src="/gen/mojo/services/surfaces/public/interfaces/quads.mojom.sky" as="quads$" />
+<import src="/gen/mojo/services/surfaces/public/interfaces/surface_id.mojom.sky" as="surface_id$" />
+<script>
+
+  function Child_ProduceFrame_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Child_ProduceFrame_Params.prototype.initDefaults_ = function() {
+    this.color = null;
+    this.size = null;
+  };
+  Child_ProduceFrame_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Child_ProduceFrame_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Child_ProduceFrame_Params.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Child_ProduceFrame_Params.color
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 0, quads$.Color, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Child_ProduceFrame_Params.size
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 8, geometry$.Size, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Child_ProduceFrame_Params.encodedSize = codec.kStructHeaderSize + 16;
+
+  Child_ProduceFrame_Params.decode = function(decoder) {
+    var packed;
+    var val = new Child_ProduceFrame_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.color = decoder.decodeStructPointer(quads$.Color);
+    val.size = decoder.decodeStructPointer(geometry$.Size);
+    return val;
+  };
+
+  Child_ProduceFrame_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Child_ProduceFrame_Params.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStructPointer(quads$.Color, val.color);
+    encoder.encodeStructPointer(geometry$.Size, val.size);
+  };
+
+  function Child_ProduceFrame_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Child_ProduceFrame_ResponseParams.prototype.initDefaults_ = function() {
+    this.id = null;
+  };
+  Child_ProduceFrame_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Child_ProduceFrame_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Child_ProduceFrame_ResponseParams.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Child_ProduceFrame_ResponseParams.id
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 0, surface_id$.SurfaceId, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Child_ProduceFrame_ResponseParams.encodedSize = codec.kStructHeaderSize + 8;
+
+  Child_ProduceFrame_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new Child_ProduceFrame_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.id = decoder.decodeStructPointer(surface_id$.SurfaceId);
+    return val;
+  };
+
+  Child_ProduceFrame_ResponseParams.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Child_ProduceFrame_ResponseParams.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStructPointer(surface_id$.SurfaceId, val.id);
+  };
+
+  var kChild_ProduceFrame_Name = 0;
+
+  function ChildProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  ChildProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  ChildProxy.prototype.produceFrame = function(color, size) {
+    var params = new Child_ProduceFrame_Params();
+    params.color = color;
+    params.size = size;
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kChild_ProduceFrame_Name,
+          codec.align(Child_ProduceFrame_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(Child_ProduceFrame_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(Child_ProduceFrame_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
+  };
+
+  function ChildStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  ChildStub.prototype = Object.create(bindings.StubBase.prototype);
+  ChildStub.prototype.produceFrame = function(color, size) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.produceFrame && bindings.StubBindings(this).delegate.produceFrame(color, size);
+  }
+
+  ChildStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return false;
+    }
+  };
+
+  ChildStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kChild_ProduceFrame_Name:
+      var params = reader.decodeStruct(Child_ProduceFrame_Params);
+      return this.produceFrame(params.color, params.size).then(function(response) {
+        var responseParams =
+            new Child_ProduceFrame_ResponseParams();
+        responseParams.id = response.id;
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kChild_ProduceFrame_Name,
+            codec.align(Child_ProduceFrame_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(Child_ProduceFrame_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateChildRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kChild_ProduceFrame_Name:
+        if (message.expectsResponse())
+          paramsClass = Child_ProduceFrame_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateChildResponse(messageValidator) {
+   var message = messageValidator.message;
+   var paramsClass = null;
+   switch (message.getName()) {
+      case kChild_ProduceFrame_Name:
+        if (message.isResponse())
+          paramsClass = Child_ProduceFrame_ResponseParams;
+        break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  var Child = {
+    name: '::Child',
+    proxyClass: ChildProxy,
+    stubClass: ChildStub,
+    validateRequest: validateChildRequest,
+    validateResponse: validateChildResponse,
+  };
+  ChildStub.prototype.validator = validateChildRequest;
+  ChildProxy.prototype.validator = validateChildResponse;
+
+
+  var exports = {};
+  exports.Child = Child;
+
+  module.exports = exports;
+</script>

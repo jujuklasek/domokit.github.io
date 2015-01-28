@@ -1,0 +1,280 @@
+<!-- Copyright 2014 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<import src="/gen/mojo/public/sky/bindings.sky" as="bindings" />
+<import src="/gen/mojo/public/sky/codec.sky" as="codec" />
+<import src="/gen/mojo/public/sky/connection.sky" as="connection" />
+<import src="/gen/mojo/public/sky/core.sky" as="core" />
+<import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<script>
+
+  function Transfer_Complete_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Transfer_Complete_Params.prototype.initDefaults_ = function() {
+    this.application_secret = 0;
+    this.node = 0;
+  };
+  Transfer_Complete_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Transfer_Complete_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Transfer_Complete_Params.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Transfer_Complete_Params.encodedSize = codec.kStructHeaderSize + 16;
+
+  Transfer_Complete_Params.decode = function(decoder) {
+    var packed;
+    var val = new Transfer_Complete_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.application_secret = decoder.decodeStruct(codec.Uint64);
+    val.node = decoder.decodeStruct(codec.Uint32);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  Transfer_Complete_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Transfer_Complete_Params.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStruct(codec.Uint64, val.application_secret);
+    encoder.encodeStruct(codec.Uint32, val.node);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  function Transfer_Ping_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Transfer_Ping_Params.prototype.initDefaults_ = function() {
+  };
+  Transfer_Ping_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Transfer_Ping_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Transfer_Ping_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Transfer_Ping_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  Transfer_Ping_Params.decode = function(decoder) {
+    var packed;
+    var val = new Transfer_Ping_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  Transfer_Ping_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Transfer_Ping_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  function Transfer_Ping_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Transfer_Ping_ResponseParams.prototype.initDefaults_ = function() {
+  };
+  Transfer_Ping_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Transfer_Ping_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Transfer_Ping_ResponseParams.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Transfer_Ping_ResponseParams.encodedSize = codec.kStructHeaderSize + 0;
+
+  Transfer_Ping_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new Transfer_Ping_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  Transfer_Ping_ResponseParams.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Transfer_Ping_ResponseParams.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  var kTransfer_Complete_Name = 0;
+  var kTransfer_Ping_Name = 1;
+
+  function TransferProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  TransferProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  TransferProxy.prototype.complete = function(application_secret, node) {
+    var params = new Transfer_Complete_Params();
+    params.application_secret = application_secret;
+    params.node = node;
+    var builder = new codec.MessageBuilder(
+        kTransfer_Complete_Name,
+        codec.align(Transfer_Complete_Params.encodedSize));
+    builder.encodeStruct(Transfer_Complete_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  TransferProxy.prototype.ping = function() {
+    var params = new Transfer_Ping_Params();
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kTransfer_Ping_Name,
+          codec.align(Transfer_Ping_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(Transfer_Ping_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(Transfer_Ping_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
+  };
+
+  function TransferStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  TransferStub.prototype = Object.create(bindings.StubBase.prototype);
+  TransferStub.prototype.complete = function(application_secret, node) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.complete && bindings.StubBindings(this).delegate.complete(application_secret, node);
+  }
+  TransferStub.prototype.ping = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.ping && bindings.StubBindings(this).delegate.ping();
+  }
+
+  TransferStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kTransfer_Complete_Name:
+      var params = reader.decodeStruct(Transfer_Complete_Params);
+      this.complete(params.application_secret, params.node);
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  TransferStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kTransfer_Ping_Name:
+      var params = reader.decodeStruct(Transfer_Ping_Params);
+      return this.ping().then(function(response) {
+        var responseParams =
+            new Transfer_Ping_ResponseParams();
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kTransfer_Ping_Name,
+            codec.align(Transfer_Ping_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(Transfer_Ping_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateTransferRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kTransfer_Complete_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = Transfer_Complete_Params;
+      break;
+      case kTransfer_Ping_Name:
+        if (message.expectsResponse())
+          paramsClass = Transfer_Ping_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateTransferResponse(messageValidator) {
+   var message = messageValidator.message;
+   var paramsClass = null;
+   switch (message.getName()) {
+      case kTransfer_Ping_Name:
+        if (message.isResponse())
+          paramsClass = Transfer_Ping_ResponseParams;
+        break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  var Transfer = {
+    name: 'reaper::Transfer',
+    proxyClass: TransferProxy,
+    stubClass: TransferStub,
+    validateRequest: validateTransferRequest,
+    validateResponse: validateTransferResponse,
+  };
+  TransferStub.prototype.validator = validateTransferRequest;
+  TransferProxy.prototype.validator = validateTransferResponse;
+
+
+  var exports = {};
+  exports.Transfer = Transfer;
+
+  module.exports = exports;
+</script>

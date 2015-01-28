@@ -1,0 +1,53 @@
+<import src="/sky/framework/sky-element/sky-element.sky" as="SkyElement" />
+<template>
+  <style>
+    :host {
+        border-radius: 50px;
+        width: 100px;
+        height: 100px;
+        border: 1px solid blue;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: "translateY(-150px)";
+    }
+  </style>
+  <content />
+</template>
+<script>
+SkyElement({
+  name: "turk-bubble",
+  created: function() {
+    this.onScreen = false;
+  },
+  toggle: function() {
+    if (this.onScreen) {
+      this.flyOut();
+    } else {
+      this.flyIn();
+    }
+  },
+  flyIn: function() {
+    this.animate([
+      { transform: 'translateY(-150px)' },
+      { transform: 'translateY(0px)' },
+    ],
+    {
+      duration: 1000,
+      fill: "forwards",
+    });
+    this.onScreen = true;
+  },
+  flyOut: function() {
+    this.animate([
+      { transform: 'translateY(0px)' },
+      { transform: 'translateY(-150px)' },
+    ],
+    {
+      duration: 1000,
+      fill: "forwards",
+    });
+    this.onScreen = false;
+  },
+});
+</script>

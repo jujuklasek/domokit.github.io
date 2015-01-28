@@ -1,0 +1,284 @@
+<!-- Copyright 2014 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<import src="/gen/mojo/public/sky/bindings.sky" as="bindings" />
+<import src="/gen/mojo/public/sky/codec.sky" as="codec" />
+<import src="/gen/mojo/public/sky/connection.sky" as="connection" />
+<import src="/gen/mojo/public/sky/core.sky" as="core" />
+<import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<import src="/gen/mojo/public/interfaces/application/application.mojom.sky" as="application$" />
+<script>
+
+  function AppChildController_StartApp_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  AppChildController_StartApp_Params.prototype.initDefaults_ = function() {
+    this.app_path = null;
+    this.application_request = null;
+  };
+  AppChildController_StartApp_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  AppChildController_StartApp_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, AppChildController_StartApp_Params.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate AppChildController_StartApp_Params.app_path
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate AppChildController_StartApp_Params.application_request
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 8, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  AppChildController_StartApp_Params.encodedSize = codec.kStructHeaderSize + 16;
+
+  AppChildController_StartApp_Params.decode = function(decoder) {
+    var packed;
+    var val = new AppChildController_StartApp_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.app_path = decoder.decodeStruct(codec.String);
+    val.application_request = decoder.decodeStruct(codec.Handle);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  AppChildController_StartApp_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(AppChildController_StartApp_Params.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStruct(codec.String, val.app_path);
+    encoder.encodeStruct(codec.Handle, val.application_request);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  function AppChildControllerClient_AppCompleted_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  AppChildControllerClient_AppCompleted_Params.prototype.initDefaults_ = function() {
+    this.result = 0;
+  };
+  AppChildControllerClient_AppCompleted_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  AppChildControllerClient_AppCompleted_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, AppChildControllerClient_AppCompleted_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  AppChildControllerClient_AppCompleted_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  AppChildControllerClient_AppCompleted_Params.decode = function(decoder) {
+    var packed;
+    var val = new AppChildControllerClient_AppCompleted_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.result = decoder.decodeStruct(codec.Int32);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  AppChildControllerClient_AppCompleted_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(AppChildControllerClient_AppCompleted_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Int32, val.result);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  var kAppChildController_StartApp_Name = 0;
+
+  function AppChildControllerProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  AppChildControllerProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  AppChildControllerProxy.prototype.startApp = function(app_path, application_request) {
+    var params = new AppChildController_StartApp_Params();
+    params.app_path = app_path;
+    params.application_request = core.isHandle(application_request) ? application_request : connection.bindProxy(application_request, application$.Application);
+    var builder = new codec.MessageBuilder(
+        kAppChildController_StartApp_Name,
+        codec.align(AppChildController_StartApp_Params.encodedSize));
+    builder.encodeStruct(AppChildController_StartApp_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+
+  function AppChildControllerStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  AppChildControllerStub.prototype = Object.create(bindings.StubBase.prototype);
+  AppChildControllerStub.prototype.startApp = function(app_path, application_request) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.startApp && bindings.StubBindings(this).delegate.startApp(app_path, connection.bindHandleToStub(application_request, application$.Application));
+  }
+
+  AppChildControllerStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kAppChildController_StartApp_Name:
+      var params = reader.decodeStruct(AppChildController_StartApp_Params);
+      this.startApp(params.app_path, params.application_request);
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  AppChildControllerStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateAppChildControllerRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kAppChildController_StartApp_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = AppChildController_StartApp_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateAppChildControllerResponse(messageValidator) {
+    return validator.validationError.NONE;
+  }
+
+  var AppChildController = {
+    name: 'mojo::shell::AppChildController',
+    proxyClass: AppChildControllerProxy,
+    stubClass: AppChildControllerStub,
+    validateRequest: validateAppChildControllerRequest,
+    validateResponse: null,
+  };
+  AppChildControllerStub.prototype.validator = validateAppChildControllerRequest;
+  AppChildControllerProxy.prototype.validator = null;
+
+  var kAppChildControllerClient_AppCompleted_Name = 0;
+
+  function AppChildControllerClientProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  AppChildControllerClientProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  AppChildControllerClientProxy.prototype.appCompleted = function(result) {
+    var params = new AppChildControllerClient_AppCompleted_Params();
+    params.result = result;
+    var builder = new codec.MessageBuilder(
+        kAppChildControllerClient_AppCompleted_Name,
+        codec.align(AppChildControllerClient_AppCompleted_Params.encodedSize));
+    builder.encodeStruct(AppChildControllerClient_AppCompleted_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+
+  function AppChildControllerClientStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  AppChildControllerClientStub.prototype = Object.create(bindings.StubBase.prototype);
+  AppChildControllerClientStub.prototype.appCompleted = function(result) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.appCompleted && bindings.StubBindings(this).delegate.appCompleted(result);
+  }
+
+  AppChildControllerClientStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kAppChildControllerClient_AppCompleted_Name:
+      var params = reader.decodeStruct(AppChildControllerClient_AppCompleted_Params);
+      this.appCompleted(params.result);
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  AppChildControllerClientStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateAppChildControllerClientRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kAppChildControllerClient_AppCompleted_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = AppChildControllerClient_AppCompleted_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateAppChildControllerClientResponse(messageValidator) {
+    return validator.validationError.NONE;
+  }
+
+  var AppChildControllerClient = {
+    name: 'mojo::shell::AppChildControllerClient',
+    proxyClass: AppChildControllerClientProxy,
+    stubClass: AppChildControllerClientStub,
+    validateRequest: validateAppChildControllerClientRequest,
+    validateResponse: null,
+  };
+  AppChildControllerClientStub.prototype.validator = validateAppChildControllerClientRequest;
+  AppChildControllerClientProxy.prototype.validator = null;
+
+
+  var exports = {};
+  exports.AppChildController = AppChildController;
+  exports.AppChildController.client = AppChildControllerClient;
+  exports.AppChildControllerClient = AppChildControllerClient;
+
+  module.exports = exports;
+</script>

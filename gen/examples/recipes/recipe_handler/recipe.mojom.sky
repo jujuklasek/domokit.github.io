@@ -1,0 +1,259 @@
+<!-- Copyright 2014 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<import src="/gen/mojo/public/sky/bindings.sky" as="bindings" />
+<import src="/gen/mojo/public/sky/codec.sky" as="codec" />
+<import src="/gen/mojo/public/sky/connection.sky" as="connection" />
+<import src="/gen/mojo/public/sky/core.sky" as="core" />
+<import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<script>
+
+  function Ingredient(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Ingredient.prototype.initDefaults_ = function() {
+    this.url = null;
+  };
+  Ingredient.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Ingredient.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Ingredient.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Ingredient.url
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Ingredient.encodedSize = codec.kStructHeaderSize + 8;
+
+  Ingredient.decode = function(decoder) {
+    var packed;
+    var val = new Ingredient();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.url = decoder.decodeStruct(codec.String);
+    return val;
+  };
+
+  Ingredient.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Ingredient.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.String, val.url);
+  };
+
+  function Recipe_GetIngredients_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Recipe_GetIngredients_Params.prototype.initDefaults_ = function() {
+  };
+  Recipe_GetIngredients_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Recipe_GetIngredients_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Recipe_GetIngredients_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Recipe_GetIngredients_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  Recipe_GetIngredients_Params.decode = function(decoder) {
+    var packed;
+    var val = new Recipe_GetIngredients_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  Recipe_GetIngredients_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Recipe_GetIngredients_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  function Recipe_GetIngredients_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Recipe_GetIngredients_ResponseParams.prototype.initDefaults_ = function() {
+    this.ingredients = null;
+  };
+  Recipe_GetIngredients_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Recipe_GetIngredients_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Recipe_GetIngredients_ResponseParams.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Recipe_GetIngredients_ResponseParams.ingredients
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 0, 8, new codec.PointerTo(Ingredient), false, [0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Recipe_GetIngredients_ResponseParams.encodedSize = codec.kStructHeaderSize + 8;
+
+  Recipe_GetIngredients_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new Recipe_GetIngredients_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.ingredients = decoder.decodeArrayPointer(new codec.PointerTo(Ingredient));
+    return val;
+  };
+
+  Recipe_GetIngredients_ResponseParams.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Recipe_GetIngredients_ResponseParams.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeArrayPointer(new codec.PointerTo(Ingredient), val.ingredients);
+  };
+
+  var kRecipe_GetIngredients_Name = 0;
+
+  function RecipeProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  RecipeProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  RecipeProxy.prototype.getIngredients = function() {
+    var params = new Recipe_GetIngredients_Params();
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kRecipe_GetIngredients_Name,
+          codec.align(Recipe_GetIngredients_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(Recipe_GetIngredients_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(Recipe_GetIngredients_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
+  };
+
+  function RecipeStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  RecipeStub.prototype = Object.create(bindings.StubBase.prototype);
+  RecipeStub.prototype.getIngredients = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.getIngredients && bindings.StubBindings(this).delegate.getIngredients();
+  }
+
+  RecipeStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return false;
+    }
+  };
+
+  RecipeStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kRecipe_GetIngredients_Name:
+      var params = reader.decodeStruct(Recipe_GetIngredients_Params);
+      return this.getIngredients().then(function(response) {
+        var responseParams =
+            new Recipe_GetIngredients_ResponseParams();
+        responseParams.ingredients = response.ingredients;
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kRecipe_GetIngredients_Name,
+            codec.align(Recipe_GetIngredients_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(Recipe_GetIngredients_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateRecipeRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kRecipe_GetIngredients_Name:
+        if (message.expectsResponse())
+          paramsClass = Recipe_GetIngredients_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateRecipeResponse(messageValidator) {
+   var message = messageValidator.message;
+   var paramsClass = null;
+   switch (message.getName()) {
+      case kRecipe_GetIngredients_Name:
+        if (message.isResponse())
+          paramsClass = Recipe_GetIngredients_ResponseParams;
+        break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  var Recipe = {
+    name: 'recipes::Recipe',
+    proxyClass: RecipeProxy,
+    stubClass: RecipeStub,
+    validateRequest: validateRecipeRequest,
+    validateResponse: validateRecipeResponse,
+  };
+  RecipeStub.prototype.validator = validateRecipeRequest;
+  RecipeProxy.prototype.validator = validateRecipeResponse;
+
+
+  var exports = {};
+  exports.Ingredient = Ingredient;
+  exports.Recipe = Recipe;
+
+  module.exports = exports;
+</script>

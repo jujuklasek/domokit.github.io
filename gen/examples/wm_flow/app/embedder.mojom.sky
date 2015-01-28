@@ -1,0 +1,202 @@
+<!-- Copyright 2014 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<import src="/gen/mojo/public/sky/bindings.sky" as="bindings" />
+<import src="/gen/mojo/public/sky/codec.sky" as="codec" />
+<import src="/gen/mojo/public/sky/connection.sky" as="connection" />
+<import src="/gen/mojo/public/sky/core.sky" as="core" />
+<import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<script>
+
+  function Embedder_HelloWorld_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Embedder_HelloWorld_Params.prototype.initDefaults_ = function() {
+  };
+  Embedder_HelloWorld_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Embedder_HelloWorld_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Embedder_HelloWorld_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Embedder_HelloWorld_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  Embedder_HelloWorld_Params.decode = function(decoder) {
+    var packed;
+    var val = new Embedder_HelloWorld_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  Embedder_HelloWorld_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Embedder_HelloWorld_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  function Embedder_HelloWorld_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Embedder_HelloWorld_ResponseParams.prototype.initDefaults_ = function() {
+  };
+  Embedder_HelloWorld_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Embedder_HelloWorld_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Embedder_HelloWorld_ResponseParams.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Embedder_HelloWorld_ResponseParams.encodedSize = codec.kStructHeaderSize + 0;
+
+  Embedder_HelloWorld_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new Embedder_HelloWorld_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  Embedder_HelloWorld_ResponseParams.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Embedder_HelloWorld_ResponseParams.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  var kEmbedder_HelloWorld_Name = 0;
+
+  function EmbedderProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  EmbedderProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  EmbedderProxy.prototype.helloWorld = function() {
+    var params = new Embedder_HelloWorld_Params();
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kEmbedder_HelloWorld_Name,
+          codec.align(Embedder_HelloWorld_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(Embedder_HelloWorld_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(Embedder_HelloWorld_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
+  };
+
+  function EmbedderStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  EmbedderStub.prototype = Object.create(bindings.StubBase.prototype);
+  EmbedderStub.prototype.helloWorld = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.helloWorld && bindings.StubBindings(this).delegate.helloWorld();
+  }
+
+  EmbedderStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return false;
+    }
+  };
+
+  EmbedderStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kEmbedder_HelloWorld_Name:
+      var params = reader.decodeStruct(Embedder_HelloWorld_Params);
+      return this.helloWorld().then(function(response) {
+        var responseParams =
+            new Embedder_HelloWorld_ResponseParams();
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kEmbedder_HelloWorld_Name,
+            codec.align(Embedder_HelloWorld_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(Embedder_HelloWorld_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateEmbedderRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kEmbedder_HelloWorld_Name:
+        if (message.expectsResponse())
+          paramsClass = Embedder_HelloWorld_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateEmbedderResponse(messageValidator) {
+   var message = messageValidator.message;
+   var paramsClass = null;
+   switch (message.getName()) {
+      case kEmbedder_HelloWorld_Name:
+        if (message.isResponse())
+          paramsClass = Embedder_HelloWorld_ResponseParams;
+        break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  var Embedder = {
+    name: 'examples::Embedder',
+    proxyClass: EmbedderProxy,
+    stubClass: EmbedderStub,
+    validateRequest: validateEmbedderRequest,
+    validateResponse: validateEmbedderResponse,
+  };
+  EmbedderStub.prototype.validator = validateEmbedderRequest;
+  EmbedderProxy.prototype.validator = validateEmbedderResponse;
+
+
+  var exports = {};
+  exports.Embedder = Embedder;
+
+  module.exports = exports;
+</script>

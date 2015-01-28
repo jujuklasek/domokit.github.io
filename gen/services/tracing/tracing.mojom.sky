@@ -1,0 +1,589 @@
+<!-- Copyright 2014 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<import src="/gen/mojo/public/sky/bindings.sky" as="bindings" />
+<import src="/gen/mojo/public/sky/codec.sky" as="codec" />
+<import src="/gen/mojo/public/sky/connection.sky" as="connection" />
+<import src="/gen/mojo/public/sky/core.sky" as="core" />
+<import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<script>
+
+  function TraceController_StartTracing_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  TraceController_StartTracing_Params.prototype.initDefaults_ = function() {
+    this.categories = null;
+  };
+  TraceController_StartTracing_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  TraceController_StartTracing_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, TraceController_StartTracing_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate TraceController_StartTracing_Params.categories
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  TraceController_StartTracing_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  TraceController_StartTracing_Params.decode = function(decoder) {
+    var packed;
+    var val = new TraceController_StartTracing_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.categories = decoder.decodeStruct(codec.String);
+    return val;
+  };
+
+  TraceController_StartTracing_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(TraceController_StartTracing_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.String, val.categories);
+  };
+
+  function TraceController_StopTracing_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  TraceController_StopTracing_Params.prototype.initDefaults_ = function() {
+  };
+  TraceController_StopTracing_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  TraceController_StopTracing_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, TraceController_StopTracing_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  TraceController_StopTracing_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  TraceController_StopTracing_Params.decode = function(decoder) {
+    var packed;
+    var val = new TraceController_StopTracing_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  TraceController_StopTracing_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(TraceController_StopTracing_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  function TraceDataCollector_DataCollected_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  TraceDataCollector_DataCollected_Params.prototype.initDefaults_ = function() {
+    this.json = null;
+  };
+  TraceDataCollector_DataCollected_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  TraceDataCollector_DataCollected_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, TraceDataCollector_DataCollected_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate TraceDataCollector_DataCollected_Params.json
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  TraceDataCollector_DataCollected_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  TraceDataCollector_DataCollected_Params.decode = function(decoder) {
+    var packed;
+    var val = new TraceDataCollector_DataCollected_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.json = decoder.decodeStruct(codec.String);
+    return val;
+  };
+
+  TraceDataCollector_DataCollected_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(TraceDataCollector_DataCollected_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.String, val.json);
+  };
+
+  function TraceDataCollector_EndTracing_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  TraceDataCollector_EndTracing_Params.prototype.initDefaults_ = function() {
+  };
+  TraceDataCollector_EndTracing_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  TraceDataCollector_EndTracing_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, TraceDataCollector_EndTracing_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  TraceDataCollector_EndTracing_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  TraceDataCollector_EndTracing_Params.decode = function(decoder) {
+    var packed;
+    var val = new TraceDataCollector_EndTracing_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  TraceDataCollector_EndTracing_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(TraceDataCollector_EndTracing_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  function TraceCoordinator_Start_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  TraceCoordinator_Start_Params.prototype.initDefaults_ = function() {
+    this.stream = null;
+    this.categories = null;
+  };
+  TraceCoordinator_Start_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  TraceCoordinator_Start_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, TraceCoordinator_Start_Params.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate TraceCoordinator_Start_Params.stream
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate TraceCoordinator_Start_Params.categories
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 8, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  TraceCoordinator_Start_Params.encodedSize = codec.kStructHeaderSize + 16;
+
+  TraceCoordinator_Start_Params.decode = function(decoder) {
+    var packed;
+    var val = new TraceCoordinator_Start_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.stream = decoder.decodeStruct(codec.Handle);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    val.categories = decoder.decodeStruct(codec.String);
+    return val;
+  };
+
+  TraceCoordinator_Start_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(TraceCoordinator_Start_Params.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStruct(codec.Handle, val.stream);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.encodeStruct(codec.String, val.categories);
+  };
+
+  function TraceCoordinator_StopAndFlush_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  TraceCoordinator_StopAndFlush_Params.prototype.initDefaults_ = function() {
+  };
+  TraceCoordinator_StopAndFlush_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  TraceCoordinator_StopAndFlush_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, TraceCoordinator_StopAndFlush_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  TraceCoordinator_StopAndFlush_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  TraceCoordinator_StopAndFlush_Params.decode = function(decoder) {
+    var packed;
+    var val = new TraceCoordinator_StopAndFlush_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  TraceCoordinator_StopAndFlush_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(TraceCoordinator_StopAndFlush_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  var kTraceController_StartTracing_Name = 0;
+  var kTraceController_StopTracing_Name = 1;
+
+  function TraceControllerProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  TraceControllerProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  TraceControllerProxy.prototype.startTracing = function(categories) {
+    var params = new TraceController_StartTracing_Params();
+    params.categories = categories;
+    var builder = new codec.MessageBuilder(
+        kTraceController_StartTracing_Name,
+        codec.align(TraceController_StartTracing_Params.encodedSize));
+    builder.encodeStruct(TraceController_StartTracing_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  TraceControllerProxy.prototype.stopTracing = function() {
+    var params = new TraceController_StopTracing_Params();
+    var builder = new codec.MessageBuilder(
+        kTraceController_StopTracing_Name,
+        codec.align(TraceController_StopTracing_Params.encodedSize));
+    builder.encodeStruct(TraceController_StopTracing_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+
+  function TraceControllerStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  TraceControllerStub.prototype = Object.create(bindings.StubBase.prototype);
+  TraceControllerStub.prototype.startTracing = function(categories) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.startTracing && bindings.StubBindings(this).delegate.startTracing(categories);
+  }
+  TraceControllerStub.prototype.stopTracing = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.stopTracing && bindings.StubBindings(this).delegate.stopTracing();
+  }
+
+  TraceControllerStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kTraceController_StartTracing_Name:
+      var params = reader.decodeStruct(TraceController_StartTracing_Params);
+      this.startTracing(params.categories);
+      return true;
+    case kTraceController_StopTracing_Name:
+      var params = reader.decodeStruct(TraceController_StopTracing_Params);
+      this.stopTracing();
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  TraceControllerStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateTraceControllerRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kTraceController_StartTracing_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = TraceController_StartTracing_Params;
+      break;
+      case kTraceController_StopTracing_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = TraceController_StopTracing_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateTraceControllerResponse(messageValidator) {
+    return validator.validationError.NONE;
+  }
+
+  var TraceController = {
+    name: 'tracing::TraceController',
+    proxyClass: TraceControllerProxy,
+    stubClass: TraceControllerStub,
+    validateRequest: validateTraceControllerRequest,
+    validateResponse: null,
+  };
+  TraceControllerStub.prototype.validator = validateTraceControllerRequest;
+  TraceControllerProxy.prototype.validator = null;
+
+  var kTraceDataCollector_DataCollected_Name = 0;
+  var kTraceDataCollector_EndTracing_Name = 1;
+
+  function TraceDataCollectorProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  TraceDataCollectorProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  TraceDataCollectorProxy.prototype.dataCollected = function(json) {
+    var params = new TraceDataCollector_DataCollected_Params();
+    params.json = json;
+    var builder = new codec.MessageBuilder(
+        kTraceDataCollector_DataCollected_Name,
+        codec.align(TraceDataCollector_DataCollected_Params.encodedSize));
+    builder.encodeStruct(TraceDataCollector_DataCollected_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  TraceDataCollectorProxy.prototype.endTracing = function() {
+    var params = new TraceDataCollector_EndTracing_Params();
+    var builder = new codec.MessageBuilder(
+        kTraceDataCollector_EndTracing_Name,
+        codec.align(TraceDataCollector_EndTracing_Params.encodedSize));
+    builder.encodeStruct(TraceDataCollector_EndTracing_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+
+  function TraceDataCollectorStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  TraceDataCollectorStub.prototype = Object.create(bindings.StubBase.prototype);
+  TraceDataCollectorStub.prototype.dataCollected = function(json) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.dataCollected && bindings.StubBindings(this).delegate.dataCollected(json);
+  }
+  TraceDataCollectorStub.prototype.endTracing = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.endTracing && bindings.StubBindings(this).delegate.endTracing();
+  }
+
+  TraceDataCollectorStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kTraceDataCollector_DataCollected_Name:
+      var params = reader.decodeStruct(TraceDataCollector_DataCollected_Params);
+      this.dataCollected(params.json);
+      return true;
+    case kTraceDataCollector_EndTracing_Name:
+      var params = reader.decodeStruct(TraceDataCollector_EndTracing_Params);
+      this.endTracing();
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  TraceDataCollectorStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateTraceDataCollectorRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kTraceDataCollector_DataCollected_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = TraceDataCollector_DataCollected_Params;
+      break;
+      case kTraceDataCollector_EndTracing_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = TraceDataCollector_EndTracing_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateTraceDataCollectorResponse(messageValidator) {
+    return validator.validationError.NONE;
+  }
+
+  var TraceDataCollector = {
+    name: 'tracing::TraceDataCollector',
+    proxyClass: TraceDataCollectorProxy,
+    stubClass: TraceDataCollectorStub,
+    validateRequest: validateTraceDataCollectorRequest,
+    validateResponse: null,
+  };
+  TraceDataCollectorStub.prototype.validator = validateTraceDataCollectorRequest;
+  TraceDataCollectorProxy.prototype.validator = null;
+
+  var kTraceCoordinator_Start_Name = 0;
+  var kTraceCoordinator_StopAndFlush_Name = 1;
+
+  function TraceCoordinatorProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  TraceCoordinatorProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  TraceCoordinatorProxy.prototype.start = function(stream, categories) {
+    var params = new TraceCoordinator_Start_Params();
+    params.stream = stream;
+    params.categories = categories;
+    var builder = new codec.MessageBuilder(
+        kTraceCoordinator_Start_Name,
+        codec.align(TraceCoordinator_Start_Params.encodedSize));
+    builder.encodeStruct(TraceCoordinator_Start_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  TraceCoordinatorProxy.prototype.stopAndFlush = function() {
+    var params = new TraceCoordinator_StopAndFlush_Params();
+    var builder = new codec.MessageBuilder(
+        kTraceCoordinator_StopAndFlush_Name,
+        codec.align(TraceCoordinator_StopAndFlush_Params.encodedSize));
+    builder.encodeStruct(TraceCoordinator_StopAndFlush_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+
+  function TraceCoordinatorStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  TraceCoordinatorStub.prototype = Object.create(bindings.StubBase.prototype);
+  TraceCoordinatorStub.prototype.start = function(stream, categories) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.start && bindings.StubBindings(this).delegate.start(stream, categories);
+  }
+  TraceCoordinatorStub.prototype.stopAndFlush = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.stopAndFlush && bindings.StubBindings(this).delegate.stopAndFlush();
+  }
+
+  TraceCoordinatorStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kTraceCoordinator_Start_Name:
+      var params = reader.decodeStruct(TraceCoordinator_Start_Params);
+      this.start(params.stream, params.categories);
+      return true;
+    case kTraceCoordinator_StopAndFlush_Name:
+      var params = reader.decodeStruct(TraceCoordinator_StopAndFlush_Params);
+      this.stopAndFlush();
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  TraceCoordinatorStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateTraceCoordinatorRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kTraceCoordinator_Start_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = TraceCoordinator_Start_Params;
+      break;
+      case kTraceCoordinator_StopAndFlush_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = TraceCoordinator_StopAndFlush_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateTraceCoordinatorResponse(messageValidator) {
+    return validator.validationError.NONE;
+  }
+
+  var TraceCoordinator = {
+    name: 'tracing::TraceCoordinator',
+    proxyClass: TraceCoordinatorProxy,
+    stubClass: TraceCoordinatorStub,
+    validateRequest: validateTraceCoordinatorRequest,
+    validateResponse: null,
+  };
+  TraceCoordinatorStub.prototype.validator = validateTraceCoordinatorRequest;
+  TraceCoordinatorProxy.prototype.validator = null;
+
+
+  var exports = {};
+  exports.TraceController = TraceController;
+  exports.TraceController.client = TraceDataCollector;
+  exports.TraceDataCollector = TraceDataCollector;
+  exports.TraceDataCollector.client = TraceController;
+  exports.TraceCoordinator = TraceCoordinator;
+
+  module.exports = exports;
+</script>

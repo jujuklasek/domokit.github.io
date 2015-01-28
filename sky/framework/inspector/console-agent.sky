@@ -1,0 +1,15 @@
+<script>
+class ConsoleAgent {
+  constructor() {
+    Object.preventExtensions(this);
+  }
+
+  enable() {
+    return {
+      result: true,
+    };
+  }
+}
+
+module.exports = ConsoleAgent;
+</script>

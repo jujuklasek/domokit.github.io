@@ -1,0 +1,34 @@
+<sky>
+<import src="fps-counter.sky" />
+<style>
+dot {
+    position: absolute;
+    height: 100px;
+    width: 100px;
+    background-color: #00FF00;
+}
+</style>
+<dot />
+<log>Ready</log>
+<fps-counter />
+<script>
+var dot = document.querySelector("dot");
+var log = document.querySelector("log");
+
+function logPointerEvent(evt) {
+  var message = "type=" + event.type;
+  var x = evt.x.toFixed(2);
+  var y = evt.y.toFixed(2);
+  message += " x=" + x + " y=" + y;
+
+  var transform = "translate(" + (x - 50)  + "px," + (y - 50) + "px)";
+  dot.style.transform = transform;
+  log.textContent = message;
+}
+
+document.documentElement.addEventListener("pointerdown", logPointerEvent);
+document.documentElement.addEventListener("pointermove", logPointerEvent);
+document.documentElement.addEventListener("pointerup", logPointerEvent);
+document.documentElement.addEventListener("pointercancel", logPointerEvent);
+</script>
+</sky>

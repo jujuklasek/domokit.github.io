@@ -1,0 +1,131 @@
+<!--
+// Copyright 2015 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+-->
+<import src="sky-element/sky-element.sky" as="SkyElement" />
+<import src="fling-curve.sky" as="FlingCurve" />
+
+<sky-element
+  name="sky-scrollable"
+  on-gesturescrollstart="handleScrollStart_"
+  on-gesturescrollend="handleScrollEnd_"
+  on-gesturescrollupdate="handleScrollUpdate_"
+  on-gestureflingstart="handleFlingStart_"
+  on-gestureflingcancel="handleFlingCancel_"
+  on-wheel="handleWheel_">
+<template>
+  <style>
+  :host {
+    overflow: hidden;
+    position: relative;
+  }
+  #scrollable {
+    transform: translateY(0);
+  }
+  #vbar {
+    position: absolute;
+    right: 0;
+    width: 3px;
+    background-color: lightgray;
+    pointer-events: none;
+    top: 0;
+    height: 0;
+    will-change: opacity;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+  }
+  </style>
+  <div id="scrollable">
+    <content />
+  </div>
+  <div id="vbar" />
+</template>
+<script>
+module.exports = class extends SkyElement {
+  created() {
+    this.scrollable_ = null;
+    this.vbar_ = null;
+    this.scrollOffset_ = 0;
+    this.flingCurve_ = null;
+    this.flingAnimationId_ = null;
+  }
+
+  shadowRootReady() {
+    this.scrollable_ = this.shadowRoot.getElementById('scrollable');
+    this.vbar_ = this.shadowRoot.getElementById('vbar');
+  }
+
+  get scrollOffset() {
+    return this.scrollOffset_;
+  }
+
+  set scrollOffset(value) {
+    // TODO(abarth): Can we get these values without forcing a synchronous layout?
+    var outerHeight = this.clientHeight;
+    var innerHeight = this.scrollable_.clientHeight;
+    var scrollRange = innerHeight - outerHeight;
+    var newScrollOffset = Math.max(0, Math.min(scrollRange, value));
+    if (newScrollOffset == this.scrollOffset_)
+      return;
+    this.scrollOffset_ = newScrollOffset;
+    var transform = 'translateY(' + -this.scrollOffset_.toFixed(2) + 'px)';
+    this.scrollable_.style.transform = transform;
+
+    var topPercent = newScrollOffset / innerHeight * 100;
+    var heightPercent = outerHeight / innerHeight * 100;
+    this.vbar_.style.top = topPercent + '%';
+    this.vbar_.style.height = heightPercent + '%';
+  }
+
+  scrollBy(scrollDelta) {
+    var oldScrollOffset = this.scrollOffset_;
+    this.scrollOffset += scrollDelta;
+    return this.scrollOffset_ != oldScrollOffset;
+  }
+
+  scheduleFlingUpdate_() {
+    this.flingAnimationId_ = requestAnimationFrame(this.updateFling_.bind(this));
+  }
+
+  stopFling_() {
+    cancelAnimationFrame(this.flingAnimationId_);
+    this.flingCurve_ = null;
+    this.flingAnimationId_ = null;
+    this.vbar_.style.opacity = 0;
+  }
+
+  updateFling_(timeStamp) {
+    var scrollDelta = this.flingCurve_.update(timeStamp);
+    if (!scrollDelta || !this.scrollBy(scrollDelta))
+      return this.stopFling_();
+    this.scheduleFlingUpdate_();
+  }
+
+  handleScrollStart_(event) {
+    this.vbar_.style.opacity = 1;
+  }
+
+  handleScrollEnd_(event) {
+    this.vbar_.style.opacity = 0;
+  }
+
+  handleScrollUpdate_(event) {
+    this.scrollBy(-event.dy);
+  }
+
+  handleFlingStart_(event) {
+    this.flingCurve_ = new FlingCurve(-event.velocityY, event.timeStamp);
+    this.scheduleFlingUpdate_();
+  }
+
+  handleFlingCancel_(event) {
+    this.stopFling_();
+  }
+
+  handleWheel_(event) {
+    this.scrollBy(-event.offsetY);
+  }
+}.register();
+</script>
+</sky-element>

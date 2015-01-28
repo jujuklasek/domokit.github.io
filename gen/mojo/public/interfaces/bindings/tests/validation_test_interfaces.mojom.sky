@@ -1,0 +1,1560 @@
+<!-- Copyright 2014 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<import src="/gen/mojo/public/sky/bindings.sky" as="bindings" />
+<import src="/gen/mojo/public/sky/codec.sky" as="codec" />
+<import src="/gen/mojo/public/sky/connection.sky" as="connection" />
+<import src="/gen/mojo/public/sky/core.sky" as="core" />
+<import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<script>
+
+  function StructA(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  StructA.prototype.initDefaults_ = function() {
+    this.i = 0;
+  };
+  StructA.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  StructA.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, StructA.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  StructA.encodedSize = codec.kStructHeaderSize + 8;
+
+  StructA.decode = function(decoder) {
+    var packed;
+    var val = new StructA();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.i = decoder.decodeStruct(codec.Uint64);
+    return val;
+  };
+
+  StructA.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(StructA.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Uint64, val.i);
+  };
+
+  function StructB(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  StructB.prototype.initDefaults_ = function() {
+    this.struct_a = null;
+  };
+  StructB.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  StructB.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, StructB.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate StructB.struct_a
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 0, StructA, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  StructB.encodedSize = codec.kStructHeaderSize + 8;
+
+  StructB.decode = function(decoder) {
+    var packed;
+    var val = new StructB();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.struct_a = decoder.decodeStructPointer(StructA);
+    return val;
+  };
+
+  StructB.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(StructB.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStructPointer(StructA, val.struct_a);
+  };
+
+  function StructC(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  StructC.prototype.initDefaults_ = function() {
+    this.data = null;
+  };
+  StructC.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  StructC.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, StructC.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate StructC.data
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 0, 1, codec.Uint8, false, [0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  StructC.encodedSize = codec.kStructHeaderSize + 8;
+
+  StructC.decode = function(decoder) {
+    var packed;
+    var val = new StructC();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.data = decoder.decodeArrayPointer(codec.Uint8);
+    return val;
+  };
+
+  StructC.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(StructC.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeArrayPointer(codec.Uint8, val.data);
+  };
+
+  function StructD(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  StructD.prototype.initDefaults_ = function() {
+    this.message_pipes = null;
+  };
+  StructD.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  StructD.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, StructD.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate StructD.message_pipes
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 0, 4, codec.Handle, false, [0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  StructD.encodedSize = codec.kStructHeaderSize + 8;
+
+  StructD.decode = function(decoder) {
+    var packed;
+    var val = new StructD();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.message_pipes = decoder.decodeArrayPointer(codec.Handle);
+    return val;
+  };
+
+  StructD.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(StructD.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeArrayPointer(codec.Handle, val.message_pipes);
+  };
+
+  function StructE(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  StructE.prototype.initDefaults_ = function() {
+    this.struct_d = null;
+    this.data_pipe_consumer = null;
+  };
+  StructE.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  StructE.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, StructE.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate StructE.struct_d
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 0, StructD, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate StructE.data_pipe_consumer
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 8, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  StructE.encodedSize = codec.kStructHeaderSize + 16;
+
+  StructE.decode = function(decoder) {
+    var packed;
+    var val = new StructE();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.struct_d = decoder.decodeStructPointer(StructD);
+    val.data_pipe_consumer = decoder.decodeStruct(codec.Handle);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  StructE.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(StructE.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStructPointer(StructD, val.struct_d);
+    encoder.encodeStruct(codec.Handle, val.data_pipe_consumer);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  function StructF(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  StructF.prototype.initDefaults_ = function() {
+    this.fixed_size_array = null;
+  };
+  StructF.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  StructF.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, StructF.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate StructF.fixed_size_array
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 0, 1, codec.Uint8, false, [3], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  StructF.encodedSize = codec.kStructHeaderSize + 8;
+
+  StructF.decode = function(decoder) {
+    var packed;
+    var val = new StructF();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.fixed_size_array = decoder.decodeArrayPointer(codec.Uint8);
+    return val;
+  };
+
+  StructF.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(StructF.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeArrayPointer(codec.Uint8, val.fixed_size_array);
+  };
+
+  function BasicStruct(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  BasicStruct.prototype.initDefaults_ = function() {
+    this.a = 0;
+  };
+  BasicStruct.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  BasicStruct.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, BasicStruct.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  BasicStruct.encodedSize = codec.kStructHeaderSize + 8;
+
+  BasicStruct.decode = function(decoder) {
+    var packed;
+    var val = new BasicStruct();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.a = decoder.decodeStruct(codec.Int32);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  BasicStruct.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(BasicStruct.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Int32, val.a);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  function ConformanceTestInterface_Method0_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ConformanceTestInterface_Method0_Params.prototype.initDefaults_ = function() {
+    this.param0 = 0;
+  };
+  ConformanceTestInterface_Method0_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ConformanceTestInterface_Method0_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ConformanceTestInterface_Method0_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ConformanceTestInterface_Method0_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  ConformanceTestInterface_Method0_Params.decode = function(decoder) {
+    var packed;
+    var val = new ConformanceTestInterface_Method0_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.param0 = decoder.decodeStruct(codec.Float);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  ConformanceTestInterface_Method0_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ConformanceTestInterface_Method0_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Float, val.param0);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  function ConformanceTestInterface_Method1_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ConformanceTestInterface_Method1_Params.prototype.initDefaults_ = function() {
+    this.param0 = null;
+  };
+  ConformanceTestInterface_Method1_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ConformanceTestInterface_Method1_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ConformanceTestInterface_Method1_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ConformanceTestInterface_Method1_Params.param0
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 0, StructA, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ConformanceTestInterface_Method1_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  ConformanceTestInterface_Method1_Params.decode = function(decoder) {
+    var packed;
+    var val = new ConformanceTestInterface_Method1_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.param0 = decoder.decodeStructPointer(StructA);
+    return val;
+  };
+
+  ConformanceTestInterface_Method1_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ConformanceTestInterface_Method1_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStructPointer(StructA, val.param0);
+  };
+
+  function ConformanceTestInterface_Method2_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ConformanceTestInterface_Method2_Params.prototype.initDefaults_ = function() {
+    this.param0 = null;
+    this.param1 = null;
+  };
+  ConformanceTestInterface_Method2_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ConformanceTestInterface_Method2_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ConformanceTestInterface_Method2_Params.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ConformanceTestInterface_Method2_Params.param0
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 0, StructB, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ConformanceTestInterface_Method2_Params.param1
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 8, StructA, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ConformanceTestInterface_Method2_Params.encodedSize = codec.kStructHeaderSize + 16;
+
+  ConformanceTestInterface_Method2_Params.decode = function(decoder) {
+    var packed;
+    var val = new ConformanceTestInterface_Method2_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.param0 = decoder.decodeStructPointer(StructB);
+    val.param1 = decoder.decodeStructPointer(StructA);
+    return val;
+  };
+
+  ConformanceTestInterface_Method2_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ConformanceTestInterface_Method2_Params.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStructPointer(StructB, val.param0);
+    encoder.encodeStructPointer(StructA, val.param1);
+  };
+
+  function ConformanceTestInterface_Method3_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ConformanceTestInterface_Method3_Params.prototype.initDefaults_ = function() {
+    this.param0 = null;
+  };
+  ConformanceTestInterface_Method3_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ConformanceTestInterface_Method3_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ConformanceTestInterface_Method3_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ConformanceTestInterface_Method3_Params.param0
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 0, 1, codec.PackedBool, false, [0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ConformanceTestInterface_Method3_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  ConformanceTestInterface_Method3_Params.decode = function(decoder) {
+    var packed;
+    var val = new ConformanceTestInterface_Method3_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.param0 = decoder.decodeArrayPointer(codec.PackedBool);
+    return val;
+  };
+
+  ConformanceTestInterface_Method3_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ConformanceTestInterface_Method3_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeArrayPointer(codec.PackedBool, val.param0);
+  };
+
+  function ConformanceTestInterface_Method4_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ConformanceTestInterface_Method4_Params.prototype.initDefaults_ = function() {
+    this.param0 = null;
+    this.param1 = null;
+  };
+  ConformanceTestInterface_Method4_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ConformanceTestInterface_Method4_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ConformanceTestInterface_Method4_Params.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ConformanceTestInterface_Method4_Params.param0
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 0, StructC, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ConformanceTestInterface_Method4_Params.param1
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 8, 1, codec.Uint8, false, [0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ConformanceTestInterface_Method4_Params.encodedSize = codec.kStructHeaderSize + 16;
+
+  ConformanceTestInterface_Method4_Params.decode = function(decoder) {
+    var packed;
+    var val = new ConformanceTestInterface_Method4_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.param0 = decoder.decodeStructPointer(StructC);
+    val.param1 = decoder.decodeArrayPointer(codec.Uint8);
+    return val;
+  };
+
+  ConformanceTestInterface_Method4_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ConformanceTestInterface_Method4_Params.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStructPointer(StructC, val.param0);
+    encoder.encodeArrayPointer(codec.Uint8, val.param1);
+  };
+
+  function ConformanceTestInterface_Method5_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ConformanceTestInterface_Method5_Params.prototype.initDefaults_ = function() {
+    this.param0 = null;
+    this.param1 = null;
+  };
+  ConformanceTestInterface_Method5_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ConformanceTestInterface_Method5_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ConformanceTestInterface_Method5_Params.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ConformanceTestInterface_Method5_Params.param0
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 0, StructE, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ConformanceTestInterface_Method5_Params.param1
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 8, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ConformanceTestInterface_Method5_Params.encodedSize = codec.kStructHeaderSize + 16;
+
+  ConformanceTestInterface_Method5_Params.decode = function(decoder) {
+    var packed;
+    var val = new ConformanceTestInterface_Method5_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.param0 = decoder.decodeStructPointer(StructE);
+    val.param1 = decoder.decodeStruct(codec.Handle);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  ConformanceTestInterface_Method5_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ConformanceTestInterface_Method5_Params.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStructPointer(StructE, val.param0);
+    encoder.encodeStruct(codec.Handle, val.param1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  function ConformanceTestInterface_Method6_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ConformanceTestInterface_Method6_Params.prototype.initDefaults_ = function() {
+    this.param0 = null;
+  };
+  ConformanceTestInterface_Method6_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ConformanceTestInterface_Method6_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ConformanceTestInterface_Method6_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ConformanceTestInterface_Method6_Params.param0
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 0, 8, new codec.ArrayOf(codec.Uint8), false, [0, 0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ConformanceTestInterface_Method6_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  ConformanceTestInterface_Method6_Params.decode = function(decoder) {
+    var packed;
+    var val = new ConformanceTestInterface_Method6_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.param0 = decoder.decodeArrayPointer(new codec.ArrayOf(codec.Uint8));
+    return val;
+  };
+
+  ConformanceTestInterface_Method6_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ConformanceTestInterface_Method6_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeArrayPointer(new codec.ArrayOf(codec.Uint8), val.param0);
+  };
+
+  function ConformanceTestInterface_Method7_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ConformanceTestInterface_Method7_Params.prototype.initDefaults_ = function() {
+    this.param0 = null;
+    this.param1 = null;
+  };
+  ConformanceTestInterface_Method7_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ConformanceTestInterface_Method7_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ConformanceTestInterface_Method7_Params.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ConformanceTestInterface_Method7_Params.param0
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 0, StructF, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ConformanceTestInterface_Method7_Params.param1
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 8, 8, new codec.NullableArrayOf(codec.Uint8, 3), false, [2, 3], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ConformanceTestInterface_Method7_Params.encodedSize = codec.kStructHeaderSize + 16;
+
+  ConformanceTestInterface_Method7_Params.decode = function(decoder) {
+    var packed;
+    var val = new ConformanceTestInterface_Method7_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.param0 = decoder.decodeStructPointer(StructF);
+    val.param1 = decoder.decodeArrayPointer(new codec.NullableArrayOf(codec.Uint8, 3));
+    return val;
+  };
+
+  ConformanceTestInterface_Method7_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ConformanceTestInterface_Method7_Params.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStructPointer(StructF, val.param0);
+    encoder.encodeArrayPointer(new codec.NullableArrayOf(codec.Uint8, 3), val.param1);
+  };
+
+  function ConformanceTestInterface_Method8_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ConformanceTestInterface_Method8_Params.prototype.initDefaults_ = function() {
+    this.param0 = null;
+  };
+  ConformanceTestInterface_Method8_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ConformanceTestInterface_Method8_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ConformanceTestInterface_Method8_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ConformanceTestInterface_Method8_Params.param0
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 0, 8, new codec.NullableArrayOf(codec.String), false, [0, 0, 0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ConformanceTestInterface_Method8_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  ConformanceTestInterface_Method8_Params.decode = function(decoder) {
+    var packed;
+    var val = new ConformanceTestInterface_Method8_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.param0 = decoder.decodeArrayPointer(new codec.NullableArrayOf(codec.String));
+    return val;
+  };
+
+  ConformanceTestInterface_Method8_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ConformanceTestInterface_Method8_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeArrayPointer(new codec.NullableArrayOf(codec.String), val.param0);
+  };
+
+  function ConformanceTestInterface_Method9_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ConformanceTestInterface_Method9_Params.prototype.initDefaults_ = function() {
+    this.param0 = null;
+  };
+  ConformanceTestInterface_Method9_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ConformanceTestInterface_Method9_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ConformanceTestInterface_Method9_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ConformanceTestInterface_Method9_Params.param0
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 0, 8, new codec.ArrayOf(codec.NullableHandle), true, [0, 0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ConformanceTestInterface_Method9_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  ConformanceTestInterface_Method9_Params.decode = function(decoder) {
+    var packed;
+    var val = new ConformanceTestInterface_Method9_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.param0 = decoder.decodeArrayPointer(new codec.ArrayOf(codec.NullableHandle));
+    return val;
+  };
+
+  ConformanceTestInterface_Method9_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ConformanceTestInterface_Method9_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeArrayPointer(new codec.ArrayOf(codec.NullableHandle), val.param0);
+  };
+
+  function ConformanceTestInterface_Method10_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ConformanceTestInterface_Method10_Params.prototype.initDefaults_ = function() {
+    this.param0 = null;
+  };
+  ConformanceTestInterface_Method10_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ConformanceTestInterface_Method10_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ConformanceTestInterface_Method10_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ConformanceTestInterface_Method10_Params.param0
+    err = messageValidator.validateMapPointer(offset + codec.kStructHeaderSize + 0, false, codec.String, codec.Uint8, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ConformanceTestInterface_Method10_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  ConformanceTestInterface_Method10_Params.decode = function(decoder) {
+    var packed;
+    var val = new ConformanceTestInterface_Method10_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.param0 = decoder.decodeMapPointer(codec.String, codec.Uint8);
+    return val;
+  };
+
+  ConformanceTestInterface_Method10_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ConformanceTestInterface_Method10_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeMapPointer(codec.String, codec.Uint8, val.param0);
+  };
+
+  function IntegrationTestInterface1_Method0_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  IntegrationTestInterface1_Method0_Params.prototype.initDefaults_ = function() {
+    this.param0 = null;
+  };
+  IntegrationTestInterface1_Method0_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  IntegrationTestInterface1_Method0_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, IntegrationTestInterface1_Method0_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate IntegrationTestInterface1_Method0_Params.param0
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 0, BasicStruct, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  IntegrationTestInterface1_Method0_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  IntegrationTestInterface1_Method0_Params.decode = function(decoder) {
+    var packed;
+    var val = new IntegrationTestInterface1_Method0_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.param0 = decoder.decodeStructPointer(BasicStruct);
+    return val;
+  };
+
+  IntegrationTestInterface1_Method0_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(IntegrationTestInterface1_Method0_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStructPointer(BasicStruct, val.param0);
+  };
+
+  function IntegrationTestInterface2_Method0_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  IntegrationTestInterface2_Method0_Params.prototype.initDefaults_ = function() {
+  };
+  IntegrationTestInterface2_Method0_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  IntegrationTestInterface2_Method0_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, IntegrationTestInterface2_Method0_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  IntegrationTestInterface2_Method0_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  IntegrationTestInterface2_Method0_Params.decode = function(decoder) {
+    var packed;
+    var val = new IntegrationTestInterface2_Method0_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  IntegrationTestInterface2_Method0_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(IntegrationTestInterface2_Method0_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  function IntegrationTestInterface2_Method0_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  IntegrationTestInterface2_Method0_ResponseParams.prototype.initDefaults_ = function() {
+    this.param0 = null;
+  };
+  IntegrationTestInterface2_Method0_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  IntegrationTestInterface2_Method0_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, IntegrationTestInterface2_Method0_ResponseParams.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate IntegrationTestInterface2_Method0_ResponseParams.param0
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 0, 1, codec.Uint8, false, [0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  IntegrationTestInterface2_Method0_ResponseParams.encodedSize = codec.kStructHeaderSize + 8;
+
+  IntegrationTestInterface2_Method0_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new IntegrationTestInterface2_Method0_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.param0 = decoder.decodeArrayPointer(codec.Uint8);
+    return val;
+  };
+
+  IntegrationTestInterface2_Method0_ResponseParams.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(IntegrationTestInterface2_Method0_ResponseParams.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeArrayPointer(codec.Uint8, val.param0);
+  };
+
+  var kConformanceTestInterface_Method0_Name = 0;
+  var kConformanceTestInterface_Method1_Name = 1;
+  var kConformanceTestInterface_Method2_Name = 2;
+  var kConformanceTestInterface_Method3_Name = 3;
+  var kConformanceTestInterface_Method4_Name = 4;
+  var kConformanceTestInterface_Method5_Name = 5;
+  var kConformanceTestInterface_Method6_Name = 6;
+  var kConformanceTestInterface_Method7_Name = 7;
+  var kConformanceTestInterface_Method8_Name = 8;
+  var kConformanceTestInterface_Method9_Name = 9;
+  var kConformanceTestInterface_Method10_Name = 10;
+
+  function ConformanceTestInterfaceProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  ConformanceTestInterfaceProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  ConformanceTestInterfaceProxy.prototype.method0 = function(param0) {
+    var params = new ConformanceTestInterface_Method0_Params();
+    params.param0 = param0;
+    var builder = new codec.MessageBuilder(
+        kConformanceTestInterface_Method0_Name,
+        codec.align(ConformanceTestInterface_Method0_Params.encodedSize));
+    builder.encodeStruct(ConformanceTestInterface_Method0_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  ConformanceTestInterfaceProxy.prototype.method1 = function(param0) {
+    var params = new ConformanceTestInterface_Method1_Params();
+    params.param0 = param0;
+    var builder = new codec.MessageBuilder(
+        kConformanceTestInterface_Method1_Name,
+        codec.align(ConformanceTestInterface_Method1_Params.encodedSize));
+    builder.encodeStruct(ConformanceTestInterface_Method1_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  ConformanceTestInterfaceProxy.prototype.method2 = function(param0, param1) {
+    var params = new ConformanceTestInterface_Method2_Params();
+    params.param0 = param0;
+    params.param1 = param1;
+    var builder = new codec.MessageBuilder(
+        kConformanceTestInterface_Method2_Name,
+        codec.align(ConformanceTestInterface_Method2_Params.encodedSize));
+    builder.encodeStruct(ConformanceTestInterface_Method2_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  ConformanceTestInterfaceProxy.prototype.method3 = function(param0) {
+    var params = new ConformanceTestInterface_Method3_Params();
+    params.param0 = param0;
+    var builder = new codec.MessageBuilder(
+        kConformanceTestInterface_Method3_Name,
+        codec.align(ConformanceTestInterface_Method3_Params.encodedSize));
+    builder.encodeStruct(ConformanceTestInterface_Method3_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  ConformanceTestInterfaceProxy.prototype.method4 = function(param0, param1) {
+    var params = new ConformanceTestInterface_Method4_Params();
+    params.param0 = param0;
+    params.param1 = param1;
+    var builder = new codec.MessageBuilder(
+        kConformanceTestInterface_Method4_Name,
+        codec.align(ConformanceTestInterface_Method4_Params.encodedSize));
+    builder.encodeStruct(ConformanceTestInterface_Method4_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  ConformanceTestInterfaceProxy.prototype.method5 = function(param0, param1) {
+    var params = new ConformanceTestInterface_Method5_Params();
+    params.param0 = param0;
+    params.param1 = param1;
+    var builder = new codec.MessageBuilder(
+        kConformanceTestInterface_Method5_Name,
+        codec.align(ConformanceTestInterface_Method5_Params.encodedSize));
+    builder.encodeStruct(ConformanceTestInterface_Method5_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  ConformanceTestInterfaceProxy.prototype.method6 = function(param0) {
+    var params = new ConformanceTestInterface_Method6_Params();
+    params.param0 = param0;
+    var builder = new codec.MessageBuilder(
+        kConformanceTestInterface_Method6_Name,
+        codec.align(ConformanceTestInterface_Method6_Params.encodedSize));
+    builder.encodeStruct(ConformanceTestInterface_Method6_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  ConformanceTestInterfaceProxy.prototype.method7 = function(param0, param1) {
+    var params = new ConformanceTestInterface_Method7_Params();
+    params.param0 = param0;
+    params.param1 = param1;
+    var builder = new codec.MessageBuilder(
+        kConformanceTestInterface_Method7_Name,
+        codec.align(ConformanceTestInterface_Method7_Params.encodedSize));
+    builder.encodeStruct(ConformanceTestInterface_Method7_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  ConformanceTestInterfaceProxy.prototype.method8 = function(param0) {
+    var params = new ConformanceTestInterface_Method8_Params();
+    params.param0 = param0;
+    var builder = new codec.MessageBuilder(
+        kConformanceTestInterface_Method8_Name,
+        codec.align(ConformanceTestInterface_Method8_Params.encodedSize));
+    builder.encodeStruct(ConformanceTestInterface_Method8_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  ConformanceTestInterfaceProxy.prototype.method9 = function(param0) {
+    var params = new ConformanceTestInterface_Method9_Params();
+    params.param0 = param0;
+    var builder = new codec.MessageBuilder(
+        kConformanceTestInterface_Method9_Name,
+        codec.align(ConformanceTestInterface_Method9_Params.encodedSize));
+    builder.encodeStruct(ConformanceTestInterface_Method9_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  ConformanceTestInterfaceProxy.prototype.method10 = function(param0) {
+    var params = new ConformanceTestInterface_Method10_Params();
+    params.param0 = param0;
+    var builder = new codec.MessageBuilder(
+        kConformanceTestInterface_Method10_Name,
+        codec.align(ConformanceTestInterface_Method10_Params.encodedSize));
+    builder.encodeStruct(ConformanceTestInterface_Method10_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+
+  function ConformanceTestInterfaceStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  ConformanceTestInterfaceStub.prototype = Object.create(bindings.StubBase.prototype);
+  ConformanceTestInterfaceStub.prototype.method0 = function(param0) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.method0 && bindings.StubBindings(this).delegate.method0(param0);
+  }
+  ConformanceTestInterfaceStub.prototype.method1 = function(param0) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.method1 && bindings.StubBindings(this).delegate.method1(param0);
+  }
+  ConformanceTestInterfaceStub.prototype.method2 = function(param0, param1) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.method2 && bindings.StubBindings(this).delegate.method2(param0, param1);
+  }
+  ConformanceTestInterfaceStub.prototype.method3 = function(param0) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.method3 && bindings.StubBindings(this).delegate.method3(param0);
+  }
+  ConformanceTestInterfaceStub.prototype.method4 = function(param0, param1) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.method4 && bindings.StubBindings(this).delegate.method4(param0, param1);
+  }
+  ConformanceTestInterfaceStub.prototype.method5 = function(param0, param1) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.method5 && bindings.StubBindings(this).delegate.method5(param0, param1);
+  }
+  ConformanceTestInterfaceStub.prototype.method6 = function(param0) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.method6 && bindings.StubBindings(this).delegate.method6(param0);
+  }
+  ConformanceTestInterfaceStub.prototype.method7 = function(param0, param1) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.method7 && bindings.StubBindings(this).delegate.method7(param0, param1);
+  }
+  ConformanceTestInterfaceStub.prototype.method8 = function(param0) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.method8 && bindings.StubBindings(this).delegate.method8(param0);
+  }
+  ConformanceTestInterfaceStub.prototype.method9 = function(param0) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.method9 && bindings.StubBindings(this).delegate.method9(param0);
+  }
+  ConformanceTestInterfaceStub.prototype.method10 = function(param0) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.method10 && bindings.StubBindings(this).delegate.method10(param0);
+  }
+
+  ConformanceTestInterfaceStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kConformanceTestInterface_Method0_Name:
+      var params = reader.decodeStruct(ConformanceTestInterface_Method0_Params);
+      this.method0(params.param0);
+      return true;
+    case kConformanceTestInterface_Method1_Name:
+      var params = reader.decodeStruct(ConformanceTestInterface_Method1_Params);
+      this.method1(params.param0);
+      return true;
+    case kConformanceTestInterface_Method2_Name:
+      var params = reader.decodeStruct(ConformanceTestInterface_Method2_Params);
+      this.method2(params.param0, params.param1);
+      return true;
+    case kConformanceTestInterface_Method3_Name:
+      var params = reader.decodeStruct(ConformanceTestInterface_Method3_Params);
+      this.method3(params.param0);
+      return true;
+    case kConformanceTestInterface_Method4_Name:
+      var params = reader.decodeStruct(ConformanceTestInterface_Method4_Params);
+      this.method4(params.param0, params.param1);
+      return true;
+    case kConformanceTestInterface_Method5_Name:
+      var params = reader.decodeStruct(ConformanceTestInterface_Method5_Params);
+      this.method5(params.param0, params.param1);
+      return true;
+    case kConformanceTestInterface_Method6_Name:
+      var params = reader.decodeStruct(ConformanceTestInterface_Method6_Params);
+      this.method6(params.param0);
+      return true;
+    case kConformanceTestInterface_Method7_Name:
+      var params = reader.decodeStruct(ConformanceTestInterface_Method7_Params);
+      this.method7(params.param0, params.param1);
+      return true;
+    case kConformanceTestInterface_Method8_Name:
+      var params = reader.decodeStruct(ConformanceTestInterface_Method8_Params);
+      this.method8(params.param0);
+      return true;
+    case kConformanceTestInterface_Method9_Name:
+      var params = reader.decodeStruct(ConformanceTestInterface_Method9_Params);
+      this.method9(params.param0);
+      return true;
+    case kConformanceTestInterface_Method10_Name:
+      var params = reader.decodeStruct(ConformanceTestInterface_Method10_Params);
+      this.method10(params.param0);
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  ConformanceTestInterfaceStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateConformanceTestInterfaceRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kConformanceTestInterface_Method0_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = ConformanceTestInterface_Method0_Params;
+      break;
+      case kConformanceTestInterface_Method1_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = ConformanceTestInterface_Method1_Params;
+      break;
+      case kConformanceTestInterface_Method2_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = ConformanceTestInterface_Method2_Params;
+      break;
+      case kConformanceTestInterface_Method3_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = ConformanceTestInterface_Method3_Params;
+      break;
+      case kConformanceTestInterface_Method4_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = ConformanceTestInterface_Method4_Params;
+      break;
+      case kConformanceTestInterface_Method5_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = ConformanceTestInterface_Method5_Params;
+      break;
+      case kConformanceTestInterface_Method6_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = ConformanceTestInterface_Method6_Params;
+      break;
+      case kConformanceTestInterface_Method7_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = ConformanceTestInterface_Method7_Params;
+      break;
+      case kConformanceTestInterface_Method8_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = ConformanceTestInterface_Method8_Params;
+      break;
+      case kConformanceTestInterface_Method9_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = ConformanceTestInterface_Method9_Params;
+      break;
+      case kConformanceTestInterface_Method10_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = ConformanceTestInterface_Method10_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateConformanceTestInterfaceResponse(messageValidator) {
+    return validator.validationError.NONE;
+  }
+
+  var ConformanceTestInterface = {
+    name: 'mojo::test::ConformanceTestInterface',
+    proxyClass: ConformanceTestInterfaceProxy,
+    stubClass: ConformanceTestInterfaceStub,
+    validateRequest: validateConformanceTestInterfaceRequest,
+    validateResponse: null,
+  };
+  ConformanceTestInterfaceStub.prototype.validator = validateConformanceTestInterfaceRequest;
+  ConformanceTestInterfaceProxy.prototype.validator = null;
+
+  var kIntegrationTestInterface1_Method0_Name = 0;
+
+  function IntegrationTestInterface1Proxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  IntegrationTestInterface1Proxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  IntegrationTestInterface1Proxy.prototype.method0 = function(param0) {
+    var params = new IntegrationTestInterface1_Method0_Params();
+    params.param0 = param0;
+    var builder = new codec.MessageBuilder(
+        kIntegrationTestInterface1_Method0_Name,
+        codec.align(IntegrationTestInterface1_Method0_Params.encodedSize));
+    builder.encodeStruct(IntegrationTestInterface1_Method0_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+
+  function IntegrationTestInterface1Stub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  IntegrationTestInterface1Stub.prototype = Object.create(bindings.StubBase.prototype);
+  IntegrationTestInterface1Stub.prototype.method0 = function(param0) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.method0 && bindings.StubBindings(this).delegate.method0(param0);
+  }
+
+  IntegrationTestInterface1Stub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kIntegrationTestInterface1_Method0_Name:
+      var params = reader.decodeStruct(IntegrationTestInterface1_Method0_Params);
+      this.method0(params.param0);
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  IntegrationTestInterface1Stub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateIntegrationTestInterface1Request(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kIntegrationTestInterface1_Method0_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = IntegrationTestInterface1_Method0_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateIntegrationTestInterface1Response(messageValidator) {
+    return validator.validationError.NONE;
+  }
+
+  var IntegrationTestInterface1 = {
+    name: 'mojo::test::IntegrationTestInterface1',
+    proxyClass: IntegrationTestInterface1Proxy,
+    stubClass: IntegrationTestInterface1Stub,
+    validateRequest: validateIntegrationTestInterface1Request,
+    validateResponse: null,
+  };
+  IntegrationTestInterface1Stub.prototype.validator = validateIntegrationTestInterface1Request;
+  IntegrationTestInterface1Proxy.prototype.validator = null;
+
+  var kIntegrationTestInterface2_Method0_Name = 0;
+
+  function IntegrationTestInterface2Proxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  IntegrationTestInterface2Proxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  IntegrationTestInterface2Proxy.prototype.method0 = function() {
+    var params = new IntegrationTestInterface2_Method0_Params();
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kIntegrationTestInterface2_Method0_Name,
+          codec.align(IntegrationTestInterface2_Method0_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(IntegrationTestInterface2_Method0_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(IntegrationTestInterface2_Method0_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
+  };
+
+  function IntegrationTestInterface2Stub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  IntegrationTestInterface2Stub.prototype = Object.create(bindings.StubBase.prototype);
+  IntegrationTestInterface2Stub.prototype.method0 = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.method0 && bindings.StubBindings(this).delegate.method0();
+  }
+
+  IntegrationTestInterface2Stub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return false;
+    }
+  };
+
+  IntegrationTestInterface2Stub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kIntegrationTestInterface2_Method0_Name:
+      var params = reader.decodeStruct(IntegrationTestInterface2_Method0_Params);
+      return this.method0().then(function(response) {
+        var responseParams =
+            new IntegrationTestInterface2_Method0_ResponseParams();
+        responseParams.param0 = response.param0;
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kIntegrationTestInterface2_Method0_Name,
+            codec.align(IntegrationTestInterface2_Method0_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(IntegrationTestInterface2_Method0_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateIntegrationTestInterface2Request(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kIntegrationTestInterface2_Method0_Name:
+        if (message.expectsResponse())
+          paramsClass = IntegrationTestInterface2_Method0_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateIntegrationTestInterface2Response(messageValidator) {
+   var message = messageValidator.message;
+   var paramsClass = null;
+   switch (message.getName()) {
+      case kIntegrationTestInterface2_Method0_Name:
+        if (message.isResponse())
+          paramsClass = IntegrationTestInterface2_Method0_ResponseParams;
+        break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  var IntegrationTestInterface2 = {
+    name: 'mojo::test::IntegrationTestInterface2',
+    proxyClass: IntegrationTestInterface2Proxy,
+    stubClass: IntegrationTestInterface2Stub,
+    validateRequest: validateIntegrationTestInterface2Request,
+    validateResponse: validateIntegrationTestInterface2Response,
+  };
+  IntegrationTestInterface2Stub.prototype.validator = validateIntegrationTestInterface2Request;
+  IntegrationTestInterface2Proxy.prototype.validator = validateIntegrationTestInterface2Response;
+
+
+  var exports = {};
+  exports.StructA = StructA;
+  exports.StructB = StructB;
+  exports.StructC = StructC;
+  exports.StructD = StructD;
+  exports.StructE = StructE;
+  exports.StructF = StructF;
+  exports.BasicStruct = BasicStruct;
+  exports.ConformanceTestInterface = ConformanceTestInterface;
+  exports.IntegrationTestInterface1 = IntegrationTestInterface1;
+  exports.IntegrationTestInterface1.client = IntegrationTestInterface2;
+  exports.IntegrationTestInterface2 = IntegrationTestInterface2;
+  exports.IntegrationTestInterface2.client = IntegrationTestInterface1;
+
+  module.exports = exports;
+</script>

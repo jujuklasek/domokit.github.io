@@ -1,0 +1,428 @@
+<!-- Copyright 2014 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<import src="/gen/mojo/public/sky/bindings.sky" as="bindings" />
+<import src="/gen/mojo/public/sky/codec.sky" as="codec" />
+<import src="/gen/mojo/public/sky/connection.sky" as="connection" />
+<import src="/gen/mojo/public/sky/core.sky" as="core" />
+<import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<import src="/gen/mojo/services/geometry/public/interfaces/geometry.mojom.sky" as="geometry$" />
+<import src="/gen/mojo/services/input_events/public/interfaces/input_events.mojom.sky" as="input_events$" />
+<script>
+
+  function WindowManagerInternal_CreateWindowManagerForViewManagerClient_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  WindowManagerInternal_CreateWindowManagerForViewManagerClient_Params.prototype.initDefaults_ = function() {
+    this.connection_id = 0;
+    this.window_manager_pipe = null;
+  };
+  WindowManagerInternal_CreateWindowManagerForViewManagerClient_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  WindowManagerInternal_CreateWindowManagerForViewManagerClient_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, WindowManagerInternal_CreateWindowManagerForViewManagerClient_Params.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate WindowManagerInternal_CreateWindowManagerForViewManagerClient_Params.window_manager_pipe
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 4, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  WindowManagerInternal_CreateWindowManagerForViewManagerClient_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  WindowManagerInternal_CreateWindowManagerForViewManagerClient_Params.decode = function(decoder) {
+    var packed;
+    var val = new WindowManagerInternal_CreateWindowManagerForViewManagerClient_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.connection_id = decoder.decodeStruct(codec.Uint16);
+    decoder.skip(1);
+    decoder.skip(1);
+    val.window_manager_pipe = decoder.decodeStruct(codec.Handle);
+    return val;
+  };
+
+  WindowManagerInternal_CreateWindowManagerForViewManagerClient_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(WindowManagerInternal_CreateWindowManagerForViewManagerClient_Params.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStruct(codec.Uint16, val.connection_id);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.encodeStruct(codec.Handle, val.window_manager_pipe);
+  };
+
+  function WindowManagerInternalClient_DispatchInputEventToView_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  WindowManagerInternalClient_DispatchInputEventToView_Params.prototype.initDefaults_ = function() {
+    this.view_id = 0;
+    this.event = null;
+  };
+  WindowManagerInternalClient_DispatchInputEventToView_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  WindowManagerInternalClient_DispatchInputEventToView_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, WindowManagerInternalClient_DispatchInputEventToView_Params.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate WindowManagerInternalClient_DispatchInputEventToView_Params.event
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 8, input_events$.Event, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  WindowManagerInternalClient_DispatchInputEventToView_Params.encodedSize = codec.kStructHeaderSize + 16;
+
+  WindowManagerInternalClient_DispatchInputEventToView_Params.decode = function(decoder) {
+    var packed;
+    var val = new WindowManagerInternalClient_DispatchInputEventToView_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.view_id = decoder.decodeStruct(codec.Uint32);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    val.event = decoder.decodeStructPointer(input_events$.Event);
+    return val;
+  };
+
+  WindowManagerInternalClient_DispatchInputEventToView_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(WindowManagerInternalClient_DispatchInputEventToView_Params.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStruct(codec.Uint32, val.view_id);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.encodeStructPointer(input_events$.Event, val.event);
+  };
+
+  function WindowManagerInternalClient_SetViewportSize_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  WindowManagerInternalClient_SetViewportSize_Params.prototype.initDefaults_ = function() {
+    this.size = null;
+  };
+  WindowManagerInternalClient_SetViewportSize_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  WindowManagerInternalClient_SetViewportSize_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, WindowManagerInternalClient_SetViewportSize_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate WindowManagerInternalClient_SetViewportSize_Params.size
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 0, geometry$.Size, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  WindowManagerInternalClient_SetViewportSize_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  WindowManagerInternalClient_SetViewportSize_Params.decode = function(decoder) {
+    var packed;
+    var val = new WindowManagerInternalClient_SetViewportSize_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.size = decoder.decodeStructPointer(geometry$.Size);
+    return val;
+  };
+
+  WindowManagerInternalClient_SetViewportSize_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(WindowManagerInternalClient_SetViewportSize_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStructPointer(geometry$.Size, val.size);
+  };
+
+  function WindowManagerInternalClient_CloneAndAnimate_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  WindowManagerInternalClient_CloneAndAnimate_Params.prototype.initDefaults_ = function() {
+    this.view_id = 0;
+  };
+  WindowManagerInternalClient_CloneAndAnimate_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  WindowManagerInternalClient_CloneAndAnimate_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, WindowManagerInternalClient_CloneAndAnimate_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  WindowManagerInternalClient_CloneAndAnimate_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  WindowManagerInternalClient_CloneAndAnimate_Params.decode = function(decoder) {
+    var packed;
+    var val = new WindowManagerInternalClient_CloneAndAnimate_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.view_id = decoder.decodeStruct(codec.Uint32);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  WindowManagerInternalClient_CloneAndAnimate_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(WindowManagerInternalClient_CloneAndAnimate_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Uint32, val.view_id);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  var kWindowManagerInternal_CreateWindowManagerForViewManagerClient_Name = 0;
+
+  function WindowManagerInternalProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  WindowManagerInternalProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  WindowManagerInternalProxy.prototype.createWindowManagerForViewManagerClient = function(connection_id, window_manager_pipe) {
+    var params = new WindowManagerInternal_CreateWindowManagerForViewManagerClient_Params();
+    params.connection_id = connection_id;
+    params.window_manager_pipe = window_manager_pipe;
+    var builder = new codec.MessageBuilder(
+        kWindowManagerInternal_CreateWindowManagerForViewManagerClient_Name,
+        codec.align(WindowManagerInternal_CreateWindowManagerForViewManagerClient_Params.encodedSize));
+    builder.encodeStruct(WindowManagerInternal_CreateWindowManagerForViewManagerClient_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+
+  function WindowManagerInternalStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  WindowManagerInternalStub.prototype = Object.create(bindings.StubBase.prototype);
+  WindowManagerInternalStub.prototype.createWindowManagerForViewManagerClient = function(connection_id, window_manager_pipe) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.createWindowManagerForViewManagerClient && bindings.StubBindings(this).delegate.createWindowManagerForViewManagerClient(connection_id, window_manager_pipe);
+  }
+
+  WindowManagerInternalStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kWindowManagerInternal_CreateWindowManagerForViewManagerClient_Name:
+      var params = reader.decodeStruct(WindowManagerInternal_CreateWindowManagerForViewManagerClient_Params);
+      this.createWindowManagerForViewManagerClient(params.connection_id, params.window_manager_pipe);
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  WindowManagerInternalStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateWindowManagerInternalRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kWindowManagerInternal_CreateWindowManagerForViewManagerClient_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = WindowManagerInternal_CreateWindowManagerForViewManagerClient_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateWindowManagerInternalResponse(messageValidator) {
+    return validator.validationError.NONE;
+  }
+
+  var WindowManagerInternal = {
+    name: 'mojo::WindowManagerInternal',
+    proxyClass: WindowManagerInternalProxy,
+    stubClass: WindowManagerInternalStub,
+    validateRequest: validateWindowManagerInternalRequest,
+    validateResponse: null,
+  };
+  WindowManagerInternalStub.prototype.validator = validateWindowManagerInternalRequest;
+  WindowManagerInternalProxy.prototype.validator = null;
+
+  var kWindowManagerInternalClient_DispatchInputEventToView_Name = 0;
+  var kWindowManagerInternalClient_SetViewportSize_Name = 1;
+  var kWindowManagerInternalClient_CloneAndAnimate_Name = 2;
+
+  function WindowManagerInternalClientProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  WindowManagerInternalClientProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  WindowManagerInternalClientProxy.prototype.dispatchInputEventToView = function(view_id, event) {
+    var params = new WindowManagerInternalClient_DispatchInputEventToView_Params();
+    params.view_id = view_id;
+    params.event = event;
+    var builder = new codec.MessageBuilder(
+        kWindowManagerInternalClient_DispatchInputEventToView_Name,
+        codec.align(WindowManagerInternalClient_DispatchInputEventToView_Params.encodedSize));
+    builder.encodeStruct(WindowManagerInternalClient_DispatchInputEventToView_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  WindowManagerInternalClientProxy.prototype.setViewportSize = function(size) {
+    var params = new WindowManagerInternalClient_SetViewportSize_Params();
+    params.size = size;
+    var builder = new codec.MessageBuilder(
+        kWindowManagerInternalClient_SetViewportSize_Name,
+        codec.align(WindowManagerInternalClient_SetViewportSize_Params.encodedSize));
+    builder.encodeStruct(WindowManagerInternalClient_SetViewportSize_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  WindowManagerInternalClientProxy.prototype.cloneAndAnimate = function(view_id) {
+    var params = new WindowManagerInternalClient_CloneAndAnimate_Params();
+    params.view_id = view_id;
+    var builder = new codec.MessageBuilder(
+        kWindowManagerInternalClient_CloneAndAnimate_Name,
+        codec.align(WindowManagerInternalClient_CloneAndAnimate_Params.encodedSize));
+    builder.encodeStruct(WindowManagerInternalClient_CloneAndAnimate_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+
+  function WindowManagerInternalClientStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  WindowManagerInternalClientStub.prototype = Object.create(bindings.StubBase.prototype);
+  WindowManagerInternalClientStub.prototype.dispatchInputEventToView = function(view_id, event) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.dispatchInputEventToView && bindings.StubBindings(this).delegate.dispatchInputEventToView(view_id, event);
+  }
+  WindowManagerInternalClientStub.prototype.setViewportSize = function(size) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.setViewportSize && bindings.StubBindings(this).delegate.setViewportSize(size);
+  }
+  WindowManagerInternalClientStub.prototype.cloneAndAnimate = function(view_id) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.cloneAndAnimate && bindings.StubBindings(this).delegate.cloneAndAnimate(view_id);
+  }
+
+  WindowManagerInternalClientStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kWindowManagerInternalClient_DispatchInputEventToView_Name:
+      var params = reader.decodeStruct(WindowManagerInternalClient_DispatchInputEventToView_Params);
+      this.dispatchInputEventToView(params.view_id, params.event);
+      return true;
+    case kWindowManagerInternalClient_SetViewportSize_Name:
+      var params = reader.decodeStruct(WindowManagerInternalClient_SetViewportSize_Params);
+      this.setViewportSize(params.size);
+      return true;
+    case kWindowManagerInternalClient_CloneAndAnimate_Name:
+      var params = reader.decodeStruct(WindowManagerInternalClient_CloneAndAnimate_Params);
+      this.cloneAndAnimate(params.view_id);
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  WindowManagerInternalClientStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateWindowManagerInternalClientRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kWindowManagerInternalClient_DispatchInputEventToView_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = WindowManagerInternalClient_DispatchInputEventToView_Params;
+      break;
+      case kWindowManagerInternalClient_SetViewportSize_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = WindowManagerInternalClient_SetViewportSize_Params;
+      break;
+      case kWindowManagerInternalClient_CloneAndAnimate_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = WindowManagerInternalClient_CloneAndAnimate_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateWindowManagerInternalClientResponse(messageValidator) {
+    return validator.validationError.NONE;
+  }
+
+  var WindowManagerInternalClient = {
+    name: 'mojo::WindowManagerInternalClient',
+    proxyClass: WindowManagerInternalClientProxy,
+    stubClass: WindowManagerInternalClientStub,
+    validateRequest: validateWindowManagerInternalClientRequest,
+    validateResponse: null,
+  };
+  WindowManagerInternalClientStub.prototype.validator = validateWindowManagerInternalClientRequest;
+  WindowManagerInternalClientProxy.prototype.validator = null;
+
+
+  var exports = {};
+  exports.WindowManagerInternal = WindowManagerInternal;
+  exports.WindowManagerInternalClient = WindowManagerInternalClient;
+
+  module.exports = exports;
+</script>

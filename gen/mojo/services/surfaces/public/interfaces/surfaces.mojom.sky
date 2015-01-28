@@ -1,0 +1,980 @@
+<!-- Copyright 2014 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<import src="/gen/mojo/public/sky/bindings.sky" as="bindings" />
+<import src="/gen/mojo/public/sky/codec.sky" as="codec" />
+<import src="/gen/mojo/public/sky/connection.sky" as="connection" />
+<import src="/gen/mojo/public/sky/core.sky" as="core" />
+<import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<import src="/gen/mojo/services/geometry/public/interfaces/geometry.mojom.sky" as="geometry$" />
+<import src="/gen/mojo/services/gpu/public/interfaces/command_buffer.mojom.sky" as="command_buffer$" />
+<import src="/gen/mojo/services/gpu/public/interfaces/viewport_parameter_listener.mojom.sky" as="viewport_parameter_listener$" />
+<import src="/gen/mojo/services/surfaces/public/interfaces/quads.mojom.sky" as="quads$" />
+<import src="/gen/mojo/services/surfaces/public/interfaces/surface_id.mojom.sky" as="surface_id$" />
+<script>
+  var ResourceFormat = {};
+  ResourceFormat.RGBA_8888 = 0;
+  ResourceFormat.RGBA_4444 = ResourceFormat.RGBA_8888 + 1;
+  ResourceFormat.BGRA_8888 = ResourceFormat.RGBA_4444 + 1;
+  ResourceFormat.ALPHA_8 = ResourceFormat.BGRA_8888 + 1;
+  ResourceFormat.LUMINANCE_8 = ResourceFormat.ALPHA_8 + 1;
+  ResourceFormat.RGB_565 = ResourceFormat.LUMINANCE_8 + 1;
+  ResourceFormat.ETC1 = ResourceFormat.RGB_565 + 1;
+
+  function Mailbox(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Mailbox.prototype.initDefaults_ = function() {
+    this.name = null;
+  };
+  Mailbox.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Mailbox.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Mailbox.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Mailbox.name
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 0, 1, codec.Int8, false, [64], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Mailbox.encodedSize = codec.kStructHeaderSize + 8;
+
+  Mailbox.decode = function(decoder) {
+    var packed;
+    var val = new Mailbox();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.name = decoder.decodeArrayPointer(codec.Int8);
+    return val;
+  };
+
+  Mailbox.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Mailbox.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeArrayPointer(codec.Int8, val.name);
+  };
+
+  function MailboxHolder(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  MailboxHolder.prototype.initDefaults_ = function() {
+    this.mailbox = null;
+    this.texture_target = 0;
+    this.sync_point = 0;
+  };
+  MailboxHolder.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  MailboxHolder.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, MailboxHolder.encodedSize, 3);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate MailboxHolder.mailbox
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 0, Mailbox, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  MailboxHolder.encodedSize = codec.kStructHeaderSize + 16;
+
+  MailboxHolder.decode = function(decoder) {
+    var packed;
+    var val = new MailboxHolder();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.mailbox = decoder.decodeStructPointer(Mailbox);
+    val.texture_target = decoder.decodeStruct(codec.Uint32);
+    val.sync_point = decoder.decodeStruct(codec.Uint32);
+    return val;
+  };
+
+  MailboxHolder.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(MailboxHolder.encodedSize);
+    encoder.writeUint32(3);
+    encoder.encodeStructPointer(Mailbox, val.mailbox);
+    encoder.encodeStruct(codec.Uint32, val.texture_target);
+    encoder.encodeStruct(codec.Uint32, val.sync_point);
+  };
+
+  function TransferableResource(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  TransferableResource.prototype.initDefaults_ = function() {
+    this.id = 0;
+    this.format = 0;
+    this.filter = 0;
+    this.is_repeated = false;
+    this.is_software = false;
+    this.size = null;
+    this.mailbox_holder = null;
+  };
+  TransferableResource.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  TransferableResource.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, TransferableResource.encodedSize, 7);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate TransferableResource.size
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 16, geometry$.Size, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate TransferableResource.mailbox_holder
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 24, MailboxHolder, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  TransferableResource.encodedSize = codec.kStructHeaderSize + 32;
+
+  TransferableResource.decode = function(decoder) {
+    var packed;
+    var val = new TransferableResource();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.id = decoder.decodeStruct(codec.Uint32);
+    val.format = decoder.decodeStruct(codec.Int32);
+    val.filter = decoder.decodeStruct(codec.Uint32);
+    packed = decoder.readUint8();
+    val.is_repeated = (packed >> 0) & 1 ? true : false;
+    val.is_software = (packed >> 1) & 1 ? true : false;
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    val.size = decoder.decodeStructPointer(geometry$.Size);
+    val.mailbox_holder = decoder.decodeStructPointer(MailboxHolder);
+    return val;
+  };
+
+  TransferableResource.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(TransferableResource.encodedSize);
+    encoder.writeUint32(7);
+    encoder.encodeStruct(codec.Uint32, val.id);
+    encoder.encodeStruct(codec.Int32, val.format);
+    encoder.encodeStruct(codec.Uint32, val.filter);
+    packed = 0;
+    packed |= (val.is_repeated & 1) << 0
+    packed |= (val.is_software & 1) << 1
+    encoder.writeUint8(packed);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.encodeStructPointer(geometry$.Size, val.size);
+    encoder.encodeStructPointer(MailboxHolder, val.mailbox_holder);
+  };
+
+  function ReturnedResource(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ReturnedResource.prototype.initDefaults_ = function() {
+    this.id = 0;
+    this.sync_point = 0;
+    this.count = 0;
+    this.lost = false;
+  };
+  ReturnedResource.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ReturnedResource.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ReturnedResource.encodedSize, 4);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ReturnedResource.encodedSize = codec.kStructHeaderSize + 16;
+
+  ReturnedResource.decode = function(decoder) {
+    var packed;
+    var val = new ReturnedResource();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.id = decoder.decodeStruct(codec.Uint32);
+    val.sync_point = decoder.decodeStruct(codec.Uint32);
+    val.count = decoder.decodeStruct(codec.Int32);
+    val.lost = decoder.decodeStruct(codec.Uint8);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  ReturnedResource.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ReturnedResource.encodedSize);
+    encoder.writeUint32(4);
+    encoder.encodeStruct(codec.Uint32, val.id);
+    encoder.encodeStruct(codec.Uint32, val.sync_point);
+    encoder.encodeStruct(codec.Int32, val.count);
+    encoder.encodeStruct(codec.Uint8, val.lost);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  function Frame(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Frame.prototype.initDefaults_ = function() {
+    this.resources = null;
+    this.passes = null;
+  };
+  Frame.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Frame.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Frame.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Frame.resources
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 0, 8, new codec.PointerTo(TransferableResource), false, [0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Frame.passes
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 8, 8, new codec.PointerTo(quads$.Pass), false, [0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Frame.encodedSize = codec.kStructHeaderSize + 16;
+
+  Frame.decode = function(decoder) {
+    var packed;
+    var val = new Frame();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.resources = decoder.decodeArrayPointer(new codec.PointerTo(TransferableResource));
+    val.passes = decoder.decodeArrayPointer(new codec.PointerTo(quads$.Pass));
+    return val;
+  };
+
+  Frame.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Frame.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeArrayPointer(new codec.PointerTo(TransferableResource), val.resources);
+    encoder.encodeArrayPointer(new codec.PointerTo(quads$.Pass), val.passes);
+  };
+
+  function SurfaceClient_SetIdNamespace_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  SurfaceClient_SetIdNamespace_Params.prototype.initDefaults_ = function() {
+    this.id_namespace = 0;
+  };
+  SurfaceClient_SetIdNamespace_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  SurfaceClient_SetIdNamespace_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, SurfaceClient_SetIdNamespace_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  SurfaceClient_SetIdNamespace_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  SurfaceClient_SetIdNamespace_Params.decode = function(decoder) {
+    var packed;
+    var val = new SurfaceClient_SetIdNamespace_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.id_namespace = decoder.decodeStruct(codec.Uint32);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  SurfaceClient_SetIdNamespace_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(SurfaceClient_SetIdNamespace_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Uint32, val.id_namespace);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  function SurfaceClient_ReturnResources_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  SurfaceClient_ReturnResources_Params.prototype.initDefaults_ = function() {
+    this.resources = null;
+  };
+  SurfaceClient_ReturnResources_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  SurfaceClient_ReturnResources_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, SurfaceClient_ReturnResources_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate SurfaceClient_ReturnResources_Params.resources
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 0, 8, new codec.PointerTo(ReturnedResource), false, [0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  SurfaceClient_ReturnResources_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  SurfaceClient_ReturnResources_Params.decode = function(decoder) {
+    var packed;
+    var val = new SurfaceClient_ReturnResources_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.resources = decoder.decodeArrayPointer(new codec.PointerTo(ReturnedResource));
+    return val;
+  };
+
+  SurfaceClient_ReturnResources_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(SurfaceClient_ReturnResources_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeArrayPointer(new codec.PointerTo(ReturnedResource), val.resources);
+  };
+
+  function Surface_CreateSurface_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Surface_CreateSurface_Params.prototype.initDefaults_ = function() {
+    this.id_local = 0;
+  };
+  Surface_CreateSurface_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Surface_CreateSurface_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Surface_CreateSurface_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Surface_CreateSurface_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  Surface_CreateSurface_Params.decode = function(decoder) {
+    var packed;
+    var val = new Surface_CreateSurface_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.id_local = decoder.decodeStruct(codec.Uint32);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  Surface_CreateSurface_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Surface_CreateSurface_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Uint32, val.id_local);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  function Surface_SubmitFrame_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Surface_SubmitFrame_Params.prototype.initDefaults_ = function() {
+    this.id_local = 0;
+    this.frame = null;
+  };
+  Surface_SubmitFrame_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Surface_SubmitFrame_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Surface_SubmitFrame_Params.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Surface_SubmitFrame_Params.frame
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 8, Frame, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Surface_SubmitFrame_Params.encodedSize = codec.kStructHeaderSize + 16;
+
+  Surface_SubmitFrame_Params.decode = function(decoder) {
+    var packed;
+    var val = new Surface_SubmitFrame_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.id_local = decoder.decodeStruct(codec.Uint32);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    val.frame = decoder.decodeStructPointer(Frame);
+    return val;
+  };
+
+  Surface_SubmitFrame_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Surface_SubmitFrame_Params.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStruct(codec.Uint32, val.id_local);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.encodeStructPointer(Frame, val.frame);
+  };
+
+  function Surface_SubmitFrame_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Surface_SubmitFrame_ResponseParams.prototype.initDefaults_ = function() {
+  };
+  Surface_SubmitFrame_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Surface_SubmitFrame_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Surface_SubmitFrame_ResponseParams.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Surface_SubmitFrame_ResponseParams.encodedSize = codec.kStructHeaderSize + 0;
+
+  Surface_SubmitFrame_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new Surface_SubmitFrame_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  Surface_SubmitFrame_ResponseParams.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Surface_SubmitFrame_ResponseParams.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  function Surface_DestroySurface_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Surface_DestroySurface_Params.prototype.initDefaults_ = function() {
+    this.id_local = 0;
+  };
+  Surface_DestroySurface_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Surface_DestroySurface_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Surface_DestroySurface_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Surface_DestroySurface_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  Surface_DestroySurface_Params.decode = function(decoder) {
+    var packed;
+    var val = new Surface_DestroySurface_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.id_local = decoder.decodeStruct(codec.Uint32);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  Surface_DestroySurface_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Surface_DestroySurface_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Uint32, val.id_local);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  function Surface_CreateGLES2BoundSurface_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Surface_CreateGLES2BoundSurface_Params.prototype.initDefaults_ = function() {
+    this.gles2_client = null;
+    this.id_local = 0;
+    this.size = null;
+    this.listener = null;
+  };
+  Surface_CreateGLES2BoundSurface_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Surface_CreateGLES2BoundSurface_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Surface_CreateGLES2BoundSurface_Params.encodedSize, 4);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Surface_CreateGLES2BoundSurface_Params.gles2_client
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Surface_CreateGLES2BoundSurface_Params.size
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 8, geometry$.Size, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Surface_CreateGLES2BoundSurface_Params.listener
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 16, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Surface_CreateGLES2BoundSurface_Params.encodedSize = codec.kStructHeaderSize + 24;
+
+  Surface_CreateGLES2BoundSurface_Params.decode = function(decoder) {
+    var packed;
+    var val = new Surface_CreateGLES2BoundSurface_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.gles2_client = decoder.decodeStruct(codec.Handle);
+    val.id_local = decoder.decodeStruct(codec.Uint32);
+    val.size = decoder.decodeStructPointer(geometry$.Size);
+    val.listener = decoder.decodeStruct(codec.Handle);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  Surface_CreateGLES2BoundSurface_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Surface_CreateGLES2BoundSurface_Params.encodedSize);
+    encoder.writeUint32(4);
+    encoder.encodeStruct(codec.Handle, val.gles2_client);
+    encoder.encodeStruct(codec.Uint32, val.id_local);
+    encoder.encodeStructPointer(geometry$.Size, val.size);
+    encoder.encodeStruct(codec.Handle, val.listener);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  var kSurfaceClient_SetIdNamespace_Name = 0;
+  var kSurfaceClient_ReturnResources_Name = 1;
+
+  function SurfaceClientProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  SurfaceClientProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  SurfaceClientProxy.prototype.setIdNamespace = function(id_namespace) {
+    var params = new SurfaceClient_SetIdNamespace_Params();
+    params.id_namespace = id_namespace;
+    var builder = new codec.MessageBuilder(
+        kSurfaceClient_SetIdNamespace_Name,
+        codec.align(SurfaceClient_SetIdNamespace_Params.encodedSize));
+    builder.encodeStruct(SurfaceClient_SetIdNamespace_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  SurfaceClientProxy.prototype.returnResources = function(resources) {
+    var params = new SurfaceClient_ReturnResources_Params();
+    params.resources = resources;
+    var builder = new codec.MessageBuilder(
+        kSurfaceClient_ReturnResources_Name,
+        codec.align(SurfaceClient_ReturnResources_Params.encodedSize));
+    builder.encodeStruct(SurfaceClient_ReturnResources_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+
+  function SurfaceClientStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  SurfaceClientStub.prototype = Object.create(bindings.StubBase.prototype);
+  SurfaceClientStub.prototype.setIdNamespace = function(id_namespace) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.setIdNamespace && bindings.StubBindings(this).delegate.setIdNamespace(id_namespace);
+  }
+  SurfaceClientStub.prototype.returnResources = function(resources) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.returnResources && bindings.StubBindings(this).delegate.returnResources(resources);
+  }
+
+  SurfaceClientStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kSurfaceClient_SetIdNamespace_Name:
+      var params = reader.decodeStruct(SurfaceClient_SetIdNamespace_Params);
+      this.setIdNamespace(params.id_namespace);
+      return true;
+    case kSurfaceClient_ReturnResources_Name:
+      var params = reader.decodeStruct(SurfaceClient_ReturnResources_Params);
+      this.returnResources(params.resources);
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  SurfaceClientStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateSurfaceClientRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kSurfaceClient_SetIdNamespace_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = SurfaceClient_SetIdNamespace_Params;
+      break;
+      case kSurfaceClient_ReturnResources_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = SurfaceClient_ReturnResources_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateSurfaceClientResponse(messageValidator) {
+    return validator.validationError.NONE;
+  }
+
+  var SurfaceClient = {
+    name: 'mojo::SurfaceClient',
+    proxyClass: SurfaceClientProxy,
+    stubClass: SurfaceClientStub,
+    validateRequest: validateSurfaceClientRequest,
+    validateResponse: null,
+  };
+  SurfaceClientStub.prototype.validator = validateSurfaceClientRequest;
+  SurfaceClientProxy.prototype.validator = null;
+
+  var kSurface_CreateSurface_Name = 0;
+  var kSurface_SubmitFrame_Name = 1;
+  var kSurface_DestroySurface_Name = 2;
+  var kSurface_CreateGLES2BoundSurface_Name = 3;
+
+  function SurfaceProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  SurfaceProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  SurfaceProxy.prototype.createSurface = function(id_local) {
+    var params = new Surface_CreateSurface_Params();
+    params.id_local = id_local;
+    var builder = new codec.MessageBuilder(
+        kSurface_CreateSurface_Name,
+        codec.align(Surface_CreateSurface_Params.encodedSize));
+    builder.encodeStruct(Surface_CreateSurface_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  SurfaceProxy.prototype.submitFrame = function(id_local, frame) {
+    var params = new Surface_SubmitFrame_Params();
+    params.id_local = id_local;
+    params.frame = frame;
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kSurface_SubmitFrame_Name,
+          codec.align(Surface_SubmitFrame_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(Surface_SubmitFrame_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(Surface_SubmitFrame_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
+  };
+  SurfaceProxy.prototype.destroySurface = function(id_local) {
+    var params = new Surface_DestroySurface_Params();
+    params.id_local = id_local;
+    var builder = new codec.MessageBuilder(
+        kSurface_DestroySurface_Name,
+        codec.align(Surface_DestroySurface_Params.encodedSize));
+    builder.encodeStruct(Surface_DestroySurface_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  SurfaceProxy.prototype.createGLES2BoundSurface = function(gles2_client, id_local, size, listener) {
+    var params = new Surface_CreateGLES2BoundSurface_Params();
+    params.gles2_client = core.isHandle(gles2_client) ? gles2_client : connection.bindImpl(gles2_client, command_buffer$.CommandBuffer);
+    params.id_local = id_local;
+    params.size = size;
+    params.listener = core.isHandle(listener) ? listener : connection.bindProxy(listener, viewport_parameter_listener$.ViewportParameterListener);
+    var builder = new codec.MessageBuilder(
+        kSurface_CreateGLES2BoundSurface_Name,
+        codec.align(Surface_CreateGLES2BoundSurface_Params.encodedSize));
+    builder.encodeStruct(Surface_CreateGLES2BoundSurface_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+
+  function SurfaceStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  SurfaceStub.prototype = Object.create(bindings.StubBase.prototype);
+  SurfaceStub.prototype.createSurface = function(id_local) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.createSurface && bindings.StubBindings(this).delegate.createSurface(id_local);
+  }
+  SurfaceStub.prototype.submitFrame = function(id_local, frame) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.submitFrame && bindings.StubBindings(this).delegate.submitFrame(id_local, frame);
+  }
+  SurfaceStub.prototype.destroySurface = function(id_local) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.destroySurface && bindings.StubBindings(this).delegate.destroySurface(id_local);
+  }
+  SurfaceStub.prototype.createGLES2BoundSurface = function(gles2_client, id_local, size, listener) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.createGLES2BoundSurface && bindings.StubBindings(this).delegate.createGLES2BoundSurface(connection.bindHandleToProxy(gles2_client, command_buffer$.CommandBuffer), id_local, size, connection.bindHandleToStub(listener, viewport_parameter_listener$.ViewportParameterListener));
+  }
+
+  SurfaceStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kSurface_CreateSurface_Name:
+      var params = reader.decodeStruct(Surface_CreateSurface_Params);
+      this.createSurface(params.id_local);
+      return true;
+    case kSurface_DestroySurface_Name:
+      var params = reader.decodeStruct(Surface_DestroySurface_Params);
+      this.destroySurface(params.id_local);
+      return true;
+    case kSurface_CreateGLES2BoundSurface_Name:
+      var params = reader.decodeStruct(Surface_CreateGLES2BoundSurface_Params);
+      this.createGLES2BoundSurface(params.gles2_client, params.id_local, params.size, params.listener);
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  SurfaceStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kSurface_SubmitFrame_Name:
+      var params = reader.decodeStruct(Surface_SubmitFrame_Params);
+      return this.submitFrame(params.id_local, params.frame).then(function(response) {
+        var responseParams =
+            new Surface_SubmitFrame_ResponseParams();
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kSurface_SubmitFrame_Name,
+            codec.align(Surface_SubmitFrame_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(Surface_SubmitFrame_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateSurfaceRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kSurface_CreateSurface_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = Surface_CreateSurface_Params;
+      break;
+      case kSurface_SubmitFrame_Name:
+        if (message.expectsResponse())
+          paramsClass = Surface_SubmitFrame_Params;
+      break;
+      case kSurface_DestroySurface_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = Surface_DestroySurface_Params;
+      break;
+      case kSurface_CreateGLES2BoundSurface_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = Surface_CreateGLES2BoundSurface_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateSurfaceResponse(messageValidator) {
+   var message = messageValidator.message;
+   var paramsClass = null;
+   switch (message.getName()) {
+      case kSurface_SubmitFrame_Name:
+        if (message.isResponse())
+          paramsClass = Surface_SubmitFrame_ResponseParams;
+        break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  var Surface = {
+    name: 'mojo::Surface',
+    proxyClass: SurfaceProxy,
+    stubClass: SurfaceStub,
+    validateRequest: validateSurfaceRequest,
+    validateResponse: validateSurfaceResponse,
+  };
+  SurfaceStub.prototype.validator = validateSurfaceRequest;
+  SurfaceProxy.prototype.validator = validateSurfaceResponse;
+
+
+  var exports = {};
+  exports.ResourceFormat = ResourceFormat;
+  exports.Mailbox = Mailbox;
+  exports.MailboxHolder = MailboxHolder;
+  exports.TransferableResource = TransferableResource;
+  exports.ReturnedResource = ReturnedResource;
+  exports.Frame = Frame;
+  exports.SurfaceClient = SurfaceClient;
+  exports.Surface = Surface;
+  exports.Surface.client = SurfaceClient;
+
+  module.exports = exports;
+</script>

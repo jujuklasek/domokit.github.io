@@ -1,0 +1,20 @@
+<speech>
+<import src="/sky/framework/xmlhttprequest.sky" as="XMLHttpRequest" />
+<import src="wit.sky" as="sendToWit" />
+<script>
+document.getElementById('bar').addEventListener("click", function() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'camera.wav');
+  xhr.responseType = 'arraybuffer'
+  xhr.onload = (function() {
+    sendToWit(xhr.response, 'audio/wav', function(jsonResponse) {
+      console.log("got response! " + jsonResponse);
+    })
+  }).bind(this);
+  xhr.onerror = function(error) {
+    console.log(String(error.stack));
+  }
+  xhr.send();
+});
+</script>
+</speech>

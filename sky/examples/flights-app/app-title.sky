@@ -1,0 +1,20 @@
+<import src="../../framework/sky-element/sky-element.sky" as="SkyElement" />
+
+<sky-element name="app-title">
+<template>
+  <style>
+    :host {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      font-size: 22px;
+      margin-left: 8px;
+    }
+  </style>
+  <content></content>
+</template>
+<script>
+module.exports = class extends SkyElement {
+}.register();
+</script>
+</sky-element>

@@ -1,0 +1,263 @@
+<!-- Copyright 2014 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<import src="/gen/mojo/public/sky/bindings.sky" as="bindings" />
+<import src="/gen/mojo/public/sky/codec.sky" as="codec" />
+<import src="/gen/mojo/public/sky/connection.sky" as="connection" />
+<import src="/gen/mojo/public/sky/core.sky" as="core" />
+<import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<script>
+
+  function Debugger_NavigateToURL_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Debugger_NavigateToURL_Params.prototype.initDefaults_ = function() {
+    this.url = null;
+  };
+  Debugger_NavigateToURL_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Debugger_NavigateToURL_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Debugger_NavigateToURL_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Debugger_NavigateToURL_Params.url
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Debugger_NavigateToURL_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  Debugger_NavigateToURL_Params.decode = function(decoder) {
+    var packed;
+    var val = new Debugger_NavigateToURL_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.url = decoder.decodeStruct(codec.String);
+    return val;
+  };
+
+  Debugger_NavigateToURL_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Debugger_NavigateToURL_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.String, val.url);
+  };
+
+  function Debugger_InjectInspector_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Debugger_InjectInspector_Params.prototype.initDefaults_ = function() {
+  };
+  Debugger_InjectInspector_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Debugger_InjectInspector_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Debugger_InjectInspector_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Debugger_InjectInspector_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  Debugger_InjectInspector_Params.decode = function(decoder) {
+    var packed;
+    var val = new Debugger_InjectInspector_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  Debugger_InjectInspector_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Debugger_InjectInspector_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  function Debugger_Shutdown_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Debugger_Shutdown_Params.prototype.initDefaults_ = function() {
+  };
+  Debugger_Shutdown_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Debugger_Shutdown_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Debugger_Shutdown_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Debugger_Shutdown_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  Debugger_Shutdown_Params.decode = function(decoder) {
+    var packed;
+    var val = new Debugger_Shutdown_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  Debugger_Shutdown_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Debugger_Shutdown_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  var kDebugger_NavigateToURL_Name = 0;
+  var kDebugger_InjectInspector_Name = 1;
+  var kDebugger_Shutdown_Name = 2;
+
+  function DebuggerProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  DebuggerProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  DebuggerProxy.prototype.navigateToURL = function(url) {
+    var params = new Debugger_NavigateToURL_Params();
+    params.url = url;
+    var builder = new codec.MessageBuilder(
+        kDebugger_NavigateToURL_Name,
+        codec.align(Debugger_NavigateToURL_Params.encodedSize));
+    builder.encodeStruct(Debugger_NavigateToURL_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  DebuggerProxy.prototype.injectInspector = function() {
+    var params = new Debugger_InjectInspector_Params();
+    var builder = new codec.MessageBuilder(
+        kDebugger_InjectInspector_Name,
+        codec.align(Debugger_InjectInspector_Params.encodedSize));
+    builder.encodeStruct(Debugger_InjectInspector_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  DebuggerProxy.prototype.shutdown = function() {
+    var params = new Debugger_Shutdown_Params();
+    var builder = new codec.MessageBuilder(
+        kDebugger_Shutdown_Name,
+        codec.align(Debugger_Shutdown_Params.encodedSize));
+    builder.encodeStruct(Debugger_Shutdown_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+
+  function DebuggerStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  DebuggerStub.prototype = Object.create(bindings.StubBase.prototype);
+  DebuggerStub.prototype.navigateToURL = function(url) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.navigateToURL && bindings.StubBindings(this).delegate.navigateToURL(url);
+  }
+  DebuggerStub.prototype.injectInspector = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.injectInspector && bindings.StubBindings(this).delegate.injectInspector();
+  }
+  DebuggerStub.prototype.shutdown = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.shutdown && bindings.StubBindings(this).delegate.shutdown();
+  }
+
+  DebuggerStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kDebugger_NavigateToURL_Name:
+      var params = reader.decodeStruct(Debugger_NavigateToURL_Params);
+      this.navigateToURL(params.url);
+      return true;
+    case kDebugger_InjectInspector_Name:
+      var params = reader.decodeStruct(Debugger_InjectInspector_Params);
+      this.injectInspector();
+      return true;
+    case kDebugger_Shutdown_Name:
+      var params = reader.decodeStruct(Debugger_Shutdown_Params);
+      this.shutdown();
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  DebuggerStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateDebuggerRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kDebugger_NavigateToURL_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = Debugger_NavigateToURL_Params;
+      break;
+      case kDebugger_InjectInspector_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = Debugger_InjectInspector_Params;
+      break;
+      case kDebugger_Shutdown_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = Debugger_Shutdown_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateDebuggerResponse(messageValidator) {
+    return validator.validationError.NONE;
+  }
+
+  var Debugger = {
+    name: 'sky::Debugger',
+    proxyClass: DebuggerProxy,
+    stubClass: DebuggerStub,
+    validateRequest: validateDebuggerRequest,
+    validateResponse: null,
+  };
+  DebuggerStub.prototype.validator = validateDebuggerRequest;
+  DebuggerProxy.prototype.validator = null;
+
+
+  var exports = {};
+  exports.Debugger = Debugger;
+
+  module.exports = exports;
+</script>

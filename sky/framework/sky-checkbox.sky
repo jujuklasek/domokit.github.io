@@ -1,0 +1,73 @@
+<!--
+// Copyright 2014 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+-->
+<import src="sky-button.sky" as="SkyButton" />
+
+<sky-element
+    name="sky-checkbox"
+    attributes="checked:boolean"
+    on-click="handleClick">
+<template>
+  <style>
+    :host {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      -webkit-user-select: none;
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+    }
+    #container {
+      border: solid 2px;
+      border-color: rgba(90, 90, 90, 0.25);
+      width: 10px;
+      height: 10px;
+    }
+    #container.highlight {
+      border-radius: 10px;
+      background-color: orange;
+      border-color: orange;
+    }
+    #check {
+      top: 0px;
+      left: 0px;
+    }
+    #check.checked {
+      transform: translate(2px, -15px) rotate(45deg);
+      width: 10px;
+      height: 20px;
+      border-style: solid;
+      border-top: none;
+      border-left: none;
+      border-right-width: 2px;
+      border-bottom-width: 2px;
+      border-color: #0f9d58;
+    }
+  </style>
+  <div id="container" class="{{ containerStyle }}">
+    <div id="check" class="{{ checkStyle }}" />
+  </div>
+</template>
+<script>
+module.exports = class extends SkyButton {
+  created() {
+    super.created();
+
+    this.containerStyle = '';
+    this.checkStyle = '';
+  }
+  checkedChanged(oldValue, newValue) {
+    this.checkStyle = newValue ? 'checked' : '';
+  }
+  highlightChanged(oldValue, newValue) {
+    this.containerStyle = newValue ? 'highlight' : '';
+  }
+  handleClick() {
+    this.checked = !this.checked;
+  }
+}.register();
+</script>
+</sky-element>

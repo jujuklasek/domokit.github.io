@@ -1,0 +1,63 @@
+<!-- Copyright 2014 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<import src="/gen/mojo/public/sky/bindings.sky" as="bindings" />
+<import src="/gen/mojo/public/sky/codec.sky" as="codec" />
+<import src="/gen/mojo/public/sky/connection.sky" as="connection" />
+<import src="/gen/mojo/public/sky/core.sky" as="core" />
+<import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<script>
+
+
+  function InterfaceWithClientImportedClientProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  InterfaceWithClientImportedClientProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+
+  function InterfaceWithClientImportedClientStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  InterfaceWithClientImportedClientStub.prototype = Object.create(bindings.StubBase.prototype);
+
+  InterfaceWithClientImportedClientStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return false;
+    }
+  };
+
+  InterfaceWithClientImportedClientStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateInterfaceWithClientImportedClientRequest(messageValidator) {
+    return validator.validationError.NONE;
+  }
+
+  function validateInterfaceWithClientImportedClientResponse(messageValidator) {
+    return validator.validationError.NONE;
+  }
+
+  var InterfaceWithClientImportedClient = {
+    name: 'regression_tests_import::InterfaceWithClientImportedClient',
+    proxyClass: InterfaceWithClientImportedClientProxy,
+    stubClass: InterfaceWithClientImportedClientStub,
+    validateRequest: validateInterfaceWithClientImportedClientRequest,
+    validateResponse: null,
+  };
+  InterfaceWithClientImportedClientStub.prototype.validator = validateInterfaceWithClientImportedClientRequest;
+  InterfaceWithClientImportedClientProxy.prototype.validator = null;
+
+
+  var exports = {};
+  exports.InterfaceWithClientImportedClient = InterfaceWithClientImportedClient;
+
+  module.exports = exports;
+</script>

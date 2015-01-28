@@ -1,0 +1,202 @@
+<!-- Copyright 2014 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<import src="/gen/mojo/public/sky/bindings.sky" as="bindings" />
+<import src="/gen/mojo/public/sky/codec.sky" as="codec" />
+<import src="/gen/mojo/public/sky/connection.sky" as="connection" />
+<import src="/gen/mojo/public/sky/core.sky" as="core" />
+<import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<script>
+
+  function Embeddee_HelloBack_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Embeddee_HelloBack_Params.prototype.initDefaults_ = function() {
+  };
+  Embeddee_HelloBack_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Embeddee_HelloBack_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Embeddee_HelloBack_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Embeddee_HelloBack_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  Embeddee_HelloBack_Params.decode = function(decoder) {
+    var packed;
+    var val = new Embeddee_HelloBack_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  Embeddee_HelloBack_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Embeddee_HelloBack_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  function Embeddee_HelloBack_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Embeddee_HelloBack_ResponseParams.prototype.initDefaults_ = function() {
+  };
+  Embeddee_HelloBack_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Embeddee_HelloBack_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Embeddee_HelloBack_ResponseParams.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Embeddee_HelloBack_ResponseParams.encodedSize = codec.kStructHeaderSize + 0;
+
+  Embeddee_HelloBack_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new Embeddee_HelloBack_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  Embeddee_HelloBack_ResponseParams.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Embeddee_HelloBack_ResponseParams.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  var kEmbeddee_HelloBack_Name = 0;
+
+  function EmbeddeeProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  EmbeddeeProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  EmbeddeeProxy.prototype.helloBack = function() {
+    var params = new Embeddee_HelloBack_Params();
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kEmbeddee_HelloBack_Name,
+          codec.align(Embeddee_HelloBack_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(Embeddee_HelloBack_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(Embeddee_HelloBack_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
+  };
+
+  function EmbeddeeStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  EmbeddeeStub.prototype = Object.create(bindings.StubBase.prototype);
+  EmbeddeeStub.prototype.helloBack = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.helloBack && bindings.StubBindings(this).delegate.helloBack();
+  }
+
+  EmbeddeeStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return false;
+    }
+  };
+
+  EmbeddeeStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kEmbeddee_HelloBack_Name:
+      var params = reader.decodeStruct(Embeddee_HelloBack_Params);
+      return this.helloBack().then(function(response) {
+        var responseParams =
+            new Embeddee_HelloBack_ResponseParams();
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kEmbeddee_HelloBack_Name,
+            codec.align(Embeddee_HelloBack_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(Embeddee_HelloBack_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateEmbeddeeRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kEmbeddee_HelloBack_Name:
+        if (message.expectsResponse())
+          paramsClass = Embeddee_HelloBack_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateEmbeddeeResponse(messageValidator) {
+   var message = messageValidator.message;
+   var paramsClass = null;
+   switch (message.getName()) {
+      case kEmbeddee_HelloBack_Name:
+        if (message.isResponse())
+          paramsClass = Embeddee_HelloBack_ResponseParams;
+        break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  var Embeddee = {
+    name: 'examples::Embeddee',
+    proxyClass: EmbeddeeProxy,
+    stubClass: EmbeddeeStub,
+    validateRequest: validateEmbeddeeRequest,
+    validateResponse: validateEmbeddeeResponse,
+  };
+  EmbeddeeStub.prototype.validator = validateEmbeddeeRequest;
+  EmbeddeeProxy.prototype.validator = validateEmbeddeeResponse;
+
+
+  var exports = {};
+  exports.Embeddee = Embeddee;
+
+  module.exports = exports;
+</script>

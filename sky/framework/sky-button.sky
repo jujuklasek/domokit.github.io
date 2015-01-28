@@ -1,0 +1,49 @@
+<!--
+// Copyright 2014 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+-->
+<import src="sky-element/sky-element.sky" as="SkyElement" />
+
+<sky-element
+    name="sky-button"
+    attributes="highlight:boolean"
+    on-pointerdown="handlePointerDown"
+    on-pointerup="handlePointerUp"
+    on-pointercancel="handlePointerCancel">
+<template>
+  <style>
+    :host {
+      display: inline-flex;
+      border-radius: 4px;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid blue;
+      -webkit-user-select: none;
+      margin: 5px;
+    }
+    :host([highlight=true]) {
+      background-color: orange;
+    }
+  </style>
+  <content />
+</template>
+<script>
+module.exports = class extends SkyElement {
+  created() {
+    super.created();
+
+    this.tabIndex = 0; // Make focusable.
+  }
+  handlePointerDown() {
+    this.highlight = true;
+  }
+  handlePointerUp() {
+    this.highlight = false;
+  }
+  handlePointerCancel() {
+    this.highlight = false;
+  }
+}.register();
+</script>
+</sky-element>

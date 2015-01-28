@@ -1,0 +1,552 @@
+<!-- Copyright 2014 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<import src="/gen/mojo/public/sky/bindings.sky" as="bindings" />
+<import src="/gen/mojo/public/sky/codec.sky" as="codec" />
+<import src="/gen/mojo/public/sky/connection.sky" as="connection" />
+<import src="/gen/mojo/public/sky/core.sky" as="core" />
+<import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<import src="/gen/services/reaper/transfer.mojom.sky" as="transfer$" />
+<script>
+
+  function Reaper_GetApplicationSecret_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Reaper_GetApplicationSecret_Params.prototype.initDefaults_ = function() {
+  };
+  Reaper_GetApplicationSecret_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Reaper_GetApplicationSecret_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Reaper_GetApplicationSecret_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Reaper_GetApplicationSecret_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  Reaper_GetApplicationSecret_Params.decode = function(decoder) {
+    var packed;
+    var val = new Reaper_GetApplicationSecret_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  Reaper_GetApplicationSecret_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Reaper_GetApplicationSecret_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  function Reaper_GetApplicationSecret_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Reaper_GetApplicationSecret_ResponseParams.prototype.initDefaults_ = function() {
+    this.secret = 0;
+  };
+  Reaper_GetApplicationSecret_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Reaper_GetApplicationSecret_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Reaper_GetApplicationSecret_ResponseParams.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Reaper_GetApplicationSecret_ResponseParams.encodedSize = codec.kStructHeaderSize + 8;
+
+  Reaper_GetApplicationSecret_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new Reaper_GetApplicationSecret_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.secret = decoder.decodeStruct(codec.Uint64);
+    return val;
+  };
+
+  Reaper_GetApplicationSecret_ResponseParams.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Reaper_GetApplicationSecret_ResponseParams.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Uint64, val.secret);
+  };
+
+  function Reaper_CreateReference_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Reaper_CreateReference_Params.prototype.initDefaults_ = function() {
+    this.source_node = 0;
+    this.target_node = 0;
+  };
+  Reaper_CreateReference_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Reaper_CreateReference_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Reaper_CreateReference_Params.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Reaper_CreateReference_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  Reaper_CreateReference_Params.decode = function(decoder) {
+    var packed;
+    var val = new Reaper_CreateReference_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.source_node = decoder.decodeStruct(codec.Uint32);
+    val.target_node = decoder.decodeStruct(codec.Uint32);
+    return val;
+  };
+
+  Reaper_CreateReference_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Reaper_CreateReference_Params.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStruct(codec.Uint32, val.source_node);
+    encoder.encodeStruct(codec.Uint32, val.target_node);
+  };
+
+  function Reaper_DropNode_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Reaper_DropNode_Params.prototype.initDefaults_ = function() {
+    this.node = 0;
+  };
+  Reaper_DropNode_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Reaper_DropNode_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Reaper_DropNode_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Reaper_DropNode_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  Reaper_DropNode_Params.decode = function(decoder) {
+    var packed;
+    var val = new Reaper_DropNode_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.node = decoder.decodeStruct(codec.Uint32);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  Reaper_DropNode_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Reaper_DropNode_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Uint32, val.node);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  function Reaper_StartTransfer_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Reaper_StartTransfer_Params.prototype.initDefaults_ = function() {
+    this.node = 0;
+    this.transfer = null;
+  };
+  Reaper_StartTransfer_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Reaper_StartTransfer_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Reaper_StartTransfer_Params.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Reaper_StartTransfer_Params.transfer
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 4, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Reaper_StartTransfer_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  Reaper_StartTransfer_Params.decode = function(decoder) {
+    var packed;
+    var val = new Reaper_StartTransfer_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.node = decoder.decodeStruct(codec.Uint32);
+    val.transfer = decoder.decodeStruct(codec.Handle);
+    return val;
+  };
+
+  Reaper_StartTransfer_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Reaper_StartTransfer_Params.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStruct(codec.Uint32, val.node);
+    encoder.encodeStruct(codec.Handle, val.transfer);
+  };
+
+  function Reaper_Ping_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Reaper_Ping_Params.prototype.initDefaults_ = function() {
+  };
+  Reaper_Ping_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Reaper_Ping_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Reaper_Ping_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Reaper_Ping_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  Reaper_Ping_Params.decode = function(decoder) {
+    var packed;
+    var val = new Reaper_Ping_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  Reaper_Ping_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Reaper_Ping_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  function Reaper_Ping_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Reaper_Ping_ResponseParams.prototype.initDefaults_ = function() {
+  };
+  Reaper_Ping_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Reaper_Ping_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Reaper_Ping_ResponseParams.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Reaper_Ping_ResponseParams.encodedSize = codec.kStructHeaderSize + 0;
+
+  Reaper_Ping_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new Reaper_Ping_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  Reaper_Ping_ResponseParams.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Reaper_Ping_ResponseParams.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  var kReaper_GetApplicationSecret_Name = 0;
+  var kReaper_CreateReference_Name = 1;
+  var kReaper_DropNode_Name = 2;
+  var kReaper_StartTransfer_Name = 3;
+  var kReaper_Ping_Name = 4;
+
+  function ReaperProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  ReaperProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  ReaperProxy.prototype.getApplicationSecret = function() {
+    var params = new Reaper_GetApplicationSecret_Params();
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kReaper_GetApplicationSecret_Name,
+          codec.align(Reaper_GetApplicationSecret_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(Reaper_GetApplicationSecret_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(Reaper_GetApplicationSecret_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
+  };
+  ReaperProxy.prototype.createReference = function(source_node, target_node) {
+    var params = new Reaper_CreateReference_Params();
+    params.source_node = source_node;
+    params.target_node = target_node;
+    var builder = new codec.MessageBuilder(
+        kReaper_CreateReference_Name,
+        codec.align(Reaper_CreateReference_Params.encodedSize));
+    builder.encodeStruct(Reaper_CreateReference_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  ReaperProxy.prototype.dropNode = function(node) {
+    var params = new Reaper_DropNode_Params();
+    params.node = node;
+    var builder = new codec.MessageBuilder(
+        kReaper_DropNode_Name,
+        codec.align(Reaper_DropNode_Params.encodedSize));
+    builder.encodeStruct(Reaper_DropNode_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  ReaperProxy.prototype.startTransfer = function(node, transfer) {
+    var params = new Reaper_StartTransfer_Params();
+    params.node = node;
+    params.transfer = core.isHandle(transfer) ? transfer : connection.bindProxy(transfer, transfer$.Transfer);
+    var builder = new codec.MessageBuilder(
+        kReaper_StartTransfer_Name,
+        codec.align(Reaper_StartTransfer_Params.encodedSize));
+    builder.encodeStruct(Reaper_StartTransfer_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  ReaperProxy.prototype.ping = function() {
+    var params = new Reaper_Ping_Params();
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kReaper_Ping_Name,
+          codec.align(Reaper_Ping_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(Reaper_Ping_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(Reaper_Ping_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
+  };
+
+  function ReaperStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  ReaperStub.prototype = Object.create(bindings.StubBase.prototype);
+  ReaperStub.prototype.getApplicationSecret = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.getApplicationSecret && bindings.StubBindings(this).delegate.getApplicationSecret();
+  }
+  ReaperStub.prototype.createReference = function(source_node, target_node) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.createReference && bindings.StubBindings(this).delegate.createReference(source_node, target_node);
+  }
+  ReaperStub.prototype.dropNode = function(node) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.dropNode && bindings.StubBindings(this).delegate.dropNode(node);
+  }
+  ReaperStub.prototype.startTransfer = function(node, transfer) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.startTransfer && bindings.StubBindings(this).delegate.startTransfer(node, connection.bindHandleToStub(transfer, transfer$.Transfer));
+  }
+  ReaperStub.prototype.ping = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.ping && bindings.StubBindings(this).delegate.ping();
+  }
+
+  ReaperStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kReaper_CreateReference_Name:
+      var params = reader.decodeStruct(Reaper_CreateReference_Params);
+      this.createReference(params.source_node, params.target_node);
+      return true;
+    case kReaper_DropNode_Name:
+      var params = reader.decodeStruct(Reaper_DropNode_Params);
+      this.dropNode(params.node);
+      return true;
+    case kReaper_StartTransfer_Name:
+      var params = reader.decodeStruct(Reaper_StartTransfer_Params);
+      this.startTransfer(params.node, params.transfer);
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  ReaperStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kReaper_GetApplicationSecret_Name:
+      var params = reader.decodeStruct(Reaper_GetApplicationSecret_Params);
+      return this.getApplicationSecret().then(function(response) {
+        var responseParams =
+            new Reaper_GetApplicationSecret_ResponseParams();
+        responseParams.secret = response.secret;
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kReaper_GetApplicationSecret_Name,
+            codec.align(Reaper_GetApplicationSecret_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(Reaper_GetApplicationSecret_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
+    case kReaper_Ping_Name:
+      var params = reader.decodeStruct(Reaper_Ping_Params);
+      return this.ping().then(function(response) {
+        var responseParams =
+            new Reaper_Ping_ResponseParams();
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kReaper_Ping_Name,
+            codec.align(Reaper_Ping_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(Reaper_Ping_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateReaperRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kReaper_GetApplicationSecret_Name:
+        if (message.expectsResponse())
+          paramsClass = Reaper_GetApplicationSecret_Params;
+      break;
+      case kReaper_CreateReference_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = Reaper_CreateReference_Params;
+      break;
+      case kReaper_DropNode_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = Reaper_DropNode_Params;
+      break;
+      case kReaper_StartTransfer_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = Reaper_StartTransfer_Params;
+      break;
+      case kReaper_Ping_Name:
+        if (message.expectsResponse())
+          paramsClass = Reaper_Ping_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateReaperResponse(messageValidator) {
+   var message = messageValidator.message;
+   var paramsClass = null;
+   switch (message.getName()) {
+      case kReaper_GetApplicationSecret_Name:
+        if (message.isResponse())
+          paramsClass = Reaper_GetApplicationSecret_ResponseParams;
+        break;
+      case kReaper_Ping_Name:
+        if (message.isResponse())
+          paramsClass = Reaper_Ping_ResponseParams;
+        break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  var Reaper = {
+    name: 'reaper::Reaper',
+    proxyClass: ReaperProxy,
+    stubClass: ReaperStub,
+    validateRequest: validateReaperRequest,
+    validateResponse: validateReaperResponse,
+  };
+  ReaperStub.prototype.validator = validateReaperRequest;
+  ReaperProxy.prototype.validator = validateReaperResponse;
+
+
+  var exports = {};
+  exports.Reaper = Reaper;
+
+  module.exports = exports;
+</script>

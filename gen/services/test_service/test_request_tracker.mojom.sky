@@ -1,0 +1,640 @@
+<!-- Copyright 2014 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<import src="/gen/mojo/public/sky/bindings.sky" as="bindings" />
+<import src="/gen/mojo/public/sky/codec.sky" as="codec" />
+<import src="/gen/mojo/public/sky/connection.sky" as="connection" />
+<import src="/gen/mojo/public/sky/core.sky" as="core" />
+<import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<script>
+
+  function ServiceStats(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ServiceStats.prototype.initDefaults_ = function() {
+    this.num_new_requests = 0;
+    this.health = 0;
+  };
+  ServiceStats.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ServiceStats.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ServiceStats.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ServiceStats.encodedSize = codec.kStructHeaderSize + 16;
+
+  ServiceStats.decode = function(decoder) {
+    var packed;
+    var val = new ServiceStats();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.num_new_requests = decoder.decodeStruct(codec.Uint64);
+    val.health = decoder.decodeStruct(codec.Double);
+    return val;
+  };
+
+  ServiceStats.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ServiceStats.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStruct(codec.Uint64, val.num_new_requests);
+    encoder.encodeStruct(codec.Double, val.health);
+  };
+
+  function ServiceReport(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ServiceReport.prototype.initDefaults_ = function() {
+    this.service_name = null;
+    this.total_requests = 0;
+    this.mean_health = 0;
+  };
+  ServiceReport.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ServiceReport.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ServiceReport.encodedSize, 3);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ServiceReport.service_name
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 0, true)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ServiceReport.encodedSize = codec.kStructHeaderSize + 24;
+
+  ServiceReport.decode = function(decoder) {
+    var packed;
+    var val = new ServiceReport();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.service_name = decoder.decodeStruct(codec.NullableString);
+    val.total_requests = decoder.decodeStruct(codec.Uint64);
+    val.mean_health = decoder.decodeStruct(codec.Double);
+    return val;
+  };
+
+  ServiceReport.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ServiceReport.encodedSize);
+    encoder.writeUint32(3);
+    encoder.encodeStruct(codec.NullableString, val.service_name);
+    encoder.encodeStruct(codec.Uint64, val.total_requests);
+    encoder.encodeStruct(codec.Double, val.mean_health);
+  };
+
+  function TestTrackedRequestService_GetReport_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  TestTrackedRequestService_GetReport_Params.prototype.initDefaults_ = function() {
+  };
+  TestTrackedRequestService_GetReport_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  TestTrackedRequestService_GetReport_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, TestTrackedRequestService_GetReport_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  TestTrackedRequestService_GetReport_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  TestTrackedRequestService_GetReport_Params.decode = function(decoder) {
+    var packed;
+    var val = new TestTrackedRequestService_GetReport_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  TestTrackedRequestService_GetReport_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(TestTrackedRequestService_GetReport_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  function TestTrackedRequestService_GetReport_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  TestTrackedRequestService_GetReport_ResponseParams.prototype.initDefaults_ = function() {
+    this.report = null;
+  };
+  TestTrackedRequestService_GetReport_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  TestTrackedRequestService_GetReport_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, TestTrackedRequestService_GetReport_ResponseParams.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate TestTrackedRequestService_GetReport_ResponseParams.report
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 0, 8, new codec.NullablePointerTo(ServiceReport), true, [0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  TestTrackedRequestService_GetReport_ResponseParams.encodedSize = codec.kStructHeaderSize + 8;
+
+  TestTrackedRequestService_GetReport_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new TestTrackedRequestService_GetReport_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.report = decoder.decodeArrayPointer(new codec.NullablePointerTo(ServiceReport));
+    return val;
+  };
+
+  TestTrackedRequestService_GetReport_ResponseParams.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(TestTrackedRequestService_GetReport_ResponseParams.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeArrayPointer(new codec.NullablePointerTo(ServiceReport), val.report);
+  };
+
+  function TestRequestTracker_RecordStats_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  TestRequestTracker_RecordStats_Params.prototype.initDefaults_ = function() {
+    this.client_id = 0;
+    this.stats = null;
+  };
+  TestRequestTracker_RecordStats_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  TestRequestTracker_RecordStats_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, TestRequestTracker_RecordStats_Params.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate TestRequestTracker_RecordStats_Params.stats
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 8, ServiceStats, true);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  TestRequestTracker_RecordStats_Params.encodedSize = codec.kStructHeaderSize + 16;
+
+  TestRequestTracker_RecordStats_Params.decode = function(decoder) {
+    var packed;
+    var val = new TestRequestTracker_RecordStats_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.client_id = decoder.decodeStruct(codec.Uint64);
+    val.stats = decoder.decodeStructPointer(ServiceStats);
+    return val;
+  };
+
+  TestRequestTracker_RecordStats_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(TestRequestTracker_RecordStats_Params.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStruct(codec.Uint64, val.client_id);
+    encoder.encodeStructPointer(ServiceStats, val.stats);
+  };
+
+  function TestRequestTrackerClient_SetIdAndReturnName_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  TestRequestTrackerClient_SetIdAndReturnName_Params.prototype.initDefaults_ = function() {
+    this.id = 0;
+  };
+  TestRequestTrackerClient_SetIdAndReturnName_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  TestRequestTrackerClient_SetIdAndReturnName_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, TestRequestTrackerClient_SetIdAndReturnName_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  TestRequestTrackerClient_SetIdAndReturnName_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  TestRequestTrackerClient_SetIdAndReturnName_Params.decode = function(decoder) {
+    var packed;
+    var val = new TestRequestTrackerClient_SetIdAndReturnName_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.id = decoder.decodeStruct(codec.Uint64);
+    return val;
+  };
+
+  TestRequestTrackerClient_SetIdAndReturnName_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(TestRequestTrackerClient_SetIdAndReturnName_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Uint64, val.id);
+  };
+
+  function TestRequestTrackerClient_SetIdAndReturnName_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  TestRequestTrackerClient_SetIdAndReturnName_ResponseParams.prototype.initDefaults_ = function() {
+    this.service_name = null;
+  };
+  TestRequestTrackerClient_SetIdAndReturnName_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  TestRequestTrackerClient_SetIdAndReturnName_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, TestRequestTrackerClient_SetIdAndReturnName_ResponseParams.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate TestRequestTrackerClient_SetIdAndReturnName_ResponseParams.service_name
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 0, true)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  TestRequestTrackerClient_SetIdAndReturnName_ResponseParams.encodedSize = codec.kStructHeaderSize + 8;
+
+  TestRequestTrackerClient_SetIdAndReturnName_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new TestRequestTrackerClient_SetIdAndReturnName_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.service_name = decoder.decodeStruct(codec.NullableString);
+    return val;
+  };
+
+  TestRequestTrackerClient_SetIdAndReturnName_ResponseParams.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(TestRequestTrackerClient_SetIdAndReturnName_ResponseParams.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.NullableString, val.service_name);
+  };
+
+  var kTestTrackedRequestService_GetReport_Name = 0;
+
+  function TestTrackedRequestServiceProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  TestTrackedRequestServiceProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  TestTrackedRequestServiceProxy.prototype.getReport = function() {
+    var params = new TestTrackedRequestService_GetReport_Params();
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kTestTrackedRequestService_GetReport_Name,
+          codec.align(TestTrackedRequestService_GetReport_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(TestTrackedRequestService_GetReport_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(TestTrackedRequestService_GetReport_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
+  };
+
+  function TestTrackedRequestServiceStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  TestTrackedRequestServiceStub.prototype = Object.create(bindings.StubBase.prototype);
+  TestTrackedRequestServiceStub.prototype.getReport = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.getReport && bindings.StubBindings(this).delegate.getReport();
+  }
+
+  TestTrackedRequestServiceStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return false;
+    }
+  };
+
+  TestTrackedRequestServiceStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kTestTrackedRequestService_GetReport_Name:
+      var params = reader.decodeStruct(TestTrackedRequestService_GetReport_Params);
+      return this.getReport().then(function(response) {
+        var responseParams =
+            new TestTrackedRequestService_GetReport_ResponseParams();
+        responseParams.report = response.report;
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kTestTrackedRequestService_GetReport_Name,
+            codec.align(TestTrackedRequestService_GetReport_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(TestTrackedRequestService_GetReport_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateTestTrackedRequestServiceRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kTestTrackedRequestService_GetReport_Name:
+        if (message.expectsResponse())
+          paramsClass = TestTrackedRequestService_GetReport_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateTestTrackedRequestServiceResponse(messageValidator) {
+   var message = messageValidator.message;
+   var paramsClass = null;
+   switch (message.getName()) {
+      case kTestTrackedRequestService_GetReport_Name:
+        if (message.isResponse())
+          paramsClass = TestTrackedRequestService_GetReport_ResponseParams;
+        break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  var TestTrackedRequestService = {
+    name: 'mojo::test::TestTrackedRequestService',
+    proxyClass: TestTrackedRequestServiceProxy,
+    stubClass: TestTrackedRequestServiceStub,
+    validateRequest: validateTestTrackedRequestServiceRequest,
+    validateResponse: validateTestTrackedRequestServiceResponse,
+  };
+  TestTrackedRequestServiceStub.prototype.validator = validateTestTrackedRequestServiceRequest;
+  TestTrackedRequestServiceProxy.prototype.validator = validateTestTrackedRequestServiceResponse;
+
+  var kTestRequestTracker_RecordStats_Name = 0;
+
+  function TestRequestTrackerProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  TestRequestTrackerProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  TestRequestTrackerProxy.prototype.recordStats = function(client_id, stats) {
+    var params = new TestRequestTracker_RecordStats_Params();
+    params.client_id = client_id;
+    params.stats = stats;
+    var builder = new codec.MessageBuilder(
+        kTestRequestTracker_RecordStats_Name,
+        codec.align(TestRequestTracker_RecordStats_Params.encodedSize));
+    builder.encodeStruct(TestRequestTracker_RecordStats_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+
+  function TestRequestTrackerStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  TestRequestTrackerStub.prototype = Object.create(bindings.StubBase.prototype);
+  TestRequestTrackerStub.prototype.recordStats = function(client_id, stats) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.recordStats && bindings.StubBindings(this).delegate.recordStats(client_id, stats);
+  }
+
+  TestRequestTrackerStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kTestRequestTracker_RecordStats_Name:
+      var params = reader.decodeStruct(TestRequestTracker_RecordStats_Params);
+      this.recordStats(params.client_id, params.stats);
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  TestRequestTrackerStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateTestRequestTrackerRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kTestRequestTracker_RecordStats_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = TestRequestTracker_RecordStats_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateTestRequestTrackerResponse(messageValidator) {
+    return validator.validationError.NONE;
+  }
+
+  var TestRequestTracker = {
+    name: 'mojo::test::TestRequestTracker',
+    proxyClass: TestRequestTrackerProxy,
+    stubClass: TestRequestTrackerStub,
+    validateRequest: validateTestRequestTrackerRequest,
+    validateResponse: null,
+  };
+  TestRequestTrackerStub.prototype.validator = validateTestRequestTrackerRequest;
+  TestRequestTrackerProxy.prototype.validator = null;
+
+  var kTestRequestTrackerClient_SetIdAndReturnName_Name = 0;
+
+  function TestRequestTrackerClientProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  TestRequestTrackerClientProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  TestRequestTrackerClientProxy.prototype.setIdAndReturnName = function(id) {
+    var params = new TestRequestTrackerClient_SetIdAndReturnName_Params();
+    params.id = id;
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kTestRequestTrackerClient_SetIdAndReturnName_Name,
+          codec.align(TestRequestTrackerClient_SetIdAndReturnName_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(TestRequestTrackerClient_SetIdAndReturnName_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(TestRequestTrackerClient_SetIdAndReturnName_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
+  };
+
+  function TestRequestTrackerClientStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  TestRequestTrackerClientStub.prototype = Object.create(bindings.StubBase.prototype);
+  TestRequestTrackerClientStub.prototype.setIdAndReturnName = function(id) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.setIdAndReturnName && bindings.StubBindings(this).delegate.setIdAndReturnName(id);
+  }
+
+  TestRequestTrackerClientStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return false;
+    }
+  };
+
+  TestRequestTrackerClientStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kTestRequestTrackerClient_SetIdAndReturnName_Name:
+      var params = reader.decodeStruct(TestRequestTrackerClient_SetIdAndReturnName_Params);
+      return this.setIdAndReturnName(params.id).then(function(response) {
+        var responseParams =
+            new TestRequestTrackerClient_SetIdAndReturnName_ResponseParams();
+        responseParams.service_name = response.service_name;
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kTestRequestTrackerClient_SetIdAndReturnName_Name,
+            codec.align(TestRequestTrackerClient_SetIdAndReturnName_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(TestRequestTrackerClient_SetIdAndReturnName_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateTestRequestTrackerClientRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kTestRequestTrackerClient_SetIdAndReturnName_Name:
+        if (message.expectsResponse())
+          paramsClass = TestRequestTrackerClient_SetIdAndReturnName_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateTestRequestTrackerClientResponse(messageValidator) {
+   var message = messageValidator.message;
+   var paramsClass = null;
+   switch (message.getName()) {
+      case kTestRequestTrackerClient_SetIdAndReturnName_Name:
+        if (message.isResponse())
+          paramsClass = TestRequestTrackerClient_SetIdAndReturnName_ResponseParams;
+        break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  var TestRequestTrackerClient = {
+    name: 'mojo::test::TestRequestTrackerClient',
+    proxyClass: TestRequestTrackerClientProxy,
+    stubClass: TestRequestTrackerClientStub,
+    validateRequest: validateTestRequestTrackerClientRequest,
+    validateResponse: validateTestRequestTrackerClientResponse,
+  };
+  TestRequestTrackerClient.kInvalidId = 0,
+  TestRequestTrackerClientStub.prototype.validator = validateTestRequestTrackerClientRequest;
+  TestRequestTrackerClientProxy.prototype.validator = validateTestRequestTrackerClientResponse;
+
+
+  var exports = {};
+  exports.ServiceStats = ServiceStats;
+  exports.ServiceReport = ServiceReport;
+  exports.TestTrackedRequestService = TestTrackedRequestService;
+  exports.TestRequestTracker = TestRequestTracker;
+  exports.TestRequestTracker.client = TestRequestTrackerClient;
+  exports.TestRequestTrackerClient = TestRequestTrackerClient;
+
+  module.exports = exports;
+</script>

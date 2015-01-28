@@ -1,0 +1,565 @@
+<!-- Copyright 2014 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<import src="/gen/mojo/public/sky/bindings.sky" as="bindings" />
+<import src="/gen/mojo/public/sky/codec.sky" as="codec" />
+<import src="/gen/mojo/public/sky/connection.sky" as="connection" />
+<import src="/gen/mojo/public/sky/core.sky" as="core" />
+<import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<import src="/gen/services/reaper/reaper.mojom.sky" as="reaper$" />
+<script>
+
+  function Node(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Node.prototype.initDefaults_ = function() {
+    this.app_url = null;
+    this.node_id = 0;
+    this.other_id = 0;
+    this.other_app_url = null;
+    this.is_source = false;
+  };
+  Node.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Node.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Node.encodedSize, 5);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Node.app_url
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Node.other_app_url
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 16, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Node.encodedSize = codec.kStructHeaderSize + 32;
+
+  Node.decode = function(decoder) {
+    var packed;
+    var val = new Node();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.app_url = decoder.decodeStruct(codec.String);
+    val.node_id = decoder.decodeStruct(codec.Uint32);
+    val.other_id = decoder.decodeStruct(codec.Uint32);
+    val.other_app_url = decoder.decodeStruct(codec.String);
+    val.is_source = decoder.decodeStruct(codec.Uint8);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  Node.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Node.encodedSize);
+    encoder.writeUint32(5);
+    encoder.encodeStruct(codec.String, val.app_url);
+    encoder.encodeStruct(codec.Uint32, val.node_id);
+    encoder.encodeStruct(codec.Uint32, val.other_id);
+    encoder.encodeStruct(codec.String, val.other_app_url);
+    encoder.encodeStruct(codec.Uint8, val.is_source);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  function Diagnostics_DumpNodes_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Diagnostics_DumpNodes_Params.prototype.initDefaults_ = function() {
+  };
+  Diagnostics_DumpNodes_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Diagnostics_DumpNodes_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Diagnostics_DumpNodes_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Diagnostics_DumpNodes_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  Diagnostics_DumpNodes_Params.decode = function(decoder) {
+    var packed;
+    var val = new Diagnostics_DumpNodes_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  Diagnostics_DumpNodes_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Diagnostics_DumpNodes_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  function Diagnostics_DumpNodes_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Diagnostics_DumpNodes_ResponseParams.prototype.initDefaults_ = function() {
+    this.nodes = null;
+  };
+  Diagnostics_DumpNodes_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Diagnostics_DumpNodes_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Diagnostics_DumpNodes_ResponseParams.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Diagnostics_DumpNodes_ResponseParams.nodes
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 0, 8, new codec.PointerTo(Node), false, [0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Diagnostics_DumpNodes_ResponseParams.encodedSize = codec.kStructHeaderSize + 8;
+
+  Diagnostics_DumpNodes_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new Diagnostics_DumpNodes_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.nodes = decoder.decodeArrayPointer(new codec.PointerTo(Node));
+    return val;
+  };
+
+  Diagnostics_DumpNodes_ResponseParams.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Diagnostics_DumpNodes_ResponseParams.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeArrayPointer(new codec.PointerTo(Node), val.nodes);
+  };
+
+  function Diagnostics_Reset_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Diagnostics_Reset_Params.prototype.initDefaults_ = function() {
+  };
+  Diagnostics_Reset_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Diagnostics_Reset_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Diagnostics_Reset_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Diagnostics_Reset_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  Diagnostics_Reset_Params.decode = function(decoder) {
+    var packed;
+    var val = new Diagnostics_Reset_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  Diagnostics_Reset_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Diagnostics_Reset_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  function Diagnostics_GetReaperForApp_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Diagnostics_GetReaperForApp_Params.prototype.initDefaults_ = function() {
+    this.app_url = null;
+    this.reaper = null;
+  };
+  Diagnostics_GetReaperForApp_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Diagnostics_GetReaperForApp_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Diagnostics_GetReaperForApp_Params.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Diagnostics_GetReaperForApp_Params.app_url
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Diagnostics_GetReaperForApp_Params.reaper
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 8, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Diagnostics_GetReaperForApp_Params.encodedSize = codec.kStructHeaderSize + 16;
+
+  Diagnostics_GetReaperForApp_Params.decode = function(decoder) {
+    var packed;
+    var val = new Diagnostics_GetReaperForApp_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.app_url = decoder.decodeStruct(codec.String);
+    val.reaper = decoder.decodeStruct(codec.Handle);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  Diagnostics_GetReaperForApp_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Diagnostics_GetReaperForApp_Params.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStruct(codec.String, val.app_url);
+    encoder.encodeStruct(codec.Handle, val.reaper);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  function Diagnostics_Ping_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Diagnostics_Ping_Params.prototype.initDefaults_ = function() {
+  };
+  Diagnostics_Ping_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Diagnostics_Ping_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Diagnostics_Ping_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Diagnostics_Ping_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  Diagnostics_Ping_Params.decode = function(decoder) {
+    var packed;
+    var val = new Diagnostics_Ping_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  Diagnostics_Ping_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Diagnostics_Ping_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  function Diagnostics_Ping_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Diagnostics_Ping_ResponseParams.prototype.initDefaults_ = function() {
+  };
+  Diagnostics_Ping_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Diagnostics_Ping_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Diagnostics_Ping_ResponseParams.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Diagnostics_Ping_ResponseParams.encodedSize = codec.kStructHeaderSize + 0;
+
+  Diagnostics_Ping_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new Diagnostics_Ping_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  Diagnostics_Ping_ResponseParams.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Diagnostics_Ping_ResponseParams.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  var kDiagnostics_DumpNodes_Name = 0;
+  var kDiagnostics_Reset_Name = 1;
+  var kDiagnostics_GetReaperForApp_Name = 2;
+  var kDiagnostics_Ping_Name = 3;
+
+  function DiagnosticsProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  DiagnosticsProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  DiagnosticsProxy.prototype.dumpNodes = function() {
+    var params = new Diagnostics_DumpNodes_Params();
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kDiagnostics_DumpNodes_Name,
+          codec.align(Diagnostics_DumpNodes_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(Diagnostics_DumpNodes_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(Diagnostics_DumpNodes_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
+  };
+  DiagnosticsProxy.prototype.reset = function() {
+    var params = new Diagnostics_Reset_Params();
+    var builder = new codec.MessageBuilder(
+        kDiagnostics_Reset_Name,
+        codec.align(Diagnostics_Reset_Params.encodedSize));
+    builder.encodeStruct(Diagnostics_Reset_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  DiagnosticsProxy.prototype.getReaperForApp = function(app_url, reaper) {
+    var params = new Diagnostics_GetReaperForApp_Params();
+    params.app_url = app_url;
+    params.reaper = core.isHandle(reaper) ? reaper : connection.bindProxy(reaper, reaper$.Reaper);
+    var builder = new codec.MessageBuilder(
+        kDiagnostics_GetReaperForApp_Name,
+        codec.align(Diagnostics_GetReaperForApp_Params.encodedSize));
+    builder.encodeStruct(Diagnostics_GetReaperForApp_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  DiagnosticsProxy.prototype.ping = function() {
+    var params = new Diagnostics_Ping_Params();
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kDiagnostics_Ping_Name,
+          codec.align(Diagnostics_Ping_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(Diagnostics_Ping_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(Diagnostics_Ping_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
+  };
+
+  function DiagnosticsStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  DiagnosticsStub.prototype = Object.create(bindings.StubBase.prototype);
+  DiagnosticsStub.prototype.dumpNodes = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.dumpNodes && bindings.StubBindings(this).delegate.dumpNodes();
+  }
+  DiagnosticsStub.prototype.reset = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.reset && bindings.StubBindings(this).delegate.reset();
+  }
+  DiagnosticsStub.prototype.getReaperForApp = function(app_url, reaper) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.getReaperForApp && bindings.StubBindings(this).delegate.getReaperForApp(app_url, connection.bindHandleToStub(reaper, reaper$.Reaper));
+  }
+  DiagnosticsStub.prototype.ping = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.ping && bindings.StubBindings(this).delegate.ping();
+  }
+
+  DiagnosticsStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kDiagnostics_Reset_Name:
+      var params = reader.decodeStruct(Diagnostics_Reset_Params);
+      this.reset();
+      return true;
+    case kDiagnostics_GetReaperForApp_Name:
+      var params = reader.decodeStruct(Diagnostics_GetReaperForApp_Params);
+      this.getReaperForApp(params.app_url, params.reaper);
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  DiagnosticsStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kDiagnostics_DumpNodes_Name:
+      var params = reader.decodeStruct(Diagnostics_DumpNodes_Params);
+      return this.dumpNodes().then(function(response) {
+        var responseParams =
+            new Diagnostics_DumpNodes_ResponseParams();
+        responseParams.nodes = response.nodes;
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kDiagnostics_DumpNodes_Name,
+            codec.align(Diagnostics_DumpNodes_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(Diagnostics_DumpNodes_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
+    case kDiagnostics_Ping_Name:
+      var params = reader.decodeStruct(Diagnostics_Ping_Params);
+      return this.ping().then(function(response) {
+        var responseParams =
+            new Diagnostics_Ping_ResponseParams();
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kDiagnostics_Ping_Name,
+            codec.align(Diagnostics_Ping_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(Diagnostics_Ping_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateDiagnosticsRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kDiagnostics_DumpNodes_Name:
+        if (message.expectsResponse())
+          paramsClass = Diagnostics_DumpNodes_Params;
+      break;
+      case kDiagnostics_Reset_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = Diagnostics_Reset_Params;
+      break;
+      case kDiagnostics_GetReaperForApp_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = Diagnostics_GetReaperForApp_Params;
+      break;
+      case kDiagnostics_Ping_Name:
+        if (message.expectsResponse())
+          paramsClass = Diagnostics_Ping_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateDiagnosticsResponse(messageValidator) {
+   var message = messageValidator.message;
+   var paramsClass = null;
+   switch (message.getName()) {
+      case kDiagnostics_DumpNodes_Name:
+        if (message.isResponse())
+          paramsClass = Diagnostics_DumpNodes_ResponseParams;
+        break;
+      case kDiagnostics_Ping_Name:
+        if (message.isResponse())
+          paramsClass = Diagnostics_Ping_ResponseParams;
+        break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  var Diagnostics = {
+    name: 'reaper::Diagnostics',
+    proxyClass: DiagnosticsProxy,
+    stubClass: DiagnosticsStub,
+    validateRequest: validateDiagnosticsRequest,
+    validateResponse: validateDiagnosticsResponse,
+  };
+  DiagnosticsStub.prototype.validator = validateDiagnosticsRequest;
+  DiagnosticsProxy.prototype.validator = validateDiagnosticsResponse;
+
+
+  var exports = {};
+  exports.Node = Node;
+  exports.Diagnostics = Diagnostics;
+
+  module.exports = exports;
+</script>

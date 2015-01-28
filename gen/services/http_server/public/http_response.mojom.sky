@@ -1,0 +1,85 @@
+<!-- Copyright 2014 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<import src="/gen/mojo/public/sky/bindings.sky" as="bindings" />
+<import src="/gen/mojo/public/sky/codec.sky" as="codec" />
+<import src="/gen/mojo/public/sky/connection.sky" as="connection" />
+<import src="/gen/mojo/public/sky/core.sky" as="core" />
+<import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<script>
+
+  function HttpResponse(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  HttpResponse.prototype.initDefaults_ = function() {
+    this.status_code = 200;
+    this.body = null;
+    this.content_length = 0;
+    this.content_type = "text/html; charset=utf-8";
+    this.custom_headers = null;
+  };
+  HttpResponse.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  HttpResponse.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, HttpResponse.encodedSize, 5);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate HttpResponse.body
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 4, true)
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate HttpResponse.content_type
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 16, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate HttpResponse.custom_headers
+    err = messageValidator.validateMapPointer(offset + codec.kStructHeaderSize + 24, true, codec.String, codec.String, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  HttpResponse.encodedSize = codec.kStructHeaderSize + 32;
+
+  HttpResponse.decode = function(decoder) {
+    var packed;
+    var val = new HttpResponse();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.status_code = decoder.decodeStruct(codec.Uint32);
+    val.body = decoder.decodeStruct(codec.NullableHandle);
+    val.content_length = decoder.decodeStruct(codec.Int64);
+    val.content_type = decoder.decodeStruct(codec.String);
+    val.custom_headers = decoder.decodeMapPointer(codec.String, codec.String);
+    return val;
+  };
+
+  HttpResponse.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(HttpResponse.encodedSize);
+    encoder.writeUint32(5);
+    encoder.encodeStruct(codec.Uint32, val.status_code);
+    encoder.encodeStruct(codec.NullableHandle, val.body);
+    encoder.encodeStruct(codec.Int64, val.content_length);
+    encoder.encodeStruct(codec.String, val.content_type);
+    encoder.encodeMapPointer(codec.String, codec.String, val.custom_headers);
+  };
+
+
+  var exports = {};
+  exports.HttpResponse = HttpResponse;
+
+  module.exports = exports;
+</script>

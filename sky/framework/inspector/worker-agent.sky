@@ -1,0 +1,15 @@
+<script>
+class WorkerAgent {
+  constructor() {
+    Object.preventExtensions(this);
+  }
+
+  canInspectWorkers() {
+    return {
+      result: false
+    };
+  }
+}
+
+module.exports = WorkerAgent;
+</script>

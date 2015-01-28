@@ -1,0 +1,235 @@
+<!-- Copyright 2014 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<import src="/gen/mojo/public/sky/bindings.sky" as="bindings" />
+<import src="/gen/mojo/public/sky/codec.sky" as="codec" />
+<import src="/gen/mojo/public/sky/connection.sky" as="connection" />
+<import src="/gen/mojo/public/sky/core.sky" as="core" />
+<import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<import src="/gen/mojo/public/interfaces/application/application.mojom.sky" as="application$" />
+<script>
+
+  function ExternalApplicationRegistrar_Register_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ExternalApplicationRegistrar_Register_Params.prototype.initDefaults_ = function() {
+    this.application_url = null;
+    this.args = null;
+  };
+  ExternalApplicationRegistrar_Register_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ExternalApplicationRegistrar_Register_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ExternalApplicationRegistrar_Register_Params.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ExternalApplicationRegistrar_Register_Params.application_url
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ExternalApplicationRegistrar_Register_Params.args
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 8, 8, codec.String, true, [0, 0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ExternalApplicationRegistrar_Register_Params.encodedSize = codec.kStructHeaderSize + 16;
+
+  ExternalApplicationRegistrar_Register_Params.decode = function(decoder) {
+    var packed;
+    var val = new ExternalApplicationRegistrar_Register_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.application_url = decoder.decodeStruct(codec.String);
+    val.args = decoder.decodeArrayPointer(codec.String);
+    return val;
+  };
+
+  ExternalApplicationRegistrar_Register_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ExternalApplicationRegistrar_Register_Params.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStruct(codec.String, val.application_url);
+    encoder.encodeArrayPointer(codec.String, val.args);
+  };
+
+  function ExternalApplicationRegistrar_Register_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ExternalApplicationRegistrar_Register_ResponseParams.prototype.initDefaults_ = function() {
+    this.application_request = null;
+  };
+  ExternalApplicationRegistrar_Register_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ExternalApplicationRegistrar_Register_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ExternalApplicationRegistrar_Register_ResponseParams.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ExternalApplicationRegistrar_Register_ResponseParams.application_request
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ExternalApplicationRegistrar_Register_ResponseParams.encodedSize = codec.kStructHeaderSize + 8;
+
+  ExternalApplicationRegistrar_Register_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new ExternalApplicationRegistrar_Register_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.application_request = decoder.decodeStruct(codec.Handle);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  ExternalApplicationRegistrar_Register_ResponseParams.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ExternalApplicationRegistrar_Register_ResponseParams.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Handle, val.application_request);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  var kExternalApplicationRegistrar_Register_Name = 0;
+
+  function ExternalApplicationRegistrarProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  ExternalApplicationRegistrarProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  ExternalApplicationRegistrarProxy.prototype.register = function(application_url, args) {
+    var params = new ExternalApplicationRegistrar_Register_Params();
+    params.application_url = application_url;
+    params.args = args;
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kExternalApplicationRegistrar_Register_Name,
+          codec.align(ExternalApplicationRegistrar_Register_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(ExternalApplicationRegistrar_Register_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(ExternalApplicationRegistrar_Register_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
+  };
+
+  function ExternalApplicationRegistrarStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  ExternalApplicationRegistrarStub.prototype = Object.create(bindings.StubBase.prototype);
+  ExternalApplicationRegistrarStub.prototype.register = function(application_url, args) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.register && bindings.StubBindings(this).delegate.register(application_url, args);
+  }
+
+  ExternalApplicationRegistrarStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    default:
+      return false;
+    }
+  };
+
+  ExternalApplicationRegistrarStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kExternalApplicationRegistrar_Register_Name:
+      var params = reader.decodeStruct(ExternalApplicationRegistrar_Register_Params);
+      return this.register(params.application_url, params.args).then(function(response) {
+        var responseParams =
+            new ExternalApplicationRegistrar_Register_ResponseParams();
+        responseParams.application_request = response.application_request;
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kExternalApplicationRegistrar_Register_Name,
+            codec.align(ExternalApplicationRegistrar_Register_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(ExternalApplicationRegistrar_Register_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateExternalApplicationRegistrarRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kExternalApplicationRegistrar_Register_Name:
+        if (message.expectsResponse())
+          paramsClass = ExternalApplicationRegistrar_Register_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateExternalApplicationRegistrarResponse(messageValidator) {
+   var message = messageValidator.message;
+   var paramsClass = null;
+   switch (message.getName()) {
+      case kExternalApplicationRegistrar_Register_Name:
+        if (message.isResponse())
+          paramsClass = ExternalApplicationRegistrar_Register_ResponseParams;
+        break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  var ExternalApplicationRegistrar = {
+    name: 'mojo::ExternalApplicationRegistrar',
+    proxyClass: ExternalApplicationRegistrarProxy,
+    stubClass: ExternalApplicationRegistrarStub,
+    validateRequest: validateExternalApplicationRegistrarRequest,
+    validateResponse: validateExternalApplicationRegistrarResponse,
+  };
+  ExternalApplicationRegistrarStub.prototype.validator = validateExternalApplicationRegistrarRequest;
+  ExternalApplicationRegistrarProxy.prototype.validator = validateExternalApplicationRegistrarResponse;
+
+
+  var exports = {};
+  exports.ExternalApplicationRegistrar = ExternalApplicationRegistrar;
+
+  module.exports = exports;
+</script>

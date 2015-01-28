@@ -1,0 +1,9 @@
+<sky>
+  <import src="flights-app.sky" as="FlightsAppElement"/>
+  <style>
+    sky {
+      height: 100%;
+    }
+  </style>
+  <flights-app />
+</sky>
