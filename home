@@ -6,10 +6,11 @@
  a { font-size: 1.642874em; }
 </style>
 <h1>Mojo Home</h1>
-<a href='https://domokit.github.io/mojo/embedded_app.mojo'>embeded_app</a>
-<a href='https://domokit.github.io/mojo/surfaces_app.mojo'>surfaces_app</a>
-<a href='https://domokit.github.io/sky/examples/spinning-square.sky'>spinning square</a>
-<a href='https://domokit.github.io/sky/examples/example-scrollable.sky'>example scrollable</a>
-<a href='https://domokit.github.io/sky/examples/widgets/index.sky'>widgets</a>
-<a href='https://domokit.github.io/sky/examples/flights-app/index.sky'>flights app</a>
+<a href='/mojo/embedded_app.mojo'>embeded_app</a>
+<a href='/mojo/surfaces_app.mojo'>surfaces_app</a>
+<a href='/sky/examples/spinning-square.sky'>spinning square</a>
+<a href='/sky/examples/example-scrollable.sky'>example scrollable</a>
+<a href='/sky/examples/widgets/index.sky'>widgets</a>
+<a href='/sky/examples/flights-app/index.sky'>flights app</a>
+<a href='/sky/examples/touch-demo.sky'>touch demo</a>
 </sky>
