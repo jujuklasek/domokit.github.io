@@ -410,6 +410,7 @@
 
 
   WindowManager_GetFocusedAndActiveViews_Params.prototype.initDefaults_ = function() {
+    this.observer = null;
   };
   WindowManager_GetFocusedAndActiveViews_Params.prototype.initFields_ = function(fields) {
     for(var field in fields) {
@@ -421,27 +422,41 @@
   WindowManager_GetFocusedAndActiveViews_Params.validate = function(messageValidator, offset) {
     var err;
 
-    err = messageValidator.validateStructHeader(offset, WindowManager_GetFocusedAndActiveViews_Params.encodedSize, 0);
+    err = messageValidator.validateStructHeader(offset, WindowManager_GetFocusedAndActiveViews_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate WindowManager_GetFocusedAndActiveViews_Params.observer
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 0, true)
     if (err !== validator.validationError.NONE)
         return err;
 
     return validator.validationError.NONE;
   };
 
-  WindowManager_GetFocusedAndActiveViews_Params.encodedSize = codec.kStructHeaderSize + 0;
+  WindowManager_GetFocusedAndActiveViews_Params.encodedSize = codec.kStructHeaderSize + 8;
 
   WindowManager_GetFocusedAndActiveViews_Params.decode = function(decoder) {
     var packed;
     var val = new WindowManager_GetFocusedAndActiveViews_Params();
     var numberOfBytes = decoder.readUint32();
     var numberOfFields = decoder.readUint32();
+    val.observer = decoder.decodeStruct(codec.Handle);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
     return val;
   };
 
   WindowManager_GetFocusedAndActiveViews_Params.encode = function(encoder, val) {
     var packed;
     encoder.writeUint32(WindowManager_GetFocusedAndActiveViews_Params.encodedSize);
-    encoder.writeUint32(0);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Handle, val.observer);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
   };
 
   function WindowManager_GetFocusedAndActiveViews_ResponseParams(values) {
@@ -451,6 +466,7 @@
 
 
   WindowManager_GetFocusedAndActiveViews_ResponseParams.prototype.initDefaults_ = function() {
+    this.capture_view_id = 0;
     this.focused_view_id = 0;
     this.active_view_id = 0;
   };
@@ -464,172 +480,197 @@
   WindowManager_GetFocusedAndActiveViews_ResponseParams.validate = function(messageValidator, offset) {
     var err;
 
-    err = messageValidator.validateStructHeader(offset, WindowManager_GetFocusedAndActiveViews_ResponseParams.encodedSize, 2);
+    err = messageValidator.validateStructHeader(offset, WindowManager_GetFocusedAndActiveViews_ResponseParams.encodedSize, 3);
     if (err !== validator.validationError.NONE)
         return err;
 
     return validator.validationError.NONE;
   };
 
-  WindowManager_GetFocusedAndActiveViews_ResponseParams.encodedSize = codec.kStructHeaderSize + 8;
+  WindowManager_GetFocusedAndActiveViews_ResponseParams.encodedSize = codec.kStructHeaderSize + 16;
 
   WindowManager_GetFocusedAndActiveViews_ResponseParams.decode = function(decoder) {
     var packed;
     var val = new WindowManager_GetFocusedAndActiveViews_ResponseParams();
     var numberOfBytes = decoder.readUint32();
     var numberOfFields = decoder.readUint32();
+    val.capture_view_id = decoder.decodeStruct(codec.Uint32);
     val.focused_view_id = decoder.decodeStruct(codec.Uint32);
     val.active_view_id = decoder.decodeStruct(codec.Uint32);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
     return val;
   };
 
   WindowManager_GetFocusedAndActiveViews_ResponseParams.encode = function(encoder, val) {
     var packed;
     encoder.writeUint32(WindowManager_GetFocusedAndActiveViews_ResponseParams.encodedSize);
-    encoder.writeUint32(2);
+    encoder.writeUint32(3);
+    encoder.encodeStruct(codec.Uint32, val.capture_view_id);
     encoder.encodeStruct(codec.Uint32, val.focused_view_id);
     encoder.encodeStruct(codec.Uint32, val.active_view_id);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
   };
 
-  function WindowManagerClient_OnCaptureChanged_Params(values) {
+  function WindowManagerObserver_OnCaptureChanged_Params(values) {
     this.initDefaults_();
     this.initFields_(values);
   }
 
 
-  WindowManagerClient_OnCaptureChanged_Params.prototype.initDefaults_ = function() {
-    this.old_capture_view_id = 0;
-    this.new_capture_view_id = 0;
+  WindowManagerObserver_OnCaptureChanged_Params.prototype.initDefaults_ = function() {
+    this.capture_view_id = 0;
   };
-  WindowManagerClient_OnCaptureChanged_Params.prototype.initFields_ = function(fields) {
+  WindowManagerObserver_OnCaptureChanged_Params.prototype.initFields_ = function(fields) {
     for(var field in fields) {
         if (this.hasOwnProperty(field))
           this[field] = fields[field];
     }
   };
 
-  WindowManagerClient_OnCaptureChanged_Params.validate = function(messageValidator, offset) {
+  WindowManagerObserver_OnCaptureChanged_Params.validate = function(messageValidator, offset) {
     var err;
 
-    err = messageValidator.validateStructHeader(offset, WindowManagerClient_OnCaptureChanged_Params.encodedSize, 2);
+    err = messageValidator.validateStructHeader(offset, WindowManagerObserver_OnCaptureChanged_Params.encodedSize, 1);
     if (err !== validator.validationError.NONE)
         return err;
 
     return validator.validationError.NONE;
   };
 
-  WindowManagerClient_OnCaptureChanged_Params.encodedSize = codec.kStructHeaderSize + 8;
+  WindowManagerObserver_OnCaptureChanged_Params.encodedSize = codec.kStructHeaderSize + 8;
 
-  WindowManagerClient_OnCaptureChanged_Params.decode = function(decoder) {
+  WindowManagerObserver_OnCaptureChanged_Params.decode = function(decoder) {
     var packed;
-    var val = new WindowManagerClient_OnCaptureChanged_Params();
+    var val = new WindowManagerObserver_OnCaptureChanged_Params();
     var numberOfBytes = decoder.readUint32();
     var numberOfFields = decoder.readUint32();
-    val.old_capture_view_id = decoder.decodeStruct(codec.Uint32);
-    val.new_capture_view_id = decoder.decodeStruct(codec.Uint32);
+    val.capture_view_id = decoder.decodeStruct(codec.Uint32);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
     return val;
   };
 
-  WindowManagerClient_OnCaptureChanged_Params.encode = function(encoder, val) {
+  WindowManagerObserver_OnCaptureChanged_Params.encode = function(encoder, val) {
     var packed;
-    encoder.writeUint32(WindowManagerClient_OnCaptureChanged_Params.encodedSize);
-    encoder.writeUint32(2);
-    encoder.encodeStruct(codec.Uint32, val.old_capture_view_id);
-    encoder.encodeStruct(codec.Uint32, val.new_capture_view_id);
+    encoder.writeUint32(WindowManagerObserver_OnCaptureChanged_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Uint32, val.capture_view_id);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
   };
 
-  function WindowManagerClient_OnFocusChanged_Params(values) {
+  function WindowManagerObserver_OnFocusChanged_Params(values) {
     this.initDefaults_();
     this.initFields_(values);
   }
 
 
-  WindowManagerClient_OnFocusChanged_Params.prototype.initDefaults_ = function() {
-    this.old_focused_view_id = 0;
-    this.new_focused_view_id = 0;
+  WindowManagerObserver_OnFocusChanged_Params.prototype.initDefaults_ = function() {
+    this.focused_view_id = 0;
   };
-  WindowManagerClient_OnFocusChanged_Params.prototype.initFields_ = function(fields) {
+  WindowManagerObserver_OnFocusChanged_Params.prototype.initFields_ = function(fields) {
     for(var field in fields) {
         if (this.hasOwnProperty(field))
           this[field] = fields[field];
     }
   };
 
-  WindowManagerClient_OnFocusChanged_Params.validate = function(messageValidator, offset) {
+  WindowManagerObserver_OnFocusChanged_Params.validate = function(messageValidator, offset) {
     var err;
 
-    err = messageValidator.validateStructHeader(offset, WindowManagerClient_OnFocusChanged_Params.encodedSize, 2);
+    err = messageValidator.validateStructHeader(offset, WindowManagerObserver_OnFocusChanged_Params.encodedSize, 1);
     if (err !== validator.validationError.NONE)
         return err;
 
     return validator.validationError.NONE;
   };
 
-  WindowManagerClient_OnFocusChanged_Params.encodedSize = codec.kStructHeaderSize + 8;
+  WindowManagerObserver_OnFocusChanged_Params.encodedSize = codec.kStructHeaderSize + 8;
 
-  WindowManagerClient_OnFocusChanged_Params.decode = function(decoder) {
+  WindowManagerObserver_OnFocusChanged_Params.decode = function(decoder) {
     var packed;
-    var val = new WindowManagerClient_OnFocusChanged_Params();
+    var val = new WindowManagerObserver_OnFocusChanged_Params();
     var numberOfBytes = decoder.readUint32();
     var numberOfFields = decoder.readUint32();
-    val.old_focused_view_id = decoder.decodeStruct(codec.Uint32);
-    val.new_focused_view_id = decoder.decodeStruct(codec.Uint32);
+    val.focused_view_id = decoder.decodeStruct(codec.Uint32);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
     return val;
   };
 
-  WindowManagerClient_OnFocusChanged_Params.encode = function(encoder, val) {
+  WindowManagerObserver_OnFocusChanged_Params.encode = function(encoder, val) {
     var packed;
-    encoder.writeUint32(WindowManagerClient_OnFocusChanged_Params.encodedSize);
-    encoder.writeUint32(2);
-    encoder.encodeStruct(codec.Uint32, val.old_focused_view_id);
-    encoder.encodeStruct(codec.Uint32, val.new_focused_view_id);
+    encoder.writeUint32(WindowManagerObserver_OnFocusChanged_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Uint32, val.focused_view_id);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
   };
 
-  function WindowManagerClient_OnActiveWindowChanged_Params(values) {
+  function WindowManagerObserver_OnActiveWindowChanged_Params(values) {
     this.initDefaults_();
     this.initFields_(values);
   }
 
 
-  WindowManagerClient_OnActiveWindowChanged_Params.prototype.initDefaults_ = function() {
-    this.old_focused_view_id = 0;
-    this.new_focused_view_id = 0;
+  WindowManagerObserver_OnActiveWindowChanged_Params.prototype.initDefaults_ = function() {
+    this.focused_view_id = 0;
   };
-  WindowManagerClient_OnActiveWindowChanged_Params.prototype.initFields_ = function(fields) {
+  WindowManagerObserver_OnActiveWindowChanged_Params.prototype.initFields_ = function(fields) {
     for(var field in fields) {
         if (this.hasOwnProperty(field))
           this[field] = fields[field];
     }
   };
 
-  WindowManagerClient_OnActiveWindowChanged_Params.validate = function(messageValidator, offset) {
+  WindowManagerObserver_OnActiveWindowChanged_Params.validate = function(messageValidator, offset) {
     var err;
 
-    err = messageValidator.validateStructHeader(offset, WindowManagerClient_OnActiveWindowChanged_Params.encodedSize, 2);
+    err = messageValidator.validateStructHeader(offset, WindowManagerObserver_OnActiveWindowChanged_Params.encodedSize, 1);
     if (err !== validator.validationError.NONE)
         return err;
 
     return validator.validationError.NONE;
   };
 
-  WindowManagerClient_OnActiveWindowChanged_Params.encodedSize = codec.kStructHeaderSize + 8;
+  WindowManagerObserver_OnActiveWindowChanged_Params.encodedSize = codec.kStructHeaderSize + 8;
 
-  WindowManagerClient_OnActiveWindowChanged_Params.decode = function(decoder) {
+  WindowManagerObserver_OnActiveWindowChanged_Params.decode = function(decoder) {
     var packed;
-    var val = new WindowManagerClient_OnActiveWindowChanged_Params();
+    var val = new WindowManagerObserver_OnActiveWindowChanged_Params();
     var numberOfBytes = decoder.readUint32();
     var numberOfFields = decoder.readUint32();
-    val.old_focused_view_id = decoder.decodeStruct(codec.Uint32);
-    val.new_focused_view_id = decoder.decodeStruct(codec.Uint32);
+    val.focused_view_id = decoder.decodeStruct(codec.Uint32);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
     return val;
   };
 
-  WindowManagerClient_OnActiveWindowChanged_Params.encode = function(encoder, val) {
+  WindowManagerObserver_OnActiveWindowChanged_Params.encode = function(encoder, val) {
     var packed;
-    encoder.writeUint32(WindowManagerClient_OnActiveWindowChanged_Params.encodedSize);
-    encoder.writeUint32(2);
-    encoder.encodeStruct(codec.Uint32, val.old_focused_view_id);
-    encoder.encodeStruct(codec.Uint32, val.new_focused_view_id);
+    encoder.writeUint32(WindowManagerObserver_OnActiveWindowChanged_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Uint32, val.focused_view_id);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
   };
 
   var kWindowManager_Embed_Name = 0;
@@ -714,8 +755,9 @@
       });
     }.bind(this));
   };
-  WindowManagerProxy.prototype.getFocusedAndActiveViews = function() {
+  WindowManagerProxy.prototype.getFocusedAndActiveViews = function(observer) {
     var params = new WindowManager_GetFocusedAndActiveViews_Params();
+    params.observer = core.isHandle(observer) ? observer : connection.bindImpl(observer, WindowManagerObserver);
     return new Promise(function(resolve, reject) {
       var builder = new codec.MessageWithRequestIDBuilder(
           kWindowManager_GetFocusedAndActiveViews_Name,
@@ -750,8 +792,8 @@
   WindowManagerStub.prototype.activateWindow = function(view_id) {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.activateWindow && bindings.StubBindings(this).delegate.activateWindow(view_id);
   }
-  WindowManagerStub.prototype.getFocusedAndActiveViews = function() {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.getFocusedAndActiveViews && bindings.StubBindings(this).delegate.getFocusedAndActiveViews();
+  WindowManagerStub.prototype.getFocusedAndActiveViews = function(observer) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.getFocusedAndActiveViews && bindings.StubBindings(this).delegate.getFocusedAndActiveViews(connection.bindHandleToProxy(observer, WindowManagerObserver));
   }
 
   WindowManagerStub.prototype.accept = function(message) {
@@ -817,9 +859,10 @@
       });
     case kWindowManager_GetFocusedAndActiveViews_Name:
       var params = reader.decodeStruct(WindowManager_GetFocusedAndActiveViews_Params);
-      return this.getFocusedAndActiveViews().then(function(response) {
+      return this.getFocusedAndActiveViews(params.observer).then(function(response) {
         var responseParams =
             new WindowManager_GetFocusedAndActiveViews_ResponseParams();
+        responseParams.capture_view_id = response.capture_view_id;
         responseParams.focused_view_id = response.focused_view_id;
         responseParams.active_view_id = response.active_view_id;
         var builder = new codec.MessageWithRequestIDBuilder(
@@ -902,83 +945,80 @@
   WindowManagerStub.prototype.validator = validateWindowManagerRequest;
   WindowManagerProxy.prototype.validator = validateWindowManagerResponse;
 
-  var kWindowManagerClient_OnCaptureChanged_Name = 0;
-  var kWindowManagerClient_OnFocusChanged_Name = 1;
-  var kWindowManagerClient_OnActiveWindowChanged_Name = 2;
+  var kWindowManagerObserver_OnCaptureChanged_Name = 0;
+  var kWindowManagerObserver_OnFocusChanged_Name = 1;
+  var kWindowManagerObserver_OnActiveWindowChanged_Name = 2;
 
-  function WindowManagerClientProxy(receiver) {
+  function WindowManagerObserverProxy(receiver) {
     bindings.ProxyBase.call(this, receiver);
   }
-  WindowManagerClientProxy.prototype = Object.create(bindings.ProxyBase.prototype);
-  WindowManagerClientProxy.prototype.onCaptureChanged = function(old_capture_view_id, new_capture_view_id) {
-    var params = new WindowManagerClient_OnCaptureChanged_Params();
-    params.old_capture_view_id = old_capture_view_id;
-    params.new_capture_view_id = new_capture_view_id;
+  WindowManagerObserverProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  WindowManagerObserverProxy.prototype.onCaptureChanged = function(capture_view_id) {
+    var params = new WindowManagerObserver_OnCaptureChanged_Params();
+    params.capture_view_id = capture_view_id;
     var builder = new codec.MessageBuilder(
-        kWindowManagerClient_OnCaptureChanged_Name,
-        codec.align(WindowManagerClient_OnCaptureChanged_Params.encodedSize));
-    builder.encodeStruct(WindowManagerClient_OnCaptureChanged_Params, params);
+        kWindowManagerObserver_OnCaptureChanged_Name,
+        codec.align(WindowManagerObserver_OnCaptureChanged_Params.encodedSize));
+    builder.encodeStruct(WindowManagerObserver_OnCaptureChanged_Params, params);
     var message = builder.finish();
     this.receiver_.accept(message);
   };
-  WindowManagerClientProxy.prototype.onFocusChanged = function(old_focused_view_id, new_focused_view_id) {
-    var params = new WindowManagerClient_OnFocusChanged_Params();
-    params.old_focused_view_id = old_focused_view_id;
-    params.new_focused_view_id = new_focused_view_id;
+  WindowManagerObserverProxy.prototype.onFocusChanged = function(focused_view_id) {
+    var params = new WindowManagerObserver_OnFocusChanged_Params();
+    params.focused_view_id = focused_view_id;
     var builder = new codec.MessageBuilder(
-        kWindowManagerClient_OnFocusChanged_Name,
-        codec.align(WindowManagerClient_OnFocusChanged_Params.encodedSize));
-    builder.encodeStruct(WindowManagerClient_OnFocusChanged_Params, params);
+        kWindowManagerObserver_OnFocusChanged_Name,
+        codec.align(WindowManagerObserver_OnFocusChanged_Params.encodedSize));
+    builder.encodeStruct(WindowManagerObserver_OnFocusChanged_Params, params);
     var message = builder.finish();
     this.receiver_.accept(message);
   };
-  WindowManagerClientProxy.prototype.onActiveWindowChanged = function(old_focused_view_id, new_focused_view_id) {
-    var params = new WindowManagerClient_OnActiveWindowChanged_Params();
-    params.old_focused_view_id = old_focused_view_id;
-    params.new_focused_view_id = new_focused_view_id;
+  WindowManagerObserverProxy.prototype.onActiveWindowChanged = function(focused_view_id) {
+    var params = new WindowManagerObserver_OnActiveWindowChanged_Params();
+    params.focused_view_id = focused_view_id;
     var builder = new codec.MessageBuilder(
-        kWindowManagerClient_OnActiveWindowChanged_Name,
-        codec.align(WindowManagerClient_OnActiveWindowChanged_Params.encodedSize));
-    builder.encodeStruct(WindowManagerClient_OnActiveWindowChanged_Params, params);
+        kWindowManagerObserver_OnActiveWindowChanged_Name,
+        codec.align(WindowManagerObserver_OnActiveWindowChanged_Params.encodedSize));
+    builder.encodeStruct(WindowManagerObserver_OnActiveWindowChanged_Params, params);
     var message = builder.finish();
     this.receiver_.accept(message);
   };
 
-  function WindowManagerClientStub(delegate) {
+  function WindowManagerObserverStub(delegate) {
     bindings.StubBase.call(this, delegate);
   }
-  WindowManagerClientStub.prototype = Object.create(bindings.StubBase.prototype);
-  WindowManagerClientStub.prototype.onCaptureChanged = function(old_capture_view_id, new_capture_view_id) {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.onCaptureChanged && bindings.StubBindings(this).delegate.onCaptureChanged(old_capture_view_id, new_capture_view_id);
+  WindowManagerObserverStub.prototype = Object.create(bindings.StubBase.prototype);
+  WindowManagerObserverStub.prototype.onCaptureChanged = function(capture_view_id) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.onCaptureChanged && bindings.StubBindings(this).delegate.onCaptureChanged(capture_view_id);
   }
-  WindowManagerClientStub.prototype.onFocusChanged = function(old_focused_view_id, new_focused_view_id) {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.onFocusChanged && bindings.StubBindings(this).delegate.onFocusChanged(old_focused_view_id, new_focused_view_id);
+  WindowManagerObserverStub.prototype.onFocusChanged = function(focused_view_id) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.onFocusChanged && bindings.StubBindings(this).delegate.onFocusChanged(focused_view_id);
   }
-  WindowManagerClientStub.prototype.onActiveWindowChanged = function(old_focused_view_id, new_focused_view_id) {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.onActiveWindowChanged && bindings.StubBindings(this).delegate.onActiveWindowChanged(old_focused_view_id, new_focused_view_id);
+  WindowManagerObserverStub.prototype.onActiveWindowChanged = function(focused_view_id) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.onActiveWindowChanged && bindings.StubBindings(this).delegate.onActiveWindowChanged(focused_view_id);
   }
 
-  WindowManagerClientStub.prototype.accept = function(message) {
+  WindowManagerObserverStub.prototype.accept = function(message) {
     var reader = new codec.MessageReader(message);
     switch (reader.messageName) {
-    case kWindowManagerClient_OnCaptureChanged_Name:
-      var params = reader.decodeStruct(WindowManagerClient_OnCaptureChanged_Params);
-      this.onCaptureChanged(params.old_capture_view_id, params.new_capture_view_id);
+    case kWindowManagerObserver_OnCaptureChanged_Name:
+      var params = reader.decodeStruct(WindowManagerObserver_OnCaptureChanged_Params);
+      this.onCaptureChanged(params.capture_view_id);
       return true;
-    case kWindowManagerClient_OnFocusChanged_Name:
-      var params = reader.decodeStruct(WindowManagerClient_OnFocusChanged_Params);
-      this.onFocusChanged(params.old_focused_view_id, params.new_focused_view_id);
+    case kWindowManagerObserver_OnFocusChanged_Name:
+      var params = reader.decodeStruct(WindowManagerObserver_OnFocusChanged_Params);
+      this.onFocusChanged(params.focused_view_id);
       return true;
-    case kWindowManagerClient_OnActiveWindowChanged_Name:
-      var params = reader.decodeStruct(WindowManagerClient_OnActiveWindowChanged_Params);
-      this.onActiveWindowChanged(params.old_focused_view_id, params.new_focused_view_id);
+    case kWindowManagerObserver_OnActiveWindowChanged_Name:
+      var params = reader.decodeStruct(WindowManagerObserver_OnActiveWindowChanged_Params);
+      this.onActiveWindowChanged(params.focused_view_id);
       return true;
     default:
       return false;
     }
   };
 
-  WindowManagerClientStub.prototype.acceptWithResponder =
+  WindowManagerObserverStub.prototype.acceptWithResponder =
       function(message, responder) {
     var reader = new codec.MessageReader(message);
     switch (reader.messageName) {
@@ -987,21 +1027,21 @@
     }
   };
 
-  function validateWindowManagerClientRequest(messageValidator) {
+  function validateWindowManagerObserverRequest(messageValidator) {
     var message = messageValidator.message;
     var paramsClass = null;
     switch (message.getName()) {
-      case kWindowManagerClient_OnCaptureChanged_Name:
+      case kWindowManagerObserver_OnCaptureChanged_Name:
         if (!message.expectsResponse() && !message.isResponse())
-          paramsClass = WindowManagerClient_OnCaptureChanged_Params;
+          paramsClass = WindowManagerObserver_OnCaptureChanged_Params;
       break;
-      case kWindowManagerClient_OnFocusChanged_Name:
+      case kWindowManagerObserver_OnFocusChanged_Name:
         if (!message.expectsResponse() && !message.isResponse())
-          paramsClass = WindowManagerClient_OnFocusChanged_Params;
+          paramsClass = WindowManagerObserver_OnFocusChanged_Params;
       break;
-      case kWindowManagerClient_OnActiveWindowChanged_Name:
+      case kWindowManagerObserver_OnActiveWindowChanged_Name:
         if (!message.expectsResponse() && !message.isResponse())
-          paramsClass = WindowManagerClient_OnActiveWindowChanged_Params;
+          paramsClass = WindowManagerObserver_OnActiveWindowChanged_Params;
       break;
     }
     if (paramsClass === null)
@@ -1009,25 +1049,24 @@
     return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
   }
 
-  function validateWindowManagerClientResponse(messageValidator) {
+  function validateWindowManagerObserverResponse(messageValidator) {
     return validator.validationError.NONE;
   }
 
-  var WindowManagerClient = {
-    name: 'mojo::WindowManagerClient',
-    proxyClass: WindowManagerClientProxy,
-    stubClass: WindowManagerClientStub,
-    validateRequest: validateWindowManagerClientRequest,
+  var WindowManagerObserver = {
+    name: 'mojo::WindowManagerObserver',
+    proxyClass: WindowManagerObserverProxy,
+    stubClass: WindowManagerObserverStub,
+    validateRequest: validateWindowManagerObserverRequest,
     validateResponse: null,
   };
-  WindowManagerClientStub.prototype.validator = validateWindowManagerClientRequest;
-  WindowManagerClientProxy.prototype.validator = null;
+  WindowManagerObserverStub.prototype.validator = validateWindowManagerObserverRequest;
+  WindowManagerObserverProxy.prototype.validator = null;
 
 
   var exports = {};
   exports.WindowManager = WindowManager;
-  exports.WindowManager.client = WindowManagerClient;
-  exports.WindowManagerClient = WindowManagerClient;
+  exports.WindowManagerObserver = WindowManagerObserver;
 
   module.exports = exports;
 </script>

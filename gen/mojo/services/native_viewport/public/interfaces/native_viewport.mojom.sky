@@ -128,6 +128,7 @@
 
   NativeViewport_Create_ResponseParams.prototype.initDefaults_ = function() {
     this.native_viewport_id = 0;
+    this.metrics = null;
   };
   NativeViewport_Create_ResponseParams.prototype.initFields_ = function(fields) {
     for(var field in fields) {
@@ -139,14 +140,18 @@
   NativeViewport_Create_ResponseParams.validate = function(messageValidator, offset) {
     var err;
 
-    err = messageValidator.validateStructHeader(offset, NativeViewport_Create_ResponseParams.encodedSize, 1);
+    err = messageValidator.validateStructHeader(offset, NativeViewport_Create_ResponseParams.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate NativeViewport_Create_ResponseParams.metrics
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 8, ViewportMetrics, false);
     if (err !== validator.validationError.NONE)
         return err;
 
     return validator.validationError.NONE;
   };
 
-  NativeViewport_Create_ResponseParams.encodedSize = codec.kStructHeaderSize + 8;
+  NativeViewport_Create_ResponseParams.encodedSize = codec.kStructHeaderSize + 16;
 
   NativeViewport_Create_ResponseParams.decode = function(decoder) {
     var packed;
@@ -154,14 +159,16 @@
     var numberOfBytes = decoder.readUint32();
     var numberOfFields = decoder.readUint32();
     val.native_viewport_id = decoder.decodeStruct(codec.Uint64);
+    val.metrics = decoder.decodeStructPointer(ViewportMetrics);
     return val;
   };
 
   NativeViewport_Create_ResponseParams.encode = function(encoder, val) {
     var packed;
     encoder.writeUint32(NativeViewport_Create_ResponseParams.encodedSize);
-    encoder.writeUint32(1);
+    encoder.writeUint32(2);
     encoder.encodeStruct(codec.Uint64, val.native_viewport_id);
+    encoder.encodeStructPointer(ViewportMetrics, val.metrics);
   };
 
   function NativeViewport_Show_Params(values) {
@@ -439,6 +446,95 @@
     encoder.skip(1);
   };
 
+  function NativeViewport_RequestMetrics_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  NativeViewport_RequestMetrics_Params.prototype.initDefaults_ = function() {
+  };
+  NativeViewport_RequestMetrics_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  NativeViewport_RequestMetrics_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, NativeViewport_RequestMetrics_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  NativeViewport_RequestMetrics_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  NativeViewport_RequestMetrics_Params.decode = function(decoder) {
+    var packed;
+    var val = new NativeViewport_RequestMetrics_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    return val;
+  };
+
+  NativeViewport_RequestMetrics_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(NativeViewport_RequestMetrics_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  function NativeViewport_RequestMetrics_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  NativeViewport_RequestMetrics_ResponseParams.prototype.initDefaults_ = function() {
+    this.metrics = null;
+  };
+  NativeViewport_RequestMetrics_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  NativeViewport_RequestMetrics_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, NativeViewport_RequestMetrics_ResponseParams.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate NativeViewport_RequestMetrics_ResponseParams.metrics
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 0, ViewportMetrics, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  NativeViewport_RequestMetrics_ResponseParams.encodedSize = codec.kStructHeaderSize + 8;
+
+  NativeViewport_RequestMetrics_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new NativeViewport_RequestMetrics_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.metrics = decoder.decodeStructPointer(ViewportMetrics);
+    return val;
+  };
+
+  NativeViewport_RequestMetrics_ResponseParams.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(NativeViewport_RequestMetrics_ResponseParams.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStructPointer(ViewportMetrics, val.metrics);
+  };
+
   function NativeViewportEventDispatcher_OnEvent_Params(values) {
     this.initDefaults_();
     this.initFields_(values);
@@ -528,95 +624,6 @@
     encoder.writeUint32(0);
   };
 
-  function NativeViewportClient_OnMetricsChanged_Params(values) {
-    this.initDefaults_();
-    this.initFields_(values);
-  }
-
-
-  NativeViewportClient_OnMetricsChanged_Params.prototype.initDefaults_ = function() {
-    this.metrics = null;
-  };
-  NativeViewportClient_OnMetricsChanged_Params.prototype.initFields_ = function(fields) {
-    for(var field in fields) {
-        if (this.hasOwnProperty(field))
-          this[field] = fields[field];
-    }
-  };
-
-  NativeViewportClient_OnMetricsChanged_Params.validate = function(messageValidator, offset) {
-    var err;
-
-    err = messageValidator.validateStructHeader(offset, NativeViewportClient_OnMetricsChanged_Params.encodedSize, 1);
-    if (err !== validator.validationError.NONE)
-        return err;
-    // validate NativeViewportClient_OnMetricsChanged_Params.metrics
-    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 0, ViewportMetrics, false);
-    if (err !== validator.validationError.NONE)
-        return err;
-
-    return validator.validationError.NONE;
-  };
-
-  NativeViewportClient_OnMetricsChanged_Params.encodedSize = codec.kStructHeaderSize + 8;
-
-  NativeViewportClient_OnMetricsChanged_Params.decode = function(decoder) {
-    var packed;
-    var val = new NativeViewportClient_OnMetricsChanged_Params();
-    var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
-    val.metrics = decoder.decodeStructPointer(ViewportMetrics);
-    return val;
-  };
-
-  NativeViewportClient_OnMetricsChanged_Params.encode = function(encoder, val) {
-    var packed;
-    encoder.writeUint32(NativeViewportClient_OnMetricsChanged_Params.encodedSize);
-    encoder.writeUint32(1);
-    encoder.encodeStructPointer(ViewportMetrics, val.metrics);
-  };
-
-  function NativeViewportClient_OnDestroyed_Params(values) {
-    this.initDefaults_();
-    this.initFields_(values);
-  }
-
-
-  NativeViewportClient_OnDestroyed_Params.prototype.initDefaults_ = function() {
-  };
-  NativeViewportClient_OnDestroyed_Params.prototype.initFields_ = function(fields) {
-    for(var field in fields) {
-        if (this.hasOwnProperty(field))
-          this[field] = fields[field];
-    }
-  };
-
-  NativeViewportClient_OnDestroyed_Params.validate = function(messageValidator, offset) {
-    var err;
-
-    err = messageValidator.validateStructHeader(offset, NativeViewportClient_OnDestroyed_Params.encodedSize, 0);
-    if (err !== validator.validationError.NONE)
-        return err;
-
-    return validator.validationError.NONE;
-  };
-
-  NativeViewportClient_OnDestroyed_Params.encodedSize = codec.kStructHeaderSize + 0;
-
-  NativeViewportClient_OnDestroyed_Params.decode = function(decoder) {
-    var packed;
-    var val = new NativeViewportClient_OnDestroyed_Params();
-    var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
-    return val;
-  };
-
-  NativeViewportClient_OnDestroyed_Params.encode = function(encoder, val) {
-    var packed;
-    encoder.writeUint32(NativeViewportClient_OnDestroyed_Params.encodedSize);
-    encoder.writeUint32(0);
-  };
-
   var kNativeViewport_Create_Name = 0;
   var kNativeViewport_Show_Name = 1;
   var kNativeViewport_Hide_Name = 2;
@@ -624,6 +631,7 @@
   var kNativeViewport_SetSize_Name = 4;
   var kNativeViewport_SubmittedFrame_Name = 5;
   var kNativeViewport_SetEventDispatcher_Name = 6;
+  var kNativeViewport_RequestMetrics_Name = 7;
 
   function NativeViewportProxy(receiver) {
     bindings.ProxyBase.call(this, receiver);
@@ -706,6 +714,25 @@
     var message = builder.finish();
     this.receiver_.accept(message);
   };
+  NativeViewportProxy.prototype.requestMetrics = function() {
+    var params = new NativeViewport_RequestMetrics_Params();
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kNativeViewport_RequestMetrics_Name,
+          codec.align(NativeViewport_RequestMetrics_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(NativeViewport_RequestMetrics_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(NativeViewport_RequestMetrics_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
+  };
 
   function NativeViewportStub(delegate) {
     bindings.StubBase.call(this, delegate);
@@ -731,6 +758,9 @@
   }
   NativeViewportStub.prototype.setEventDispatcher = function(dispatcher) {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.setEventDispatcher && bindings.StubBindings(this).delegate.setEventDispatcher(connection.bindHandleToProxy(dispatcher, NativeViewportEventDispatcher));
+  }
+  NativeViewportStub.prototype.requestMetrics = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.requestMetrics && bindings.StubBindings(this).delegate.requestMetrics();
   }
 
   NativeViewportStub.prototype.accept = function(message) {
@@ -775,11 +805,27 @@
         var responseParams =
             new NativeViewport_Create_ResponseParams();
         responseParams.native_viewport_id = response.native_viewport_id;
+        responseParams.metrics = response.metrics;
         var builder = new codec.MessageWithRequestIDBuilder(
             kNativeViewport_Create_Name,
             codec.align(NativeViewport_Create_ResponseParams.encodedSize),
             codec.kMessageIsResponse, reader.requestID);
         builder.encodeStruct(NativeViewport_Create_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
+    case kNativeViewport_RequestMetrics_Name:
+      var params = reader.decodeStruct(NativeViewport_RequestMetrics_Params);
+      return this.requestMetrics().then(function(response) {
+        var responseParams =
+            new NativeViewport_RequestMetrics_ResponseParams();
+        responseParams.metrics = response.metrics;
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kNativeViewport_RequestMetrics_Name,
+            codec.align(NativeViewport_RequestMetrics_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(NativeViewport_RequestMetrics_ResponseParams,
                              responseParams);
         var message = builder.finish();
         responder.accept(message);
@@ -821,6 +867,10 @@
         if (!message.expectsResponse() && !message.isResponse())
           paramsClass = NativeViewport_SetEventDispatcher_Params;
       break;
+      case kNativeViewport_RequestMetrics_Name:
+        if (message.expectsResponse())
+          paramsClass = NativeViewport_RequestMetrics_Params;
+      break;
     }
     if (paramsClass === null)
       return validator.validationError.NONE;
@@ -834,6 +884,10 @@
       case kNativeViewport_Create_Name:
         if (message.isResponse())
           paramsClass = NativeViewport_Create_ResponseParams;
+        break;
+      case kNativeViewport_RequestMetrics_Name:
+        if (message.isResponse())
+          paramsClass = NativeViewport_RequestMetrics_ResponseParams;
         break;
     }
     if (paramsClass === null)
@@ -955,108 +1009,11 @@
   NativeViewportEventDispatcherStub.prototype.validator = validateNativeViewportEventDispatcherRequest;
   NativeViewportEventDispatcherProxy.prototype.validator = validateNativeViewportEventDispatcherResponse;
 
-  var kNativeViewportClient_OnMetricsChanged_Name = 0;
-  var kNativeViewportClient_OnDestroyed_Name = 1;
-
-  function NativeViewportClientProxy(receiver) {
-    bindings.ProxyBase.call(this, receiver);
-  }
-  NativeViewportClientProxy.prototype = Object.create(bindings.ProxyBase.prototype);
-  NativeViewportClientProxy.prototype.onMetricsChanged = function(metrics) {
-    var params = new NativeViewportClient_OnMetricsChanged_Params();
-    params.metrics = metrics;
-    var builder = new codec.MessageBuilder(
-        kNativeViewportClient_OnMetricsChanged_Name,
-        codec.align(NativeViewportClient_OnMetricsChanged_Params.encodedSize));
-    builder.encodeStruct(NativeViewportClient_OnMetricsChanged_Params, params);
-    var message = builder.finish();
-    this.receiver_.accept(message);
-  };
-  NativeViewportClientProxy.prototype.onDestroyed = function() {
-    var params = new NativeViewportClient_OnDestroyed_Params();
-    var builder = new codec.MessageBuilder(
-        kNativeViewportClient_OnDestroyed_Name,
-        codec.align(NativeViewportClient_OnDestroyed_Params.encodedSize));
-    builder.encodeStruct(NativeViewportClient_OnDestroyed_Params, params);
-    var message = builder.finish();
-    this.receiver_.accept(message);
-  };
-
-  function NativeViewportClientStub(delegate) {
-    bindings.StubBase.call(this, delegate);
-  }
-  NativeViewportClientStub.prototype = Object.create(bindings.StubBase.prototype);
-  NativeViewportClientStub.prototype.onMetricsChanged = function(metrics) {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.onMetricsChanged && bindings.StubBindings(this).delegate.onMetricsChanged(metrics);
-  }
-  NativeViewportClientStub.prototype.onDestroyed = function() {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.onDestroyed && bindings.StubBindings(this).delegate.onDestroyed();
-  }
-
-  NativeViewportClientStub.prototype.accept = function(message) {
-    var reader = new codec.MessageReader(message);
-    switch (reader.messageName) {
-    case kNativeViewportClient_OnMetricsChanged_Name:
-      var params = reader.decodeStruct(NativeViewportClient_OnMetricsChanged_Params);
-      this.onMetricsChanged(params.metrics);
-      return true;
-    case kNativeViewportClient_OnDestroyed_Name:
-      var params = reader.decodeStruct(NativeViewportClient_OnDestroyed_Params);
-      this.onDestroyed();
-      return true;
-    default:
-      return false;
-    }
-  };
-
-  NativeViewportClientStub.prototype.acceptWithResponder =
-      function(message, responder) {
-    var reader = new codec.MessageReader(message);
-    switch (reader.messageName) {
-    default:
-      return Promise.reject(Error("Unhandled message: " + reader.messageName));
-    }
-  };
-
-  function validateNativeViewportClientRequest(messageValidator) {
-    var message = messageValidator.message;
-    var paramsClass = null;
-    switch (message.getName()) {
-      case kNativeViewportClient_OnMetricsChanged_Name:
-        if (!message.expectsResponse() && !message.isResponse())
-          paramsClass = NativeViewportClient_OnMetricsChanged_Params;
-      break;
-      case kNativeViewportClient_OnDestroyed_Name:
-        if (!message.expectsResponse() && !message.isResponse())
-          paramsClass = NativeViewportClient_OnDestroyed_Params;
-      break;
-    }
-    if (paramsClass === null)
-      return validator.validationError.NONE;
-    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
-  }
-
-  function validateNativeViewportClientResponse(messageValidator) {
-    return validator.validationError.NONE;
-  }
-
-  var NativeViewportClient = {
-    name: 'mojo::NativeViewportClient',
-    proxyClass: NativeViewportClientProxy,
-    stubClass: NativeViewportClientStub,
-    validateRequest: validateNativeViewportClientRequest,
-    validateResponse: null,
-  };
-  NativeViewportClientStub.prototype.validator = validateNativeViewportClientRequest;
-  NativeViewportClientProxy.prototype.validator = null;
-
 
   var exports = {};
   exports.ViewportMetrics = ViewportMetrics;
   exports.NativeViewport = NativeViewport;
-  exports.NativeViewport.client = NativeViewportClient;
   exports.NativeViewportEventDispatcher = NativeViewportEventDispatcher;
-  exports.NativeViewportClient = NativeViewportClient;
 
   module.exports = exports;
 </script>

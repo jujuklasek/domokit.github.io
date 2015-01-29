@@ -18,6 +18,7 @@
 
   AppChildController_StartApp_Params.prototype.initDefaults_ = function() {
     this.app_path = null;
+    this.clean_app_path = false;
     this.application_request = null;
   };
   AppChildController_StartApp_Params.prototype.initFields_ = function(fields) {
@@ -30,7 +31,7 @@
   AppChildController_StartApp_Params.validate = function(messageValidator, offset) {
     var err;
 
-    err = messageValidator.validateStructHeader(offset, AppChildController_StartApp_Params.encodedSize, 2);
+    err = messageValidator.validateStructHeader(offset, AppChildController_StartApp_Params.encodedSize, 3);
     if (err !== validator.validationError.NONE)
         return err;
     // validate AppChildController_StartApp_Params.app_path
@@ -38,7 +39,7 @@
     if (err !== validator.validationError.NONE)
         return err;
     // validate AppChildController_StartApp_Params.application_request
-    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 8, false)
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 12, false)
     if (err !== validator.validationError.NONE)
         return err;
 
@@ -53,24 +54,24 @@
     var numberOfBytes = decoder.readUint32();
     var numberOfFields = decoder.readUint32();
     val.app_path = decoder.decodeStruct(codec.String);
+    val.clean_app_path = decoder.decodeStruct(codec.Uint8);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
     val.application_request = decoder.decodeStruct(codec.Handle);
-    decoder.skip(1);
-    decoder.skip(1);
-    decoder.skip(1);
-    decoder.skip(1);
     return val;
   };
 
   AppChildController_StartApp_Params.encode = function(encoder, val) {
     var packed;
     encoder.writeUint32(AppChildController_StartApp_Params.encodedSize);
-    encoder.writeUint32(2);
+    encoder.writeUint32(3);
     encoder.encodeStruct(codec.String, val.app_path);
+    encoder.encodeStruct(codec.Uint8, val.clean_app_path);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
     encoder.encodeStruct(codec.Handle, val.application_request);
-    encoder.skip(1);
-    encoder.skip(1);
-    encoder.skip(1);
-    encoder.skip(1);
   };
 
   function AppChildControllerClient_AppCompleted_Params(values) {
@@ -131,9 +132,10 @@
     bindings.ProxyBase.call(this, receiver);
   }
   AppChildControllerProxy.prototype = Object.create(bindings.ProxyBase.prototype);
-  AppChildControllerProxy.prototype.startApp = function(app_path, application_request) {
+  AppChildControllerProxy.prototype.startApp = function(app_path, clean_app_path, application_request) {
     var params = new AppChildController_StartApp_Params();
     params.app_path = app_path;
+    params.clean_app_path = clean_app_path;
     params.application_request = core.isHandle(application_request) ? application_request : connection.bindProxy(application_request, application$.Application);
     var builder = new codec.MessageBuilder(
         kAppChildController_StartApp_Name,
@@ -147,8 +149,8 @@
     bindings.StubBase.call(this, delegate);
   }
   AppChildControllerStub.prototype = Object.create(bindings.StubBase.prototype);
-  AppChildControllerStub.prototype.startApp = function(app_path, application_request) {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.startApp && bindings.StubBindings(this).delegate.startApp(app_path, connection.bindHandleToStub(application_request, application$.Application));
+  AppChildControllerStub.prototype.startApp = function(app_path, clean_app_path, application_request) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.startApp && bindings.StubBindings(this).delegate.startApp(app_path, clean_app_path, connection.bindHandleToStub(application_request, application$.Application));
   }
 
   AppChildControllerStub.prototype.accept = function(message) {
@@ -156,7 +158,7 @@
     switch (reader.messageName) {
     case kAppChildController_StartApp_Name:
       var params = reader.decodeStruct(AppChildController_StartApp_Params);
-      this.startApp(params.app_path, params.application_request);
+      this.startApp(params.app_path, params.clean_app_path, params.application_request);
       return true;
     default:
       return false;

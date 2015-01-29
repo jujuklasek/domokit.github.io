@@ -1563,7 +1563,6 @@
 
 
   ViewManagerClient_OnViewViewportMetricsChanged_Params.prototype.initDefaults_ = function() {
-    this.view = 0;
     this.old_metrics = null;
     this.new_metrics = null;
   };
@@ -1577,33 +1576,28 @@
   ViewManagerClient_OnViewViewportMetricsChanged_Params.validate = function(messageValidator, offset) {
     var err;
 
-    err = messageValidator.validateStructHeader(offset, ViewManagerClient_OnViewViewportMetricsChanged_Params.encodedSize, 3);
+    err = messageValidator.validateStructHeader(offset, ViewManagerClient_OnViewViewportMetricsChanged_Params.encodedSize, 2);
     if (err !== validator.validationError.NONE)
         return err;
     // validate ViewManagerClient_OnViewViewportMetricsChanged_Params.old_metrics
-    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 8, native_viewport$.ViewportMetrics, false);
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 0, native_viewport$.ViewportMetrics, false);
     if (err !== validator.validationError.NONE)
         return err;
     // validate ViewManagerClient_OnViewViewportMetricsChanged_Params.new_metrics
-    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 16, native_viewport$.ViewportMetrics, false);
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 8, native_viewport$.ViewportMetrics, false);
     if (err !== validator.validationError.NONE)
         return err;
 
     return validator.validationError.NONE;
   };
 
-  ViewManagerClient_OnViewViewportMetricsChanged_Params.encodedSize = codec.kStructHeaderSize + 24;
+  ViewManagerClient_OnViewViewportMetricsChanged_Params.encodedSize = codec.kStructHeaderSize + 16;
 
   ViewManagerClient_OnViewViewportMetricsChanged_Params.decode = function(decoder) {
     var packed;
     var val = new ViewManagerClient_OnViewViewportMetricsChanged_Params();
     var numberOfBytes = decoder.readUint32();
     var numberOfFields = decoder.readUint32();
-    val.view = decoder.decodeStruct(codec.Uint32);
-    decoder.skip(1);
-    decoder.skip(1);
-    decoder.skip(1);
-    decoder.skip(1);
     val.old_metrics = decoder.decodeStructPointer(native_viewport$.ViewportMetrics);
     val.new_metrics = decoder.decodeStructPointer(native_viewport$.ViewportMetrics);
     return val;
@@ -1612,12 +1606,7 @@
   ViewManagerClient_OnViewViewportMetricsChanged_Params.encode = function(encoder, val) {
     var packed;
     encoder.writeUint32(ViewManagerClient_OnViewViewportMetricsChanged_Params.encodedSize);
-    encoder.writeUint32(3);
-    encoder.encodeStruct(codec.Uint32, val.view);
-    encoder.skip(1);
-    encoder.skip(1);
-    encoder.skip(1);
-    encoder.skip(1);
+    encoder.writeUint32(2);
     encoder.encodeStructPointer(native_viewport$.ViewportMetrics, val.old_metrics);
     encoder.encodeStructPointer(native_viewport$.ViewportMetrics, val.new_metrics);
   };
@@ -2708,9 +2697,8 @@
     var message = builder.finish();
     this.receiver_.accept(message);
   };
-  ViewManagerClientProxy.prototype.onViewViewportMetricsChanged = function(view, old_metrics, new_metrics) {
+  ViewManagerClientProxy.prototype.onViewViewportMetricsChanged = function(old_metrics, new_metrics) {
     var params = new ViewManagerClient_OnViewViewportMetricsChanged_Params();
-    params.view = view;
     params.old_metrics = old_metrics;
     params.new_metrics = new_metrics;
     var builder = new codec.MessageBuilder(
@@ -2824,8 +2812,8 @@
   ViewManagerClientStub.prototype.onViewBoundsChanged = function(view, old_bounds, new_bounds) {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.onViewBoundsChanged && bindings.StubBindings(this).delegate.onViewBoundsChanged(view, old_bounds, new_bounds);
   }
-  ViewManagerClientStub.prototype.onViewViewportMetricsChanged = function(view, old_metrics, new_metrics) {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.onViewViewportMetricsChanged && bindings.StubBindings(this).delegate.onViewViewportMetricsChanged(view, old_metrics, new_metrics);
+  ViewManagerClientStub.prototype.onViewViewportMetricsChanged = function(old_metrics, new_metrics) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.onViewViewportMetricsChanged && bindings.StubBindings(this).delegate.onViewViewportMetricsChanged(old_metrics, new_metrics);
   }
   ViewManagerClientStub.prototype.onViewHierarchyChanged = function(view, new_parent, old_parent, views) {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.onViewHierarchyChanged && bindings.StubBindings(this).delegate.onViewHierarchyChanged(view, new_parent, old_parent, views);
@@ -2866,7 +2854,7 @@
       return true;
     case kViewManagerClient_OnViewViewportMetricsChanged_Name:
       var params = reader.decodeStruct(ViewManagerClient_OnViewViewportMetricsChanged_Params);
-      this.onViewViewportMetricsChanged(params.view, params.old_metrics, params.new_metrics);
+      this.onViewViewportMetricsChanged(params.old_metrics, params.new_metrics);
       return true;
     case kViewManagerClient_OnViewHierarchyChanged_Name:
       var params = reader.decodeStruct(ViewManagerClient_OnViewHierarchyChanged_Params);

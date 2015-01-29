@@ -358,6 +358,62 @@
     encoder.encodeStructPointer(EchoArgsList, val.list);
   };
 
+  function DartSide_SetClient_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  DartSide_SetClient_Params.prototype.initDefaults_ = function() {
+    this.cppSide = null;
+  };
+  DartSide_SetClient_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  DartSide_SetClient_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, DartSide_SetClient_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate DartSide_SetClient_Params.cppSide
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  DartSide_SetClient_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  DartSide_SetClient_Params.decode = function(decoder) {
+    var packed;
+    var val = new DartSide_SetClient_Params();
+    var numberOfBytes = decoder.readUint32();
+    var numberOfFields = decoder.readUint32();
+    val.cppSide = decoder.decodeStruct(codec.Handle);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  DartSide_SetClient_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(DartSide_SetClient_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Handle, val.cppSide);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
   function DartSide_Ping_Params(values) {
     this.initDefaults_();
     this.initFields_(values);
@@ -595,13 +651,24 @@
   CppSideStub.prototype.validator = validateCppSideRequest;
   CppSideProxy.prototype.validator = null;
 
-  var kDartSide_Ping_Name = 0;
-  var kDartSide_Echo_Name = 1;
+  var kDartSide_SetClient_Name = 0;
+  var kDartSide_Ping_Name = 1;
+  var kDartSide_Echo_Name = 2;
 
   function DartSideProxy(receiver) {
     bindings.ProxyBase.call(this, receiver);
   }
   DartSideProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  DartSideProxy.prototype.setClient = function(cppSide) {
+    var params = new DartSide_SetClient_Params();
+    params.cppSide = core.isHandle(cppSide) ? cppSide : connection.bindImpl(cppSide, CppSide);
+    var builder = new codec.MessageBuilder(
+        kDartSide_SetClient_Name,
+        codec.align(DartSide_SetClient_Params.encodedSize));
+    builder.encodeStruct(DartSide_SetClient_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
   DartSideProxy.prototype.ping = function() {
     var params = new DartSide_Ping_Params();
     var builder = new codec.MessageBuilder(
@@ -627,6 +694,9 @@
     bindings.StubBase.call(this, delegate);
   }
   DartSideStub.prototype = Object.create(bindings.StubBase.prototype);
+  DartSideStub.prototype.setClient = function(cppSide) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.setClient && bindings.StubBindings(this).delegate.setClient(connection.bindHandleToProxy(cppSide, CppSide));
+  }
   DartSideStub.prototype.ping = function() {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.ping && bindings.StubBindings(this).delegate.ping();
   }
@@ -637,6 +707,10 @@
   DartSideStub.prototype.accept = function(message) {
     var reader = new codec.MessageReader(message);
     switch (reader.messageName) {
+    case kDartSide_SetClient_Name:
+      var params = reader.decodeStruct(DartSide_SetClient_Params);
+      this.setClient(params.cppSide);
+      return true;
     case kDartSide_Ping_Name:
       var params = reader.decodeStruct(DartSide_Ping_Params);
       this.ping();
@@ -663,6 +737,10 @@
     var message = messageValidator.message;
     var paramsClass = null;
     switch (message.getName()) {
+      case kDartSide_SetClient_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = DartSide_SetClient_Params;
+      break;
       case kDartSide_Ping_Name:
         if (!message.expectsResponse() && !message.isResponse())
           paramsClass = DartSide_Ping_Params;
@@ -697,7 +775,6 @@
   exports.EchoArgsList = EchoArgsList;
   exports.CppSide = CppSide;
   exports.DartSide = DartSide;
-  exports.DartSide.client = CppSide;
 
   module.exports = exports;
 </script>
