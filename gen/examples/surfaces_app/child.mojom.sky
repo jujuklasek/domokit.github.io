@@ -53,7 +53,7 @@
     var packed;
     var val = new Child_ProduceFrame_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.color = decoder.decodeStructPointer(quads$.Color);
     val.size = decoder.decodeStructPointer(geometry$.Size);
     return val;
@@ -103,7 +103,7 @@
     var packed;
     var val = new Child_ProduceFrame_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.id = decoder.decodeStructPointer(surface_id$.SurfaceId);
     return val;
   };

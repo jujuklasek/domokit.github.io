@@ -51,7 +51,7 @@
     var packed;
     var val = new NamedRegion();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.name = decoder.decodeStruct(codec.NullableString);
     val.rects = decoder.decodeArrayPointer(new codec.PointerTo(rect$.Rect));
     return val;
@@ -106,7 +106,7 @@
     var packed;
     var val = new RectPair();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.first = decoder.decodeStructPointer(rect$.Rect);
     val.second = decoder.decodeStructPointer(rect$.Rect);
     return val;
@@ -151,7 +151,7 @@
     var packed;
     var val = new EmptyStruct();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -293,7 +293,7 @@
     var packed;
     var val = new NoDefaultFieldValues();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.f0 = decoder.decodeStruct(codec.Uint8);
     val.f1 = decoder.decodeStruct(codec.Int8);
     val.f2 = decoder.decodeStruct(codec.Uint8);
@@ -436,7 +436,7 @@
     var packed;
     var val = new DefaultFieldValues();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.f0 = decoder.decodeStruct(codec.Uint8);
     val.f1 = decoder.decodeStruct(codec.Int8);
     val.f2 = decoder.decodeStruct(codec.Uint8);
@@ -529,7 +529,7 @@
     var packed;
     var val = new ScopedConstants();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.f0 = decoder.decodeStruct(codec.Int32);
     val.f1 = decoder.decodeStruct(codec.Int32);
     val.f2 = decoder.decodeStruct(codec.Int32);
@@ -652,7 +652,7 @@
     var packed;
     var val = new MapKeyTypes();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.f0 = decoder.decodeMapPointer(codec.PackedBool, codec.PackedBool);
     val.f1 = decoder.decodeMapPointer(codec.Int8, codec.Int8);
     val.f2 = decoder.decodeMapPointer(codec.Uint8, codec.Uint8);
@@ -762,7 +762,7 @@
     var packed;
     var val = new MapValueTypes();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.f0 = decoder.decodeMapPointer(codec.String, new codec.ArrayOf(codec.String));
     val.f1 = decoder.decodeMapPointer(codec.String, new codec.NullableArrayOf(codec.String));
     val.f2 = decoder.decodeMapPointer(codec.String, new codec.ArrayOf(codec.NullableString));
@@ -788,6 +788,89 @@
     encoder.encodeMapPointer(codec.String, new codec.NullablePointerTo(rect$.Rect), val.f6);
     encoder.encodeMapPointer(codec.String, new codec.MapOf(codec.String, codec.String), val.f7);
     encoder.encodeMapPointer(codec.String, new codec.ArrayOf(new codec.MapOf(codec.String, codec.String)), val.f8);
+  };
+
+  function ArrayValueTypes(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ArrayValueTypes.prototype.initDefaults_ = function() {
+    this.f0 = null;
+    this.f1 = null;
+    this.f2 = null;
+    this.f3 = null;
+    this.f4 = null;
+    this.f5 = null;
+  };
+  ArrayValueTypes.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ArrayValueTypes.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ArrayValueTypes.encodedSize, 6);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ArrayValueTypes.f0
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 0, 1, codec.Int8, false, [0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ArrayValueTypes.f1
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 8, 2, codec.Int16, false, [0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ArrayValueTypes.f2
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 16, 4, codec.Int32, false, [0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ArrayValueTypes.f3
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 24, 8, codec.Int64, false, [0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ArrayValueTypes.f4
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 32, 4, codec.Float, false, [0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ArrayValueTypes.f5
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 40, 8, codec.Double, false, [0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ArrayValueTypes.encodedSize = codec.kStructHeaderSize + 48;
+
+  ArrayValueTypes.decode = function(decoder) {
+    var packed;
+    var val = new ArrayValueTypes();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.f0 = decoder.decodeArrayPointer(codec.Int8);
+    val.f1 = decoder.decodeArrayPointer(codec.Int16);
+    val.f2 = decoder.decodeArrayPointer(codec.Int32);
+    val.f3 = decoder.decodeArrayPointer(codec.Int64);
+    val.f4 = decoder.decodeArrayPointer(codec.Float);
+    val.f5 = decoder.decodeArrayPointer(codec.Double);
+    return val;
+  };
+
+  ArrayValueTypes.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ArrayValueTypes.encodedSize);
+    encoder.writeUint32(6);
+    encoder.encodeArrayPointer(codec.Int8, val.f0);
+    encoder.encodeArrayPointer(codec.Int16, val.f1);
+    encoder.encodeArrayPointer(codec.Int32, val.f2);
+    encoder.encodeArrayPointer(codec.Int64, val.f3);
+    encoder.encodeArrayPointer(codec.Float, val.f4);
+    encoder.encodeArrayPointer(codec.Double, val.f5);
   };
 
   function FloatNumberValues(values) {
@@ -841,7 +924,7 @@
     var packed;
     var val = new FloatNumberValues();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.f0 = decoder.decodeStruct(codec.Double);
     val.f1 = decoder.decodeStruct(codec.Double);
     val.f2 = decoder.decodeStruct(codec.Double);
@@ -942,7 +1025,7 @@
     var packed;
     var val = new IntegerNumberValues();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.f0 = decoder.decodeStruct(codec.Int8);
     val.f1 = decoder.decodeStruct(codec.Int8);
     val.f2 = decoder.decodeStruct(codec.Int8);
@@ -1057,7 +1140,7 @@
     var packed;
     var val = new UnsignedNumberValues();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.f0 = decoder.decodeStruct(codec.Uint8);
     val.f1 = decoder.decodeStruct(codec.Uint8);
     val.f2 = decoder.decodeStruct(codec.Uint8);
@@ -1163,7 +1246,7 @@
     var packed;
     var val = new BitArrayValues();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.f0 = decoder.decodeArrayPointer(codec.PackedBool);
     val.f1 = decoder.decodeArrayPointer(codec.PackedBool);
     val.f2 = decoder.decodeArrayPointer(codec.PackedBool);
@@ -1187,6 +1270,433 @@
     encoder.encodeArrayPointer(new codec.NullableArrayOf(codec.PackedBool, 2), val.f6);
   };
 
+  function MultiVersionStruct(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  MultiVersionStruct.prototype.initDefaults_ = function() {
+    this.f_int32 = 0;
+    this.f_message_pipe = null;
+    this.f_rect = null;
+    this.f_string = null;
+    this.f_array = null;
+    this.f_bool = false;
+    this.f_int16 = 0;
+  };
+  MultiVersionStruct.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  MultiVersionStruct.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, MultiVersionStruct.encodedSize, 9);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate MultiVersionStruct.f_message_pipe
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 4, true)
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate MultiVersionStruct.f_rect
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 8, rect$.Rect, true);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate MultiVersionStruct.f_string
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 16, true)
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate MultiVersionStruct.f_array
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 24, 1, codec.Int8, false, [0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  MultiVersionStruct.encodedSize = codec.kStructHeaderSize + 40;
+
+  MultiVersionStruct.decode = function(decoder) {
+    var packed;
+    var val = new MultiVersionStruct();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.f_int32 = decoder.decodeStruct(codec.Int32);
+    val.f_message_pipe = decoder.decodeStruct(codec.NullableHandle);
+    val.f_rect = decoder.decodeStructPointer(rect$.Rect);
+    val.f_string = decoder.decodeStruct(codec.NullableString);
+    val.f_array = decoder.decodeArrayPointer(codec.Int8);
+    val.f_bool = decoder.decodeStruct(codec.Uint8);
+    decoder.skip(1);
+    val.f_int16 = decoder.decodeStruct(codec.Int16);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  MultiVersionStruct.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(MultiVersionStruct.encodedSize);
+    encoder.writeUint32(9);
+    encoder.encodeStruct(codec.Int32, val.f_int32);
+    encoder.encodeStruct(codec.NullableHandle, val.f_message_pipe);
+    encoder.encodeStructPointer(rect$.Rect, val.f_rect);
+    encoder.encodeStruct(codec.NullableString, val.f_string);
+    encoder.encodeArrayPointer(codec.Int8, val.f_array);
+    encoder.encodeStruct(codec.Uint8, val.f_bool);
+    encoder.skip(1);
+    encoder.encodeStruct(codec.Int16, val.f_int16);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  function MultiVersionStructV0(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  MultiVersionStructV0.prototype.initDefaults_ = function() {
+    this.f_int32 = 0;
+  };
+  MultiVersionStructV0.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  MultiVersionStructV0.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, MultiVersionStructV0.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  MultiVersionStructV0.encodedSize = codec.kStructHeaderSize + 8;
+
+  MultiVersionStructV0.decode = function(decoder) {
+    var packed;
+    var val = new MultiVersionStructV0();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.f_int32 = decoder.decodeStruct(codec.Int32);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  MultiVersionStructV0.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(MultiVersionStructV0.encodedSize);
+    encoder.writeUint32(0);
+    encoder.encodeStruct(codec.Int32, val.f_int32);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  function MultiVersionStructV1(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  MultiVersionStructV1.prototype.initDefaults_ = function() {
+    this.f_int32 = 0;
+    this.f_rect = null;
+  };
+  MultiVersionStructV1.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  MultiVersionStructV1.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, MultiVersionStructV1.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate MultiVersionStructV1.f_rect
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 8, rect$.Rect, true);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  MultiVersionStructV1.encodedSize = codec.kStructHeaderSize + 16;
+
+  MultiVersionStructV1.decode = function(decoder) {
+    var packed;
+    var val = new MultiVersionStructV1();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.f_int32 = decoder.decodeStruct(codec.Int32);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    val.f_rect = decoder.decodeStructPointer(rect$.Rect);
+    return val;
+  };
+
+  MultiVersionStructV1.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(MultiVersionStructV1.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Int32, val.f_int32);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.encodeStructPointer(rect$.Rect, val.f_rect);
+  };
+
+  function MultiVersionStructV3(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  MultiVersionStructV3.prototype.initDefaults_ = function() {
+    this.f_int32 = 0;
+    this.f_rect = null;
+    this.f_string = null;
+  };
+  MultiVersionStructV3.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  MultiVersionStructV3.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, MultiVersionStructV3.encodedSize, 3);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate MultiVersionStructV3.f_rect
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 8, rect$.Rect, true);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate MultiVersionStructV3.f_string
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 16, true)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  MultiVersionStructV3.encodedSize = codec.kStructHeaderSize + 24;
+
+  MultiVersionStructV3.decode = function(decoder) {
+    var packed;
+    var val = new MultiVersionStructV3();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.f_int32 = decoder.decodeStruct(codec.Int32);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    val.f_rect = decoder.decodeStructPointer(rect$.Rect);
+    val.f_string = decoder.decodeStruct(codec.NullableString);
+    return val;
+  };
+
+  MultiVersionStructV3.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(MultiVersionStructV3.encodedSize);
+    encoder.writeUint32(3);
+    encoder.encodeStruct(codec.Int32, val.f_int32);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.encodeStructPointer(rect$.Rect, val.f_rect);
+    encoder.encodeStruct(codec.NullableString, val.f_string);
+  };
+
+  function MultiVersionStructV5(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  MultiVersionStructV5.prototype.initDefaults_ = function() {
+    this.f_int32 = 0;
+    this.f_rect = null;
+    this.f_string = null;
+    this.f_array = null;
+  };
+  MultiVersionStructV5.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  MultiVersionStructV5.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, MultiVersionStructV5.encodedSize, 5);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate MultiVersionStructV5.f_rect
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 8, rect$.Rect, true);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate MultiVersionStructV5.f_string
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 16, true)
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate MultiVersionStructV5.f_array
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 24, 1, codec.Int8, false, [0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  MultiVersionStructV5.encodedSize = codec.kStructHeaderSize + 32;
+
+  MultiVersionStructV5.decode = function(decoder) {
+    var packed;
+    var val = new MultiVersionStructV5();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.f_int32 = decoder.decodeStruct(codec.Int32);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    val.f_rect = decoder.decodeStructPointer(rect$.Rect);
+    val.f_string = decoder.decodeStruct(codec.NullableString);
+    val.f_array = decoder.decodeArrayPointer(codec.Int8);
+    return val;
+  };
+
+  MultiVersionStructV5.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(MultiVersionStructV5.encodedSize);
+    encoder.writeUint32(5);
+    encoder.encodeStruct(codec.Int32, val.f_int32);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.encodeStructPointer(rect$.Rect, val.f_rect);
+    encoder.encodeStruct(codec.NullableString, val.f_string);
+    encoder.encodeArrayPointer(codec.Int8, val.f_array);
+  };
+
+  function MultiVersionStructV7(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  MultiVersionStructV7.prototype.initDefaults_ = function() {
+    this.f_int32 = 0;
+    this.f_message_pipe = null;
+    this.f_rect = null;
+    this.f_string = null;
+    this.f_array = null;
+    this.f_bool = false;
+  };
+  MultiVersionStructV7.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  MultiVersionStructV7.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, MultiVersionStructV7.encodedSize, 7);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate MultiVersionStructV7.f_message_pipe
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 4, true)
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate MultiVersionStructV7.f_rect
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 8, rect$.Rect, true);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate MultiVersionStructV7.f_string
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 16, true)
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate MultiVersionStructV7.f_array
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 24, 1, codec.Int8, false, [0], 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  MultiVersionStructV7.encodedSize = codec.kStructHeaderSize + 40;
+
+  MultiVersionStructV7.decode = function(decoder) {
+    var packed;
+    var val = new MultiVersionStructV7();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.f_int32 = decoder.decodeStruct(codec.Int32);
+    val.f_message_pipe = decoder.decodeStruct(codec.NullableHandle);
+    val.f_rect = decoder.decodeStructPointer(rect$.Rect);
+    val.f_string = decoder.decodeStruct(codec.NullableString);
+    val.f_array = decoder.decodeArrayPointer(codec.Int8);
+    val.f_bool = decoder.decodeStruct(codec.Uint8);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  MultiVersionStructV7.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(MultiVersionStructV7.encodedSize);
+    encoder.writeUint32(7);
+    encoder.encodeStruct(codec.Int32, val.f_int32);
+    encoder.encodeStruct(codec.NullableHandle, val.f_message_pipe);
+    encoder.encodeStructPointer(rect$.Rect, val.f_rect);
+    encoder.encodeStruct(codec.NullableString, val.f_string);
+    encoder.encodeArrayPointer(codec.Int8, val.f_array);
+    encoder.encodeStruct(codec.Uint8, val.f_bool);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
 
   var exports = {};
   exports.NamedRegion = NamedRegion;
@@ -1197,10 +1707,17 @@
   exports.ScopedConstants = ScopedConstants;
   exports.MapKeyTypes = MapKeyTypes;
   exports.MapValueTypes = MapValueTypes;
+  exports.ArrayValueTypes = ArrayValueTypes;
   exports.FloatNumberValues = FloatNumberValues;
   exports.IntegerNumberValues = IntegerNumberValues;
   exports.UnsignedNumberValues = UnsignedNumberValues;
   exports.BitArrayValues = BitArrayValues;
+  exports.MultiVersionStruct = MultiVersionStruct;
+  exports.MultiVersionStructV0 = MultiVersionStructV0;
+  exports.MultiVersionStructV1 = MultiVersionStructV1;
+  exports.MultiVersionStructV3 = MultiVersionStructV3;
+  exports.MultiVersionStructV5 = MultiVersionStructV5;
+  exports.MultiVersionStructV7 = MultiVersionStructV7;
 
   module.exports = exports;
 </script>

@@ -1,0 +1,272 @@
+<!-- Copyright 2014 The Chromium Authors. All rights reserved.
+     Use of this source code is governed by a BSD-style license that can be
+     found in the LICENSE file. -->
+
+<import src="/gen/mojo/public/sky/bindings.sky" as="bindings" />
+<import src="/gen/mojo/public/sky/codec.sky" as="codec" />
+<import src="/gen/mojo/public/sky/connection.sky" as="connection" />
+<import src="/gen/mojo/public/sky/core.sky" as="core" />
+<import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<script>
+
+  function Scythe_KillApplication_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Scythe_KillApplication_Params.prototype.initDefaults_ = function() {
+    this.url = null;
+  };
+  Scythe_KillApplication_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Scythe_KillApplication_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Scythe_KillApplication_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Scythe_KillApplication_Params.url
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Scythe_KillApplication_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  Scythe_KillApplication_Params.decode = function(decoder) {
+    var packed;
+    var val = new Scythe_KillApplication_Params();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.url = decoder.decodeStruct(codec.String);
+    return val;
+  };
+
+  Scythe_KillApplication_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Scythe_KillApplication_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.String, val.url);
+  };
+
+  function Scythe_Ping_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Scythe_Ping_Params.prototype.initDefaults_ = function() {
+  };
+  Scythe_Ping_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Scythe_Ping_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Scythe_Ping_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Scythe_Ping_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  Scythe_Ping_Params.decode = function(decoder) {
+    var packed;
+    var val = new Scythe_Ping_Params();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    return val;
+  };
+
+  Scythe_Ping_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Scythe_Ping_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  function Scythe_Ping_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Scythe_Ping_ResponseParams.prototype.initDefaults_ = function() {
+  };
+  Scythe_Ping_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Scythe_Ping_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Scythe_Ping_ResponseParams.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Scythe_Ping_ResponseParams.encodedSize = codec.kStructHeaderSize + 0;
+
+  Scythe_Ping_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new Scythe_Ping_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    return val;
+  };
+
+  Scythe_Ping_ResponseParams.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Scythe_Ping_ResponseParams.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  var kScythe_KillApplication_Name = 0;
+  var kScythe_Ping_Name = 1;
+
+  function ScytheProxy(receiver) {
+    bindings.ProxyBase.call(this, receiver);
+  }
+  ScytheProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  ScytheProxy.prototype.killApplication = function(url) {
+    var params = new Scythe_KillApplication_Params();
+    params.url = url;
+    var builder = new codec.MessageBuilder(
+        kScythe_KillApplication_Name,
+        codec.align(Scythe_KillApplication_Params.encodedSize));
+    builder.encodeStruct(Scythe_KillApplication_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  ScytheProxy.prototype.ping = function() {
+    var params = new Scythe_Ping_Params();
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kScythe_Ping_Name,
+          codec.align(Scythe_Ping_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(Scythe_Ping_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(Scythe_Ping_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
+  };
+
+  function ScytheStub(delegate) {
+    bindings.StubBase.call(this, delegate);
+  }
+  ScytheStub.prototype = Object.create(bindings.StubBase.prototype);
+  ScytheStub.prototype.killApplication = function(url) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.killApplication && bindings.StubBindings(this).delegate.killApplication(url);
+  }
+  ScytheStub.prototype.ping = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.ping && bindings.StubBindings(this).delegate.ping();
+  }
+
+  ScytheStub.prototype.accept = function(message) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kScythe_KillApplication_Name:
+      var params = reader.decodeStruct(Scythe_KillApplication_Params);
+      this.killApplication(params.url);
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  ScytheStub.prototype.acceptWithResponder =
+      function(message, responder) {
+    var reader = new codec.MessageReader(message);
+    switch (reader.messageName) {
+    case kScythe_Ping_Name:
+      var params = reader.decodeStruct(Scythe_Ping_Params);
+      return this.ping().then(function(response) {
+        var responseParams =
+            new Scythe_Ping_ResponseParams();
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kScythe_Ping_Name,
+            codec.align(Scythe_Ping_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(Scythe_Ping_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
+    default:
+      return Promise.reject(Error("Unhandled message: " + reader.messageName));
+    }
+  };
+
+  function validateScytheRequest(messageValidator) {
+    var message = messageValidator.message;
+    var paramsClass = null;
+    switch (message.getName()) {
+      case kScythe_KillApplication_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = Scythe_KillApplication_Params;
+      break;
+      case kScythe_Ping_Name:
+        if (message.expectsResponse())
+          paramsClass = Scythe_Ping_Params;
+      break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  function validateScytheResponse(messageValidator) {
+   var message = messageValidator.message;
+   var paramsClass = null;
+   switch (message.getName()) {
+      case kScythe_Ping_Name:
+        if (message.isResponse())
+          paramsClass = Scythe_Ping_ResponseParams;
+        break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
+  }
+
+  var Scythe = {
+    name: 'reaper::Scythe',
+    proxyClass: ScytheProxy,
+    stubClass: ScytheStub,
+    validateRequest: validateScytheRequest,
+    validateResponse: validateScytheResponse,
+  };
+  ScytheStub.prototype.validator = validateScytheRequest;
+  ScytheProxy.prototype.validator = validateScytheResponse;
+
+
+  var exports = {};
+  exports.Scythe = Scythe;
+
+  module.exports = exports;
+</script>

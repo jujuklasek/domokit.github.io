@@ -42,7 +42,7 @@
     var packed;
     var val = new ViewportParameterListener_OnVSyncParametersUpdated_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.timebase = decoder.decodeStruct(codec.Int64);
     val.interval = decoder.decodeStruct(codec.Int64);
     return val;

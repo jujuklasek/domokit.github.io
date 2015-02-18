@@ -50,7 +50,7 @@
     var packed;
     var val = new RecipeChangeValue();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.old_value = decoder.decodeArrayPointer(codec.Uint8);
     val.new_value = decoder.decodeArrayPointer(codec.Uint8);
     return val;
@@ -100,7 +100,7 @@
     var packed;
     var val = new RecipeValueStore_UpdateValues_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.values = decoder.decodeMapPointer(codec.String, new codec.ArrayOf(codec.Uint8));
     return val;
   };
@@ -148,7 +148,7 @@
     var packed;
     var val = new RecipeValueStore_SetObserver_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.observer = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
     decoder.skip(1);
@@ -204,7 +204,7 @@
     var packed;
     var val = new RecipeValueStoreObserver_OnValuesChanged_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.changed_values = decoder.decodeMapPointer(codec.String, new codec.PointerTo(RecipeChangeValue));
     return val;
   };

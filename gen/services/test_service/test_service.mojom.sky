@@ -40,7 +40,7 @@
     var packed;
     var val = new TestService_Ping_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -81,7 +81,7 @@
     var packed;
     var val = new TestService_Ping_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -127,7 +127,7 @@
     var packed;
     var val = new TestService_ConnectToAppAndGetTime_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.app_url = decoder.decodeStruct(codec.NullableString);
     return val;
   };
@@ -171,7 +171,7 @@
     var packed;
     var val = new TestService_ConnectToAppAndGetTime_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.time_usec = decoder.decodeStruct(codec.Int64);
     return val;
   };
@@ -214,7 +214,7 @@
     var packed;
     var val = new TestService_StartTrackingRequests_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -255,7 +255,7 @@
     var packed;
     var val = new TestService_StartTrackingRequests_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -296,7 +296,7 @@
     var packed;
     var val = new TestTimeService_GetPartyTime_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -338,7 +338,7 @@
     var packed;
     var val = new TestTimeService_GetPartyTime_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.time_usec = decoder.decodeStruct(codec.Int64);
     return val;
   };
@@ -381,7 +381,7 @@
     var packed;
     var val = new TestTimeService_StartTrackingRequests_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -422,7 +422,7 @@
     var packed;
     var val = new TestTimeService_StartTrackingRequests_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 

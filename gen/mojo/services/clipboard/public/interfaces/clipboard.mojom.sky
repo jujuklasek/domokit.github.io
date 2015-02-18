@@ -41,7 +41,7 @@
     var packed;
     var val = new Clipboard_GetSequenceNumber_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.clipboard_type = decoder.decodeStruct(codec.Int32);
     decoder.skip(1);
     decoder.skip(1);
@@ -93,7 +93,7 @@
     var packed;
     var val = new Clipboard_GetSequenceNumber_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.sequence = decoder.decodeStruct(codec.Uint64);
     return val;
   };
@@ -137,7 +137,7 @@
     var packed;
     var val = new Clipboard_GetAvailableMimeTypes_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.clipboard_types = decoder.decodeStruct(codec.Int32);
     decoder.skip(1);
     decoder.skip(1);
@@ -193,7 +193,7 @@
     var packed;
     var val = new Clipboard_GetAvailableMimeTypes_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.types = decoder.decodeArrayPointer(codec.String);
     return val;
   };
@@ -242,7 +242,7 @@
     var packed;
     var val = new Clipboard_ReadMimeType_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.clipboard_type = decoder.decodeStruct(codec.Int32);
     decoder.skip(1);
     decoder.skip(1);
@@ -300,7 +300,7 @@
     var packed;
     var val = new Clipboard_ReadMimeType_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.data = decoder.decodeArrayPointer(codec.Uint8);
     return val;
   };
@@ -349,7 +349,7 @@
     var packed;
     var val = new Clipboard_WriteClipboardData_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.clipboard_type = decoder.decodeStruct(codec.Int32);
     decoder.skip(1);
     decoder.skip(1);

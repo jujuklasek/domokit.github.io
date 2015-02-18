@@ -59,7 +59,7 @@
     var packed;
     var val = new Bar();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.alpha = decoder.decodeStruct(codec.Uint8);
     val.beta = decoder.decodeStruct(codec.Uint8);
     val.gamma = decoder.decodeStruct(codec.Uint8);
@@ -166,7 +166,7 @@
     var packed;
     var val = new Foo();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.x = decoder.decodeStruct(codec.Int32);
     val.y = decoder.decodeStruct(codec.Int32);
     packed = decoder.readUint8();
@@ -294,7 +294,7 @@
     var packed;
     var val = new DefaultsTest();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.a0 = decoder.decodeStruct(codec.Int8);
     val.a1 = decoder.decodeStruct(codec.Uint8);
     val.a2 = decoder.decodeStruct(codec.Int16);
@@ -406,7 +406,7 @@
     var packed;
     var val = new StructWithHoleV1();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.v1 = decoder.decodeStruct(codec.Int32);
     decoder.skip(1);
     decoder.skip(1);
@@ -462,7 +462,7 @@
     var packed;
     var val = new StructWithHoleV2();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.v1 = decoder.decodeStruct(codec.Int32);
     val.v3 = decoder.decodeStruct(codec.Int32);
     val.v2 = decoder.decodeStruct(codec.Int64);
@@ -520,7 +520,7 @@
     var packed;
     var val = new Service_Frobinate_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.foo = decoder.decodeStructPointer(Foo);
     val.baz = decoder.decodeStruct(codec.Int32);
     val.port = decoder.decodeStruct(codec.Handle);
@@ -534,6 +534,58 @@
     encoder.encodeStructPointer(Foo, val.foo);
     encoder.encodeStruct(codec.Int32, val.baz);
     encoder.encodeStruct(codec.Handle, val.port);
+  };
+
+  function Service_Frobinate_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Service_Frobinate_ResponseParams.prototype.initDefaults_ = function() {
+    this.result = 0;
+  };
+  Service_Frobinate_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Service_Frobinate_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Service_Frobinate_ResponseParams.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Service_Frobinate_ResponseParams.encodedSize = codec.kStructHeaderSize + 8;
+
+  Service_Frobinate_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new Service_Frobinate_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.result = decoder.decodeStruct(codec.Int32);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  Service_Frobinate_ResponseParams.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Service_Frobinate_ResponseParams.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Int32, val.result);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
   };
 
   function Service_GetPort_Params(values) {
@@ -572,7 +624,7 @@
     var packed;
     var val = new Service_GetPort_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.port = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
     decoder.skip(1);
@@ -586,58 +638,6 @@
     encoder.writeUint32(Service_GetPort_Params.encodedSize);
     encoder.writeUint32(1);
     encoder.encodeStruct(codec.Handle, val.port);
-    encoder.skip(1);
-    encoder.skip(1);
-    encoder.skip(1);
-    encoder.skip(1);
-  };
-
-  function ServiceClient_DidFrobinate_Params(values) {
-    this.initDefaults_();
-    this.initFields_(values);
-  }
-
-
-  ServiceClient_DidFrobinate_Params.prototype.initDefaults_ = function() {
-    this.result = 0;
-  };
-  ServiceClient_DidFrobinate_Params.prototype.initFields_ = function(fields) {
-    for(var field in fields) {
-        if (this.hasOwnProperty(field))
-          this[field] = fields[field];
-    }
-  };
-
-  ServiceClient_DidFrobinate_Params.validate = function(messageValidator, offset) {
-    var err;
-
-    err = messageValidator.validateStructHeader(offset, ServiceClient_DidFrobinate_Params.encodedSize, 1);
-    if (err !== validator.validationError.NONE)
-        return err;
-
-    return validator.validationError.NONE;
-  };
-
-  ServiceClient_DidFrobinate_Params.encodedSize = codec.kStructHeaderSize + 8;
-
-  ServiceClient_DidFrobinate_Params.decode = function(decoder) {
-    var packed;
-    var val = new ServiceClient_DidFrobinate_Params();
-    var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
-    val.result = decoder.decodeStruct(codec.Int32);
-    decoder.skip(1);
-    decoder.skip(1);
-    decoder.skip(1);
-    decoder.skip(1);
-    return val;
-  };
-
-  ServiceClient_DidFrobinate_Params.encode = function(encoder, val) {
-    var packed;
-    encoder.writeUint32(ServiceClient_DidFrobinate_Params.encodedSize);
-    encoder.writeUint32(1);
-    encoder.encodeStruct(codec.Int32, val.result);
     encoder.skip(1);
     encoder.skip(1);
     encoder.skip(1);
@@ -685,7 +685,7 @@
     var packed;
     var val = new Port_PostMessage_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.message_text = decoder.decodeStruct(codec.String);
     val.port = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
@@ -719,12 +719,22 @@
     params.foo = foo;
     params.baz = baz;
     params.port = core.isHandle(port) ? port : connection.bindImpl(port, Port);
-    var builder = new codec.MessageBuilder(
-        kService_Frobinate_Name,
-        codec.align(Service_Frobinate_Params.encodedSize));
-    builder.encodeStruct(Service_Frobinate_Params, params);
-    var message = builder.finish();
-    this.receiver_.accept(message);
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kService_Frobinate_Name,
+          codec.align(Service_Frobinate_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(Service_Frobinate_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(Service_Frobinate_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
   };
   ServiceProxy.prototype.getPort = function(port) {
     var params = new Service_GetPort_Params();
@@ -751,10 +761,6 @@
   ServiceStub.prototype.accept = function(message) {
     var reader = new codec.MessageReader(message);
     switch (reader.messageName) {
-    case kService_Frobinate_Name:
-      var params = reader.decodeStruct(Service_Frobinate_Params);
-      this.frobinate(params.foo, params.baz, params.port);
-      return true;
     case kService_GetPort_Name:
       var params = reader.decodeStruct(Service_GetPort_Params);
       this.getPort(params.port);
@@ -768,6 +774,21 @@
       function(message, responder) {
     var reader = new codec.MessageReader(message);
     switch (reader.messageName) {
+    case kService_Frobinate_Name:
+      var params = reader.decodeStruct(Service_Frobinate_Params);
+      return this.frobinate(params.foo, params.baz, params.port).then(function(response) {
+        var responseParams =
+            new Service_Frobinate_ResponseParams();
+        responseParams.result = response.result;
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kService_Frobinate_Name,
+            codec.align(Service_Frobinate_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(Service_Frobinate_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
     default:
       return Promise.reject(Error("Unhandled message: " + reader.messageName));
     }
@@ -778,7 +799,7 @@
     var paramsClass = null;
     switch (message.getName()) {
       case kService_Frobinate_Name:
-        if (!message.expectsResponse() && !message.isResponse())
+        if (message.expectsResponse())
           paramsClass = Service_Frobinate_Params;
       break;
       case kService_GetPort_Name:
@@ -792,7 +813,17 @@
   }
 
   function validateServiceResponse(messageValidator) {
-    return validator.validationError.NONE;
+   var message = messageValidator.message;
+   var paramsClass = null;
+   switch (message.getName()) {
+      case kService_Frobinate_Name:
+        if (message.isResponse())
+          paramsClass = Service_Frobinate_ResponseParams;
+        break;
+    }
+    if (paramsClass === null)
+      return validator.validationError.NONE;
+    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
   }
 
   var Service = {
@@ -800,88 +831,14 @@
     proxyClass: ServiceProxy,
     stubClass: ServiceStub,
     validateRequest: validateServiceRequest,
-    validateResponse: null,
+    validateResponse: validateServiceResponse,
   };
   Service.kFavoriteBaz = 1,
   Service.BazOptions = {};
   Service.BazOptions.REGULAR = 0;
   Service.BazOptions.EXTRA = Service.BazOptions.REGULAR + 1;
   ServiceStub.prototype.validator = validateServiceRequest;
-  ServiceProxy.prototype.validator = null;
-
-  var kServiceClient_DidFrobinate_Name = 0;
-
-  function ServiceClientProxy(receiver) {
-    bindings.ProxyBase.call(this, receiver);
-  }
-  ServiceClientProxy.prototype = Object.create(bindings.ProxyBase.prototype);
-  ServiceClientProxy.prototype.didFrobinate = function(result) {
-    var params = new ServiceClient_DidFrobinate_Params();
-    params.result = result;
-    var builder = new codec.MessageBuilder(
-        kServiceClient_DidFrobinate_Name,
-        codec.align(ServiceClient_DidFrobinate_Params.encodedSize));
-    builder.encodeStruct(ServiceClient_DidFrobinate_Params, params);
-    var message = builder.finish();
-    this.receiver_.accept(message);
-  };
-
-  function ServiceClientStub(delegate) {
-    bindings.StubBase.call(this, delegate);
-  }
-  ServiceClientStub.prototype = Object.create(bindings.StubBase.prototype);
-  ServiceClientStub.prototype.didFrobinate = function(result) {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.didFrobinate && bindings.StubBindings(this).delegate.didFrobinate(result);
-  }
-
-  ServiceClientStub.prototype.accept = function(message) {
-    var reader = new codec.MessageReader(message);
-    switch (reader.messageName) {
-    case kServiceClient_DidFrobinate_Name:
-      var params = reader.decodeStruct(ServiceClient_DidFrobinate_Params);
-      this.didFrobinate(params.result);
-      return true;
-    default:
-      return false;
-    }
-  };
-
-  ServiceClientStub.prototype.acceptWithResponder =
-      function(message, responder) {
-    var reader = new codec.MessageReader(message);
-    switch (reader.messageName) {
-    default:
-      return Promise.reject(Error("Unhandled message: " + reader.messageName));
-    }
-  };
-
-  function validateServiceClientRequest(messageValidator) {
-    var message = messageValidator.message;
-    var paramsClass = null;
-    switch (message.getName()) {
-      case kServiceClient_DidFrobinate_Name:
-        if (!message.expectsResponse() && !message.isResponse())
-          paramsClass = ServiceClient_DidFrobinate_Params;
-      break;
-    }
-    if (paramsClass === null)
-      return validator.validationError.NONE;
-    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
-  }
-
-  function validateServiceClientResponse(messageValidator) {
-    return validator.validationError.NONE;
-  }
-
-  var ServiceClient = {
-    name: 'sample::ServiceClient',
-    proxyClass: ServiceClientProxy,
-    stubClass: ServiceClientStub,
-    validateRequest: validateServiceClientRequest,
-    validateResponse: null,
-  };
-  ServiceClientStub.prototype.validator = validateServiceClientRequest;
-  ServiceClientProxy.prototype.validator = null;
+  ServiceProxy.prototype.validator = validateServiceResponse;
 
   var kPort_PostMessage_Name = 0;
 
@@ -974,8 +931,6 @@
   exports.StructWithHoleV1 = StructWithHoleV1;
   exports.StructWithHoleV2 = StructWithHoleV2;
   exports.Service = Service;
-  exports.Service.client = ServiceClient;
-  exports.ServiceClient = ServiceClient;
   exports.Port = Port;
 
   module.exports = exports;

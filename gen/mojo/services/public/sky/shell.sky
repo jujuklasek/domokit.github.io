@@ -3,12 +3,12 @@
 <import src="/gen/mojo/public/sky/connection.sky" as="connection" />
 <import src="/gen/mojo/public/interfaces/application/shell.mojom.sky" as="shellMojom" />
 <import src="/gen/mojo/public/interfaces/application/service_provider.mojom.sky" as="spMojom" />
-<import src="/gen/mojo/services/public/sky/service_provider.sky" as="sp" />
+<import src="/gen/mojo/services/public/sky/service_exchange.sky" as="serviceExchange" />
 <script>
 
   const ProxyBindings = bindings.ProxyBindings;
   const StubBindings = bindings.StubBindings;
-  const ServiceProvider = sp.ServiceProvider;
+  const ServiceExchange = serviceExchange.ServiceExchange;
   const ServiceProviderInterface = spMojom.ServiceProvider;
   const ShellInterface = shellMojom.Shell;
 
@@ -23,18 +23,21 @@
       if (application)
         return application;
 
-      var application = new ServiceProvider();
+      var application = new ServiceExchange();
       this.shellProxy.connectToApplication(url,
-          function(services) {
-            application.proxy = services;
+          function(servicesProxy) {
+            application.proxy = servicesProxy;
           },
-          application);
+          function(exposedServicesStub) {
+            application.stub = exposedServicesStub;
+            StubBindings(exposedServicesStub).delegate = application;
+          });
       this.applications_.set(url, application);
       return application;
     }
 
-    connectToService(url, service, client) {
-      return this.connectToApplication(url).requestService(service, client);
+    connectToService(url, service) {
+      return this.connectToApplication(url).requestService(service);
     };
 
     close() {

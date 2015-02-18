@@ -59,7 +59,7 @@
     var packed;
     var val = new AxNode();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.id = decoder.decodeStruct(codec.Uint32);
     val.parent_id = decoder.decodeStruct(codec.Uint32);
     val.next_sibling_id = decoder.decodeStruct(codec.Uint32);
@@ -125,7 +125,7 @@
     var packed;
     var val = new AxLink();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.url = decoder.decodeStruct(codec.String);
     return val;
   };
@@ -173,7 +173,7 @@
     var packed;
     var val = new AxText();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.content = decoder.decodeStruct(codec.String);
     return val;
   };
@@ -216,7 +216,7 @@
     var packed;
     var val = new AxProvider_GetTree_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -262,7 +262,7 @@
     var packed;
     var val = new AxProvider_GetTree_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.nodes = decoder.decodeArrayPointer(new codec.PointerTo(AxNode));
     return val;
   };

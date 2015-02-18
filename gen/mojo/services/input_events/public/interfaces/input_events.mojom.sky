@@ -53,7 +53,7 @@
     var packed;
     var val = new LocationData();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.in_view_location = decoder.decodeStructPointer(geometry$.Point);
     val.screen_location = decoder.decodeStructPointer(geometry$.Point);
     return val;
@@ -105,7 +105,7 @@
     var packed;
     var val = new KeyData();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.key_code = decoder.decodeStruct(codec.Int32);
     val.is_char = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
@@ -171,7 +171,7 @@
     var packed;
     var val = new TouchData();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.pointer_id = decoder.decodeStruct(codec.Int32);
     decoder.skip(1);
     decoder.skip(1);
@@ -237,7 +237,7 @@
     var packed;
     var val = new GestureData();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.bounding_box = decoder.decodeStructPointer(geometry$.RectF);
     val.scroll_x = decoder.decodeStruct(codec.Float);
     val.scroll_y = decoder.decodeStruct(codec.Float);
@@ -319,7 +319,7 @@
     var packed;
     var val = new MouseWheelData();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.x_offset = decoder.decodeStruct(codec.Int32);
     val.y_offset = decoder.decodeStruct(codec.Int32);
     return val;
@@ -392,7 +392,7 @@
     var packed;
     var val = new Event();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.action = decoder.decodeStruct(codec.Int32);
     val.flags = decoder.decodeStruct(codec.Int32);
     val.time_stamp = decoder.decodeStruct(codec.Int64);

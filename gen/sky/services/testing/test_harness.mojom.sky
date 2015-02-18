@@ -51,7 +51,7 @@
     var packed;
     var val = new TestHarness_OnTestComplete_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.test_result = decoder.decodeStruct(codec.String);
     val.pixels = decoder.decodeArrayPointer(codec.Uint8);
     return val;
@@ -101,7 +101,7 @@
     var packed;
     var val = new TestHarness_DispatchInputEvent_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.event = decoder.decodeStructPointer(input_events$.Event);
     return val;
   };

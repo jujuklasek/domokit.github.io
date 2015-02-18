@@ -40,7 +40,7 @@
     var packed;
     var val = new Embedder_HelloWorld_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -81,7 +81,7 @@
     var packed;
     var val = new Embedder_HelloWorld_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 

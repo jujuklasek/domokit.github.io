@@ -57,7 +57,7 @@
     var packed;
     var val = new WindowManager_Embed_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.url = decoder.decodeStruct(codec.String);
     val.services = decoder.decodeStruct(codec.Handle);
     val.exposed_services = decoder.decodeStruct(codec.Handle);
@@ -105,7 +105,7 @@
     var packed;
     var val = new WindowManager_SetCapture_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.view_id = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -157,7 +157,7 @@
     var packed;
     var val = new WindowManager_SetCapture_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.success = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -215,7 +215,7 @@
     var packed;
     var val = new WindowManager_FocusWindow_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.view_id = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -267,7 +267,7 @@
     var packed;
     var val = new WindowManager_FocusWindow_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.success = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -325,7 +325,7 @@
     var packed;
     var val = new WindowManager_ActivateWindow_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.view_id = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -377,7 +377,7 @@
     var packed;
     var val = new WindowManager_ActivateWindow_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.success = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -439,7 +439,7 @@
     var packed;
     var val = new WindowManager_GetFocusedAndActiveViews_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.observer = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
     decoder.skip(1);
@@ -493,7 +493,7 @@
     var packed;
     var val = new WindowManager_GetFocusedAndActiveViews_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.capture_view_id = decoder.decodeStruct(codec.Uint32);
     val.focused_view_id = decoder.decodeStruct(codec.Uint32);
     val.active_view_id = decoder.decodeStruct(codec.Uint32);
@@ -549,7 +549,7 @@
     var packed;
     var val = new WindowManagerObserver_OnCaptureChanged_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.capture_view_id = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -601,7 +601,7 @@
     var packed;
     var val = new WindowManagerObserver_OnFocusChanged_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.focused_view_id = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -653,7 +653,7 @@
     var packed;
     var val = new WindowManagerObserver_OnActiveWindowChanged_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.focused_view_id = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);

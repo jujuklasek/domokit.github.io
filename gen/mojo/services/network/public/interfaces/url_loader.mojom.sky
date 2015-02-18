@@ -64,7 +64,7 @@
     var packed;
     var val = new URLRequest();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.url = decoder.decodeStruct(codec.String);
     val.method = decoder.decodeStruct(codec.String);
     val.headers = decoder.decodeArrayPointer(codec.String);
@@ -174,7 +174,7 @@
     var packed;
     var val = new URLResponse();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.error = decoder.decodeStructPointer(network_error$.NetworkError);
     val.body = decoder.decodeStruct(codec.NullableHandle);
     val.status_code = decoder.decodeStruct(codec.Uint32);
@@ -241,7 +241,7 @@
     var packed;
     var val = new URLLoaderStatus();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.error = decoder.decodeStructPointer(network_error$.NetworkError);
     val.is_loading = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
@@ -305,7 +305,7 @@
     var packed;
     var val = new URLLoader_Start_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.request = decoder.decodeStructPointer(URLRequest);
     return val;
   };
@@ -353,7 +353,7 @@
     var packed;
     var val = new URLLoader_Start_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.response = decoder.decodeStructPointer(URLResponse);
     return val;
   };
@@ -396,7 +396,7 @@
     var packed;
     var val = new URLLoader_FollowRedirect_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -442,7 +442,7 @@
     var packed;
     var val = new URLLoader_FollowRedirect_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.response = decoder.decodeStructPointer(URLResponse);
     return val;
   };
@@ -485,7 +485,7 @@
     var packed;
     var val = new URLLoader_QueryStatus_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -531,7 +531,7 @@
     var packed;
     var val = new URLLoader_QueryStatus_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.status = decoder.decodeStructPointer(URLLoaderStatus);
     return val;
   };

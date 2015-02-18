@@ -45,7 +45,7 @@
     var packed;
     var val = new Echo_EchoString_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.value = decoder.decodeStruct(codec.NullableString);
     return val;
   };
@@ -93,7 +93,7 @@
     var packed;
     var val = new Echo_EchoString_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.value = decoder.decodeStruct(codec.NullableString);
     return val;
   };

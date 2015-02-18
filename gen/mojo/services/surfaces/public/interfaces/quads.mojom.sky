@@ -91,7 +91,7 @@
     var packed;
     var val = new Color();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.rgba = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -142,7 +142,7 @@
     var packed;
     var val = new CheckerboardQuadState();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -183,7 +183,7 @@
     var packed;
     var val = new DebugBorderQuadState();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -224,7 +224,7 @@
     var packed;
     var val = new IoSurfaceContentQuadState();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -267,7 +267,7 @@
     var packed;
     var val = new RenderPassId();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.layer_id = decoder.decodeStruct(codec.Int32);
     val.index = decoder.decodeStruct(codec.Int32);
     return val;
@@ -333,7 +333,7 @@
     var packed;
     var val = new RenderPassQuadState();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.render_pass_id = decoder.decodeStructPointer(RenderPassId);
     val.mask_resource_id = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
@@ -398,7 +398,7 @@
     var packed;
     var val = new SolidColorQuadState();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.color = decoder.decodeStructPointer(Color);
     val.force_anti_aliasing_off = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
@@ -462,7 +462,7 @@
     var packed;
     var val = new SurfaceQuadState();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.surface = decoder.decodeStructPointer(surface_id$.SurfaceId);
     return val;
   };
@@ -529,7 +529,7 @@
     var packed;
     var val = new TextureQuadState();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.resource_id = decoder.decodeStruct(codec.Uint32);
     packed = decoder.readUint8();
     val.premultiplied_alpha = (packed >> 0) & 1 ? true : false;
@@ -608,7 +608,7 @@
     var packed;
     var val = new TileQuadState();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.tex_coord_rect = decoder.decodeStructPointer(geometry$.RectF);
     val.texture_size = decoder.decodeStructPointer(geometry$.Size);
     packed = decoder.readUint8();
@@ -668,7 +668,7 @@
     var packed;
     var val = new StreamVideoQuadState();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -719,7 +719,7 @@
     var packed;
     var val = new YUVVideoQuadState();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.tex_coord_rect = decoder.decodeStructPointer(geometry$.RectF);
     val.y_plane_resource_id = decoder.decodeStruct(codec.Uint32);
     val.u_plane_resource_id = decoder.decodeStruct(codec.Uint32);
@@ -848,7 +848,7 @@
     var packed;
     var val = new Quad();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.material = decoder.decodeStruct(codec.Int32);
     val.needs_blending = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
@@ -959,7 +959,7 @@
     var packed;
     var val = new SharedQuadState();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.content_to_target_transform = decoder.decodeStructPointer(geometry$.Transform);
     val.content_bounds = decoder.decodeStructPointer(geometry$.Size);
     val.visible_content_rect = decoder.decodeStructPointer(geometry$.Rect);
@@ -1049,7 +1049,7 @@
     var packed;
     var val = new Pass();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.id = decoder.decodeStruct(codec.Int32);
     val.has_transparent_background = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);

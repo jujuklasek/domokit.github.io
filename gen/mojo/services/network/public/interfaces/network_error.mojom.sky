@@ -46,7 +46,7 @@
     var packed;
     var val = new NetworkError();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.code = decoder.decodeStruct(codec.Int32);
     decoder.skip(1);
     decoder.skip(1);

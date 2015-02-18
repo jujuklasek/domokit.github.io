@@ -51,7 +51,7 @@
     var packed;
     var val = new NavigatorHost_RequestNavigate_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.target = decoder.decodeStruct(codec.Int32);
     decoder.skip(1);
     decoder.skip(1);
@@ -109,7 +109,7 @@
     var packed;
     var val = new NavigatorHost_DidNavigateLocally_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.url = decoder.decodeStruct(codec.String);
     return val;
   };

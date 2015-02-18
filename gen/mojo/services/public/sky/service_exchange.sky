@@ -7,12 +7,12 @@
   const StubBindings = bindings.StubBindings;
   const ServiceProviderInterface = spMojom.ServiceProvider;
 
-  function checkServiceProvider(sp) {
-    if (!sp.providers_)
+  function checkServiceExchange(exch) {
+    if (!exch.providers_)
       throw new Error("Service was closed");
   }
 
-  class ServiceProvider {
+  class ServiceExchange {
     constructor(servicesRequest, exposedServicesProxy) {
       this.proxy = exposedServicesProxy;
       this.providers_ = new Map(); // serviceName => see provideService() below
@@ -38,11 +38,11 @@
     }
 
     provideService(service, factory) {
-      checkServiceProvider(this);
+      checkServiceExchange(this);
 
       var provider = {
         service: service, // A JS bindings interface object.
-        factory: factory, // factory(clientProxy) => interface implemntation
+        factory: factory, // factory() => interface implemntation
         connections: [],
       };
       this.providers_.set(service.name, provider);
@@ -55,12 +55,10 @@
     }
 
     // Outgoing requests
-    requestService(interfaceObject, clientImpl) {
-      checkServiceProvider(this);
+    requestService(interfaceObject) {
+      checkServiceExchange(this);
       if (!interfaceObject.name)
         throw new Error("Invalid service parameter");
-      if (!clientImpl && interfaceObject.client)
-        throw new Error("Client implementation must be provided");
 
       var serviceProxy;
       var serviceHandle = connection.bindProxy(
@@ -76,6 +74,6 @@
   }
 
   var exports = {};
-  exports.ServiceProvider = ServiceProvider;
+  exports.ServiceExchange = ServiceExchange;
   module.exports = exports;
 </script>

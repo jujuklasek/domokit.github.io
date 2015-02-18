@@ -48,7 +48,7 @@
     var packed;
     var val = new WindowManagerInternal_CreateWindowManagerForViewManagerClient_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.connection_id = decoder.decodeStruct(codec.Uint16);
     decoder.skip(1);
     decoder.skip(1);
@@ -64,6 +64,62 @@
     encoder.skip(1);
     encoder.skip(1);
     encoder.encodeStruct(codec.Handle, val.window_manager_pipe);
+  };
+
+  function WindowManagerInternal_SetViewManagerClient_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  WindowManagerInternal_SetViewManagerClient_Params.prototype.initDefaults_ = function() {
+    this.view_manager_client_request = null;
+  };
+  WindowManagerInternal_SetViewManagerClient_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  WindowManagerInternal_SetViewManagerClient_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, WindowManagerInternal_SetViewManagerClient_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate WindowManagerInternal_SetViewManagerClient_Params.view_manager_client_request
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  WindowManagerInternal_SetViewManagerClient_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  WindowManagerInternal_SetViewManagerClient_Params.decode = function(decoder) {
+    var packed;
+    var val = new WindowManagerInternal_SetViewManagerClient_Params();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.view_manager_client_request = decoder.decodeStruct(codec.Handle);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  WindowManagerInternal_SetViewManagerClient_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(WindowManagerInternal_SetViewManagerClient_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Handle, val.view_manager_client_request);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
   };
 
   function WindowManagerInternalClient_DispatchInputEventToView_Params(values) {
@@ -103,7 +159,7 @@
     var packed;
     var val = new WindowManagerInternalClient_DispatchInputEventToView_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.view_id = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -161,7 +217,7 @@
     var packed;
     var val = new WindowManagerInternalClient_SetViewportSize_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.size = decoder.decodeStructPointer(geometry$.Size);
     return val;
   };
@@ -205,7 +261,7 @@
     var packed;
     var val = new WindowManagerInternalClient_CloneAndAnimate_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.view_id = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -226,6 +282,7 @@
   };
 
   var kWindowManagerInternal_CreateWindowManagerForViewManagerClient_Name = 0;
+  var kWindowManagerInternal_SetViewManagerClient_Name = 1;
 
   function WindowManagerInternalProxy(receiver) {
     bindings.ProxyBase.call(this, receiver);
@@ -242,6 +299,16 @@
     var message = builder.finish();
     this.receiver_.accept(message);
   };
+  WindowManagerInternalProxy.prototype.setViewManagerClient = function(view_manager_client_request) {
+    var params = new WindowManagerInternal_SetViewManagerClient_Params();
+    params.view_manager_client_request = view_manager_client_request;
+    var builder = new codec.MessageBuilder(
+        kWindowManagerInternal_SetViewManagerClient_Name,
+        codec.align(WindowManagerInternal_SetViewManagerClient_Params.encodedSize));
+    builder.encodeStruct(WindowManagerInternal_SetViewManagerClient_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
 
   function WindowManagerInternalStub(delegate) {
     bindings.StubBase.call(this, delegate);
@@ -250,6 +317,9 @@
   WindowManagerInternalStub.prototype.createWindowManagerForViewManagerClient = function(connection_id, window_manager_pipe) {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.createWindowManagerForViewManagerClient && bindings.StubBindings(this).delegate.createWindowManagerForViewManagerClient(connection_id, window_manager_pipe);
   }
+  WindowManagerInternalStub.prototype.setViewManagerClient = function(view_manager_client_request) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.setViewManagerClient && bindings.StubBindings(this).delegate.setViewManagerClient(view_manager_client_request);
+  }
 
   WindowManagerInternalStub.prototype.accept = function(message) {
     var reader = new codec.MessageReader(message);
@@ -257,6 +327,10 @@
     case kWindowManagerInternal_CreateWindowManagerForViewManagerClient_Name:
       var params = reader.decodeStruct(WindowManagerInternal_CreateWindowManagerForViewManagerClient_Params);
       this.createWindowManagerForViewManagerClient(params.connection_id, params.window_manager_pipe);
+      return true;
+    case kWindowManagerInternal_SetViewManagerClient_Name:
+      var params = reader.decodeStruct(WindowManagerInternal_SetViewManagerClient_Params);
+      this.setViewManagerClient(params.view_manager_client_request);
       return true;
     default:
       return false;
@@ -279,6 +353,10 @@
       case kWindowManagerInternal_CreateWindowManagerForViewManagerClient_Name:
         if (!message.expectsResponse() && !message.isResponse())
           paramsClass = WindowManagerInternal_CreateWindowManagerForViewManagerClient_Params;
+      break;
+      case kWindowManagerInternal_SetViewManagerClient_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = WindowManagerInternal_SetViewManagerClient_Params;
       break;
     }
     if (paramsClass === null)

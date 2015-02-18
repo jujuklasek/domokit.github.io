@@ -40,7 +40,7 @@
     var packed;
     var val = new InspectorService_Inject_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 

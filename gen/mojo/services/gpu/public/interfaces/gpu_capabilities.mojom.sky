@@ -43,7 +43,7 @@
     var packed;
     var val = new GpuShaderPrecision();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.min_range = decoder.decodeStruct(codec.Int32);
     val.max_range = decoder.decodeStruct(codec.Int32);
     val.precision = decoder.decodeStruct(codec.Int32);
@@ -128,7 +128,7 @@
     var packed;
     var val = new GpuPerStagePrecisions();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.low_int = decoder.decodeStructPointer(GpuShaderPrecision);
     val.medium_int = decoder.decodeStructPointer(GpuShaderPrecision);
     val.high_int = decoder.decodeStructPointer(GpuShaderPrecision);
@@ -219,7 +219,7 @@
     var packed;
     var val = new GpuCapabilities();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.vertex_shader_precisions = decoder.decodeStructPointer(GpuPerStagePrecisions);
     val.fragment_shader_precisions = decoder.decodeStructPointer(GpuPerStagePrecisions);
     val.max_combined_texture_image_units = decoder.decodeStruct(codec.Int32);

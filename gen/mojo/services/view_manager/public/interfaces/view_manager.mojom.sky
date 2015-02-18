@@ -69,7 +69,7 @@
     var packed;
     var val = new ViewData();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.parent_id = decoder.decodeStruct(codec.Uint32);
     val.view_id = decoder.decodeStruct(codec.Uint32);
     val.bounds = decoder.decodeStructPointer(geometry$.Rect);
@@ -142,7 +142,7 @@
     var packed;
     var val = new ViewManagerService_CreateView_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.view_id = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -194,7 +194,7 @@
     var packed;
     var val = new ViewManagerService_CreateView_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.error_code = decoder.decodeStruct(codec.Int32);
     decoder.skip(1);
     decoder.skip(1);
@@ -246,7 +246,7 @@
     var packed;
     var val = new ViewManagerService_DeleteView_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.view_id = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -298,7 +298,7 @@
     var packed;
     var val = new ViewManagerService_DeleteView_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.success = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -361,7 +361,7 @@
     var packed;
     var val = new ViewManagerService_SetViewBounds_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.view_id = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -415,7 +415,7 @@
     var packed;
     var val = new ViewManagerService_SetViewBounds_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.success = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -474,7 +474,7 @@
     var packed;
     var val = new ViewManagerService_SetViewVisibility_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.view_id = decoder.decodeStruct(codec.Uint32);
     val.visible = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
@@ -526,7 +526,7 @@
     var packed;
     var val = new ViewManagerService_SetViewVisibility_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.success = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -594,7 +594,7 @@
     var packed;
     var val = new ViewManagerService_SetViewProperty_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.view_id = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -650,7 +650,7 @@
     var packed;
     var val = new ViewManagerService_SetViewProperty_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.success = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -709,7 +709,7 @@
     var packed;
     var val = new ViewManagerService_AddView_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.parent = decoder.decodeStruct(codec.Uint32);
     val.child = decoder.decodeStruct(codec.Uint32);
     return val;
@@ -755,7 +755,7 @@
     var packed;
     var val = new ViewManagerService_AddView_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.success = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -813,7 +813,7 @@
     var packed;
     var val = new ViewManagerService_RemoveViewFromParent_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.view_id = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -865,7 +865,7 @@
     var packed;
     var val = new ViewManagerService_RemoveViewFromParent_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.success = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -925,7 +925,7 @@
     var packed;
     var val = new ViewManagerService_ReorderView_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.view_id = decoder.decodeStruct(codec.Uint32);
     val.relative_view_id = decoder.decodeStruct(codec.Uint32);
     val.direction = decoder.decodeStruct(codec.Int32);
@@ -981,7 +981,7 @@
     var packed;
     var val = new ViewManagerService_ReorderView_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.success = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -1039,7 +1039,7 @@
     var packed;
     var val = new ViewManagerService_GetViewTree_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.view_id = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -1095,7 +1095,7 @@
     var packed;
     var val = new ViewManagerService_GetViewTree_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.views = decoder.decodeArrayPointer(new codec.PointerTo(ViewData));
     return val;
   };
@@ -1144,7 +1144,7 @@
     var packed;
     var val = new ViewManagerService_SetViewSurfaceId_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.view_id = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -1198,7 +1198,7 @@
     var packed;
     var val = new ViewManagerService_SetViewSurfaceId_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.success = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -1224,40 +1224,40 @@
     encoder.skip(1);
   };
 
-  function ViewManagerService_Embed_Params(values) {
+  function ViewManagerService_EmbedUrl_Params(values) {
     this.initDefaults_();
     this.initFields_(values);
   }
 
 
-  ViewManagerService_Embed_Params.prototype.initDefaults_ = function() {
+  ViewManagerService_EmbedUrl_Params.prototype.initDefaults_ = function() {
     this.url = null;
     this.view_id = 0;
     this.services = null;
     this.exposed_services = null;
   };
-  ViewManagerService_Embed_Params.prototype.initFields_ = function(fields) {
+  ViewManagerService_EmbedUrl_Params.prototype.initFields_ = function(fields) {
     for(var field in fields) {
         if (this.hasOwnProperty(field))
           this[field] = fields[field];
     }
   };
 
-  ViewManagerService_Embed_Params.validate = function(messageValidator, offset) {
+  ViewManagerService_EmbedUrl_Params.validate = function(messageValidator, offset) {
     var err;
 
-    err = messageValidator.validateStructHeader(offset, ViewManagerService_Embed_Params.encodedSize, 4);
+    err = messageValidator.validateStructHeader(offset, ViewManagerService_EmbedUrl_Params.encodedSize, 4);
     if (err !== validator.validationError.NONE)
         return err;
-    // validate ViewManagerService_Embed_Params.url
+    // validate ViewManagerService_EmbedUrl_Params.url
     err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 0, false)
     if (err !== validator.validationError.NONE)
         return err;
-    // validate ViewManagerService_Embed_Params.services
+    // validate ViewManagerService_EmbedUrl_Params.services
     err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 12, true)
     if (err !== validator.validationError.NONE)
         return err;
-    // validate ViewManagerService_Embed_Params.exposed_services
+    // validate ViewManagerService_EmbedUrl_Params.exposed_services
     err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 16, true)
     if (err !== validator.validationError.NONE)
         return err;
@@ -1265,13 +1265,13 @@
     return validator.validationError.NONE;
   };
 
-  ViewManagerService_Embed_Params.encodedSize = codec.kStructHeaderSize + 24;
+  ViewManagerService_EmbedUrl_Params.encodedSize = codec.kStructHeaderSize + 24;
 
-  ViewManagerService_Embed_Params.decode = function(decoder) {
+  ViewManagerService_EmbedUrl_Params.decode = function(decoder) {
     var packed;
-    var val = new ViewManagerService_Embed_Params();
+    var val = new ViewManagerService_EmbedUrl_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.url = decoder.decodeStruct(codec.String);
     val.view_id = decoder.decodeStruct(codec.Uint32);
     val.services = decoder.decodeStruct(codec.Handle);
@@ -1283,9 +1283,9 @@
     return val;
   };
 
-  ViewManagerService_Embed_Params.encode = function(encoder, val) {
+  ViewManagerService_EmbedUrl_Params.encode = function(encoder, val) {
     var packed;
-    encoder.writeUint32(ViewManagerService_Embed_Params.encodedSize);
+    encoder.writeUint32(ViewManagerService_EmbedUrl_Params.encodedSize);
     encoder.writeUint32(4);
     encoder.encodeStruct(codec.String, val.url);
     encoder.encodeStruct(codec.Uint32, val.view_id);
@@ -1295,6 +1295,115 @@
     encoder.skip(1);
     encoder.skip(1);
     encoder.skip(1);
+  };
+
+  function ViewManagerService_EmbedUrl_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ViewManagerService_EmbedUrl_ResponseParams.prototype.initDefaults_ = function() {
+    this.success = false;
+  };
+  ViewManagerService_EmbedUrl_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ViewManagerService_EmbedUrl_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ViewManagerService_EmbedUrl_ResponseParams.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ViewManagerService_EmbedUrl_ResponseParams.encodedSize = codec.kStructHeaderSize + 8;
+
+  ViewManagerService_EmbedUrl_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new ViewManagerService_EmbedUrl_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.success = decoder.decodeStruct(codec.Uint8);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  ViewManagerService_EmbedUrl_ResponseParams.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ViewManagerService_EmbedUrl_ResponseParams.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Uint8, val.success);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  function ViewManagerService_Embed_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ViewManagerService_Embed_Params.prototype.initDefaults_ = function() {
+    this.view_id = 0;
+    this.client = null;
+  };
+  ViewManagerService_Embed_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ViewManagerService_Embed_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ViewManagerService_Embed_Params.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ViewManagerService_Embed_Params.client
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 4, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ViewManagerService_Embed_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  ViewManagerService_Embed_Params.decode = function(decoder) {
+    var packed;
+    var val = new ViewManagerService_Embed_Params();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.view_id = decoder.decodeStruct(codec.Uint32);
+    val.client = decoder.decodeStruct(codec.Handle);
+    return val;
+  };
+
+  ViewManagerService_Embed_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ViewManagerService_Embed_Params.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStruct(codec.Uint32, val.view_id);
+    encoder.encodeStruct(codec.Handle, val.client);
   };
 
   function ViewManagerService_Embed_ResponseParams(values) {
@@ -1329,7 +1438,7 @@
     var packed;
     var val = new ViewManagerService_Embed_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.success = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -1363,9 +1472,10 @@
 
   ViewManagerClient_OnEmbed_Params.prototype.initDefaults_ = function() {
     this.connection_id = 0;
-    this.services = null;
+    this.view_manager_service = null;
     this.embedder_url = null;
     this.root = null;
+    this.services = null;
     this.exposed_services = null;
     this.window_manager_pipe = null;
   };
@@ -1379,10 +1489,10 @@
   ViewManagerClient_OnEmbed_Params.validate = function(messageValidator, offset) {
     var err;
 
-    err = messageValidator.validateStructHeader(offset, ViewManagerClient_OnEmbed_Params.encodedSize, 6);
+    err = messageValidator.validateStructHeader(offset, ViewManagerClient_OnEmbed_Params.encodedSize, 7);
     if (err !== validator.validationError.NONE)
         return err;
-    // validate ViewManagerClient_OnEmbed_Params.services
+    // validate ViewManagerClient_OnEmbed_Params.view_manager_service
     err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 4, true)
     if (err !== validator.validationError.NONE)
         return err;
@@ -1394,48 +1504,62 @@
     err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 16, ViewData, false);
     if (err !== validator.validationError.NONE)
         return err;
-    // validate ViewManagerClient_OnEmbed_Params.exposed_services
+    // validate ViewManagerClient_OnEmbed_Params.services
     err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 24, true)
     if (err !== validator.validationError.NONE)
         return err;
+    // validate ViewManagerClient_OnEmbed_Params.exposed_services
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 28, true)
+    if (err !== validator.validationError.NONE)
+        return err;
     // validate ViewManagerClient_OnEmbed_Params.window_manager_pipe
-    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 28, false)
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 32, false)
     if (err !== validator.validationError.NONE)
         return err;
 
     return validator.validationError.NONE;
   };
 
-  ViewManagerClient_OnEmbed_Params.encodedSize = codec.kStructHeaderSize + 32;
+  ViewManagerClient_OnEmbed_Params.encodedSize = codec.kStructHeaderSize + 40;
 
   ViewManagerClient_OnEmbed_Params.decode = function(decoder) {
     var packed;
     var val = new ViewManagerClient_OnEmbed_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.connection_id = decoder.decodeStruct(codec.Uint16);
     decoder.skip(1);
     decoder.skip(1);
-    val.services = decoder.decodeStruct(codec.Handle);
+    val.view_manager_service = decoder.decodeStruct(codec.Handle);
     val.embedder_url = decoder.decodeStruct(codec.String);
     val.root = decoder.decodeStructPointer(ViewData);
+    val.services = decoder.decodeStruct(codec.Handle);
     val.exposed_services = decoder.decodeStruct(codec.Handle);
     val.window_manager_pipe = decoder.decodeStruct(codec.Handle);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
     return val;
   };
 
   ViewManagerClient_OnEmbed_Params.encode = function(encoder, val) {
     var packed;
     encoder.writeUint32(ViewManagerClient_OnEmbed_Params.encodedSize);
-    encoder.writeUint32(6);
+    encoder.writeUint32(7);
     encoder.encodeStruct(codec.Uint16, val.connection_id);
     encoder.skip(1);
     encoder.skip(1);
-    encoder.encodeStruct(codec.Handle, val.services);
+    encoder.encodeStruct(codec.Handle, val.view_manager_service);
     encoder.encodeStruct(codec.String, val.embedder_url);
     encoder.encodeStructPointer(ViewData, val.root);
+    encoder.encodeStruct(codec.Handle, val.services);
     encoder.encodeStruct(codec.Handle, val.exposed_services);
     encoder.encodeStruct(codec.Handle, val.window_manager_pipe);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
   };
 
   function ViewManagerClient_OnEmbeddedAppDisconnected_Params(values) {
@@ -1470,7 +1594,7 @@
     var packed;
     var val = new ViewManagerClient_OnEmbeddedAppDisconnected_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.view = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -1532,7 +1656,7 @@
     var packed;
     var val = new ViewManagerClient_OnViewBoundsChanged_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.view = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -1597,7 +1721,7 @@
     var packed;
     var val = new ViewManagerClient_OnViewViewportMetricsChanged_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.old_metrics = decoder.decodeStructPointer(native_viewport$.ViewportMetrics);
     val.new_metrics = decoder.decodeStructPointer(native_viewport$.ViewportMetrics);
     return val;
@@ -1650,7 +1774,7 @@
     var packed;
     var val = new ViewManagerClient_OnViewHierarchyChanged_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.view = decoder.decodeStruct(codec.Uint32);
     val.new_parent = decoder.decodeStruct(codec.Uint32);
     val.old_parent = decoder.decodeStruct(codec.Uint32);
@@ -1710,7 +1834,7 @@
     var packed;
     var val = new ViewManagerClient_OnViewReordered_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.view_id = decoder.decodeStruct(codec.Uint32);
     val.relative_view_id = decoder.decodeStruct(codec.Uint32);
     val.direction = decoder.decodeStruct(codec.Int32);
@@ -1766,7 +1890,7 @@
     var packed;
     var val = new ViewManagerClient_OnViewDeleted_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.view = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -1819,7 +1943,7 @@
     var packed;
     var val = new ViewManagerClient_OnViewVisibilityChanged_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.view = decoder.decodeStruct(codec.Uint32);
     val.visible = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
@@ -1872,7 +1996,7 @@
     var packed;
     var val = new ViewManagerClient_OnViewDrawnStateChanged_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.view = decoder.decodeStruct(codec.Uint32);
     val.drawn = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
@@ -1934,7 +2058,7 @@
     var packed;
     var val = new ViewManagerClient_OnViewSharedPropertyChanged_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.view = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -1995,7 +2119,7 @@
     var packed;
     var val = new ViewManagerClient_OnViewInputEvent_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.view = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -2048,7 +2172,7 @@
     var packed;
     var val = new ViewManagerClient_OnViewInputEvent_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -2068,7 +2192,8 @@
   var kViewManagerService_ReorderView_Name = 7;
   var kViewManagerService_GetViewTree_Name = 8;
   var kViewManagerService_SetViewSurfaceId_Name = 9;
-  var kViewManagerService_Embed_Name = 10;
+  var kViewManagerService_EmbedUrl_Name = 10;
+  var kViewManagerService_Embed_Name = 11;
 
   function ViewManagerServiceProxy(receiver) {
     bindings.ProxyBase.call(this, receiver);
@@ -2282,12 +2407,33 @@
       });
     }.bind(this));
   };
-  ViewManagerServiceProxy.prototype.embed = function(url, view_id, services, exposed_services) {
-    var params = new ViewManagerService_Embed_Params();
+  ViewManagerServiceProxy.prototype.embedUrl = function(url, view_id, services, exposed_services) {
+    var params = new ViewManagerService_EmbedUrl_Params();
     params.url = url;
     params.view_id = view_id;
     params.services = core.isHandle(services) ? services : connection.bindProxy(services, service_provider$.ServiceProvider);
     params.exposed_services = core.isHandle(exposed_services) ? exposed_services : connection.bindImpl(exposed_services, service_provider$.ServiceProvider);
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kViewManagerService_EmbedUrl_Name,
+          codec.align(ViewManagerService_EmbedUrl_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(ViewManagerService_EmbedUrl_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(ViewManagerService_EmbedUrl_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
+  };
+  ViewManagerServiceProxy.prototype.embed = function(view_id, client) {
+    var params = new ViewManagerService_Embed_Params();
+    params.view_id = view_id;
+    params.client = core.isHandle(client) ? client : connection.bindImpl(client, ViewManagerClient);
     return new Promise(function(resolve, reject) {
       var builder = new codec.MessageWithRequestIDBuilder(
           kViewManagerService_Embed_Name,
@@ -2340,8 +2486,11 @@
   ViewManagerServiceStub.prototype.setViewSurfaceId = function(view_id, surface_id) {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.setViewSurfaceId && bindings.StubBindings(this).delegate.setViewSurfaceId(view_id, surface_id);
   }
-  ViewManagerServiceStub.prototype.embed = function(url, view_id, services, exposed_services) {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.embed && bindings.StubBindings(this).delegate.embed(url, view_id, connection.bindHandleToStub(services, service_provider$.ServiceProvider), connection.bindHandleToProxy(exposed_services, service_provider$.ServiceProvider));
+  ViewManagerServiceStub.prototype.embedUrl = function(url, view_id, services, exposed_services) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.embedUrl && bindings.StubBindings(this).delegate.embedUrl(url, view_id, connection.bindHandleToStub(services, service_provider$.ServiceProvider), connection.bindHandleToProxy(exposed_services, service_provider$.ServiceProvider));
+  }
+  ViewManagerServiceStub.prototype.embed = function(view_id, client) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.embed && bindings.StubBindings(this).delegate.embed(view_id, connection.bindHandleToProxy(client, ViewManagerClient));
   }
 
   ViewManagerServiceStub.prototype.accept = function(message) {
@@ -2506,9 +2655,24 @@
         var message = builder.finish();
         responder.accept(message);
       });
+    case kViewManagerService_EmbedUrl_Name:
+      var params = reader.decodeStruct(ViewManagerService_EmbedUrl_Params);
+      return this.embedUrl(params.url, params.view_id, params.services, params.exposed_services).then(function(response) {
+        var responseParams =
+            new ViewManagerService_EmbedUrl_ResponseParams();
+        responseParams.success = response.success;
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kViewManagerService_EmbedUrl_Name,
+            codec.align(ViewManagerService_EmbedUrl_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(ViewManagerService_EmbedUrl_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
     case kViewManagerService_Embed_Name:
       var params = reader.decodeStruct(ViewManagerService_Embed_Params);
-      return this.embed(params.url, params.view_id, params.services, params.exposed_services).then(function(response) {
+      return this.embed(params.view_id, params.client).then(function(response) {
         var responseParams =
             new ViewManagerService_Embed_ResponseParams();
         responseParams.success = response.success;
@@ -2570,6 +2734,10 @@
         if (message.expectsResponse())
           paramsClass = ViewManagerService_SetViewSurfaceId_Params;
       break;
+      case kViewManagerService_EmbedUrl_Name:
+        if (message.expectsResponse())
+          paramsClass = ViewManagerService_EmbedUrl_Params;
+      break;
       case kViewManagerService_Embed_Name:
         if (message.expectsResponse())
           paramsClass = ViewManagerService_Embed_Params;
@@ -2624,6 +2792,10 @@
         if (message.isResponse())
           paramsClass = ViewManagerService_SetViewSurfaceId_ResponseParams;
         break;
+      case kViewManagerService_EmbedUrl_Name:
+        if (message.isResponse())
+          paramsClass = ViewManagerService_EmbedUrl_ResponseParams;
+        break;
       case kViewManagerService_Embed_Name:
         if (message.isResponse())
           paramsClass = ViewManagerService_Embed_ResponseParams;
@@ -2660,11 +2832,12 @@
     bindings.ProxyBase.call(this, receiver);
   }
   ViewManagerClientProxy.prototype = Object.create(bindings.ProxyBase.prototype);
-  ViewManagerClientProxy.prototype.onEmbed = function(connection_id, embedder_url, root, services, exposed_services, window_manager_pipe) {
+  ViewManagerClientProxy.prototype.onEmbed = function(connection_id, embedder_url, root, view_manager_service, services, exposed_services, window_manager_pipe) {
     var params = new ViewManagerClient_OnEmbed_Params();
     params.connection_id = connection_id;
     params.embedder_url = embedder_url;
     params.root = root;
+    params.view_manager_service = core.isHandle(view_manager_service) ? view_manager_service : connection.bindImpl(view_manager_service, ViewManagerService);
     params.services = core.isHandle(services) ? services : connection.bindProxy(services, service_provider$.ServiceProvider);
     params.exposed_services = core.isHandle(exposed_services) ? exposed_services : connection.bindImpl(exposed_services, service_provider$.ServiceProvider);
     params.window_manager_pipe = window_manager_pipe;
@@ -2803,8 +2976,8 @@
     bindings.StubBase.call(this, delegate);
   }
   ViewManagerClientStub.prototype = Object.create(bindings.StubBase.prototype);
-  ViewManagerClientStub.prototype.onEmbed = function(connection_id, embedder_url, root, services, exposed_services, window_manager_pipe) {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.onEmbed && bindings.StubBindings(this).delegate.onEmbed(connection_id, embedder_url, root, connection.bindHandleToStub(services, service_provider$.ServiceProvider), connection.bindHandleToProxy(exposed_services, service_provider$.ServiceProvider), window_manager_pipe);
+  ViewManagerClientStub.prototype.onEmbed = function(connection_id, embedder_url, root, view_manager_service, services, exposed_services, window_manager_pipe) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.onEmbed && bindings.StubBindings(this).delegate.onEmbed(connection_id, embedder_url, root, connection.bindHandleToProxy(view_manager_service, ViewManagerService), connection.bindHandleToStub(services, service_provider$.ServiceProvider), connection.bindHandleToProxy(exposed_services, service_provider$.ServiceProvider), window_manager_pipe);
   }
   ViewManagerClientStub.prototype.onEmbeddedAppDisconnected = function(view) {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.onEmbeddedAppDisconnected && bindings.StubBindings(this).delegate.onEmbeddedAppDisconnected(view);
@@ -2842,7 +3015,7 @@
     switch (reader.messageName) {
     case kViewManagerClient_OnEmbed_Name:
       var params = reader.decodeStruct(ViewManagerClient_OnEmbed_Params);
-      this.onEmbed(params.connection_id, params.embedder_url, params.root, params.services, params.exposed_services, params.window_manager_pipe);
+      this.onEmbed(params.connection_id, params.embedder_url, params.root, params.view_manager_service, params.services, params.exposed_services, params.window_manager_pipe);
       return true;
     case kViewManagerClient_OnEmbeddedAppDisconnected_Name:
       var params = reader.decodeStruct(ViewManagerClient_OnEmbeddedAppDisconnected_Params);
@@ -2991,9 +3164,7 @@
   exports.ErrorCode = ErrorCode;
   exports.ViewData = ViewData;
   exports.ViewManagerService = ViewManagerService;
-  exports.ViewManagerService.client = ViewManagerClient;
   exports.ViewManagerClient = ViewManagerClient;
-  exports.ViewManagerClient.client = ViewManagerService;
 
   module.exports = exports;
 </script>

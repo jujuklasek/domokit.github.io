@@ -42,7 +42,7 @@
     var packed;
     var val = new SurfaceId();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.local = decoder.decodeStruct(codec.Uint32);
     val.id_namespace = decoder.decodeStruct(codec.Uint32);
     return val;

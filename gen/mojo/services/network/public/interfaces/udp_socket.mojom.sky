@@ -42,7 +42,7 @@
     var packed;
     var val = new UDPSocket_AllowAddressReuse_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -88,7 +88,7 @@
     var packed;
     var val = new UDPSocket_AllowAddressReuse_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.result = decoder.decodeStructPointer(network_error$.NetworkError);
     return val;
   };
@@ -136,7 +136,7 @@
     var packed;
     var val = new UDPSocket_Bind_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.addr = decoder.decodeStructPointer(net_address$.NetAddress);
     return val;
   };
@@ -157,6 +157,7 @@
   UDPSocket_Bind_ResponseParams.prototype.initDefaults_ = function() {
     this.result = null;
     this.bound_addr = null;
+    this.receiver = null;
   };
   UDPSocket_Bind_ResponseParams.prototype.initFields_ = function(fields) {
     for(var field in fields) {
@@ -168,7 +169,7 @@
   UDPSocket_Bind_ResponseParams.validate = function(messageValidator, offset) {
     var err;
 
-    err = messageValidator.validateStructHeader(offset, UDPSocket_Bind_ResponseParams.encodedSize, 2);
+    err = messageValidator.validateStructHeader(offset, UDPSocket_Bind_ResponseParams.encodedSize, 3);
     if (err !== validator.validationError.NONE)
         return err;
     // validate UDPSocket_Bind_ResponseParams.result
@@ -179,28 +180,42 @@
     err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 8, net_address$.NetAddress, true);
     if (err !== validator.validationError.NONE)
         return err;
+    // validate UDPSocket_Bind_ResponseParams.receiver
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 16, true)
+    if (err !== validator.validationError.NONE)
+        return err;
 
     return validator.validationError.NONE;
   };
 
-  UDPSocket_Bind_ResponseParams.encodedSize = codec.kStructHeaderSize + 16;
+  UDPSocket_Bind_ResponseParams.encodedSize = codec.kStructHeaderSize + 24;
 
   UDPSocket_Bind_ResponseParams.decode = function(decoder) {
     var packed;
     var val = new UDPSocket_Bind_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.result = decoder.decodeStructPointer(network_error$.NetworkError);
     val.bound_addr = decoder.decodeStructPointer(net_address$.NetAddress);
+    val.receiver = decoder.decodeStruct(codec.Handle);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
     return val;
   };
 
   UDPSocket_Bind_ResponseParams.encode = function(encoder, val) {
     var packed;
     encoder.writeUint32(UDPSocket_Bind_ResponseParams.encodedSize);
-    encoder.writeUint32(2);
+    encoder.writeUint32(3);
     encoder.encodeStructPointer(network_error$.NetworkError, val.result);
     encoder.encodeStructPointer(net_address$.NetAddress, val.bound_addr);
+    encoder.encodeStruct(codec.Handle, val.receiver);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
   };
 
   function UDPSocket_Connect_Params(values) {
@@ -239,7 +254,7 @@
     var packed;
     var val = new UDPSocket_Connect_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.remote_addr = decoder.decodeStructPointer(net_address$.NetAddress);
     return val;
   };
@@ -260,6 +275,7 @@
   UDPSocket_Connect_ResponseParams.prototype.initDefaults_ = function() {
     this.result = null;
     this.local_addr = null;
+    this.receiver = null;
   };
   UDPSocket_Connect_ResponseParams.prototype.initFields_ = function(fields) {
     for(var field in fields) {
@@ -271,7 +287,7 @@
   UDPSocket_Connect_ResponseParams.validate = function(messageValidator, offset) {
     var err;
 
-    err = messageValidator.validateStructHeader(offset, UDPSocket_Connect_ResponseParams.encodedSize, 2);
+    err = messageValidator.validateStructHeader(offset, UDPSocket_Connect_ResponseParams.encodedSize, 3);
     if (err !== validator.validationError.NONE)
         return err;
     // validate UDPSocket_Connect_ResponseParams.result
@@ -282,28 +298,42 @@
     err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 8, net_address$.NetAddress, true);
     if (err !== validator.validationError.NONE)
         return err;
+    // validate UDPSocket_Connect_ResponseParams.receiver
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 16, true)
+    if (err !== validator.validationError.NONE)
+        return err;
 
     return validator.validationError.NONE;
   };
 
-  UDPSocket_Connect_ResponseParams.encodedSize = codec.kStructHeaderSize + 16;
+  UDPSocket_Connect_ResponseParams.encodedSize = codec.kStructHeaderSize + 24;
 
   UDPSocket_Connect_ResponseParams.decode = function(decoder) {
     var packed;
     var val = new UDPSocket_Connect_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.result = decoder.decodeStructPointer(network_error$.NetworkError);
     val.local_addr = decoder.decodeStructPointer(net_address$.NetAddress);
+    val.receiver = decoder.decodeStruct(codec.Handle);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
     return val;
   };
 
   UDPSocket_Connect_ResponseParams.encode = function(encoder, val) {
     var packed;
     encoder.writeUint32(UDPSocket_Connect_ResponseParams.encodedSize);
-    encoder.writeUint32(2);
+    encoder.writeUint32(3);
     encoder.encodeStructPointer(network_error$.NetworkError, val.result);
     encoder.encodeStructPointer(net_address$.NetAddress, val.local_addr);
+    encoder.encodeStruct(codec.Handle, val.receiver);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
   };
 
   function UDPSocket_SetSendBufferSize_Params(values) {
@@ -338,7 +368,7 @@
     var packed;
     var val = new UDPSocket_SetSendBufferSize_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.size = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -394,7 +424,7 @@
     var packed;
     var val = new UDPSocket_SetSendBufferSize_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.result = decoder.decodeStructPointer(network_error$.NetworkError);
     return val;
   };
@@ -438,7 +468,7 @@
     var packed;
     var val = new UDPSocket_SetReceiveBufferSize_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.size = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -494,7 +524,7 @@
     var packed;
     var val = new UDPSocket_SetReceiveBufferSize_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.result = decoder.decodeStructPointer(network_error$.NetworkError);
     return val;
   };
@@ -538,7 +568,7 @@
     var packed;
     var val = new UDPSocket_NegotiateMaxPendingSendRequests_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.requested_size = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -590,7 +620,7 @@
     var packed;
     var val = new UDPSocket_NegotiateMaxPendingSendRequests_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.actual_size = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -642,7 +672,7 @@
     var packed;
     var val = new UDPSocket_ReceiveMore_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.datagram_number = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -703,7 +733,7 @@
     var packed;
     var val = new UDPSocket_SendTo_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.dest_addr = decoder.decodeStructPointer(net_address$.NetAddress);
     val.data = decoder.decodeArrayPointer(codec.Uint8);
     return val;
@@ -753,7 +783,7 @@
     var packed;
     var val = new UDPSocket_SendTo_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.result = decoder.decodeStructPointer(network_error$.NetworkError);
     return val;
   };
@@ -765,39 +795,39 @@
     encoder.encodeStructPointer(network_error$.NetworkError, val.result);
   };
 
-  function UDPSocketClient_OnReceived_Params(values) {
+  function UDPSocketReceiver_OnReceived_Params(values) {
     this.initDefaults_();
     this.initFields_(values);
   }
 
 
-  UDPSocketClient_OnReceived_Params.prototype.initDefaults_ = function() {
+  UDPSocketReceiver_OnReceived_Params.prototype.initDefaults_ = function() {
     this.result = null;
     this.src_addr = null;
     this.data = null;
   };
-  UDPSocketClient_OnReceived_Params.prototype.initFields_ = function(fields) {
+  UDPSocketReceiver_OnReceived_Params.prototype.initFields_ = function(fields) {
     for(var field in fields) {
         if (this.hasOwnProperty(field))
           this[field] = fields[field];
     }
   };
 
-  UDPSocketClient_OnReceived_Params.validate = function(messageValidator, offset) {
+  UDPSocketReceiver_OnReceived_Params.validate = function(messageValidator, offset) {
     var err;
 
-    err = messageValidator.validateStructHeader(offset, UDPSocketClient_OnReceived_Params.encodedSize, 3);
+    err = messageValidator.validateStructHeader(offset, UDPSocketReceiver_OnReceived_Params.encodedSize, 3);
     if (err !== validator.validationError.NONE)
         return err;
-    // validate UDPSocketClient_OnReceived_Params.result
+    // validate UDPSocketReceiver_OnReceived_Params.result
     err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 0, network_error$.NetworkError, false);
     if (err !== validator.validationError.NONE)
         return err;
-    // validate UDPSocketClient_OnReceived_Params.src_addr
+    // validate UDPSocketReceiver_OnReceived_Params.src_addr
     err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 8, net_address$.NetAddress, true);
     if (err !== validator.validationError.NONE)
         return err;
-    // validate UDPSocketClient_OnReceived_Params.data
+    // validate UDPSocketReceiver_OnReceived_Params.data
     err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 16, 1, codec.Uint8, true, [0], 0);
     if (err !== validator.validationError.NONE)
         return err;
@@ -805,22 +835,22 @@
     return validator.validationError.NONE;
   };
 
-  UDPSocketClient_OnReceived_Params.encodedSize = codec.kStructHeaderSize + 24;
+  UDPSocketReceiver_OnReceived_Params.encodedSize = codec.kStructHeaderSize + 24;
 
-  UDPSocketClient_OnReceived_Params.decode = function(decoder) {
+  UDPSocketReceiver_OnReceived_Params.decode = function(decoder) {
     var packed;
-    var val = new UDPSocketClient_OnReceived_Params();
+    var val = new UDPSocketReceiver_OnReceived_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.result = decoder.decodeStructPointer(network_error$.NetworkError);
     val.src_addr = decoder.decodeStructPointer(net_address$.NetAddress);
     val.data = decoder.decodeArrayPointer(codec.Uint8);
     return val;
   };
 
-  UDPSocketClient_OnReceived_Params.encode = function(encoder, val) {
+  UDPSocketReceiver_OnReceived_Params.encode = function(encoder, val) {
     var packed;
-    encoder.writeUint32(UDPSocketClient_OnReceived_Params.encodedSize);
+    encoder.writeUint32(UDPSocketReceiver_OnReceived_Params.encodedSize);
     encoder.writeUint32(3);
     encoder.encodeStructPointer(network_error$.NetworkError, val.result);
     encoder.encodeStructPointer(net_address$.NetAddress, val.src_addr);
@@ -1058,6 +1088,7 @@
             new UDPSocket_Bind_ResponseParams();
         responseParams.result = response.result;
         responseParams.bound_addr = response.bound_addr;
+        responseParams.receiver = response.receiver;
         var builder = new codec.MessageWithRequestIDBuilder(
             kUDPSocket_Bind_Name,
             codec.align(UDPSocket_Bind_ResponseParams.encodedSize),
@@ -1074,6 +1105,7 @@
             new UDPSocket_Connect_ResponseParams();
         responseParams.result = response.result;
         responseParams.local_addr = response.local_addr;
+        responseParams.receiver = response.receiver;
         var builder = new codec.MessageWithRequestIDBuilder(
             kUDPSocket_Connect_Name,
             codec.align(UDPSocket_Connect_ResponseParams.encodedSize),
@@ -1238,38 +1270,38 @@
   UDPSocketStub.prototype.validator = validateUDPSocketRequest;
   UDPSocketProxy.prototype.validator = validateUDPSocketResponse;
 
-  var kUDPSocketClient_OnReceived_Name = 0;
+  var kUDPSocketReceiver_OnReceived_Name = 0;
 
-  function UDPSocketClientProxy(receiver) {
+  function UDPSocketReceiverProxy(receiver) {
     bindings.ProxyBase.call(this, receiver);
   }
-  UDPSocketClientProxy.prototype = Object.create(bindings.ProxyBase.prototype);
-  UDPSocketClientProxy.prototype.onReceived = function(result, src_addr, data) {
-    var params = new UDPSocketClient_OnReceived_Params();
+  UDPSocketReceiverProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  UDPSocketReceiverProxy.prototype.onReceived = function(result, src_addr, data) {
+    var params = new UDPSocketReceiver_OnReceived_Params();
     params.result = result;
     params.src_addr = src_addr;
     params.data = data;
     var builder = new codec.MessageBuilder(
-        kUDPSocketClient_OnReceived_Name,
-        codec.align(UDPSocketClient_OnReceived_Params.encodedSize));
-    builder.encodeStruct(UDPSocketClient_OnReceived_Params, params);
+        kUDPSocketReceiver_OnReceived_Name,
+        codec.align(UDPSocketReceiver_OnReceived_Params.encodedSize));
+    builder.encodeStruct(UDPSocketReceiver_OnReceived_Params, params);
     var message = builder.finish();
     this.receiver_.accept(message);
   };
 
-  function UDPSocketClientStub(delegate) {
+  function UDPSocketReceiverStub(delegate) {
     bindings.StubBase.call(this, delegate);
   }
-  UDPSocketClientStub.prototype = Object.create(bindings.StubBase.prototype);
-  UDPSocketClientStub.prototype.onReceived = function(result, src_addr, data) {
+  UDPSocketReceiverStub.prototype = Object.create(bindings.StubBase.prototype);
+  UDPSocketReceiverStub.prototype.onReceived = function(result, src_addr, data) {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.onReceived && bindings.StubBindings(this).delegate.onReceived(result, src_addr, data);
   }
 
-  UDPSocketClientStub.prototype.accept = function(message) {
+  UDPSocketReceiverStub.prototype.accept = function(message) {
     var reader = new codec.MessageReader(message);
     switch (reader.messageName) {
-    case kUDPSocketClient_OnReceived_Name:
-      var params = reader.decodeStruct(UDPSocketClient_OnReceived_Params);
+    case kUDPSocketReceiver_OnReceived_Name:
+      var params = reader.decodeStruct(UDPSocketReceiver_OnReceived_Params);
       this.onReceived(params.result, params.src_addr, params.data);
       return true;
     default:
@@ -1277,7 +1309,7 @@
     }
   };
 
-  UDPSocketClientStub.prototype.acceptWithResponder =
+  UDPSocketReceiverStub.prototype.acceptWithResponder =
       function(message, responder) {
     var reader = new codec.MessageReader(message);
     switch (reader.messageName) {
@@ -1286,13 +1318,13 @@
     }
   };
 
-  function validateUDPSocketClientRequest(messageValidator) {
+  function validateUDPSocketReceiverRequest(messageValidator) {
     var message = messageValidator.message;
     var paramsClass = null;
     switch (message.getName()) {
-      case kUDPSocketClient_OnReceived_Name:
+      case kUDPSocketReceiver_OnReceived_Name:
         if (!message.expectsResponse() && !message.isResponse())
-          paramsClass = UDPSocketClient_OnReceived_Params;
+          paramsClass = UDPSocketReceiver_OnReceived_Params;
       break;
     }
     if (paramsClass === null)
@@ -1300,25 +1332,24 @@
     return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
   }
 
-  function validateUDPSocketClientResponse(messageValidator) {
+  function validateUDPSocketReceiverResponse(messageValidator) {
     return validator.validationError.NONE;
   }
 
-  var UDPSocketClient = {
-    name: 'mojo::UDPSocketClient',
-    proxyClass: UDPSocketClientProxy,
-    stubClass: UDPSocketClientStub,
-    validateRequest: validateUDPSocketClientRequest,
+  var UDPSocketReceiver = {
+    name: 'mojo::UDPSocketReceiver',
+    proxyClass: UDPSocketReceiverProxy,
+    stubClass: UDPSocketReceiverStub,
+    validateRequest: validateUDPSocketReceiverRequest,
     validateResponse: null,
   };
-  UDPSocketClientStub.prototype.validator = validateUDPSocketClientRequest;
-  UDPSocketClientProxy.prototype.validator = null;
+  UDPSocketReceiverStub.prototype.validator = validateUDPSocketReceiverRequest;
+  UDPSocketReceiverProxy.prototype.validator = null;
 
 
   var exports = {};
   exports.UDPSocket = UDPSocket;
-  exports.UDPSocket.client = UDPSocketClient;
-  exports.UDPSocketClient = UDPSocketClient;
+  exports.UDPSocketReceiver = UDPSocketReceiver;
 
   module.exports = exports;
 </script>

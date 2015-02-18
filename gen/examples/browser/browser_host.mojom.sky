@@ -45,7 +45,7 @@
     var packed;
     var val = new BrowserHost_NavigateTo_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.url = decoder.decodeStruct(codec.String);
     return val;
   };

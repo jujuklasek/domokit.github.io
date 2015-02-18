@@ -20,6 +20,7 @@
   Application_Initialize_Params.prototype.initDefaults_ = function() {
     this.shell = null;
     this.args = null;
+    this.url = null;
   };
   Application_Initialize_Params.prototype.initFields_ = function(fields) {
     for(var field in fields) {
@@ -31,7 +32,7 @@
   Application_Initialize_Params.validate = function(messageValidator, offset) {
     var err;
 
-    err = messageValidator.validateStructHeader(offset, Application_Initialize_Params.encodedSize, 2);
+    err = messageValidator.validateStructHeader(offset, Application_Initialize_Params.encodedSize, 3);
     if (err !== validator.validationError.NONE)
         return err;
     // validate Application_Initialize_Params.shell
@@ -42,36 +43,42 @@
     err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 8, 8, codec.String, true, [0, 0], 0);
     if (err !== validator.validationError.NONE)
         return err;
+    // validate Application_Initialize_Params.url
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 16, false)
+    if (err !== validator.validationError.NONE)
+        return err;
 
     return validator.validationError.NONE;
   };
 
-  Application_Initialize_Params.encodedSize = codec.kStructHeaderSize + 16;
+  Application_Initialize_Params.encodedSize = codec.kStructHeaderSize + 24;
 
   Application_Initialize_Params.decode = function(decoder) {
     var packed;
     var val = new Application_Initialize_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.shell = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
     decoder.skip(1);
     decoder.skip(1);
     decoder.skip(1);
     val.args = decoder.decodeArrayPointer(codec.String);
+    val.url = decoder.decodeStruct(codec.String);
     return val;
   };
 
   Application_Initialize_Params.encode = function(encoder, val) {
     var packed;
     encoder.writeUint32(Application_Initialize_Params.encodedSize);
-    encoder.writeUint32(2);
+    encoder.writeUint32(3);
     encoder.encodeStruct(codec.Handle, val.shell);
     encoder.skip(1);
     encoder.skip(1);
     encoder.skip(1);
     encoder.skip(1);
     encoder.encodeArrayPointer(codec.String, val.args);
+    encoder.encodeStruct(codec.String, val.url);
   };
 
   function Application_AcceptConnection_Params(values) {
@@ -120,7 +127,7 @@
     var packed;
     var val = new Application_AcceptConnection_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.requestor_url = decoder.decodeStruct(codec.String);
     val.services = decoder.decodeStruct(codec.Handle);
     val.exposed_services = decoder.decodeStruct(codec.Handle);
@@ -167,7 +174,7 @@
     var packed;
     var val = new Application_RequestQuit_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -185,10 +192,11 @@
     bindings.ProxyBase.call(this, receiver);
   }
   ApplicationProxy.prototype = Object.create(bindings.ProxyBase.prototype);
-  ApplicationProxy.prototype.initialize = function(shell, args) {
+  ApplicationProxy.prototype.initialize = function(shell, args, url) {
     var params = new Application_Initialize_Params();
     params.shell = core.isHandle(shell) ? shell : connection.bindImpl(shell, shell$.Shell);
     params.args = args;
+    params.url = url;
     var builder = new codec.MessageBuilder(
         kApplication_Initialize_Name,
         codec.align(Application_Initialize_Params.encodedSize));
@@ -222,8 +230,8 @@
     bindings.StubBase.call(this, delegate);
   }
   ApplicationStub.prototype = Object.create(bindings.StubBase.prototype);
-  ApplicationStub.prototype.initialize = function(shell, args) {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.initialize && bindings.StubBindings(this).delegate.initialize(connection.bindHandleToProxy(shell, shell$.Shell), args);
+  ApplicationStub.prototype.initialize = function(shell, args, url) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.initialize && bindings.StubBindings(this).delegate.initialize(connection.bindHandleToProxy(shell, shell$.Shell), args, url);
   }
   ApplicationStub.prototype.acceptConnection = function(requestor_url, services, exposed_services) {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.acceptConnection && bindings.StubBindings(this).delegate.acceptConnection(requestor_url, connection.bindHandleToStub(services, service_provider$.ServiceProvider), connection.bindHandleToProxy(exposed_services, service_provider$.ServiceProvider));
@@ -237,7 +245,7 @@
     switch (reader.messageName) {
     case kApplication_Initialize_Name:
       var params = reader.decodeStruct(Application_Initialize_Params);
-      this.initialize(params.shell, params.args);
+      this.initialize(params.shell, params.args, params.url);
       return true;
     case kApplication_AcceptConnection_Name:
       var params = reader.decodeStruct(Application_AcceptConnection_Params);

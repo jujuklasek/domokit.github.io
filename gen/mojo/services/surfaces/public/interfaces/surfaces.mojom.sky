@@ -58,7 +58,7 @@
     var packed;
     var val = new Mailbox();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.name = decoder.decodeArrayPointer(codec.Int8);
     return val;
   };
@@ -108,7 +108,7 @@
     var packed;
     var val = new MailboxHolder();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.mailbox = decoder.decodeStructPointer(Mailbox);
     val.texture_target = decoder.decodeStruct(codec.Uint32);
     val.sync_point = decoder.decodeStruct(codec.Uint32);
@@ -170,7 +170,7 @@
     var packed;
     var val = new TransferableResource();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.id = decoder.decodeStruct(codec.Uint32);
     val.format = decoder.decodeStruct(codec.Int32);
     val.filter = decoder.decodeStruct(codec.Uint32);
@@ -238,7 +238,7 @@
     var packed;
     var val = new ReturnedResource();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.id = decoder.decodeStruct(codec.Uint32);
     val.sync_point = decoder.decodeStruct(codec.Uint32);
     val.count = decoder.decodeStruct(codec.Int32);
@@ -303,7 +303,7 @@
     var packed;
     var val = new Frame();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.resources = decoder.decodeArrayPointer(new codec.PointerTo(TransferableResource));
     val.passes = decoder.decodeArrayPointer(new codec.PointerTo(quads$.Pass));
     return val;
@@ -317,39 +317,128 @@
     encoder.encodeArrayPointer(new codec.PointerTo(quads$.Pass), val.passes);
   };
 
-  function SurfaceClient_SetIdNamespace_Params(values) {
+  function ResourceReturner_ReturnResources_Params(values) {
     this.initDefaults_();
     this.initFields_(values);
   }
 
 
-  SurfaceClient_SetIdNamespace_Params.prototype.initDefaults_ = function() {
-    this.id_namespace = 0;
+  ResourceReturner_ReturnResources_Params.prototype.initDefaults_ = function() {
+    this.resources = null;
   };
-  SurfaceClient_SetIdNamespace_Params.prototype.initFields_ = function(fields) {
+  ResourceReturner_ReturnResources_Params.prototype.initFields_ = function(fields) {
     for(var field in fields) {
         if (this.hasOwnProperty(field))
           this[field] = fields[field];
     }
   };
 
-  SurfaceClient_SetIdNamespace_Params.validate = function(messageValidator, offset) {
+  ResourceReturner_ReturnResources_Params.validate = function(messageValidator, offset) {
     var err;
 
-    err = messageValidator.validateStructHeader(offset, SurfaceClient_SetIdNamespace_Params.encodedSize, 1);
+    err = messageValidator.validateStructHeader(offset, ResourceReturner_ReturnResources_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ResourceReturner_ReturnResources_Params.resources
+    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 0, 8, new codec.PointerTo(ReturnedResource), false, [0], 0);
     if (err !== validator.validationError.NONE)
         return err;
 
     return validator.validationError.NONE;
   };
 
-  SurfaceClient_SetIdNamespace_Params.encodedSize = codec.kStructHeaderSize + 8;
+  ResourceReturner_ReturnResources_Params.encodedSize = codec.kStructHeaderSize + 8;
 
-  SurfaceClient_SetIdNamespace_Params.decode = function(decoder) {
+  ResourceReturner_ReturnResources_Params.decode = function(decoder) {
     var packed;
-    var val = new SurfaceClient_SetIdNamespace_Params();
+    var val = new ResourceReturner_ReturnResources_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.resources = decoder.decodeArrayPointer(new codec.PointerTo(ReturnedResource));
+    return val;
+  };
+
+  ResourceReturner_ReturnResources_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ResourceReturner_ReturnResources_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeArrayPointer(new codec.PointerTo(ReturnedResource), val.resources);
+  };
+
+  function Surface_GetIdNamespace_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Surface_GetIdNamespace_Params.prototype.initDefaults_ = function() {
+  };
+  Surface_GetIdNamespace_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Surface_GetIdNamespace_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Surface_GetIdNamespace_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Surface_GetIdNamespace_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  Surface_GetIdNamespace_Params.decode = function(decoder) {
+    var packed;
+    var val = new Surface_GetIdNamespace_Params();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    return val;
+  };
+
+  Surface_GetIdNamespace_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Surface_GetIdNamespace_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  function Surface_GetIdNamespace_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Surface_GetIdNamespace_ResponseParams.prototype.initDefaults_ = function() {
+    this.id_namespace = 0;
+  };
+  Surface_GetIdNamespace_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Surface_GetIdNamespace_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Surface_GetIdNamespace_ResponseParams.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Surface_GetIdNamespace_ResponseParams.encodedSize = codec.kStructHeaderSize + 8;
+
+  Surface_GetIdNamespace_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new Surface_GetIdNamespace_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
     val.id_namespace = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -358,9 +447,9 @@
     return val;
   };
 
-  SurfaceClient_SetIdNamespace_Params.encode = function(encoder, val) {
+  Surface_GetIdNamespace_ResponseParams.encode = function(encoder, val) {
     var packed;
-    encoder.writeUint32(SurfaceClient_SetIdNamespace_Params.encodedSize);
+    encoder.writeUint32(Surface_GetIdNamespace_ResponseParams.encodedSize);
     encoder.writeUint32(1);
     encoder.encodeStruct(codec.Uint32, val.id_namespace);
     encoder.skip(1);
@@ -369,52 +458,60 @@
     encoder.skip(1);
   };
 
-  function SurfaceClient_ReturnResources_Params(values) {
+  function Surface_SetResourceReturner_Params(values) {
     this.initDefaults_();
     this.initFields_(values);
   }
 
 
-  SurfaceClient_ReturnResources_Params.prototype.initDefaults_ = function() {
-    this.resources = null;
+  Surface_SetResourceReturner_Params.prototype.initDefaults_ = function() {
+    this.returner = null;
   };
-  SurfaceClient_ReturnResources_Params.prototype.initFields_ = function(fields) {
+  Surface_SetResourceReturner_Params.prototype.initFields_ = function(fields) {
     for(var field in fields) {
         if (this.hasOwnProperty(field))
           this[field] = fields[field];
     }
   };
 
-  SurfaceClient_ReturnResources_Params.validate = function(messageValidator, offset) {
+  Surface_SetResourceReturner_Params.validate = function(messageValidator, offset) {
     var err;
 
-    err = messageValidator.validateStructHeader(offset, SurfaceClient_ReturnResources_Params.encodedSize, 1);
+    err = messageValidator.validateStructHeader(offset, Surface_SetResourceReturner_Params.encodedSize, 1);
     if (err !== validator.validationError.NONE)
         return err;
-    // validate SurfaceClient_ReturnResources_Params.resources
-    err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 0, 8, new codec.PointerTo(ReturnedResource), false, [0], 0);
+    // validate Surface_SetResourceReturner_Params.returner
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 0, false)
     if (err !== validator.validationError.NONE)
         return err;
 
     return validator.validationError.NONE;
   };
 
-  SurfaceClient_ReturnResources_Params.encodedSize = codec.kStructHeaderSize + 8;
+  Surface_SetResourceReturner_Params.encodedSize = codec.kStructHeaderSize + 8;
 
-  SurfaceClient_ReturnResources_Params.decode = function(decoder) {
+  Surface_SetResourceReturner_Params.decode = function(decoder) {
     var packed;
-    var val = new SurfaceClient_ReturnResources_Params();
+    var val = new Surface_SetResourceReturner_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
-    val.resources = decoder.decodeArrayPointer(new codec.PointerTo(ReturnedResource));
+    var version = decoder.readUint32();
+    val.returner = decoder.decodeStruct(codec.Handle);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
     return val;
   };
 
-  SurfaceClient_ReturnResources_Params.encode = function(encoder, val) {
+  Surface_SetResourceReturner_Params.encode = function(encoder, val) {
     var packed;
-    encoder.writeUint32(SurfaceClient_ReturnResources_Params.encodedSize);
+    encoder.writeUint32(Surface_SetResourceReturner_Params.encodedSize);
     encoder.writeUint32(1);
-    encoder.encodeArrayPointer(new codec.PointerTo(ReturnedResource), val.resources);
+    encoder.encodeStruct(codec.Handle, val.returner);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
   };
 
   function Surface_CreateSurface_Params(values) {
@@ -449,7 +546,7 @@
     var packed;
     var val = new Surface_CreateSurface_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.id_local = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -506,7 +603,7 @@
     var packed;
     var val = new Surface_SubmitFrame_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.id_local = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -559,7 +656,7 @@
     var packed;
     var val = new Surface_SubmitFrame_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -601,7 +698,7 @@
     var packed;
     var val = new Surface_DestroySurface_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.id_local = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -668,7 +765,7 @@
     var packed;
     var val = new Surface_CreateGLES2BoundSurface_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.gles2_client = decoder.decodeStruct(codec.Handle);
     val.id_local = decoder.decodeStruct(codec.Uint32);
     val.size = decoder.decodeStructPointer(geometry$.Size);
@@ -694,54 +791,36 @@
     encoder.skip(1);
   };
 
-  var kSurfaceClient_SetIdNamespace_Name = 0;
-  var kSurfaceClient_ReturnResources_Name = 1;
+  var kResourceReturner_ReturnResources_Name = 0;
 
-  function SurfaceClientProxy(receiver) {
+  function ResourceReturnerProxy(receiver) {
     bindings.ProxyBase.call(this, receiver);
   }
-  SurfaceClientProxy.prototype = Object.create(bindings.ProxyBase.prototype);
-  SurfaceClientProxy.prototype.setIdNamespace = function(id_namespace) {
-    var params = new SurfaceClient_SetIdNamespace_Params();
-    params.id_namespace = id_namespace;
-    var builder = new codec.MessageBuilder(
-        kSurfaceClient_SetIdNamespace_Name,
-        codec.align(SurfaceClient_SetIdNamespace_Params.encodedSize));
-    builder.encodeStruct(SurfaceClient_SetIdNamespace_Params, params);
-    var message = builder.finish();
-    this.receiver_.accept(message);
-  };
-  SurfaceClientProxy.prototype.returnResources = function(resources) {
-    var params = new SurfaceClient_ReturnResources_Params();
+  ResourceReturnerProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  ResourceReturnerProxy.prototype.returnResources = function(resources) {
+    var params = new ResourceReturner_ReturnResources_Params();
     params.resources = resources;
     var builder = new codec.MessageBuilder(
-        kSurfaceClient_ReturnResources_Name,
-        codec.align(SurfaceClient_ReturnResources_Params.encodedSize));
-    builder.encodeStruct(SurfaceClient_ReturnResources_Params, params);
+        kResourceReturner_ReturnResources_Name,
+        codec.align(ResourceReturner_ReturnResources_Params.encodedSize));
+    builder.encodeStruct(ResourceReturner_ReturnResources_Params, params);
     var message = builder.finish();
     this.receiver_.accept(message);
   };
 
-  function SurfaceClientStub(delegate) {
+  function ResourceReturnerStub(delegate) {
     bindings.StubBase.call(this, delegate);
   }
-  SurfaceClientStub.prototype = Object.create(bindings.StubBase.prototype);
-  SurfaceClientStub.prototype.setIdNamespace = function(id_namespace) {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.setIdNamespace && bindings.StubBindings(this).delegate.setIdNamespace(id_namespace);
-  }
-  SurfaceClientStub.prototype.returnResources = function(resources) {
+  ResourceReturnerStub.prototype = Object.create(bindings.StubBase.prototype);
+  ResourceReturnerStub.prototype.returnResources = function(resources) {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.returnResources && bindings.StubBindings(this).delegate.returnResources(resources);
   }
 
-  SurfaceClientStub.prototype.accept = function(message) {
+  ResourceReturnerStub.prototype.accept = function(message) {
     var reader = new codec.MessageReader(message);
     switch (reader.messageName) {
-    case kSurfaceClient_SetIdNamespace_Name:
-      var params = reader.decodeStruct(SurfaceClient_SetIdNamespace_Params);
-      this.setIdNamespace(params.id_namespace);
-      return true;
-    case kSurfaceClient_ReturnResources_Name:
-      var params = reader.decodeStruct(SurfaceClient_ReturnResources_Params);
+    case kResourceReturner_ReturnResources_Name:
+      var params = reader.decodeStruct(ResourceReturner_ReturnResources_Params);
       this.returnResources(params.resources);
       return true;
     default:
@@ -749,7 +828,7 @@
     }
   };
 
-  SurfaceClientStub.prototype.acceptWithResponder =
+  ResourceReturnerStub.prototype.acceptWithResponder =
       function(message, responder) {
     var reader = new codec.MessageReader(message);
     switch (reader.messageName) {
@@ -758,17 +837,13 @@
     }
   };
 
-  function validateSurfaceClientRequest(messageValidator) {
+  function validateResourceReturnerRequest(messageValidator) {
     var message = messageValidator.message;
     var paramsClass = null;
     switch (message.getName()) {
-      case kSurfaceClient_SetIdNamespace_Name:
+      case kResourceReturner_ReturnResources_Name:
         if (!message.expectsResponse() && !message.isResponse())
-          paramsClass = SurfaceClient_SetIdNamespace_Params;
-      break;
-      case kSurfaceClient_ReturnResources_Name:
-        if (!message.expectsResponse() && !message.isResponse())
-          paramsClass = SurfaceClient_ReturnResources_Params;
+          paramsClass = ResourceReturner_ReturnResources_Params;
       break;
     }
     if (paramsClass === null)
@@ -776,29 +851,60 @@
     return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
   }
 
-  function validateSurfaceClientResponse(messageValidator) {
+  function validateResourceReturnerResponse(messageValidator) {
     return validator.validationError.NONE;
   }
 
-  var SurfaceClient = {
-    name: 'mojo::SurfaceClient',
-    proxyClass: SurfaceClientProxy,
-    stubClass: SurfaceClientStub,
-    validateRequest: validateSurfaceClientRequest,
+  var ResourceReturner = {
+    name: 'mojo::ResourceReturner',
+    proxyClass: ResourceReturnerProxy,
+    stubClass: ResourceReturnerStub,
+    validateRequest: validateResourceReturnerRequest,
     validateResponse: null,
   };
-  SurfaceClientStub.prototype.validator = validateSurfaceClientRequest;
-  SurfaceClientProxy.prototype.validator = null;
+  ResourceReturnerStub.prototype.validator = validateResourceReturnerRequest;
+  ResourceReturnerProxy.prototype.validator = null;
 
-  var kSurface_CreateSurface_Name = 0;
-  var kSurface_SubmitFrame_Name = 1;
-  var kSurface_DestroySurface_Name = 2;
-  var kSurface_CreateGLES2BoundSurface_Name = 3;
+  var kSurface_GetIdNamespace_Name = 0;
+  var kSurface_SetResourceReturner_Name = 1;
+  var kSurface_CreateSurface_Name = 2;
+  var kSurface_SubmitFrame_Name = 3;
+  var kSurface_DestroySurface_Name = 4;
+  var kSurface_CreateGLES2BoundSurface_Name = 5;
 
   function SurfaceProxy(receiver) {
     bindings.ProxyBase.call(this, receiver);
   }
   SurfaceProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  SurfaceProxy.prototype.getIdNamespace = function() {
+    var params = new Surface_GetIdNamespace_Params();
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kSurface_GetIdNamespace_Name,
+          codec.align(Surface_GetIdNamespace_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(Surface_GetIdNamespace_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(Surface_GetIdNamespace_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
+  };
+  SurfaceProxy.prototype.setResourceReturner = function(returner) {
+    var params = new Surface_SetResourceReturner_Params();
+    params.returner = core.isHandle(returner) ? returner : connection.bindImpl(returner, ResourceReturner);
+    var builder = new codec.MessageBuilder(
+        kSurface_SetResourceReturner_Name,
+        codec.align(Surface_SetResourceReturner_Params.encodedSize));
+    builder.encodeStruct(Surface_SetResourceReturner_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
   SurfaceProxy.prototype.createSurface = function(id_local) {
     var params = new Surface_CreateSurface_Params();
     params.id_local = id_local;
@@ -858,6 +964,12 @@
     bindings.StubBase.call(this, delegate);
   }
   SurfaceStub.prototype = Object.create(bindings.StubBase.prototype);
+  SurfaceStub.prototype.getIdNamespace = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.getIdNamespace && bindings.StubBindings(this).delegate.getIdNamespace();
+  }
+  SurfaceStub.prototype.setResourceReturner = function(returner) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.setResourceReturner && bindings.StubBindings(this).delegate.setResourceReturner(connection.bindHandleToProxy(returner, ResourceReturner));
+  }
   SurfaceStub.prototype.createSurface = function(id_local) {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.createSurface && bindings.StubBindings(this).delegate.createSurface(id_local);
   }
@@ -874,6 +986,10 @@
   SurfaceStub.prototype.accept = function(message) {
     var reader = new codec.MessageReader(message);
     switch (reader.messageName) {
+    case kSurface_SetResourceReturner_Name:
+      var params = reader.decodeStruct(Surface_SetResourceReturner_Params);
+      this.setResourceReturner(params.returner);
+      return true;
     case kSurface_CreateSurface_Name:
       var params = reader.decodeStruct(Surface_CreateSurface_Params);
       this.createSurface(params.id_local);
@@ -895,6 +1011,21 @@
       function(message, responder) {
     var reader = new codec.MessageReader(message);
     switch (reader.messageName) {
+    case kSurface_GetIdNamespace_Name:
+      var params = reader.decodeStruct(Surface_GetIdNamespace_Params);
+      return this.getIdNamespace().then(function(response) {
+        var responseParams =
+            new Surface_GetIdNamespace_ResponseParams();
+        responseParams.id_namespace = response.id_namespace;
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kSurface_GetIdNamespace_Name,
+            codec.align(Surface_GetIdNamespace_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(Surface_GetIdNamespace_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
     case kSurface_SubmitFrame_Name:
       var params = reader.decodeStruct(Surface_SubmitFrame_Params);
       return this.submitFrame(params.id_local, params.frame).then(function(response) {
@@ -918,6 +1049,14 @@
     var message = messageValidator.message;
     var paramsClass = null;
     switch (message.getName()) {
+      case kSurface_GetIdNamespace_Name:
+        if (message.expectsResponse())
+          paramsClass = Surface_GetIdNamespace_Params;
+      break;
+      case kSurface_SetResourceReturner_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = Surface_SetResourceReturner_Params;
+      break;
       case kSurface_CreateSurface_Name:
         if (!message.expectsResponse() && !message.isResponse())
           paramsClass = Surface_CreateSurface_Params;
@@ -944,6 +1083,10 @@
    var message = messageValidator.message;
    var paramsClass = null;
    switch (message.getName()) {
+      case kSurface_GetIdNamespace_Name:
+        if (message.isResponse())
+          paramsClass = Surface_GetIdNamespace_ResponseParams;
+        break;
       case kSurface_SubmitFrame_Name:
         if (message.isResponse())
           paramsClass = Surface_SubmitFrame_ResponseParams;
@@ -972,9 +1115,8 @@
   exports.TransferableResource = TransferableResource;
   exports.ReturnedResource = ReturnedResource;
   exports.Frame = Frame;
-  exports.SurfaceClient = SurfaceClient;
+  exports.ResourceReturner = ResourceReturner;
   exports.Surface = Surface;
-  exports.Surface.client = SurfaceClient;
 
   module.exports = exports;
 </script>

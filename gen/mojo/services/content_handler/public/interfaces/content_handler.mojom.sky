@@ -52,7 +52,7 @@
     var packed;
     var val = new ContentHandler_StartApplication_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.application = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
     decoder.skip(1);

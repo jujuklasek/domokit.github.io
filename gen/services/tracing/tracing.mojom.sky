@@ -17,6 +17,7 @@
 
   TraceController_StartTracing_Params.prototype.initDefaults_ = function() {
     this.categories = null;
+    this.collector = null;
   };
   TraceController_StartTracing_Params.prototype.initFields_ = function(fields) {
     for(var field in fields) {
@@ -28,33 +29,47 @@
   TraceController_StartTracing_Params.validate = function(messageValidator, offset) {
     var err;
 
-    err = messageValidator.validateStructHeader(offset, TraceController_StartTracing_Params.encodedSize, 1);
+    err = messageValidator.validateStructHeader(offset, TraceController_StartTracing_Params.encodedSize, 2);
     if (err !== validator.validationError.NONE)
         return err;
     // validate TraceController_StartTracing_Params.categories
     err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 0, false)
     if (err !== validator.validationError.NONE)
         return err;
+    // validate TraceController_StartTracing_Params.collector
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 8, false)
+    if (err !== validator.validationError.NONE)
+        return err;
 
     return validator.validationError.NONE;
   };
 
-  TraceController_StartTracing_Params.encodedSize = codec.kStructHeaderSize + 8;
+  TraceController_StartTracing_Params.encodedSize = codec.kStructHeaderSize + 16;
 
   TraceController_StartTracing_Params.decode = function(decoder) {
     var packed;
     var val = new TraceController_StartTracing_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.categories = decoder.decodeStruct(codec.String);
+    val.collector = decoder.decodeStruct(codec.Handle);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
     return val;
   };
 
   TraceController_StartTracing_Params.encode = function(encoder, val) {
     var packed;
     encoder.writeUint32(TraceController_StartTracing_Params.encodedSize);
-    encoder.writeUint32(1);
+    encoder.writeUint32(2);
     encoder.encodeStruct(codec.String, val.categories);
+    encoder.encodeStruct(codec.Handle, val.collector);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
   };
 
   function TraceController_StopTracing_Params(values) {
@@ -88,7 +103,7 @@
     var packed;
     var val = new TraceController_StopTracing_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -134,7 +149,7 @@
     var packed;
     var val = new TraceDataCollector_DataCollected_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.json = decoder.decodeStruct(codec.String);
     return val;
   };
@@ -144,47 +159,6 @@
     encoder.writeUint32(TraceDataCollector_DataCollected_Params.encodedSize);
     encoder.writeUint32(1);
     encoder.encodeStruct(codec.String, val.json);
-  };
-
-  function TraceDataCollector_EndTracing_Params(values) {
-    this.initDefaults_();
-    this.initFields_(values);
-  }
-
-
-  TraceDataCollector_EndTracing_Params.prototype.initDefaults_ = function() {
-  };
-  TraceDataCollector_EndTracing_Params.prototype.initFields_ = function(fields) {
-    for(var field in fields) {
-        if (this.hasOwnProperty(field))
-          this[field] = fields[field];
-    }
-  };
-
-  TraceDataCollector_EndTracing_Params.validate = function(messageValidator, offset) {
-    var err;
-
-    err = messageValidator.validateStructHeader(offset, TraceDataCollector_EndTracing_Params.encodedSize, 0);
-    if (err !== validator.validationError.NONE)
-        return err;
-
-    return validator.validationError.NONE;
-  };
-
-  TraceDataCollector_EndTracing_Params.encodedSize = codec.kStructHeaderSize + 0;
-
-  TraceDataCollector_EndTracing_Params.decode = function(decoder) {
-    var packed;
-    var val = new TraceDataCollector_EndTracing_Params();
-    var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
-    return val;
-  };
-
-  TraceDataCollector_EndTracing_Params.encode = function(encoder, val) {
-    var packed;
-    encoder.writeUint32(TraceDataCollector_EndTracing_Params.encodedSize);
-    encoder.writeUint32(0);
   };
 
   function TraceCoordinator_Start_Params(values) {
@@ -228,7 +202,7 @@
     var packed;
     var val = new TraceCoordinator_Start_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.stream = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
     decoder.skip(1);
@@ -281,7 +255,7 @@
     var packed;
     var val = new TraceCoordinator_StopAndFlush_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -298,9 +272,10 @@
     bindings.ProxyBase.call(this, receiver);
   }
   TraceControllerProxy.prototype = Object.create(bindings.ProxyBase.prototype);
-  TraceControllerProxy.prototype.startTracing = function(categories) {
+  TraceControllerProxy.prototype.startTracing = function(categories, collector) {
     var params = new TraceController_StartTracing_Params();
     params.categories = categories;
+    params.collector = core.isHandle(collector) ? collector : connection.bindImpl(collector, TraceDataCollector);
     var builder = new codec.MessageBuilder(
         kTraceController_StartTracing_Name,
         codec.align(TraceController_StartTracing_Params.encodedSize));
@@ -322,8 +297,8 @@
     bindings.StubBase.call(this, delegate);
   }
   TraceControllerStub.prototype = Object.create(bindings.StubBase.prototype);
-  TraceControllerStub.prototype.startTracing = function(categories) {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.startTracing && bindings.StubBindings(this).delegate.startTracing(categories);
+  TraceControllerStub.prototype.startTracing = function(categories, collector) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.startTracing && bindings.StubBindings(this).delegate.startTracing(categories, connection.bindHandleToProxy(collector, TraceDataCollector));
   }
   TraceControllerStub.prototype.stopTracing = function() {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.stopTracing && bindings.StubBindings(this).delegate.stopTracing();
@@ -334,7 +309,7 @@
     switch (reader.messageName) {
     case kTraceController_StartTracing_Name:
       var params = reader.decodeStruct(TraceController_StartTracing_Params);
-      this.startTracing(params.categories);
+      this.startTracing(params.categories, params.collector);
       return true;
     case kTraceController_StopTracing_Name:
       var params = reader.decodeStruct(TraceController_StopTracing_Params);
@@ -387,7 +362,6 @@
   TraceControllerProxy.prototype.validator = null;
 
   var kTraceDataCollector_DataCollected_Name = 0;
-  var kTraceDataCollector_EndTracing_Name = 1;
 
   function TraceDataCollectorProxy(receiver) {
     bindings.ProxyBase.call(this, receiver);
@@ -403,15 +377,6 @@
     var message = builder.finish();
     this.receiver_.accept(message);
   };
-  TraceDataCollectorProxy.prototype.endTracing = function() {
-    var params = new TraceDataCollector_EndTracing_Params();
-    var builder = new codec.MessageBuilder(
-        kTraceDataCollector_EndTracing_Name,
-        codec.align(TraceDataCollector_EndTracing_Params.encodedSize));
-    builder.encodeStruct(TraceDataCollector_EndTracing_Params, params);
-    var message = builder.finish();
-    this.receiver_.accept(message);
-  };
 
   function TraceDataCollectorStub(delegate) {
     bindings.StubBase.call(this, delegate);
@@ -420,9 +385,6 @@
   TraceDataCollectorStub.prototype.dataCollected = function(json) {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.dataCollected && bindings.StubBindings(this).delegate.dataCollected(json);
   }
-  TraceDataCollectorStub.prototype.endTracing = function() {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.endTracing && bindings.StubBindings(this).delegate.endTracing();
-  }
 
   TraceDataCollectorStub.prototype.accept = function(message) {
     var reader = new codec.MessageReader(message);
@@ -430,10 +392,6 @@
     case kTraceDataCollector_DataCollected_Name:
       var params = reader.decodeStruct(TraceDataCollector_DataCollected_Params);
       this.dataCollected(params.json);
-      return true;
-    case kTraceDataCollector_EndTracing_Name:
-      var params = reader.decodeStruct(TraceDataCollector_EndTracing_Params);
-      this.endTracing();
       return true;
     default:
       return false;
@@ -456,10 +414,6 @@
       case kTraceDataCollector_DataCollected_Name:
         if (!message.expectsResponse() && !message.isResponse())
           paramsClass = TraceDataCollector_DataCollected_Params;
-      break;
-      case kTraceDataCollector_EndTracing_Name:
-        if (!message.expectsResponse() && !message.isResponse())
-          paramsClass = TraceDataCollector_EndTracing_Params;
       break;
     }
     if (paramsClass === null)
@@ -580,9 +534,7 @@
 
   var exports = {};
   exports.TraceController = TraceController;
-  exports.TraceController.client = TraceDataCollector;
   exports.TraceDataCollector = TraceDataCollector;
-  exports.TraceDataCollector.client = TraceController;
   exports.TraceCoordinator = TraceCoordinator;
 
   module.exports = exports;

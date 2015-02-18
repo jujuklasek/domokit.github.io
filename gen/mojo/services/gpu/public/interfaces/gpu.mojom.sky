@@ -59,7 +59,7 @@
     var packed;
     var val = new Gpu_CreateOnscreenGLES2Context_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.native_viewport_id = decoder.decodeStruct(codec.Uint64);
     val.size = decoder.decodeStructPointer(geometry$.Size);
     val.gles2_client = decoder.decodeStruct(codec.Handle);
@@ -113,7 +113,7 @@
     var packed;
     var val = new Gpu_CreateOffscreenGLES2Context_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.gles2_client = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
     decoder.skip(1);

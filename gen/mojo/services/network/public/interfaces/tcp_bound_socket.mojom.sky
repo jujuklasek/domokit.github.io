@@ -49,7 +49,7 @@
     var packed;
     var val = new TCPBoundSocket_StartListening_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.server = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
     decoder.skip(1);
@@ -105,7 +105,7 @@
     var packed;
     var val = new TCPBoundSocket_StartListening_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.result = decoder.decodeStructPointer(network_error$.NetworkError);
     return val;
   };
@@ -168,7 +168,7 @@
     var packed;
     var val = new TCPBoundSocket_Connect_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.remote_address = decoder.decodeStructPointer(net_address$.NetAddress);
     val.send_stream = decoder.decodeStruct(codec.Handle);
     val.receive_stream = decoder.decodeStruct(codec.Handle);
@@ -230,7 +230,7 @@
     var packed;
     var val = new TCPBoundSocket_Connect_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.result = decoder.decodeStructPointer(network_error$.NetworkError);
     return val;
   };

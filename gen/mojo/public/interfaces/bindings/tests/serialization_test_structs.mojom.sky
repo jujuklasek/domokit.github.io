@@ -41,7 +41,7 @@
     var packed;
     var val = new Struct1();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.i = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -103,7 +103,7 @@
     var packed;
     var val = new Struct2();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.hdl = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
     decoder.skip(1);
@@ -159,7 +159,7 @@
     var packed;
     var val = new Struct3();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.struct_1 = decoder.decodeStructPointer(Struct1);
     return val;
   };
@@ -207,7 +207,7 @@
     var packed;
     var val = new Struct4();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.data = decoder.decodeArrayPointer(new codec.PointerTo(Struct1));
     return val;
   };
@@ -255,7 +255,7 @@
     var packed;
     var val = new Struct5();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.pair = decoder.decodeArrayPointer(new codec.PointerTo(Struct1));
     return val;
   };
@@ -303,7 +303,7 @@
     var packed;
     var val = new Struct6();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.str = decoder.decodeStruct(codec.String);
     return val;
   };
@@ -361,7 +361,7 @@
     var packed;
     var val = new StructOfNullables();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.hdl = decoder.decodeStruct(codec.NullableHandle);
     decoder.skip(1);
     decoder.skip(1);

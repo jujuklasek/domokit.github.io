@@ -8,6 +8,7 @@
 <import src="/gen/mojo/public/sky/core.sky" as="core" />
 <import src="/gen/mojo/public/sky/validator.sky" as="validator" />
 <import src="/gen/services/reaper/reaper.mojom.sky" as="reaper$" />
+<import src="/gen/services/reaper/scythe.mojom.sky" as="scythe$" />
 <script>
 
   function Node(values) {
@@ -54,7 +55,7 @@
     var packed;
     var val = new Node();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.app_url = decoder.decodeStruct(codec.String);
     val.node_id = decoder.decodeStruct(codec.Uint32);
     val.other_id = decoder.decodeStruct(codec.Uint32);
@@ -119,7 +120,7 @@
     var packed;
     var val = new Diagnostics_DumpNodes_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -165,7 +166,7 @@
     var packed;
     var val = new Diagnostics_DumpNodes_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.nodes = decoder.decodeArrayPointer(new codec.PointerTo(Node));
     return val;
   };
@@ -208,7 +209,7 @@
     var packed;
     var val = new Diagnostics_Reset_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -259,7 +260,7 @@
     var packed;
     var val = new Diagnostics_GetReaperForApp_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.app_url = decoder.decodeStruct(codec.String);
     val.reaper = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
@@ -275,6 +276,127 @@
     encoder.writeUint32(2);
     encoder.encodeStruct(codec.String, val.app_url);
     encoder.encodeStruct(codec.Handle, val.reaper);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  function Diagnostics_SetIsRoot_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Diagnostics_SetIsRoot_Params.prototype.initDefaults_ = function() {
+    this.app_url = null;
+    this.is_root = false;
+  };
+  Diagnostics_SetIsRoot_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Diagnostics_SetIsRoot_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Diagnostics_SetIsRoot_Params.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Diagnostics_SetIsRoot_Params.app_url
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Diagnostics_SetIsRoot_Params.encodedSize = codec.kStructHeaderSize + 16;
+
+  Diagnostics_SetIsRoot_Params.decode = function(decoder) {
+    var packed;
+    var val = new Diagnostics_SetIsRoot_Params();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.app_url = decoder.decodeStruct(codec.String);
+    val.is_root = decoder.decodeStruct(codec.Uint8);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  Diagnostics_SetIsRoot_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Diagnostics_SetIsRoot_Params.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStruct(codec.String, val.app_url);
+    encoder.encodeStruct(codec.Uint8, val.is_root);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  function Diagnostics_SetScythe_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Diagnostics_SetScythe_Params.prototype.initDefaults_ = function() {
+    this.scythe = null;
+  };
+  Diagnostics_SetScythe_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Diagnostics_SetScythe_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Diagnostics_SetScythe_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Diagnostics_SetScythe_Params.scythe
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Diagnostics_SetScythe_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  Diagnostics_SetScythe_Params.decode = function(decoder) {
+    var packed;
+    var val = new Diagnostics_SetScythe_Params();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.scythe = decoder.decodeStruct(codec.Handle);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  Diagnostics_SetScythe_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Diagnostics_SetScythe_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Handle, val.scythe);
     encoder.skip(1);
     encoder.skip(1);
     encoder.skip(1);
@@ -312,7 +434,7 @@
     var packed;
     var val = new Diagnostics_Ping_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -353,7 +475,7 @@
     var packed;
     var val = new Diagnostics_Ping_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -366,7 +488,9 @@
   var kDiagnostics_DumpNodes_Name = 0;
   var kDiagnostics_Reset_Name = 1;
   var kDiagnostics_GetReaperForApp_Name = 2;
-  var kDiagnostics_Ping_Name = 3;
+  var kDiagnostics_SetIsRoot_Name = 3;
+  var kDiagnostics_SetScythe_Name = 4;
+  var kDiagnostics_Ping_Name = 5;
 
   function DiagnosticsProxy(receiver) {
     bindings.ProxyBase.call(this, receiver);
@@ -411,6 +535,27 @@
     var message = builder.finish();
     this.receiver_.accept(message);
   };
+  DiagnosticsProxy.prototype.setIsRoot = function(app_url, is_root) {
+    var params = new Diagnostics_SetIsRoot_Params();
+    params.app_url = app_url;
+    params.is_root = is_root;
+    var builder = new codec.MessageBuilder(
+        kDiagnostics_SetIsRoot_Name,
+        codec.align(Diagnostics_SetIsRoot_Params.encodedSize));
+    builder.encodeStruct(Diagnostics_SetIsRoot_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
+  DiagnosticsProxy.prototype.setScythe = function(scythe) {
+    var params = new Diagnostics_SetScythe_Params();
+    params.scythe = core.isHandle(scythe) ? scythe : connection.bindImpl(scythe, scythe$.Scythe);
+    var builder = new codec.MessageBuilder(
+        kDiagnostics_SetScythe_Name,
+        codec.align(Diagnostics_SetScythe_Params.encodedSize));
+    builder.encodeStruct(Diagnostics_SetScythe_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
   DiagnosticsProxy.prototype.ping = function() {
     var params = new Diagnostics_Ping_Params();
     return new Promise(function(resolve, reject) {
@@ -444,6 +589,12 @@
   DiagnosticsStub.prototype.getReaperForApp = function(app_url, reaper) {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.getReaperForApp && bindings.StubBindings(this).delegate.getReaperForApp(app_url, connection.bindHandleToStub(reaper, reaper$.Reaper));
   }
+  DiagnosticsStub.prototype.setIsRoot = function(app_url, is_root) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.setIsRoot && bindings.StubBindings(this).delegate.setIsRoot(app_url, is_root);
+  }
+  DiagnosticsStub.prototype.setScythe = function(scythe) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.setScythe && bindings.StubBindings(this).delegate.setScythe(connection.bindHandleToProxy(scythe, scythe$.Scythe));
+  }
   DiagnosticsStub.prototype.ping = function() {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.ping && bindings.StubBindings(this).delegate.ping();
   }
@@ -458,6 +609,14 @@
     case kDiagnostics_GetReaperForApp_Name:
       var params = reader.decodeStruct(Diagnostics_GetReaperForApp_Params);
       this.getReaperForApp(params.app_url, params.reaper);
+      return true;
+    case kDiagnostics_SetIsRoot_Name:
+      var params = reader.decodeStruct(Diagnostics_SetIsRoot_Params);
+      this.setIsRoot(params.app_url, params.is_root);
+      return true;
+    case kDiagnostics_SetScythe_Name:
+      var params = reader.decodeStruct(Diagnostics_SetScythe_Params);
+      this.setScythe(params.scythe);
       return true;
     default:
       return false;
@@ -517,6 +676,14 @@
       case kDiagnostics_GetReaperForApp_Name:
         if (!message.expectsResponse() && !message.isResponse())
           paramsClass = Diagnostics_GetReaperForApp_Params;
+      break;
+      case kDiagnostics_SetIsRoot_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = Diagnostics_SetIsRoot_Params;
+      break;
+      case kDiagnostics_SetScythe_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = Diagnostics_SetScythe_Params;
       break;
       case kDiagnostics_Ping_Name:
         if (message.expectsResponse())

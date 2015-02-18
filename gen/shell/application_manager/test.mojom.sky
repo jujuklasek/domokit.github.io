@@ -45,7 +45,7 @@
     var packed;
     var val = new TestService_Test_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.test_string = decoder.decodeStruct(codec.String);
     return val;
   };
@@ -88,7 +88,7 @@
     var packed;
     var val = new TestService_Test_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -129,7 +129,7 @@
     var packed;
     var val = new TestA_CallB_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -170,7 +170,7 @@
     var packed;
     var val = new TestA_CallCFromB_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -211,7 +211,7 @@
     var packed;
     var val = new TestB_B_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -252,7 +252,7 @@
     var packed;
     var val = new TestB_B_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -293,7 +293,7 @@
     var packed;
     var val = new TestB_CallC_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -334,7 +334,7 @@
     var packed;
     var val = new TestB_CallC_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -375,7 +375,7 @@
     var packed;
     var val = new TestC_C_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -416,7 +416,7 @@
     var packed;
     var val = new TestC_C_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 

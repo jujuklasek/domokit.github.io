@@ -40,7 +40,7 @@
     var packed;
     var val = new Calculator_Clear_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -82,7 +82,7 @@
     var packed;
     var val = new Calculator_Clear_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.value = decoder.decodeStruct(codec.Double);
     return val;
   };
@@ -126,7 +126,7 @@
     var packed;
     var val = new Calculator_Add_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.value = decoder.decodeStruct(codec.Double);
     return val;
   };
@@ -170,7 +170,7 @@
     var packed;
     var val = new Calculator_Add_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.value = decoder.decodeStruct(codec.Double);
     return val;
   };
@@ -214,7 +214,7 @@
     var packed;
     var val = new Calculator_Multiply_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.value = decoder.decodeStruct(codec.Double);
     return val;
   };
@@ -258,7 +258,7 @@
     var packed;
     var val = new Calculator_Multiply_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.value = decoder.decodeStruct(codec.Double);
     return val;
   };

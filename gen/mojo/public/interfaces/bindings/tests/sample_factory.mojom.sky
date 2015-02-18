@@ -57,7 +57,7 @@
     var packed;
     var val = new Request();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.x = decoder.decodeStruct(codec.Int32);
     val.pipe = decoder.decodeStruct(codec.NullableHandle);
     val.more_pipes = decoder.decodeArrayPointer(codec.Handle);
@@ -120,7 +120,7 @@
     var packed;
     var val = new Response();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.x = decoder.decodeStruct(codec.Int32);
     val.pipe = decoder.decodeStruct(codec.NullableHandle);
     return val;
@@ -170,7 +170,7 @@
     var packed;
     var val = new NamedObject_SetName_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.name = decoder.decodeStruct(codec.String);
     return val;
   };
@@ -213,7 +213,7 @@
     var packed;
     var val = new NamedObject_GetName_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -259,7 +259,7 @@
     var packed;
     var val = new NamedObject_GetName_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.name = decoder.decodeStruct(codec.String);
     return val;
   };
@@ -312,7 +312,7 @@
     var packed;
     var val = new Factory_DoStuff_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.request = decoder.decodeStructPointer(Request);
     val.pipe = decoder.decodeStruct(codec.NullableHandle);
     decoder.skip(1);
@@ -332,6 +332,61 @@
     encoder.skip(1);
     encoder.skip(1);
     encoder.skip(1);
+  };
+
+  function Factory_DoStuff_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Factory_DoStuff_ResponseParams.prototype.initDefaults_ = function() {
+    this.response = null;
+    this.text = null;
+  };
+  Factory_DoStuff_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Factory_DoStuff_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Factory_DoStuff_ResponseParams.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Factory_DoStuff_ResponseParams.response
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 0, Response, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Factory_DoStuff_ResponseParams.text
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 8, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Factory_DoStuff_ResponseParams.encodedSize = codec.kStructHeaderSize + 16;
+
+  Factory_DoStuff_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new Factory_DoStuff_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.response = decoder.decodeStructPointer(Response);
+    val.text = decoder.decodeStruct(codec.String);
+    return val;
+  };
+
+  Factory_DoStuff_ResponseParams.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Factory_DoStuff_ResponseParams.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStructPointer(Response, val.response);
+    encoder.encodeStruct(codec.String, val.text);
   };
 
   function Factory_DoStuff2_Params(values) {
@@ -370,7 +425,7 @@
     var packed;
     var val = new Factory_DoStuff2_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.pipe = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
     decoder.skip(1);
@@ -388,6 +443,54 @@
     encoder.skip(1);
     encoder.skip(1);
     encoder.skip(1);
+  };
+
+  function Factory_DoStuff2_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  Factory_DoStuff2_ResponseParams.prototype.initDefaults_ = function() {
+    this.text = null;
+  };
+  Factory_DoStuff2_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  Factory_DoStuff2_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, Factory_DoStuff2_ResponseParams.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate Factory_DoStuff2_ResponseParams.text
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  Factory_DoStuff2_ResponseParams.encodedSize = codec.kStructHeaderSize + 8;
+
+  Factory_DoStuff2_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new Factory_DoStuff2_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.text = decoder.decodeStruct(codec.String);
+    return val;
+  };
+
+  Factory_DoStuff2_ResponseParams.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(Factory_DoStuff2_ResponseParams.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.String, val.text);
   };
 
   function Factory_CreateNamedObject_Params(values) {
@@ -426,7 +529,7 @@
     var packed;
     var val = new Factory_CreateNamedObject_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.obj = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
     decoder.skip(1);
@@ -482,7 +585,7 @@
     var packed;
     var val = new Factory_RequestImportedInterface_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.obj = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
     decoder.skip(1);
@@ -538,7 +641,7 @@
     var packed;
     var val = new Factory_RequestImportedInterface_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.obj = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
     decoder.skip(1);
@@ -594,7 +697,7 @@
     var packed;
     var val = new Factory_TakeImportedInterface_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.obj = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
     decoder.skip(1);
@@ -650,7 +753,7 @@
     var packed;
     var val = new Factory_TakeImportedInterface_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.obj = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
     decoder.skip(1);
@@ -668,109 +771,6 @@
     encoder.skip(1);
     encoder.skip(1);
     encoder.skip(1);
-  };
-
-  function FactoryClient_DidStuff_Params(values) {
-    this.initDefaults_();
-    this.initFields_(values);
-  }
-
-
-  FactoryClient_DidStuff_Params.prototype.initDefaults_ = function() {
-    this.response = null;
-    this.text = null;
-  };
-  FactoryClient_DidStuff_Params.prototype.initFields_ = function(fields) {
-    for(var field in fields) {
-        if (this.hasOwnProperty(field))
-          this[field] = fields[field];
-    }
-  };
-
-  FactoryClient_DidStuff_Params.validate = function(messageValidator, offset) {
-    var err;
-
-    err = messageValidator.validateStructHeader(offset, FactoryClient_DidStuff_Params.encodedSize, 2);
-    if (err !== validator.validationError.NONE)
-        return err;
-    // validate FactoryClient_DidStuff_Params.response
-    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 0, Response, false);
-    if (err !== validator.validationError.NONE)
-        return err;
-    // validate FactoryClient_DidStuff_Params.text
-    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 8, false)
-    if (err !== validator.validationError.NONE)
-        return err;
-
-    return validator.validationError.NONE;
-  };
-
-  FactoryClient_DidStuff_Params.encodedSize = codec.kStructHeaderSize + 16;
-
-  FactoryClient_DidStuff_Params.decode = function(decoder) {
-    var packed;
-    var val = new FactoryClient_DidStuff_Params();
-    var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
-    val.response = decoder.decodeStructPointer(Response);
-    val.text = decoder.decodeStruct(codec.String);
-    return val;
-  };
-
-  FactoryClient_DidStuff_Params.encode = function(encoder, val) {
-    var packed;
-    encoder.writeUint32(FactoryClient_DidStuff_Params.encodedSize);
-    encoder.writeUint32(2);
-    encoder.encodeStructPointer(Response, val.response);
-    encoder.encodeStruct(codec.String, val.text);
-  };
-
-  function FactoryClient_DidStuff2_Params(values) {
-    this.initDefaults_();
-    this.initFields_(values);
-  }
-
-
-  FactoryClient_DidStuff2_Params.prototype.initDefaults_ = function() {
-    this.text = null;
-  };
-  FactoryClient_DidStuff2_Params.prototype.initFields_ = function(fields) {
-    for(var field in fields) {
-        if (this.hasOwnProperty(field))
-          this[field] = fields[field];
-    }
-  };
-
-  FactoryClient_DidStuff2_Params.validate = function(messageValidator, offset) {
-    var err;
-
-    err = messageValidator.validateStructHeader(offset, FactoryClient_DidStuff2_Params.encodedSize, 1);
-    if (err !== validator.validationError.NONE)
-        return err;
-    // validate FactoryClient_DidStuff2_Params.text
-    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 0, false)
-    if (err !== validator.validationError.NONE)
-        return err;
-
-    return validator.validationError.NONE;
-  };
-
-  FactoryClient_DidStuff2_Params.encodedSize = codec.kStructHeaderSize + 8;
-
-  FactoryClient_DidStuff2_Params.decode = function(decoder) {
-    var packed;
-    var val = new FactoryClient_DidStuff2_Params();
-    var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
-    val.text = decoder.decodeStruct(codec.String);
-    return val;
-  };
-
-  FactoryClient_DidStuff2_Params.encode = function(encoder, val) {
-    var packed;
-    encoder.writeUint32(FactoryClient_DidStuff2_Params.encodedSize);
-    encoder.writeUint32(1);
-    encoder.encodeStruct(codec.String, val.text);
   };
 
   var kNamedObject_SetName_Name = 0;
@@ -913,22 +913,42 @@
     var params = new Factory_DoStuff_Params();
     params.request = request;
     params.pipe = pipe;
-    var builder = new codec.MessageBuilder(
-        kFactory_DoStuff_Name,
-        codec.align(Factory_DoStuff_Params.encodedSize));
-    builder.encodeStruct(Factory_DoStuff_Params, params);
-    var message = builder.finish();
-    this.receiver_.accept(message);
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kFactory_DoStuff_Name,
+          codec.align(Factory_DoStuff_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(Factory_DoStuff_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(Factory_DoStuff_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
   };
   FactoryProxy.prototype.doStuff2 = function(pipe) {
     var params = new Factory_DoStuff2_Params();
     params.pipe = pipe;
-    var builder = new codec.MessageBuilder(
-        kFactory_DoStuff2_Name,
-        codec.align(Factory_DoStuff2_Params.encodedSize));
-    builder.encodeStruct(Factory_DoStuff2_Params, params);
-    var message = builder.finish();
-    this.receiver_.accept(message);
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kFactory_DoStuff2_Name,
+          codec.align(Factory_DoStuff2_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(Factory_DoStuff2_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(Factory_DoStuff2_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
   };
   FactoryProxy.prototype.createNamedObject = function(obj) {
     var params = new Factory_CreateNamedObject_Params();
@@ -1004,14 +1024,6 @@
   FactoryStub.prototype.accept = function(message) {
     var reader = new codec.MessageReader(message);
     switch (reader.messageName) {
-    case kFactory_DoStuff_Name:
-      var params = reader.decodeStruct(Factory_DoStuff_Params);
-      this.doStuff(params.request, params.pipe);
-      return true;
-    case kFactory_DoStuff2_Name:
-      var params = reader.decodeStruct(Factory_DoStuff2_Params);
-      this.doStuff2(params.pipe);
-      return true;
     case kFactory_CreateNamedObject_Name:
       var params = reader.decodeStruct(Factory_CreateNamedObject_Params);
       this.createNamedObject(params.obj);
@@ -1025,6 +1037,37 @@
       function(message, responder) {
     var reader = new codec.MessageReader(message);
     switch (reader.messageName) {
+    case kFactory_DoStuff_Name:
+      var params = reader.decodeStruct(Factory_DoStuff_Params);
+      return this.doStuff(params.request, params.pipe).then(function(response) {
+        var responseParams =
+            new Factory_DoStuff_ResponseParams();
+        responseParams.response = response.response;
+        responseParams.text = response.text;
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kFactory_DoStuff_Name,
+            codec.align(Factory_DoStuff_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(Factory_DoStuff_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
+    case kFactory_DoStuff2_Name:
+      var params = reader.decodeStruct(Factory_DoStuff2_Params);
+      return this.doStuff2(params.pipe).then(function(response) {
+        var responseParams =
+            new Factory_DoStuff2_ResponseParams();
+        responseParams.text = response.text;
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kFactory_DoStuff2_Name,
+            codec.align(Factory_DoStuff2_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(Factory_DoStuff2_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
     case kFactory_RequestImportedInterface_Name:
       var params = reader.decodeStruct(Factory_RequestImportedInterface_Params);
       return this.requestImportedInterface(params.obj).then(function(response) {
@@ -1065,11 +1108,11 @@
     var paramsClass = null;
     switch (message.getName()) {
       case kFactory_DoStuff_Name:
-        if (!message.expectsResponse() && !message.isResponse())
+        if (message.expectsResponse())
           paramsClass = Factory_DoStuff_Params;
       break;
       case kFactory_DoStuff2_Name:
-        if (!message.expectsResponse() && !message.isResponse())
+        if (message.expectsResponse())
           paramsClass = Factory_DoStuff2_Params;
       break;
       case kFactory_CreateNamedObject_Name:
@@ -1094,6 +1137,14 @@
    var message = messageValidator.message;
    var paramsClass = null;
    switch (message.getName()) {
+      case kFactory_DoStuff_Name:
+        if (message.isResponse())
+          paramsClass = Factory_DoStuff_ResponseParams;
+        break;
+      case kFactory_DoStuff2_Name:
+        if (message.isResponse())
+          paramsClass = Factory_DoStuff2_ResponseParams;
+        break;
       case kFactory_RequestImportedInterface_Name:
         if (message.isResponse())
           paramsClass = Factory_RequestImportedInterface_ResponseParams;
@@ -1118,111 +1169,12 @@
   FactoryStub.prototype.validator = validateFactoryRequest;
   FactoryProxy.prototype.validator = validateFactoryResponse;
 
-  var kFactoryClient_DidStuff_Name = 0;
-  var kFactoryClient_DidStuff2_Name = 1;
-
-  function FactoryClientProxy(receiver) {
-    bindings.ProxyBase.call(this, receiver);
-  }
-  FactoryClientProxy.prototype = Object.create(bindings.ProxyBase.prototype);
-  FactoryClientProxy.prototype.didStuff = function(response, text) {
-    var params = new FactoryClient_DidStuff_Params();
-    params.response = response;
-    params.text = text;
-    var builder = new codec.MessageBuilder(
-        kFactoryClient_DidStuff_Name,
-        codec.align(FactoryClient_DidStuff_Params.encodedSize));
-    builder.encodeStruct(FactoryClient_DidStuff_Params, params);
-    var message = builder.finish();
-    this.receiver_.accept(message);
-  };
-  FactoryClientProxy.prototype.didStuff2 = function(text) {
-    var params = new FactoryClient_DidStuff2_Params();
-    params.text = text;
-    var builder = new codec.MessageBuilder(
-        kFactoryClient_DidStuff2_Name,
-        codec.align(FactoryClient_DidStuff2_Params.encodedSize));
-    builder.encodeStruct(FactoryClient_DidStuff2_Params, params);
-    var message = builder.finish();
-    this.receiver_.accept(message);
-  };
-
-  function FactoryClientStub(delegate) {
-    bindings.StubBase.call(this, delegate);
-  }
-  FactoryClientStub.prototype = Object.create(bindings.StubBase.prototype);
-  FactoryClientStub.prototype.didStuff = function(response, text) {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.didStuff && bindings.StubBindings(this).delegate.didStuff(response, text);
-  }
-  FactoryClientStub.prototype.didStuff2 = function(text) {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.didStuff2 && bindings.StubBindings(this).delegate.didStuff2(text);
-  }
-
-  FactoryClientStub.prototype.accept = function(message) {
-    var reader = new codec.MessageReader(message);
-    switch (reader.messageName) {
-    case kFactoryClient_DidStuff_Name:
-      var params = reader.decodeStruct(FactoryClient_DidStuff_Params);
-      this.didStuff(params.response, params.text);
-      return true;
-    case kFactoryClient_DidStuff2_Name:
-      var params = reader.decodeStruct(FactoryClient_DidStuff2_Params);
-      this.didStuff2(params.text);
-      return true;
-    default:
-      return false;
-    }
-  };
-
-  FactoryClientStub.prototype.acceptWithResponder =
-      function(message, responder) {
-    var reader = new codec.MessageReader(message);
-    switch (reader.messageName) {
-    default:
-      return Promise.reject(Error("Unhandled message: " + reader.messageName));
-    }
-  };
-
-  function validateFactoryClientRequest(messageValidator) {
-    var message = messageValidator.message;
-    var paramsClass = null;
-    switch (message.getName()) {
-      case kFactoryClient_DidStuff_Name:
-        if (!message.expectsResponse() && !message.isResponse())
-          paramsClass = FactoryClient_DidStuff_Params;
-      break;
-      case kFactoryClient_DidStuff2_Name:
-        if (!message.expectsResponse() && !message.isResponse())
-          paramsClass = FactoryClient_DidStuff2_Params;
-      break;
-    }
-    if (paramsClass === null)
-      return validator.validationError.NONE;
-    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
-  }
-
-  function validateFactoryClientResponse(messageValidator) {
-    return validator.validationError.NONE;
-  }
-
-  var FactoryClient = {
-    name: 'sample::FactoryClient',
-    proxyClass: FactoryClientProxy,
-    stubClass: FactoryClientStub,
-    validateRequest: validateFactoryClientRequest,
-    validateResponse: null,
-  };
-  FactoryClientStub.prototype.validator = validateFactoryClientRequest;
-  FactoryClientProxy.prototype.validator = null;
-
 
   var exports = {};
   exports.Request = Request;
   exports.Response = Response;
   exports.NamedObject = NamedObject;
   exports.Factory = Factory;
-  exports.Factory.client = FactoryClient;
-  exports.FactoryClient = FactoryClient;
 
   module.exports = exports;
 </script>

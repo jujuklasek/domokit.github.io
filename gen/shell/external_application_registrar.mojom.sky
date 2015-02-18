@@ -51,7 +51,7 @@
     var packed;
     var val = new ExternalApplicationRegistrar_Register_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.application_url = decoder.decodeStruct(codec.String);
     val.args = decoder.decodeArrayPointer(codec.String);
     return val;
@@ -101,7 +101,7 @@
     var packed;
     var val = new ExternalApplicationRegistrar_Register_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.application_request = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
     decoder.skip(1);

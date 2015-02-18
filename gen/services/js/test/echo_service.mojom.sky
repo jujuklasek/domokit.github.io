@@ -45,7 +45,7 @@
     var packed;
     var val = new EchoService_EchoString_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.value = decoder.decodeStruct(codec.NullableString);
     return val;
   };
@@ -93,7 +93,7 @@
     var packed;
     var val = new EchoService_EchoString_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.value = decoder.decodeStruct(codec.NullableString);
     return val;
   };
@@ -136,7 +136,7 @@
     var packed;
     var val = new EchoService_ShareEchoService_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -178,7 +178,7 @@
     var packed;
     var val = new EchoService_ShareEchoService_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.ok = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -235,7 +235,7 @@
     var packed;
     var val = new EchoService_Quit_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 

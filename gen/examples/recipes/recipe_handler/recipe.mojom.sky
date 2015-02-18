@@ -45,7 +45,7 @@
     var packed;
     var val = new Ingredient();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.url = decoder.decodeStruct(codec.String);
     return val;
   };
@@ -88,7 +88,7 @@
     var packed;
     var val = new Recipe_GetIngredients_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -134,7 +134,7 @@
     var packed;
     var val = new Recipe_GetIngredients_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.ingredients = decoder.decodeArrayPointer(new codec.PointerTo(Ingredient));
     return val;
   };

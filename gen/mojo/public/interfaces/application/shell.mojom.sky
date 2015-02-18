@@ -56,7 +56,7 @@
     var packed;
     var val = new Shell_ConnectToApplication_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.application_url = decoder.decodeStruct(codec.String);
     val.services = decoder.decodeStruct(codec.Handle);
     val.exposed_services = decoder.decodeStruct(codec.Handle);

@@ -42,7 +42,7 @@
     var packed;
     var val = new IWindowManager_CloseWindow_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.node_id = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);

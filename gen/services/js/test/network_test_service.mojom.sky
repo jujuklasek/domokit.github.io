@@ -45,7 +45,7 @@
     var packed;
     var val = new NetworkTestService_GetFileSize_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.url = decoder.decodeStruct(codec.String);
     return val;
   };
@@ -90,7 +90,7 @@
     var packed;
     var val = new NetworkTestService_GetFileSize_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.ok = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -149,7 +149,7 @@
     var packed;
     var val = new NetworkTestService_Quit_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 

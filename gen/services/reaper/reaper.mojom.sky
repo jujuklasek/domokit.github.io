@@ -41,7 +41,7 @@
     var packed;
     var val = new Reaper_GetApplicationSecret_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -83,7 +83,7 @@
     var packed;
     var val = new Reaper_GetApplicationSecret_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.secret = decoder.decodeStruct(codec.Uint64);
     return val;
   };
@@ -128,7 +128,7 @@
     var packed;
     var val = new Reaper_CreateReference_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.source_node = decoder.decodeStruct(codec.Uint32);
     val.target_node = decoder.decodeStruct(codec.Uint32);
     return val;
@@ -174,7 +174,7 @@
     var packed;
     var val = new Reaper_DropNode_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.node = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
     decoder.skip(1);
@@ -231,7 +231,7 @@
     var packed;
     var val = new Reaper_StartTransfer_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.node = decoder.decodeStruct(codec.Uint32);
     val.transfer = decoder.decodeStruct(codec.Handle);
     return val;
@@ -276,7 +276,7 @@
     var packed;
     var val = new Reaper_Ping_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -317,7 +317,7 @@
     var packed;
     var val = new Reaper_Ping_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 

@@ -42,7 +42,7 @@
     var packed;
     var val = new Location();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.latitude = decoder.decodeStruct(codec.Float);
     val.longitude = decoder.decodeStruct(codec.Float);
     return val;
@@ -91,7 +91,7 @@
     var packed;
     var val = new LocationType();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -142,7 +142,7 @@
     var packed;
     var val = new Bounds();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.northeast = decoder.decodeStructPointer(Location);
     val.southwest = decoder.decodeStructPointer(Location);
     return val;
@@ -212,7 +212,7 @@
     var packed;
     var val = new ComponentRestrictions();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.administrative_area = decoder.decodeStruct(codec.NullableString);
     val.country = decoder.decodeStruct(codec.NullableString);
     val.locality = decoder.decodeStruct(codec.NullableString);
@@ -278,7 +278,7 @@
     var packed;
     var val = new Options();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.restrictions = decoder.decodeStructPointer(ComponentRestrictions);
     val.location = decoder.decodeStructPointer(Location);
     val.region = decoder.decodeStruct(codec.NullableString);
@@ -345,7 +345,7 @@
     var packed;
     var val = new Geometry();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.location = decoder.decodeStructPointer(Location);
     val.location_type = decoder.decodeStructPointer(LocationType);
     val.viewport = decoder.decodeStructPointer(Bounds);
@@ -410,7 +410,7 @@
     var packed;
     var val = new Result();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.partial_match = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -478,7 +478,7 @@
     var packed;
     var val = new Status();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -529,7 +529,7 @@
     var packed;
     var val = new Geocoder_AddressToLocation_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.address = decoder.decodeStruct(codec.String);
     val.options = decoder.decodeStructPointer(Options);
     return val;
@@ -584,7 +584,7 @@
     var packed;
     var val = new Geocoder_AddressToLocation_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.status = decoder.decodeStruct(codec.String);
     val.results = decoder.decodeArrayPointer(new codec.PointerTo(Result));
     return val;
@@ -639,7 +639,7 @@
     var packed;
     var val = new Geocoder_LocationToAddress_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.location = decoder.decodeStructPointer(Location);
     val.options = decoder.decodeStructPointer(Options);
     return val;
@@ -694,7 +694,7 @@
     var packed;
     var val = new Geocoder_LocationToAddress_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.status = decoder.decodeStruct(codec.String);
     val.results = decoder.decodeArrayPointer(new codec.PointerTo(Result));
     return val;

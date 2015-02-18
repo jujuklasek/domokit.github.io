@@ -50,7 +50,7 @@
     var packed;
     var val = new ViewportMetrics();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.size = decoder.decodeStructPointer(geometry$.Size);
     val.device_pixel_ratio = decoder.decodeStruct(codec.Float);
     decoder.skip(1);
@@ -108,7 +108,7 @@
     var packed;
     var val = new NativeViewport_Create_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.size = decoder.decodeStructPointer(geometry$.Size);
     return val;
   };
@@ -157,7 +157,7 @@
     var packed;
     var val = new NativeViewport_Create_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.native_viewport_id = decoder.decodeStruct(codec.Uint64);
     val.metrics = decoder.decodeStructPointer(ViewportMetrics);
     return val;
@@ -202,7 +202,7 @@
     var packed;
     var val = new NativeViewport_Show_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -243,7 +243,7 @@
     var packed;
     var val = new NativeViewport_Hide_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -284,7 +284,7 @@
     var packed;
     var val = new NativeViewport_Close_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -330,7 +330,7 @@
     var packed;
     var val = new NativeViewport_SetSize_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.size = decoder.decodeStructPointer(geometry$.Size);
     return val;
   };
@@ -378,7 +378,7 @@
     var packed;
     var val = new NativeViewport_SubmittedFrame_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.surface_id = decoder.decodeStructPointer(surface_id$.SurfaceId);
     return val;
   };
@@ -426,7 +426,7 @@
     var packed;
     var val = new NativeViewport_SetEventDispatcher_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.dispatcher = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
     decoder.skip(1);
@@ -477,7 +477,7 @@
     var packed;
     var val = new NativeViewport_RequestMetrics_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -523,7 +523,7 @@
     var packed;
     var val = new NativeViewport_RequestMetrics_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.metrics = decoder.decodeStructPointer(ViewportMetrics);
     return val;
   };
@@ -571,7 +571,7 @@
     var packed;
     var val = new NativeViewportEventDispatcher_OnEvent_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.event = decoder.decodeStructPointer(input_events$.Event);
     return val;
   };
@@ -614,7 +614,7 @@
     var packed;
     var val = new NativeViewportEventDispatcher_OnEvent_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 

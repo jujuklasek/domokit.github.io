@@ -74,7 +74,7 @@
     var packed;
     var val = new EchoArgs();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.si64 = decoder.decodeStruct(codec.Int64);
     val.si32 = decoder.decodeStruct(codec.Int32);
     val.si16 = decoder.decodeStruct(codec.Int16);
@@ -173,7 +173,7 @@
     var packed;
     var val = new EchoArgsList();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.next = decoder.decodeStructPointer(EchoArgsList);
     val.item = decoder.decodeStructPointer(EchoArgs);
     return val;
@@ -218,7 +218,7 @@
     var packed;
     var val = new CppSide_StartTest_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -259,7 +259,7 @@
     var packed;
     var val = new CppSide_TestFinished_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -300,7 +300,7 @@
     var packed;
     var val = new CppSide_PingResponse_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -346,7 +346,7 @@
     var packed;
     var val = new CppSide_EchoResponse_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.list = decoder.decodeStructPointer(EchoArgsList);
     return val;
   };
@@ -394,7 +394,7 @@
     var packed;
     var val = new CppSide_BitFlipResponse_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.arg = decoder.decodeStructPointer(EchoArgsList);
     return val;
   };
@@ -442,7 +442,7 @@
     var packed;
     var val = new CppSide_BackPointerResponse_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.arg = decoder.decodeStructPointer(EchoArgsList);
     return val;
   };
@@ -452,6 +452,62 @@
     encoder.writeUint32(CppSide_BackPointerResponse_Params.encodedSize);
     encoder.writeUint32(1);
     encoder.encodeStructPointer(EchoArgsList, val.arg);
+  };
+
+  function JsSide_SetCppSide_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  JsSide_SetCppSide_Params.prototype.initDefaults_ = function() {
+    this.cpp = null;
+  };
+  JsSide_SetCppSide_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  JsSide_SetCppSide_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, JsSide_SetCppSide_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate JsSide_SetCppSide_Params.cpp
+    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  JsSide_SetCppSide_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  JsSide_SetCppSide_Params.decode = function(decoder) {
+    var packed;
+    var val = new JsSide_SetCppSide_Params();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.cpp = decoder.decodeStruct(codec.Handle);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  JsSide_SetCppSide_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(JsSide_SetCppSide_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Handle, val.cpp);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
   };
 
   function JsSide_Ping_Params(values) {
@@ -485,7 +541,7 @@
     var packed;
     var val = new JsSide_Ping_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -532,7 +588,7 @@
     var packed;
     var val = new JsSide_Echo_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.numIterations = decoder.decodeStruct(codec.Int32);
     decoder.skip(1);
     decoder.skip(1);
@@ -590,7 +646,7 @@
     var packed;
     var val = new JsSide_BitFlip_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.arg = decoder.decodeStructPointer(EchoArgs);
     return val;
   };
@@ -638,7 +694,7 @@
     var packed;
     var val = new JsSide_BackPointer_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.arg = decoder.decodeStructPointer(EchoArgs);
     return val;
   };
@@ -831,15 +887,26 @@
   CppSideStub.prototype.validator = validateCppSideRequest;
   CppSideProxy.prototype.validator = null;
 
-  var kJsSide_Ping_Name = 0;
-  var kJsSide_Echo_Name = 1;
-  var kJsSide_BitFlip_Name = 2;
-  var kJsSide_BackPointer_Name = 3;
+  var kJsSide_SetCppSide_Name = 0;
+  var kJsSide_Ping_Name = 1;
+  var kJsSide_Echo_Name = 2;
+  var kJsSide_BitFlip_Name = 3;
+  var kJsSide_BackPointer_Name = 4;
 
   function JsSideProxy(receiver) {
     bindings.ProxyBase.call(this, receiver);
   }
   JsSideProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  JsSideProxy.prototype.setCppSide = function(cpp) {
+    var params = new JsSide_SetCppSide_Params();
+    params.cpp = core.isHandle(cpp) ? cpp : connection.bindImpl(cpp, CppSide);
+    var builder = new codec.MessageBuilder(
+        kJsSide_SetCppSide_Name,
+        codec.align(JsSide_SetCppSide_Params.encodedSize));
+    builder.encodeStruct(JsSide_SetCppSide_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
   JsSideProxy.prototype.ping = function() {
     var params = new JsSide_Ping_Params();
     var builder = new codec.MessageBuilder(
@@ -885,6 +952,9 @@
     bindings.StubBase.call(this, delegate);
   }
   JsSideStub.prototype = Object.create(bindings.StubBase.prototype);
+  JsSideStub.prototype.setCppSide = function(cpp) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.setCppSide && bindings.StubBindings(this).delegate.setCppSide(connection.bindHandleToProxy(cpp, CppSide));
+  }
   JsSideStub.prototype.ping = function() {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.ping && bindings.StubBindings(this).delegate.ping();
   }
@@ -901,6 +971,10 @@
   JsSideStub.prototype.accept = function(message) {
     var reader = new codec.MessageReader(message);
     switch (reader.messageName) {
+    case kJsSide_SetCppSide_Name:
+      var params = reader.decodeStruct(JsSide_SetCppSide_Params);
+      this.setCppSide(params.cpp);
+      return true;
     case kJsSide_Ping_Name:
       var params = reader.decodeStruct(JsSide_Ping_Params);
       this.ping();
@@ -935,6 +1009,10 @@
     var message = messageValidator.message;
     var paramsClass = null;
     switch (message.getName()) {
+      case kJsSide_SetCppSide_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = JsSide_SetCppSide_Params;
+      break;
       case kJsSide_Ping_Name:
         if (!message.expectsResponse() && !message.isResponse())
           paramsClass = JsSide_Ping_Params;
@@ -977,7 +1055,6 @@
   exports.EchoArgsList = EchoArgsList;
   exports.CppSide = CppSide;
   exports.JsSide = JsSide;
-  exports.JsSide.client = CppSide;
 
   module.exports = exports;
 </script>

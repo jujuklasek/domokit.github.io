@@ -46,7 +46,7 @@
     var packed;
     var val = new Size();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.width = decoder.decodeStruct(codec.Int32);
     val.height = decoder.decodeStruct(codec.Int32);
     return val;
@@ -103,7 +103,7 @@
     var packed;
     var val = new Thing();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.shape = decoder.decodeStruct(codec.Int32);
     val.color = decoder.decodeStruct(codec.Int32);
     val.location = decoder.decodeStructPointer(sample_import$.Point);

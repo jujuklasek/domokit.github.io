@@ -41,7 +41,7 @@
     var packed;
     var val = new StructA();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.i = decoder.decodeStruct(codec.Uint64);
     return val;
   };
@@ -89,7 +89,7 @@
     var packed;
     var val = new StructB();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.struct_a = decoder.decodeStructPointer(StructA);
     return val;
   };
@@ -137,7 +137,7 @@
     var packed;
     var val = new StructC();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.data = decoder.decodeArrayPointer(codec.Uint8);
     return val;
   };
@@ -185,7 +185,7 @@
     var packed;
     var val = new StructD();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.message_pipes = decoder.decodeArrayPointer(codec.Handle);
     return val;
   };
@@ -238,7 +238,7 @@
     var packed;
     var val = new StructE();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.struct_d = decoder.decodeStructPointer(StructD);
     val.data_pipe_consumer = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
@@ -296,7 +296,7 @@
     var packed;
     var val = new StructF();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.fixed_size_array = decoder.decodeArrayPointer(codec.Uint8);
     return val;
   };
@@ -340,7 +340,7 @@
     var packed;
     var val = new BasicStruct();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.a = decoder.decodeStruct(codec.Int32);
     decoder.skip(1);
     decoder.skip(1);
@@ -392,7 +392,7 @@
     var packed;
     var val = new ConformanceTestInterface_Method0_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.param0 = decoder.decodeStruct(codec.Float);
     decoder.skip(1);
     decoder.skip(1);
@@ -448,7 +448,7 @@
     var packed;
     var val = new ConformanceTestInterface_Method1_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.param0 = decoder.decodeStructPointer(StructA);
     return val;
   };
@@ -501,7 +501,7 @@
     var packed;
     var val = new ConformanceTestInterface_Method2_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.param0 = decoder.decodeStructPointer(StructB);
     val.param1 = decoder.decodeStructPointer(StructA);
     return val;
@@ -551,7 +551,7 @@
     var packed;
     var val = new ConformanceTestInterface_Method3_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.param0 = decoder.decodeArrayPointer(codec.PackedBool);
     return val;
   };
@@ -604,7 +604,7 @@
     var packed;
     var val = new ConformanceTestInterface_Method4_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.param0 = decoder.decodeStructPointer(StructC);
     val.param1 = decoder.decodeArrayPointer(codec.Uint8);
     return val;
@@ -659,7 +659,7 @@
     var packed;
     var val = new ConformanceTestInterface_Method5_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.param0 = decoder.decodeStructPointer(StructE);
     val.param1 = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
@@ -717,7 +717,7 @@
     var packed;
     var val = new ConformanceTestInterface_Method6_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.param0 = decoder.decodeArrayPointer(new codec.ArrayOf(codec.Uint8));
     return val;
   };
@@ -770,7 +770,7 @@
     var packed;
     var val = new ConformanceTestInterface_Method7_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.param0 = decoder.decodeStructPointer(StructF);
     val.param1 = decoder.decodeArrayPointer(new codec.NullableArrayOf(codec.Uint8, 3));
     return val;
@@ -820,7 +820,7 @@
     var packed;
     var val = new ConformanceTestInterface_Method8_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.param0 = decoder.decodeArrayPointer(new codec.NullableArrayOf(codec.String));
     return val;
   };
@@ -868,7 +868,7 @@
     var packed;
     var val = new ConformanceTestInterface_Method9_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.param0 = decoder.decodeArrayPointer(new codec.ArrayOf(codec.NullableHandle));
     return val;
   };
@@ -916,7 +916,7 @@
     var packed;
     var val = new ConformanceTestInterface_Method10_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.param0 = decoder.decodeMapPointer(codec.String, codec.Uint8);
     return val;
   };
@@ -928,29 +928,29 @@
     encoder.encodeMapPointer(codec.String, codec.Uint8, val.param0);
   };
 
-  function IntegrationTestInterface1_Method0_Params(values) {
+  function IntegrationTestInterface_Method0_Params(values) {
     this.initDefaults_();
     this.initFields_(values);
   }
 
 
-  IntegrationTestInterface1_Method0_Params.prototype.initDefaults_ = function() {
+  IntegrationTestInterface_Method0_Params.prototype.initDefaults_ = function() {
     this.param0 = null;
   };
-  IntegrationTestInterface1_Method0_Params.prototype.initFields_ = function(fields) {
+  IntegrationTestInterface_Method0_Params.prototype.initFields_ = function(fields) {
     for(var field in fields) {
         if (this.hasOwnProperty(field))
           this[field] = fields[field];
     }
   };
 
-  IntegrationTestInterface1_Method0_Params.validate = function(messageValidator, offset) {
+  IntegrationTestInterface_Method0_Params.validate = function(messageValidator, offset) {
     var err;
 
-    err = messageValidator.validateStructHeader(offset, IntegrationTestInterface1_Method0_Params.encodedSize, 1);
+    err = messageValidator.validateStructHeader(offset, IntegrationTestInterface_Method0_Params.encodedSize, 1);
     if (err !== validator.validationError.NONE)
         return err;
-    // validate IntegrationTestInterface1_Method0_Params.param0
+    // validate IntegrationTestInterface_Method0_Params.param0
     err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 0, BasicStruct, false);
     if (err !== validator.validationError.NONE)
         return err;
@@ -958,88 +958,47 @@
     return validator.validationError.NONE;
   };
 
-  IntegrationTestInterface1_Method0_Params.encodedSize = codec.kStructHeaderSize + 8;
+  IntegrationTestInterface_Method0_Params.encodedSize = codec.kStructHeaderSize + 8;
 
-  IntegrationTestInterface1_Method0_Params.decode = function(decoder) {
+  IntegrationTestInterface_Method0_Params.decode = function(decoder) {
     var packed;
-    var val = new IntegrationTestInterface1_Method0_Params();
+    var val = new IntegrationTestInterface_Method0_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.param0 = decoder.decodeStructPointer(BasicStruct);
     return val;
   };
 
-  IntegrationTestInterface1_Method0_Params.encode = function(encoder, val) {
+  IntegrationTestInterface_Method0_Params.encode = function(encoder, val) {
     var packed;
-    encoder.writeUint32(IntegrationTestInterface1_Method0_Params.encodedSize);
+    encoder.writeUint32(IntegrationTestInterface_Method0_Params.encodedSize);
     encoder.writeUint32(1);
     encoder.encodeStructPointer(BasicStruct, val.param0);
   };
 
-  function IntegrationTestInterface2_Method0_Params(values) {
+  function IntegrationTestInterface_Method0_ResponseParams(values) {
     this.initDefaults_();
     this.initFields_(values);
   }
 
 
-  IntegrationTestInterface2_Method0_Params.prototype.initDefaults_ = function() {
-  };
-  IntegrationTestInterface2_Method0_Params.prototype.initFields_ = function(fields) {
-    for(var field in fields) {
-        if (this.hasOwnProperty(field))
-          this[field] = fields[field];
-    }
-  };
-
-  IntegrationTestInterface2_Method0_Params.validate = function(messageValidator, offset) {
-    var err;
-
-    err = messageValidator.validateStructHeader(offset, IntegrationTestInterface2_Method0_Params.encodedSize, 0);
-    if (err !== validator.validationError.NONE)
-        return err;
-
-    return validator.validationError.NONE;
-  };
-
-  IntegrationTestInterface2_Method0_Params.encodedSize = codec.kStructHeaderSize + 0;
-
-  IntegrationTestInterface2_Method0_Params.decode = function(decoder) {
-    var packed;
-    var val = new IntegrationTestInterface2_Method0_Params();
-    var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
-    return val;
-  };
-
-  IntegrationTestInterface2_Method0_Params.encode = function(encoder, val) {
-    var packed;
-    encoder.writeUint32(IntegrationTestInterface2_Method0_Params.encodedSize);
-    encoder.writeUint32(0);
-  };
-
-  function IntegrationTestInterface2_Method0_ResponseParams(values) {
-    this.initDefaults_();
-    this.initFields_(values);
-  }
-
-
-  IntegrationTestInterface2_Method0_ResponseParams.prototype.initDefaults_ = function() {
+  IntegrationTestInterface_Method0_ResponseParams.prototype.initDefaults_ = function() {
     this.param0 = null;
   };
-  IntegrationTestInterface2_Method0_ResponseParams.prototype.initFields_ = function(fields) {
+  IntegrationTestInterface_Method0_ResponseParams.prototype.initFields_ = function(fields) {
     for(var field in fields) {
         if (this.hasOwnProperty(field))
           this[field] = fields[field];
     }
   };
 
-  IntegrationTestInterface2_Method0_ResponseParams.validate = function(messageValidator, offset) {
+  IntegrationTestInterface_Method0_ResponseParams.validate = function(messageValidator, offset) {
     var err;
 
-    err = messageValidator.validateStructHeader(offset, IntegrationTestInterface2_Method0_ResponseParams.encodedSize, 1);
+    err = messageValidator.validateStructHeader(offset, IntegrationTestInterface_Method0_ResponseParams.encodedSize, 1);
     if (err !== validator.validationError.NONE)
         return err;
-    // validate IntegrationTestInterface2_Method0_ResponseParams.param0
+    // validate IntegrationTestInterface_Method0_ResponseParams.param0
     err = messageValidator.validateArrayPointer(offset + codec.kStructHeaderSize + 0, 1, codec.Uint8, false, [0], 0);
     if (err !== validator.validationError.NONE)
         return err;
@@ -1047,20 +1006,20 @@
     return validator.validationError.NONE;
   };
 
-  IntegrationTestInterface2_Method0_ResponseParams.encodedSize = codec.kStructHeaderSize + 8;
+  IntegrationTestInterface_Method0_ResponseParams.encodedSize = codec.kStructHeaderSize + 8;
 
-  IntegrationTestInterface2_Method0_ResponseParams.decode = function(decoder) {
+  IntegrationTestInterface_Method0_ResponseParams.decode = function(decoder) {
     var packed;
-    var val = new IntegrationTestInterface2_Method0_ResponseParams();
+    var val = new IntegrationTestInterface_Method0_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.param0 = decoder.decodeArrayPointer(codec.Uint8);
     return val;
   };
 
-  IntegrationTestInterface2_Method0_ResponseParams.encode = function(encoder, val) {
+  IntegrationTestInterface_Method0_ResponseParams.encode = function(encoder, val) {
     var packed;
-    encoder.writeUint32(IntegrationTestInterface2_Method0_ResponseParams.encodedSize);
+    encoder.writeUint32(IntegrationTestInterface_Method0_ResponseParams.encodedSize);
     encoder.writeUint32(1);
     encoder.encodeArrayPointer(codec.Uint8, val.param0);
   };
@@ -1363,99 +1322,26 @@
   ConformanceTestInterfaceStub.prototype.validator = validateConformanceTestInterfaceRequest;
   ConformanceTestInterfaceProxy.prototype.validator = null;
 
-  var kIntegrationTestInterface1_Method0_Name = 0;
+  var kIntegrationTestInterface_Method0_Name = 0;
 
-  function IntegrationTestInterface1Proxy(receiver) {
+  function IntegrationTestInterfaceProxy(receiver) {
     bindings.ProxyBase.call(this, receiver);
   }
-  IntegrationTestInterface1Proxy.prototype = Object.create(bindings.ProxyBase.prototype);
-  IntegrationTestInterface1Proxy.prototype.method0 = function(param0) {
-    var params = new IntegrationTestInterface1_Method0_Params();
+  IntegrationTestInterfaceProxy.prototype = Object.create(bindings.ProxyBase.prototype);
+  IntegrationTestInterfaceProxy.prototype.method0 = function(param0) {
+    var params = new IntegrationTestInterface_Method0_Params();
     params.param0 = param0;
-    var builder = new codec.MessageBuilder(
-        kIntegrationTestInterface1_Method0_Name,
-        codec.align(IntegrationTestInterface1_Method0_Params.encodedSize));
-    builder.encodeStruct(IntegrationTestInterface1_Method0_Params, params);
-    var message = builder.finish();
-    this.receiver_.accept(message);
-  };
-
-  function IntegrationTestInterface1Stub(delegate) {
-    bindings.StubBase.call(this, delegate);
-  }
-  IntegrationTestInterface1Stub.prototype = Object.create(bindings.StubBase.prototype);
-  IntegrationTestInterface1Stub.prototype.method0 = function(param0) {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.method0 && bindings.StubBindings(this).delegate.method0(param0);
-  }
-
-  IntegrationTestInterface1Stub.prototype.accept = function(message) {
-    var reader = new codec.MessageReader(message);
-    switch (reader.messageName) {
-    case kIntegrationTestInterface1_Method0_Name:
-      var params = reader.decodeStruct(IntegrationTestInterface1_Method0_Params);
-      this.method0(params.param0);
-      return true;
-    default:
-      return false;
-    }
-  };
-
-  IntegrationTestInterface1Stub.prototype.acceptWithResponder =
-      function(message, responder) {
-    var reader = new codec.MessageReader(message);
-    switch (reader.messageName) {
-    default:
-      return Promise.reject(Error("Unhandled message: " + reader.messageName));
-    }
-  };
-
-  function validateIntegrationTestInterface1Request(messageValidator) {
-    var message = messageValidator.message;
-    var paramsClass = null;
-    switch (message.getName()) {
-      case kIntegrationTestInterface1_Method0_Name:
-        if (!message.expectsResponse() && !message.isResponse())
-          paramsClass = IntegrationTestInterface1_Method0_Params;
-      break;
-    }
-    if (paramsClass === null)
-      return validator.validationError.NONE;
-    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
-  }
-
-  function validateIntegrationTestInterface1Response(messageValidator) {
-    return validator.validationError.NONE;
-  }
-
-  var IntegrationTestInterface1 = {
-    name: 'mojo::test::IntegrationTestInterface1',
-    proxyClass: IntegrationTestInterface1Proxy,
-    stubClass: IntegrationTestInterface1Stub,
-    validateRequest: validateIntegrationTestInterface1Request,
-    validateResponse: null,
-  };
-  IntegrationTestInterface1Stub.prototype.validator = validateIntegrationTestInterface1Request;
-  IntegrationTestInterface1Proxy.prototype.validator = null;
-
-  var kIntegrationTestInterface2_Method0_Name = 0;
-
-  function IntegrationTestInterface2Proxy(receiver) {
-    bindings.ProxyBase.call(this, receiver);
-  }
-  IntegrationTestInterface2Proxy.prototype = Object.create(bindings.ProxyBase.prototype);
-  IntegrationTestInterface2Proxy.prototype.method0 = function() {
-    var params = new IntegrationTestInterface2_Method0_Params();
     return new Promise(function(resolve, reject) {
       var builder = new codec.MessageWithRequestIDBuilder(
-          kIntegrationTestInterface2_Method0_Name,
-          codec.align(IntegrationTestInterface2_Method0_Params.encodedSize),
+          kIntegrationTestInterface_Method0_Name,
+          codec.align(IntegrationTestInterface_Method0_Params.encodedSize),
           codec.kMessageExpectsResponse, 0);
-      builder.encodeStruct(IntegrationTestInterface2_Method0_Params, params);
+      builder.encodeStruct(IntegrationTestInterface_Method0_Params, params);
       var message = builder.finish();
       this.receiver_.acceptAndExpectResponse(message).then(function(message) {
         var reader = new codec.MessageReader(message);
         var responseParams =
-            reader.decodeStruct(IntegrationTestInterface2_Method0_ResponseParams);
+            reader.decodeStruct(IntegrationTestInterface_Method0_ResponseParams);
         resolve(responseParams);
       }).catch(function(result) {
         reject(Error("Connection error: " + result));
@@ -1463,15 +1349,15 @@
     }.bind(this));
   };
 
-  function IntegrationTestInterface2Stub(delegate) {
+  function IntegrationTestInterfaceStub(delegate) {
     bindings.StubBase.call(this, delegate);
   }
-  IntegrationTestInterface2Stub.prototype = Object.create(bindings.StubBase.prototype);
-  IntegrationTestInterface2Stub.prototype.method0 = function() {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.method0 && bindings.StubBindings(this).delegate.method0();
+  IntegrationTestInterfaceStub.prototype = Object.create(bindings.StubBase.prototype);
+  IntegrationTestInterfaceStub.prototype.method0 = function(param0) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.method0 && bindings.StubBindings(this).delegate.method0(param0);
   }
 
-  IntegrationTestInterface2Stub.prototype.accept = function(message) {
+  IntegrationTestInterfaceStub.prototype.accept = function(message) {
     var reader = new codec.MessageReader(message);
     switch (reader.messageName) {
     default:
@@ -1479,21 +1365,21 @@
     }
   };
 
-  IntegrationTestInterface2Stub.prototype.acceptWithResponder =
+  IntegrationTestInterfaceStub.prototype.acceptWithResponder =
       function(message, responder) {
     var reader = new codec.MessageReader(message);
     switch (reader.messageName) {
-    case kIntegrationTestInterface2_Method0_Name:
-      var params = reader.decodeStruct(IntegrationTestInterface2_Method0_Params);
-      return this.method0().then(function(response) {
+    case kIntegrationTestInterface_Method0_Name:
+      var params = reader.decodeStruct(IntegrationTestInterface_Method0_Params);
+      return this.method0(params.param0).then(function(response) {
         var responseParams =
-            new IntegrationTestInterface2_Method0_ResponseParams();
+            new IntegrationTestInterface_Method0_ResponseParams();
         responseParams.param0 = response.param0;
         var builder = new codec.MessageWithRequestIDBuilder(
-            kIntegrationTestInterface2_Method0_Name,
-            codec.align(IntegrationTestInterface2_Method0_ResponseParams.encodedSize),
+            kIntegrationTestInterface_Method0_Name,
+            codec.align(IntegrationTestInterface_Method0_ResponseParams.encodedSize),
             codec.kMessageIsResponse, reader.requestID);
-        builder.encodeStruct(IntegrationTestInterface2_Method0_ResponseParams,
+        builder.encodeStruct(IntegrationTestInterface_Method0_ResponseParams,
                              responseParams);
         var message = builder.finish();
         responder.accept(message);
@@ -1503,13 +1389,13 @@
     }
   };
 
-  function validateIntegrationTestInterface2Request(messageValidator) {
+  function validateIntegrationTestInterfaceRequest(messageValidator) {
     var message = messageValidator.message;
     var paramsClass = null;
     switch (message.getName()) {
-      case kIntegrationTestInterface2_Method0_Name:
+      case kIntegrationTestInterface_Method0_Name:
         if (message.expectsResponse())
-          paramsClass = IntegrationTestInterface2_Method0_Params;
+          paramsClass = IntegrationTestInterface_Method0_Params;
       break;
     }
     if (paramsClass === null)
@@ -1517,13 +1403,13 @@
     return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
   }
 
-  function validateIntegrationTestInterface2Response(messageValidator) {
+  function validateIntegrationTestInterfaceResponse(messageValidator) {
    var message = messageValidator.message;
    var paramsClass = null;
    switch (message.getName()) {
-      case kIntegrationTestInterface2_Method0_Name:
+      case kIntegrationTestInterface_Method0_Name:
         if (message.isResponse())
-          paramsClass = IntegrationTestInterface2_Method0_ResponseParams;
+          paramsClass = IntegrationTestInterface_Method0_ResponseParams;
         break;
     }
     if (paramsClass === null)
@@ -1531,15 +1417,15 @@
     return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
   }
 
-  var IntegrationTestInterface2 = {
-    name: 'mojo::test::IntegrationTestInterface2',
-    proxyClass: IntegrationTestInterface2Proxy,
-    stubClass: IntegrationTestInterface2Stub,
-    validateRequest: validateIntegrationTestInterface2Request,
-    validateResponse: validateIntegrationTestInterface2Response,
+  var IntegrationTestInterface = {
+    name: 'mojo::test::IntegrationTestInterface',
+    proxyClass: IntegrationTestInterfaceProxy,
+    stubClass: IntegrationTestInterfaceStub,
+    validateRequest: validateIntegrationTestInterfaceRequest,
+    validateResponse: validateIntegrationTestInterfaceResponse,
   };
-  IntegrationTestInterface2Stub.prototype.validator = validateIntegrationTestInterface2Request;
-  IntegrationTestInterface2Proxy.prototype.validator = validateIntegrationTestInterface2Response;
+  IntegrationTestInterfaceStub.prototype.validator = validateIntegrationTestInterfaceRequest;
+  IntegrationTestInterfaceProxy.prototype.validator = validateIntegrationTestInterfaceResponse;
 
 
   var exports = {};
@@ -1551,10 +1437,7 @@
   exports.StructF = StructF;
   exports.BasicStruct = BasicStruct;
   exports.ConformanceTestInterface = ConformanceTestInterface;
-  exports.IntegrationTestInterface1 = IntegrationTestInterface1;
-  exports.IntegrationTestInterface1.client = IntegrationTestInterface2;
-  exports.IntegrationTestInterface2 = IntegrationTestInterface2;
-  exports.IntegrationTestInterface2.client = IntegrationTestInterface1;
+  exports.IntegrationTestInterface = IntegrationTestInterface;
 
   module.exports = exports;
 </script>

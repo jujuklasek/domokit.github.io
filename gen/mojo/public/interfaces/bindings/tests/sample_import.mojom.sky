@@ -55,7 +55,7 @@
     var packed;
     var val = new Point();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.x = decoder.decodeStruct(codec.Int32);
     val.y = decoder.decodeStruct(codec.Int32);
     return val;
@@ -100,7 +100,7 @@
     var packed;
     var val = new ImportedInterface_DoSomething_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 

@@ -40,7 +40,7 @@
     var packed;
     var val = new WindowFrameHost_ActivateWindow_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -81,7 +81,7 @@
     var packed;
     var val = new WindowFrameHost_CloseWindow_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -123,7 +123,7 @@
     var packed;
     var val = new WindowFrameHost_SetCapture_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.frame_has_capture = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -180,7 +180,7 @@
     var packed;
     var val = new WindowFrameHost_ToggleMaximize_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 

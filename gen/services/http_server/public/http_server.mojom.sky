@@ -52,7 +52,7 @@
     var packed;
     var val = new HttpServer_SetHandler_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.pattern = decoder.decodeStruct(codec.String);
     val.handler = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
@@ -106,7 +106,7 @@
     var packed;
     var val = new HttpServer_SetHandler_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.success = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -124,6 +124,103 @@
     encoder.writeUint32(1);
     encoder.encodeStruct(codec.Uint8, val.success);
     encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
+  function HttpServer_GetPort_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  HttpServer_GetPort_Params.prototype.initDefaults_ = function() {
+  };
+  HttpServer_GetPort_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  HttpServer_GetPort_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, HttpServer_GetPort_Params.encodedSize, 0);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  HttpServer_GetPort_Params.encodedSize = codec.kStructHeaderSize + 0;
+
+  HttpServer_GetPort_Params.decode = function(decoder) {
+    var packed;
+    var val = new HttpServer_GetPort_Params();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    return val;
+  };
+
+  HttpServer_GetPort_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(HttpServer_GetPort_Params.encodedSize);
+    encoder.writeUint32(0);
+  };
+
+  function HttpServer_GetPort_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  HttpServer_GetPort_ResponseParams.prototype.initDefaults_ = function() {
+    this.port = 0;
+  };
+  HttpServer_GetPort_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  HttpServer_GetPort_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, HttpServer_GetPort_ResponseParams.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  HttpServer_GetPort_ResponseParams.encodedSize = codec.kStructHeaderSize + 8;
+
+  HttpServer_GetPort_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new HttpServer_GetPort_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.port = decoder.decodeStruct(codec.Uint16);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  HttpServer_GetPort_ResponseParams.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(HttpServer_GetPort_ResponseParams.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Uint16, val.port);
     encoder.skip(1);
     encoder.skip(1);
     encoder.skip(1);
@@ -168,7 +265,7 @@
     var packed;
     var val = new HttpHandler_HandleRequest_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.request = decoder.decodeStructPointer(http_request$.HttpRequest);
     return val;
   };
@@ -216,7 +313,7 @@
     var packed;
     var val = new HttpHandler_HandleRequest_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.response = decoder.decodeStructPointer(http_response$.HttpResponse);
     return val;
   };
@@ -229,6 +326,7 @@
   };
 
   var kHttpServer_SetHandler_Name = 0;
+  var kHttpServer_GetPort_Name = 1;
 
   function HttpServerProxy(receiver) {
     bindings.ProxyBase.call(this, receiver);
@@ -255,6 +353,25 @@
       });
     }.bind(this));
   };
+  HttpServerProxy.prototype.getPort = function() {
+    var params = new HttpServer_GetPort_Params();
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kHttpServer_GetPort_Name,
+          codec.align(HttpServer_GetPort_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(HttpServer_GetPort_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(HttpServer_GetPort_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
+  };
 
   function HttpServerStub(delegate) {
     bindings.StubBase.call(this, delegate);
@@ -262,6 +379,9 @@
   HttpServerStub.prototype = Object.create(bindings.StubBase.prototype);
   HttpServerStub.prototype.setHandler = function(pattern, handler) {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.setHandler && bindings.StubBindings(this).delegate.setHandler(pattern, connection.bindHandleToProxy(handler, HttpHandler));
+  }
+  HttpServerStub.prototype.getPort = function() {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.getPort && bindings.StubBindings(this).delegate.getPort();
   }
 
   HttpServerStub.prototype.accept = function(message) {
@@ -291,6 +411,21 @@
         var message = builder.finish();
         responder.accept(message);
       });
+    case kHttpServer_GetPort_Name:
+      var params = reader.decodeStruct(HttpServer_GetPort_Params);
+      return this.getPort().then(function(response) {
+        var responseParams =
+            new HttpServer_GetPort_ResponseParams();
+        responseParams.port = response.port;
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kHttpServer_GetPort_Name,
+            codec.align(HttpServer_GetPort_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(HttpServer_GetPort_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
     default:
       return Promise.reject(Error("Unhandled message: " + reader.messageName));
     }
@@ -303,6 +438,10 @@
       case kHttpServer_SetHandler_Name:
         if (message.expectsResponse())
           paramsClass = HttpServer_SetHandler_Params;
+      break;
+      case kHttpServer_GetPort_Name:
+        if (message.expectsResponse())
+          paramsClass = HttpServer_GetPort_Params;
       break;
     }
     if (paramsClass === null)
@@ -317,6 +456,10 @@
       case kHttpServer_SetHandler_Name:
         if (message.isResponse())
           paramsClass = HttpServer_SetHandler_ResponseParams;
+        break;
+      case kHttpServer_GetPort_Name:
+        if (message.isResponse())
+          paramsClass = HttpServer_GetPort_ResponseParams;
         break;
     }
     if (paramsClass === null)

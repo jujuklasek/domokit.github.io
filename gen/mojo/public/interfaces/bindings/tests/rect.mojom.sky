@@ -44,7 +44,7 @@
     var packed;
     var val = new Rect();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.x = decoder.decodeStruct(codec.Int32);
     val.y = decoder.decodeStruct(codec.Int32);
     val.width = decoder.decodeStruct(codec.Int32);

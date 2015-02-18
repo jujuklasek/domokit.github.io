@@ -42,7 +42,7 @@
     var packed;
     var val = new Transfer_Complete_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.application_secret = decoder.decodeStruct(codec.Uint64);
     val.node = decoder.decodeStruct(codec.Uint32);
     decoder.skip(1);
@@ -95,7 +95,7 @@
     var packed;
     var val = new Transfer_Ping_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -136,7 +136,7 @@
     var packed;
     var val = new Transfer_Ping_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 

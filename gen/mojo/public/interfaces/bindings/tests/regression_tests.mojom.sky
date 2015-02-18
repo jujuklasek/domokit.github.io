@@ -7,7 +7,6 @@
 <import src="/gen/mojo/public/sky/connection.sky" as="connection" />
 <import src="/gen/mojo/public/sky/core.sky" as="core" />
 <import src="/gen/mojo/public/sky/validator.sky" as="validator" />
-<import src="/gen/mojo/public/interfaces/bindings/tests/regression_tests_import.mojom.sky" as="regression_tests_import$" />
 <script>
   var EnumWithReference = {};
   EnumWithReference.k_STEREO_AND_KEYBOARD_MIC = 30;
@@ -56,7 +55,7 @@
     var packed;
     var val = new Edge();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.v = decoder.decodeStructPointer(Vertex);
     return val;
   };
@@ -104,7 +103,7 @@
     var packed;
     var val = new Vertex();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.e = decoder.decodeStructPointer(EmptyStruct);
     return val;
   };
@@ -147,7 +146,7 @@
     var packed;
     var val = new EmptyStruct();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -193,7 +192,7 @@
     var packed;
     var val = new A();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.b = decoder.decodeStructPointer(B);
     return val;
   };
@@ -241,7 +240,7 @@
     var packed;
     var val = new B();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.a = decoder.decodeStructPointer(A);
     return val;
   };
@@ -284,7 +283,7 @@
     var packed;
     var val = new CheckMethodWithEmptyResponse_WithouParameterAndEmptyResponse_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -325,7 +324,7 @@
     var packed;
     var val = new CheckMethodWithEmptyResponse_WithouParameterAndEmptyResponse_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -367,7 +366,7 @@
     var packed;
     var val = new CheckMethodWithEmptyResponse_WithParameterAndEmptyResponse_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.b = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -424,7 +423,7 @@
     var packed;
     var val = new CheckMethodWithEmptyResponse_WithParameterAndEmptyResponse_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -467,7 +466,7 @@
     var packed;
     var val = new CheckNameCollision_WithNameCollision_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     packed = decoder.readUint8();
     val.message = (packed >> 0) & 1 ? true : false;
     val.response = (packed >> 1) & 1 ? true : false;
@@ -531,7 +530,7 @@
     var packed;
     var val = new CheckNameCollision_WithNameCollision_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     packed = decoder.readUint8();
     val.message = (packed >> 0) & 1 ? true : false;
     val.response = (packed >> 1) & 1 ? true : false;
@@ -819,52 +818,6 @@
   CheckNameCollisionProxy.prototype.validator = validateCheckNameCollisionResponse;
 
 
-  function InterfaceWithClientImportedProxy(receiver) {
-    bindings.ProxyBase.call(this, receiver);
-  }
-  InterfaceWithClientImportedProxy.prototype = Object.create(bindings.ProxyBase.prototype);
-
-  function InterfaceWithClientImportedStub(delegate) {
-    bindings.StubBase.call(this, delegate);
-  }
-  InterfaceWithClientImportedStub.prototype = Object.create(bindings.StubBase.prototype);
-
-  InterfaceWithClientImportedStub.prototype.accept = function(message) {
-    var reader = new codec.MessageReader(message);
-    switch (reader.messageName) {
-    default:
-      return false;
-    }
-  };
-
-  InterfaceWithClientImportedStub.prototype.acceptWithResponder =
-      function(message, responder) {
-    var reader = new codec.MessageReader(message);
-    switch (reader.messageName) {
-    default:
-      return Promise.reject(Error("Unhandled message: " + reader.messageName));
-    }
-  };
-
-  function validateInterfaceWithClientImportedRequest(messageValidator) {
-    return validator.validationError.NONE;
-  }
-
-  function validateInterfaceWithClientImportedResponse(messageValidator) {
-    return validator.validationError.NONE;
-  }
-
-  var InterfaceWithClientImported = {
-    name: 'regression_tests::InterfaceWithClientImported',
-    proxyClass: InterfaceWithClientImportedProxy,
-    stubClass: InterfaceWithClientImportedStub,
-    validateRequest: validateInterfaceWithClientImportedRequest,
-    validateResponse: null,
-  };
-  InterfaceWithClientImportedStub.prototype.validator = validateInterfaceWithClientImportedRequest;
-  InterfaceWithClientImportedProxy.prototype.validator = null;
-
-
   var exports = {};
   exports.EnumWithReference = EnumWithReference;
   exports.EnumWithLowercase = EnumWithLowercase;
@@ -877,8 +830,6 @@
   exports.B = B;
   exports.CheckMethodWithEmptyResponse = CheckMethodWithEmptyResponse;
   exports.CheckNameCollision = CheckNameCollision;
-  exports.InterfaceWithClientImported = InterfaceWithClientImported;
-  exports.InterfaceWithClientImported.client = regression_tests_import$.InterfaceWithClientImportedClient;
 
   module.exports = exports;
 </script>

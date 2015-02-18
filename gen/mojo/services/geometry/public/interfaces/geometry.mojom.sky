@@ -42,7 +42,7 @@
     var packed;
     var val = new Point();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.x = decoder.decodeStruct(codec.Int32);
     val.y = decoder.decodeStruct(codec.Int32);
     return val;
@@ -89,7 +89,7 @@
     var packed;
     var val = new PointF();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.x = decoder.decodeStruct(codec.Float);
     val.y = decoder.decodeStruct(codec.Float);
     return val;
@@ -136,7 +136,7 @@
     var packed;
     var val = new Size();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.width = decoder.decodeStruct(codec.Int32);
     val.height = decoder.decodeStruct(codec.Int32);
     return val;
@@ -185,7 +185,7 @@
     var packed;
     var val = new Rect();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.x = decoder.decodeStruct(codec.Int32);
     val.y = decoder.decodeStruct(codec.Int32);
     val.width = decoder.decodeStruct(codec.Int32);
@@ -238,7 +238,7 @@
     var packed;
     var val = new RectF();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.x = decoder.decodeStruct(codec.Float);
     val.y = decoder.decodeStruct(codec.Float);
     val.width = decoder.decodeStruct(codec.Float);
@@ -292,7 +292,7 @@
     var packed;
     var val = new Transform();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.matrix = decoder.decodeArrayPointer(codec.Float);
     return val;
   };

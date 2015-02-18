@@ -66,7 +66,7 @@
     var packed;
     var val = new WebSocket_Connect_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.url = decoder.decodeStruct(codec.String);
     val.protocols = decoder.decodeArrayPointer(codec.String);
     val.origin = decoder.decodeStruct(codec.String);
@@ -120,7 +120,7 @@
     var packed;
     var val = new WebSocket_Send_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.fin = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -182,7 +182,7 @@
     var packed;
     var val = new WebSocket_FlowControl_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.quota = decoder.decodeStruct(codec.Int64);
     return val;
   };
@@ -231,7 +231,7 @@
     var packed;
     var val = new WebSocket_Close_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.code = decoder.decodeStruct(codec.Uint16);
     decoder.skip(1);
     decoder.skip(1);
@@ -304,7 +304,7 @@
     var packed;
     var val = new WebSocketClient_DidConnect_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.fail = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -362,7 +362,7 @@
     var packed;
     var val = new WebSocketClient_DidReceiveData_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.fin = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -424,7 +424,7 @@
     var packed;
     var val = new WebSocketClient_DidReceiveFlowControl_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.quota = decoder.decodeStruct(codec.Int64);
     return val;
   };
@@ -472,7 +472,7 @@
     var packed;
     var val = new WebSocketClient_DidFail_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.message = decoder.decodeStruct(codec.String);
     return val;
   };
@@ -522,7 +522,7 @@
     var packed;
     var val = new WebSocketClient_DidClose_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.was_clean = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     val.code = decoder.decodeStruct(codec.Uint16);

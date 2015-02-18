@@ -50,7 +50,7 @@
     var packed;
     var val = new NetAddressIPv4();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.port = decoder.decodeStruct(codec.Uint16);
     decoder.skip(1);
     decoder.skip(1);
@@ -113,7 +113,7 @@
     var packed;
     var val = new NetAddressIPv6();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.port = decoder.decodeStruct(codec.Uint16);
     decoder.skip(1);
     decoder.skip(1);
@@ -181,7 +181,7 @@
     var packed;
     var val = new NetAddress();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.family = decoder.decodeStruct(codec.Int32);
     decoder.skip(1);
     decoder.skip(1);

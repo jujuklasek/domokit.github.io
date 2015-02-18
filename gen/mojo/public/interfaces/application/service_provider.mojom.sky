@@ -50,7 +50,7 @@
     var packed;
     var val = new ServiceProvider_ConnectToService_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.interface_name = decoder.decodeStruct(codec.String);
     val.pipe = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);

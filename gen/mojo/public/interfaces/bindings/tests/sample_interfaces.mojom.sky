@@ -48,7 +48,7 @@
     var packed;
     var val = new Provider_EchoString_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.a = decoder.decodeStruct(codec.String);
     return val;
   };
@@ -96,7 +96,7 @@
     var packed;
     var val = new Provider_EchoString_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.a = decoder.decodeStruct(codec.String);
     return val;
   };
@@ -149,7 +149,7 @@
     var packed;
     var val = new Provider_EchoStrings_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.a = decoder.decodeStruct(codec.String);
     val.b = decoder.decodeStruct(codec.String);
     return val;
@@ -204,7 +204,7 @@
     var packed;
     var val = new Provider_EchoStrings_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.a = decoder.decodeStruct(codec.String);
     val.b = decoder.decodeStruct(codec.String);
     return val;
@@ -254,7 +254,7 @@
     var packed;
     var val = new Provider_EchoMessagePipeHandle_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.a = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
     decoder.skip(1);
@@ -310,7 +310,7 @@
     var packed;
     var val = new Provider_EchoMessagePipeHandle_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.a = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
     decoder.skip(1);
@@ -362,7 +362,7 @@
     var packed;
     var val = new Provider_EchoEnum_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.a = decoder.decodeStruct(codec.Int32);
     decoder.skip(1);
     decoder.skip(1);
@@ -414,7 +414,7 @@
     var packed;
     var val = new Provider_EchoEnum_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.a = decoder.decodeStruct(codec.Int32);
     decoder.skip(1);
     decoder.skip(1);
@@ -683,58 +683,10 @@
   ProviderProxy.prototype.validator = validateProviderResponse;
 
 
-  function ProviderClientProxy(receiver) {
-    bindings.ProxyBase.call(this, receiver);
-  }
-  ProviderClientProxy.prototype = Object.create(bindings.ProxyBase.prototype);
-
-  function ProviderClientStub(delegate) {
-    bindings.StubBase.call(this, delegate);
-  }
-  ProviderClientStub.prototype = Object.create(bindings.StubBase.prototype);
-
-  ProviderClientStub.prototype.accept = function(message) {
-    var reader = new codec.MessageReader(message);
-    switch (reader.messageName) {
-    default:
-      return false;
-    }
-  };
-
-  ProviderClientStub.prototype.acceptWithResponder =
-      function(message, responder) {
-    var reader = new codec.MessageReader(message);
-    switch (reader.messageName) {
-    default:
-      return Promise.reject(Error("Unhandled message: " + reader.messageName));
-    }
-  };
-
-  function validateProviderClientRequest(messageValidator) {
-    return validator.validationError.NONE;
-  }
-
-  function validateProviderClientResponse(messageValidator) {
-    return validator.validationError.NONE;
-  }
-
-  var ProviderClient = {
-    name: 'sample::ProviderClient',
-    proxyClass: ProviderClientProxy,
-    stubClass: ProviderClientStub,
-    validateRequest: validateProviderClientRequest,
-    validateResponse: null,
-  };
-  ProviderClientStub.prototype.validator = validateProviderClientRequest;
-  ProviderClientProxy.prototype.validator = null;
-
-
   var exports = {};
   exports.kLong = kLong;
   exports.Enum = Enum;
   exports.Provider = Provider;
-  exports.Provider.client = ProviderClient;
-  exports.ProviderClient = ProviderClient;
 
   module.exports = exports;
 </script>

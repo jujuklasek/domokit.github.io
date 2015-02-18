@@ -41,7 +41,7 @@
     var packed;
     var val = new ExampleService_Ping_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.ping_value = decoder.decodeStruct(codec.Uint16);
     decoder.skip(1);
     decoder.skip(1);
@@ -65,121 +65,39 @@
     encoder.skip(1);
   };
 
-  function ExampleService_RunCallback_Params(values) {
+  function ExampleService_Ping_ResponseParams(values) {
     this.initDefaults_();
     this.initFields_(values);
   }
 
 
-  ExampleService_RunCallback_Params.prototype.initDefaults_ = function() {
-  };
-  ExampleService_RunCallback_Params.prototype.initFields_ = function(fields) {
-    for(var field in fields) {
-        if (this.hasOwnProperty(field))
-          this[field] = fields[field];
-    }
-  };
-
-  ExampleService_RunCallback_Params.validate = function(messageValidator, offset) {
-    var err;
-
-    err = messageValidator.validateStructHeader(offset, ExampleService_RunCallback_Params.encodedSize, 0);
-    if (err !== validator.validationError.NONE)
-        return err;
-
-    return validator.validationError.NONE;
-  };
-
-  ExampleService_RunCallback_Params.encodedSize = codec.kStructHeaderSize + 0;
-
-  ExampleService_RunCallback_Params.decode = function(decoder) {
-    var packed;
-    var val = new ExampleService_RunCallback_Params();
-    var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
-    return val;
-  };
-
-  ExampleService_RunCallback_Params.encode = function(encoder, val) {
-    var packed;
-    encoder.writeUint32(ExampleService_RunCallback_Params.encodedSize);
-    encoder.writeUint32(0);
-  };
-
-  function ExampleService_RunCallback_ResponseParams(values) {
-    this.initDefaults_();
-    this.initFields_(values);
-  }
-
-
-  ExampleService_RunCallback_ResponseParams.prototype.initDefaults_ = function() {
-  };
-  ExampleService_RunCallback_ResponseParams.prototype.initFields_ = function(fields) {
-    for(var field in fields) {
-        if (this.hasOwnProperty(field))
-          this[field] = fields[field];
-    }
-  };
-
-  ExampleService_RunCallback_ResponseParams.validate = function(messageValidator, offset) {
-    var err;
-
-    err = messageValidator.validateStructHeader(offset, ExampleService_RunCallback_ResponseParams.encodedSize, 0);
-    if (err !== validator.validationError.NONE)
-        return err;
-
-    return validator.validationError.NONE;
-  };
-
-  ExampleService_RunCallback_ResponseParams.encodedSize = codec.kStructHeaderSize + 0;
-
-  ExampleService_RunCallback_ResponseParams.decode = function(decoder) {
-    var packed;
-    var val = new ExampleService_RunCallback_ResponseParams();
-    var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
-    return val;
-  };
-
-  ExampleService_RunCallback_ResponseParams.encode = function(encoder, val) {
-    var packed;
-    encoder.writeUint32(ExampleService_RunCallback_ResponseParams.encodedSize);
-    encoder.writeUint32(0);
-  };
-
-  function ExampleClient_Pong_Params(values) {
-    this.initDefaults_();
-    this.initFields_(values);
-  }
-
-
-  ExampleClient_Pong_Params.prototype.initDefaults_ = function() {
+  ExampleService_Ping_ResponseParams.prototype.initDefaults_ = function() {
     this.pong_value = 0;
   };
-  ExampleClient_Pong_Params.prototype.initFields_ = function(fields) {
+  ExampleService_Ping_ResponseParams.prototype.initFields_ = function(fields) {
     for(var field in fields) {
         if (this.hasOwnProperty(field))
           this[field] = fields[field];
     }
   };
 
-  ExampleClient_Pong_Params.validate = function(messageValidator, offset) {
+  ExampleService_Ping_ResponseParams.validate = function(messageValidator, offset) {
     var err;
 
-    err = messageValidator.validateStructHeader(offset, ExampleClient_Pong_Params.encodedSize, 1);
+    err = messageValidator.validateStructHeader(offset, ExampleService_Ping_ResponseParams.encodedSize, 1);
     if (err !== validator.validationError.NONE)
         return err;
 
     return validator.validationError.NONE;
   };
 
-  ExampleClient_Pong_Params.encodedSize = codec.kStructHeaderSize + 8;
+  ExampleService_Ping_ResponseParams.encodedSize = codec.kStructHeaderSize + 8;
 
-  ExampleClient_Pong_Params.decode = function(decoder) {
+  ExampleService_Ping_ResponseParams.decode = function(decoder) {
     var packed;
-    var val = new ExampleClient_Pong_Params();
+    var val = new ExampleService_Ping_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.pong_value = decoder.decodeStruct(codec.Uint16);
     decoder.skip(1);
     decoder.skip(1);
@@ -190,9 +108,9 @@
     return val;
   };
 
-  ExampleClient_Pong_Params.encode = function(encoder, val) {
+  ExampleService_Ping_ResponseParams.encode = function(encoder, val) {
     var packed;
-    encoder.writeUint32(ExampleClient_Pong_Params.encodedSize);
+    encoder.writeUint32(ExampleService_Ping_ResponseParams.encodedSize);
     encoder.writeUint32(1);
     encoder.encodeStruct(codec.Uint16, val.pong_value);
     encoder.skip(1);
@@ -204,7 +122,6 @@
   };
 
   var kExampleService_Ping_Name = 0;
-  var kExampleService_RunCallback_Name = 1;
 
   function ExampleServiceProxy(receiver) {
     bindings.ProxyBase.call(this, receiver);
@@ -213,26 +130,17 @@
   ExampleServiceProxy.prototype.ping = function(ping_value) {
     var params = new ExampleService_Ping_Params();
     params.ping_value = ping_value;
-    var builder = new codec.MessageBuilder(
-        kExampleService_Ping_Name,
-        codec.align(ExampleService_Ping_Params.encodedSize));
-    builder.encodeStruct(ExampleService_Ping_Params, params);
-    var message = builder.finish();
-    this.receiver_.accept(message);
-  };
-  ExampleServiceProxy.prototype.runCallback = function() {
-    var params = new ExampleService_RunCallback_Params();
     return new Promise(function(resolve, reject) {
       var builder = new codec.MessageWithRequestIDBuilder(
-          kExampleService_RunCallback_Name,
-          codec.align(ExampleService_RunCallback_Params.encodedSize),
+          kExampleService_Ping_Name,
+          codec.align(ExampleService_Ping_Params.encodedSize),
           codec.kMessageExpectsResponse, 0);
-      builder.encodeStruct(ExampleService_RunCallback_Params, params);
+      builder.encodeStruct(ExampleService_Ping_Params, params);
       var message = builder.finish();
       this.receiver_.acceptAndExpectResponse(message).then(function(message) {
         var reader = new codec.MessageReader(message);
         var responseParams =
-            reader.decodeStruct(ExampleService_RunCallback_ResponseParams);
+            reader.decodeStruct(ExampleService_Ping_ResponseParams);
         resolve(responseParams);
       }).catch(function(result) {
         reject(Error("Connection error: " + result));
@@ -247,17 +155,10 @@
   ExampleServiceStub.prototype.ping = function(ping_value) {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.ping && bindings.StubBindings(this).delegate.ping(ping_value);
   }
-  ExampleServiceStub.prototype.runCallback = function() {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.runCallback && bindings.StubBindings(this).delegate.runCallback();
-  }
 
   ExampleServiceStub.prototype.accept = function(message) {
     var reader = new codec.MessageReader(message);
     switch (reader.messageName) {
-    case kExampleService_Ping_Name:
-      var params = reader.decodeStruct(ExampleService_Ping_Params);
-      this.ping(params.ping_value);
-      return true;
     default:
       return false;
     }
@@ -267,16 +168,17 @@
       function(message, responder) {
     var reader = new codec.MessageReader(message);
     switch (reader.messageName) {
-    case kExampleService_RunCallback_Name:
-      var params = reader.decodeStruct(ExampleService_RunCallback_Params);
-      return this.runCallback().then(function(response) {
+    case kExampleService_Ping_Name:
+      var params = reader.decodeStruct(ExampleService_Ping_Params);
+      return this.ping(params.ping_value).then(function(response) {
         var responseParams =
-            new ExampleService_RunCallback_ResponseParams();
+            new ExampleService_Ping_ResponseParams();
+        responseParams.pong_value = response.pong_value;
         var builder = new codec.MessageWithRequestIDBuilder(
-            kExampleService_RunCallback_Name,
-            codec.align(ExampleService_RunCallback_ResponseParams.encodedSize),
+            kExampleService_Ping_Name,
+            codec.align(ExampleService_Ping_ResponseParams.encodedSize),
             codec.kMessageIsResponse, reader.requestID);
-        builder.encodeStruct(ExampleService_RunCallback_ResponseParams,
+        builder.encodeStruct(ExampleService_Ping_ResponseParams,
                              responseParams);
         var message = builder.finish();
         responder.accept(message);
@@ -291,12 +193,8 @@
     var paramsClass = null;
     switch (message.getName()) {
       case kExampleService_Ping_Name:
-        if (!message.expectsResponse() && !message.isResponse())
-          paramsClass = ExampleService_Ping_Params;
-      break;
-      case kExampleService_RunCallback_Name:
         if (message.expectsResponse())
-          paramsClass = ExampleService_RunCallback_Params;
+          paramsClass = ExampleService_Ping_Params;
       break;
     }
     if (paramsClass === null)
@@ -308,9 +206,9 @@
    var message = messageValidator.message;
    var paramsClass = null;
    switch (message.getName()) {
-      case kExampleService_RunCallback_Name:
+      case kExampleService_Ping_Name:
         if (message.isResponse())
-          paramsClass = ExampleService_RunCallback_ResponseParams;
+          paramsClass = ExampleService_Ping_ResponseParams;
         break;
     }
     if (paramsClass === null)
@@ -328,85 +226,9 @@
   ExampleServiceStub.prototype.validator = validateExampleServiceRequest;
   ExampleServiceProxy.prototype.validator = validateExampleServiceResponse;
 
-  var kExampleClient_Pong_Name = 0;
-
-  function ExampleClientProxy(receiver) {
-    bindings.ProxyBase.call(this, receiver);
-  }
-  ExampleClientProxy.prototype = Object.create(bindings.ProxyBase.prototype);
-  ExampleClientProxy.prototype.pong = function(pong_value) {
-    var params = new ExampleClient_Pong_Params();
-    params.pong_value = pong_value;
-    var builder = new codec.MessageBuilder(
-        kExampleClient_Pong_Name,
-        codec.align(ExampleClient_Pong_Params.encodedSize));
-    builder.encodeStruct(ExampleClient_Pong_Params, params);
-    var message = builder.finish();
-    this.receiver_.accept(message);
-  };
-
-  function ExampleClientStub(delegate) {
-    bindings.StubBase.call(this, delegate);
-  }
-  ExampleClientStub.prototype = Object.create(bindings.StubBase.prototype);
-  ExampleClientStub.prototype.pong = function(pong_value) {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.pong && bindings.StubBindings(this).delegate.pong(pong_value);
-  }
-
-  ExampleClientStub.prototype.accept = function(message) {
-    var reader = new codec.MessageReader(message);
-    switch (reader.messageName) {
-    case kExampleClient_Pong_Name:
-      var params = reader.decodeStruct(ExampleClient_Pong_Params);
-      this.pong(params.pong_value);
-      return true;
-    default:
-      return false;
-    }
-  };
-
-  ExampleClientStub.prototype.acceptWithResponder =
-      function(message, responder) {
-    var reader = new codec.MessageReader(message);
-    switch (reader.messageName) {
-    default:
-      return Promise.reject(Error("Unhandled message: " + reader.messageName));
-    }
-  };
-
-  function validateExampleClientRequest(messageValidator) {
-    var message = messageValidator.message;
-    var paramsClass = null;
-    switch (message.getName()) {
-      case kExampleClient_Pong_Name:
-        if (!message.expectsResponse() && !message.isResponse())
-          paramsClass = ExampleClient_Pong_Params;
-      break;
-    }
-    if (paramsClass === null)
-      return validator.validationError.NONE;
-    return paramsClass.validate(messageValidator, messageValidator.message.getHeaderNumBytes());
-  }
-
-  function validateExampleClientResponse(messageValidator) {
-    return validator.validationError.NONE;
-  }
-
-  var ExampleClient = {
-    name: 'mojo::ExampleClient',
-    proxyClass: ExampleClientProxy,
-    stubClass: ExampleClientStub,
-    validateRequest: validateExampleClientRequest,
-    validateResponse: null,
-  };
-  ExampleClientStub.prototype.validator = validateExampleClientRequest;
-  ExampleClientProxy.prototype.validator = null;
-
 
   var exports = {};
   exports.ExampleService = ExampleService;
-  exports.ExampleService.client = ExampleClient;
-  exports.ExampleClient = ExampleClient;
 
   module.exports = exports;
 </script>

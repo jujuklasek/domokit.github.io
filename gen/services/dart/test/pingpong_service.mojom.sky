@@ -45,7 +45,7 @@
     var packed;
     var val = new PingPongService_SetClient_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.client = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
     decoder.skip(1);
@@ -97,7 +97,7 @@
     var packed;
     var val = new PingPongService_Ping_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.ping_value = decoder.decodeStruct(codec.Uint16);
     decoder.skip(1);
     decoder.skip(1);
@@ -158,7 +158,7 @@
     var packed;
     var val = new PingPongService_PingTargetURL_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.url = decoder.decodeStruct(codec.String);
     val.count = decoder.decodeStruct(codec.Uint16);
     decoder.skip(1);
@@ -216,7 +216,7 @@
     var packed;
     var val = new PingPongService_PingTargetURL_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.ok = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -279,7 +279,7 @@
     var packed;
     var val = new PingPongService_PingTargetService_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.service = decoder.decodeStruct(codec.Handle);
     val.count = decoder.decodeStruct(codec.Uint16);
     decoder.skip(1);
@@ -329,7 +329,7 @@
     var packed;
     var val = new PingPongService_PingTargetService_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.ok = decoder.decodeStruct(codec.Uint8);
     decoder.skip(1);
     decoder.skip(1);
@@ -391,7 +391,7 @@
     var packed;
     var val = new PingPongService_GetPingPongService_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.service = decoder.decodeStruct(codec.Handle);
     decoder.skip(1);
     decoder.skip(1);
@@ -442,7 +442,7 @@
     var packed;
     var val = new PingPongService_Quit_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     return val;
   };
 
@@ -484,7 +484,7 @@
     var packed;
     var val = new PingPongClient_Pong_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.pong_value = decoder.decodeStruct(codec.Uint16);
     decoder.skip(1);
     decoder.skip(1);

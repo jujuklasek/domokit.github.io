@@ -45,7 +45,7 @@
     var packed;
     var val = new ICUData_Map_Params();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.sha1hash = decoder.decodeStruct(codec.String);
     return val;
   };
@@ -93,7 +93,7 @@
     var packed;
     var val = new ICUData_Map_ResponseParams();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.icu_data = decoder.decodeStruct(codec.NullableHandle);
     decoder.skip(1);
     decoder.skip(1);

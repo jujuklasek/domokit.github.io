@@ -57,7 +57,7 @@
     var packed;
     var val = new HttpResponse();
     var numberOfBytes = decoder.readUint32();
-    var numberOfFields = decoder.readUint32();
+    var version = decoder.readUint32();
     val.status_code = decoder.decodeStruct(codec.Uint32);
     val.body = decoder.decodeStruct(codec.NullableHandle);
     val.content_length = decoder.decodeStruct(codec.Int64);
