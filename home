@@ -2,15 +2,20 @@
 <sky>
 <style>
  h1 { font-size: 2em; margin: 1em; }
+ h2 { font-size: 1.2em; margin: 1em; }
  p { margin: 0.5em 1em; color: #bcd8f5; font-weight: 900; }
  a { font-size: 1.642874em; }
 </style>
 <h1>Mojo Home</h1>
+<h2>C++ Apps</h2>
 <a href='/mojo/embedded_app.mojo'>embeded_app</a>
 <a href='/mojo/surfaces_app.mojo'>surfaces_app</a>
+<h2>Sky/Dart Apps</h2>
 <a href='/sky/examples/spinning-square.sky'>spinning square</a>
-<foo>Below this line have not yet been coverted to dart</foo>
+<a href='/sky/examples/touch-demo.sky'>touch demo</a>
+
+<!--
 <a href='/sky/examples/example-scrollable.sky'>example scrollable</a>
 <a href='/sky/examples/widgets/index.sky'>widgets</a>
-<a href='/sky/examples/flights-app/index.sky'>flights app</a>
+<a href='/sky/examples/flights-app/index.sky'>flights app</a> -->
 </sky>
