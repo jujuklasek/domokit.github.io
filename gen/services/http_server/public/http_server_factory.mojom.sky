@@ -7,6 +7,7 @@
 <import src="/gen/mojo/public/sky/connection.sky" as="connection" />
 <import src="/gen/mojo/public/sky/core.sky" as="core" />
 <import src="/gen/mojo/public/sky/validator.sky" as="validator" />
+<import src="/gen/mojo/services/network/public/interfaces/net_address.mojom.sky" as="net_address$" />
 <import src="/gen/services/http_server/public/http_server.mojom.sky" as="http_server$" />
 <script>
 
@@ -18,7 +19,7 @@
 
   HttpServerFactory_CreateHttpServer_Params.prototype.initDefaults_ = function() {
     this.server_request = null;
-    this.port = 0;
+    this.local_address = null;
   };
   HttpServerFactory_CreateHttpServer_Params.prototype.initFields_ = function(fields) {
     for(var field in fields) {
@@ -37,11 +38,15 @@
     err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 0, false)
     if (err !== validator.validationError.NONE)
         return err;
+    // validate HttpServerFactory_CreateHttpServer_Params.local_address
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 8, net_address$.NetAddress, true);
+    if (err !== validator.validationError.NONE)
+        return err;
 
     return validator.validationError.NONE;
   };
 
-  HttpServerFactory_CreateHttpServer_Params.encodedSize = codec.kStructHeaderSize + 8;
+  HttpServerFactory_CreateHttpServer_Params.encodedSize = codec.kStructHeaderSize + 16;
 
   HttpServerFactory_CreateHttpServer_Params.decode = function(decoder) {
     var packed;
@@ -49,9 +54,11 @@
     var numberOfBytes = decoder.readUint32();
     var version = decoder.readUint32();
     val.server_request = decoder.decodeStruct(codec.Handle);
-    val.port = decoder.decodeStruct(codec.Uint16);
     decoder.skip(1);
     decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    val.local_address = decoder.decodeStructPointer(net_address$.NetAddress);
     return val;
   };
 
@@ -60,9 +67,11 @@
     encoder.writeUint32(HttpServerFactory_CreateHttpServer_Params.encodedSize);
     encoder.writeUint32(2);
     encoder.encodeStruct(codec.Handle, val.server_request);
-    encoder.encodeStruct(codec.Uint16, val.port);
     encoder.skip(1);
     encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.encodeStructPointer(net_address$.NetAddress, val.local_address);
   };
 
   var kHttpServerFactory_CreateHttpServer_Name = 0;
@@ -71,10 +80,10 @@
     bindings.ProxyBase.call(this, receiver);
   }
   HttpServerFactoryProxy.prototype = Object.create(bindings.ProxyBase.prototype);
-  HttpServerFactoryProxy.prototype.createHttpServer = function(server_request, port) {
+  HttpServerFactoryProxy.prototype.createHttpServer = function(server_request, local_address) {
     var params = new HttpServerFactory_CreateHttpServer_Params();
     params.server_request = core.isHandle(server_request) ? server_request : connection.bindProxy(server_request, http_server$.HttpServer);
-    params.port = port;
+    params.local_address = local_address;
     var builder = new codec.MessageBuilder(
         kHttpServerFactory_CreateHttpServer_Name,
         codec.align(HttpServerFactory_CreateHttpServer_Params.encodedSize));
@@ -87,8 +96,8 @@
     bindings.StubBase.call(this, delegate);
   }
   HttpServerFactoryStub.prototype = Object.create(bindings.StubBase.prototype);
-  HttpServerFactoryStub.prototype.createHttpServer = function(server_request, port) {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.createHttpServer && bindings.StubBindings(this).delegate.createHttpServer(connection.bindHandleToStub(server_request, http_server$.HttpServer), port);
+  HttpServerFactoryStub.prototype.createHttpServer = function(server_request, local_address) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.createHttpServer && bindings.StubBindings(this).delegate.createHttpServer(connection.bindHandleToStub(server_request, http_server$.HttpServer), local_address);
   }
 
   HttpServerFactoryStub.prototype.accept = function(message) {
@@ -96,7 +105,7 @@
     switch (reader.messageName) {
     case kHttpServerFactory_CreateHttpServer_Name:
       var params = reader.decodeStruct(HttpServerFactory_CreateHttpServer_Params);
-      this.createHttpServer(params.server_request, params.port);
+      this.createHttpServer(params.server_request, params.local_address);
       return true;
     default:
       return false;

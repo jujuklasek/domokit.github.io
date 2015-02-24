@@ -1,73 +1,51 @@
 <!--
-// Copyright 2014 The Chromium Authors. All rights reserved.
+// Copyright 2015 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 -->
-<import src="sky-button.sky" as="SkyButton" />
+<import src="sky-element.sky" />
+<import src="sky-icon.sky" />
 
-<sky-element
-    name="sky-checkbox"
-    attributes="checked:boolean"
-    on-click="handleClick">
+<sky-element attributes="checked:boolean">
 <template>
   <style>
     :host {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      display: inline-block;
       -webkit-user-select: none;
-      cursor: pointer;
-      width: 30px;
-      height: 30px;
-    }
-    #container {
-      border: solid 2px;
-      border-color: rgba(90, 90, 90, 0.25);
-      width: 10px;
-      height: 10px;
-    }
-    #container.highlight {
-      border-radius: 10px;
-      background-color: orange;
-      border-color: orange;
-    }
-    #check {
-      top: 0px;
-      left: 0px;
-    }
-    #check.checked {
-      transform: translate(2px, -15px) rotate(45deg);
-      width: 10px;
-      height: 20px;
-      border-style: solid;
-      border-top: none;
-      border-left: none;
-      border-right-width: 2px;
-      border-bottom-width: 2px;
-      border-color: #0f9d58;
+      margin: 8px 16px;
     }
   </style>
-  <div id="container" class="{{ containerStyle }}">
-    <div id="check" class="{{ checkStyle }}" />
-  </div>
+  <sky-icon size="18" />
 </template>
 <script>
-module.exports = class extends SkyButton {
-  created() {
-    super.created();
+import "dart:sky";
 
-    this.containerStyle = '';
-    this.checkStyle = '';
+const String _kOnIcon = 'toggle/check_box_black';
+const String _kOffIcon = 'toggle/check_box_outline_blank_black';
+
+@Tagname('sky-checkbox')
+class SkyCheckbox extends SkyElement {
+  SkyIcon _icon;
+
+  SkyCheckbox() {
+    addEventListener('click', _handleClick);
   }
-  checkedChanged(oldValue, newValue) {
-    this.checkStyle = newValue ? 'checked' : '';
+
+  void shadowRootReady() {
+    _icon = shadowRoot.querySelector('sky-icon');
+    _icon.type = checked ? _kOnIcon : _kOffIcon;
   }
-  highlightChanged(oldValue, newValue) {
-    this.containerStyle = newValue ? 'highlight' : '';
+
+  void checkedChanged(bool oldValue, bool newValue) {
+    if (_icon != null)
+      _icon.type = newValue ? _kOnIcon : _kOffIcon;
   }
-  handleClick() {
-    this.checked = !this.checked;
+
+  void _handleClick(_) {
+    checked = !checked;
   }
-}.register();
+}
+
+_init(script) => register(script, SkyCheckbox);
 </script>
 </sky-element>

@@ -308,6 +308,73 @@
     encoder.encodeArrayPointer(codec.Uint8, val.fixed_size_array);
   };
 
+  function StructG(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  StructG.prototype.initDefaults_ = function() {
+    this.i = 0;
+    this.b = false;
+    this.struct_a = null;
+    this.str = null;
+  };
+  StructG.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  StructG.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, StructG.encodedSize, 3);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate StructG.struct_a
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 8, StructA, true);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate StructG.str
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 16, true)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  StructG.encodedSize = codec.kStructHeaderSize + 24;
+
+  StructG.decode = function(decoder) {
+    var packed;
+    var val = new StructG();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.i = decoder.decodeStruct(codec.Int32);
+    val.b = decoder.decodeStruct(codec.Uint8);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    val.struct_a = decoder.decodeStructPointer(StructA);
+    val.str = decoder.decodeStruct(codec.NullableString);
+    return val;
+  };
+
+  StructG.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(StructG.encodedSize);
+    encoder.writeUint32(3);
+    encoder.encodeStruct(codec.Int32, val.i);
+    encoder.encodeStruct(codec.Uint8, val.b);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.encodeStructPointer(StructA, val.struct_a);
+    encoder.encodeStruct(codec.NullableString, val.str);
+  };
+
   function BasicStruct(values) {
     this.initDefaults_();
     this.initFields_(values);
@@ -928,6 +995,54 @@
     encoder.encodeMapPointer(codec.String, codec.Uint8, val.param0);
   };
 
+  function ConformanceTestInterface_Method11_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ConformanceTestInterface_Method11_Params.prototype.initDefaults_ = function() {
+    this.param0 = null;
+  };
+  ConformanceTestInterface_Method11_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ConformanceTestInterface_Method11_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ConformanceTestInterface_Method11_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ConformanceTestInterface_Method11_Params.param0
+    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 0, StructG, false);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ConformanceTestInterface_Method11_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  ConformanceTestInterface_Method11_Params.decode = function(decoder) {
+    var packed;
+    var val = new ConformanceTestInterface_Method11_Params();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.param0 = decoder.decodeStructPointer(StructG);
+    return val;
+  };
+
+  ConformanceTestInterface_Method11_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ConformanceTestInterface_Method11_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStructPointer(StructG, val.param0);
+  };
+
   function IntegrationTestInterface_Method0_Params(values) {
     this.initDefaults_();
     this.initFields_(values);
@@ -1035,6 +1150,7 @@
   var kConformanceTestInterface_Method8_Name = 8;
   var kConformanceTestInterface_Method9_Name = 9;
   var kConformanceTestInterface_Method10_Name = 10;
+  var kConformanceTestInterface_Method11_Name = 11;
 
   function ConformanceTestInterfaceProxy(receiver) {
     bindings.ProxyBase.call(this, receiver);
@@ -1154,6 +1270,16 @@
     var message = builder.finish();
     this.receiver_.accept(message);
   };
+  ConformanceTestInterfaceProxy.prototype.method11 = function(param0) {
+    var params = new ConformanceTestInterface_Method11_Params();
+    params.param0 = param0;
+    var builder = new codec.MessageBuilder(
+        kConformanceTestInterface_Method11_Name,
+        codec.align(ConformanceTestInterface_Method11_Params.encodedSize));
+    builder.encodeStruct(ConformanceTestInterface_Method11_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
 
   function ConformanceTestInterfaceStub(delegate) {
     bindings.StubBase.call(this, delegate);
@@ -1191,6 +1317,9 @@
   }
   ConformanceTestInterfaceStub.prototype.method10 = function(param0) {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.method10 && bindings.StubBindings(this).delegate.method10(param0);
+  }
+  ConformanceTestInterfaceStub.prototype.method11 = function(param0) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.method11 && bindings.StubBindings(this).delegate.method11(param0);
   }
 
   ConformanceTestInterfaceStub.prototype.accept = function(message) {
@@ -1239,6 +1368,10 @@
     case kConformanceTestInterface_Method10_Name:
       var params = reader.decodeStruct(ConformanceTestInterface_Method10_Params);
       this.method10(params.param0);
+      return true;
+    case kConformanceTestInterface_Method11_Name:
+      var params = reader.decodeStruct(ConformanceTestInterface_Method11_Params);
+      this.method11(params.param0);
       return true;
     default:
       return false;
@@ -1301,6 +1434,10 @@
       case kConformanceTestInterface_Method10_Name:
         if (!message.expectsResponse() && !message.isResponse())
           paramsClass = ConformanceTestInterface_Method10_Params;
+      break;
+      case kConformanceTestInterface_Method11_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = ConformanceTestInterface_Method11_Params;
       break;
     }
     if (paramsClass === null)
@@ -1435,6 +1572,7 @@
   exports.StructD = StructD;
   exports.StructE = StructE;
   exports.StructF = StructF;
+  exports.StructG = StructG;
   exports.BasicStruct = BasicStruct;
   exports.ConformanceTestInterface = ConformanceTestInterface;
   exports.IntegrationTestInterface = IntegrationTestInterface;

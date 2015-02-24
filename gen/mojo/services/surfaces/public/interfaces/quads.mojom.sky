@@ -12,7 +12,8 @@
 <script>
   var YUVColorSpace = {};
   YUVColorSpace.REC_601 = 0;
-  YUVColorSpace.REC_601_JPEG = YUVColorSpace.REC_601 + 1;
+  YUVColorSpace.REC_709 = YUVColorSpace.REC_601 + 1;
+  YUVColorSpace.JPEG = YUVColorSpace.REC_709 + 1;
   var Material = {};
   Material.CHECKERBOARD = 1;
   Material.DEBUG_BORDER = Material.CHECKERBOARD + 1;
