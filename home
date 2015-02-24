@@ -11,11 +11,9 @@
 <a href='/mojo/embedded_app.mojo'>embeded_app</a>
 <a href='/mojo/surfaces_app.mojo'>surfaces_app</a>
 <h2>Sky/Dart Apps</h2>
+<a href='/sky/examples/stocks/index.sky'>stocks app</a>
 <a href='/sky/examples/spinning-square.sky'>spinning square</a>
 <a href='/sky/examples/touch-demo.sky'>touch demo</a>
-
-<!--
-<a href='/sky/examples/example-scrollable.sky'>example scrollable</a>
 <a href='/sky/examples/widgets/index.sky'>widgets</a>
-<a href='/sky/examples/flights-app/index.sky'>flights app</a> -->
+<a href='/sky/examples/example-scrollable.sky'>example scrollable</a>
 </sky>
