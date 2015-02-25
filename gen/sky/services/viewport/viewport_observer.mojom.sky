@@ -116,8 +116,57 @@
     encoder.encodeStructPointer(input_event$.InputEvent, val.event);
   };
 
+  function ViewportObserver_LoadURL_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ViewportObserver_LoadURL_Params.prototype.initDefaults_ = function() {
+    this.url = null;
+  };
+  ViewportObserver_LoadURL_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ViewportObserver_LoadURL_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ViewportObserver_LoadURL_Params.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ViewportObserver_LoadURL_Params.url
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 0, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ViewportObserver_LoadURL_Params.encodedSize = codec.kStructHeaderSize + 8;
+
+  ViewportObserver_LoadURL_Params.decode = function(decoder) {
+    var packed;
+    var val = new ViewportObserver_LoadURL_Params();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.url = decoder.decodeStruct(codec.String);
+    return val;
+  };
+
+  ViewportObserver_LoadURL_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ViewportObserver_LoadURL_Params.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.String, val.url);
+  };
+
   var kViewportObserver_OnViewportMetricsChanged_Name = 0;
   var kViewportObserver_OnInputEvent_Name = 1;
+  var kViewportObserver_LoadURL_Name = 2;
 
   function ViewportObserverProxy(receiver) {
     bindings.ProxyBase.call(this, receiver);
@@ -145,6 +194,16 @@
     var message = builder.finish();
     this.receiver_.accept(message);
   };
+  ViewportObserverProxy.prototype.loadURL = function(url) {
+    var params = new ViewportObserver_LoadURL_Params();
+    params.url = url;
+    var builder = new codec.MessageBuilder(
+        kViewportObserver_LoadURL_Name,
+        codec.align(ViewportObserver_LoadURL_Params.encodedSize));
+    builder.encodeStruct(ViewportObserver_LoadURL_Params, params);
+    var message = builder.finish();
+    this.receiver_.accept(message);
+  };
 
   function ViewportObserverStub(delegate) {
     bindings.StubBase.call(this, delegate);
@@ -155,6 +214,9 @@
   }
   ViewportObserverStub.prototype.onInputEvent = function(event) {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.onInputEvent && bindings.StubBindings(this).delegate.onInputEvent(event);
+  }
+  ViewportObserverStub.prototype.loadURL = function(url) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.loadURL && bindings.StubBindings(this).delegate.loadURL(url);
   }
 
   ViewportObserverStub.prototype.accept = function(message) {
@@ -167,6 +229,10 @@
     case kViewportObserver_OnInputEvent_Name:
       var params = reader.decodeStruct(ViewportObserver_OnInputEvent_Params);
       this.onInputEvent(params.event);
+      return true;
+    case kViewportObserver_LoadURL_Name:
+      var params = reader.decodeStruct(ViewportObserver_LoadURL_Params);
+      this.loadURL(params.url);
       return true;
     default:
       return false;
@@ -193,6 +259,10 @@
       case kViewportObserver_OnInputEvent_Name:
         if (!message.expectsResponse() && !message.isResponse())
           paramsClass = ViewportObserver_OnInputEvent_Params;
+      break;
+      case kViewportObserver_LoadURL_Name:
+        if (!message.expectsResponse() && !message.isResponse())
+          paramsClass = ViewportObserver_LoadURL_Params;
       break;
     }
     if (paramsClass === null)

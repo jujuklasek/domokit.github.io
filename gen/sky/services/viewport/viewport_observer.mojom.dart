@@ -98,8 +98,46 @@ class ViewportObserverOnInputEventParams extends bindings.Struct {
     encoder0.encodeStruct(event, 8, false);
   }
 }
+
+class ViewportObserverLoadUrlParams extends bindings.Struct {
+  static const int kStructSize = 16;
+  static const bindings.StructDataHeader kDefaultStructInfo =
+      const bindings.StructDataHeader(kStructSize, 1);
+  String url = null;
+
+  ViewportObserverLoadUrlParams() : super(kStructSize);
+
+  static ViewportObserverLoadUrlParams deserialize(bindings.Message message) {
+    return decode(new bindings.Decoder(message));
+  }
+
+  static ViewportObserverLoadUrlParams decode(bindings.Decoder decoder0) {
+    if (decoder0 == null) {
+      return null;
+    }
+    ViewportObserverLoadUrlParams result = new ViewportObserverLoadUrlParams();
+
+    var mainDataHeader = decoder0.decodeStructDataHeader();
+    if ((mainDataHeader.size < kStructSize) ||
+        (mainDataHeader.version < 1)) {
+      throw new bindings.MojoCodecError('Malformed header');
+    }
+    {
+      
+      result.url = decoder0.decodeString(8, false);
+    }
+    return result;
+  }
+
+  void encode(bindings.Encoder encoder) {
+    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    
+    encoder0.encodeString(url, 8, false);
+  }
+}
 const int kViewportObserver_onViewportMetricsChanged_name = 0;
 const int kViewportObserver_onInputEvent_name = 1;
+const int kViewportObserver_loadUrl_name = 2;
 
 abstract class ViewportObserver implements core.Listener {
   static const String name = 'sky::ViewportObserver';
@@ -126,6 +164,7 @@ abstract class ViewportObserver implements core.Listener {
   }
   void onViewportMetricsChanged(int width, int height, double devicePixelRatio);
   void onInputEvent(input_event_mojom.InputEvent event);
+  void loadUrl(String url);
 
 }
 
@@ -164,6 +203,12 @@ class ViewportObserverProxy extends bindings.Proxy implements ViewportObserver {
     sendMessage(params, kViewportObserver_onInputEvent_name);
   }
 
+  void loadUrl(String url) {
+    var params = new ViewportObserverLoadUrlParams();
+    params.url = url;
+    sendMessage(params, kViewportObserver_loadUrl_name);
+  }
+
 }
 
 class ViewportObserverStub extends bindings.Stub {
@@ -196,6 +241,11 @@ class ViewportObserverStub extends bindings.Stub {
         var params = ViewportObserverOnInputEventParams.deserialize(
             message.payload);
         _delegate.onInputEvent(params.event);
+        break;
+      case kViewportObserver_loadUrl_name:
+        var params = ViewportObserverLoadUrlParams.deserialize(
+            message.payload);
+        _delegate.loadUrl(params.url);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
