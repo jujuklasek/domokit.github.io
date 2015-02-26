@@ -5,8 +5,8 @@
 library http_server.mojom;
 
 import 'dart:async';
-import 'dart:mojo_bindings' as bindings;
-import 'dart:mojo_core' as core;
+import 'mojo:bindings' as bindings;
+import 'mojo:core' as core;
 import 'package:services/http_server/public/http_request.mojom.dart' as http_request_mojom;
 import 'package:services/http_server/public/http_response.mojom.dart' as http_response_mojom;
 

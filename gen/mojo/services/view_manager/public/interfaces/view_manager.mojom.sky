@@ -1464,6 +1464,123 @@
     encoder.skip(1);
   };
 
+  function ViewManagerService_PerformAction_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ViewManagerService_PerformAction_Params.prototype.initDefaults_ = function() {
+    this.view_id = 0;
+    this.action = null;
+  };
+  ViewManagerService_PerformAction_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ViewManagerService_PerformAction_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ViewManagerService_PerformAction_Params.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ViewManagerService_PerformAction_Params.action
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 8, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ViewManagerService_PerformAction_Params.encodedSize = codec.kStructHeaderSize + 16;
+
+  ViewManagerService_PerformAction_Params.decode = function(decoder) {
+    var packed;
+    var val = new ViewManagerService_PerformAction_Params();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.view_id = decoder.decodeStruct(codec.Uint32);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    val.action = decoder.decodeStruct(codec.String);
+    return val;
+  };
+
+  ViewManagerService_PerformAction_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ViewManagerService_PerformAction_Params.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStruct(codec.Uint32, val.view_id);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.encodeStruct(codec.String, val.action);
+  };
+
+  function ViewManagerService_PerformAction_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ViewManagerService_PerformAction_ResponseParams.prototype.initDefaults_ = function() {
+    this.success = false;
+  };
+  ViewManagerService_PerformAction_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ViewManagerService_PerformAction_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ViewManagerService_PerformAction_ResponseParams.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ViewManagerService_PerformAction_ResponseParams.encodedSize = codec.kStructHeaderSize + 8;
+
+  ViewManagerService_PerformAction_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new ViewManagerService_PerformAction_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.success = decoder.decodeStruct(codec.Uint8);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  ViewManagerService_PerformAction_ResponseParams.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ViewManagerService_PerformAction_ResponseParams.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Uint8, val.success);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
   function ViewManagerClient_OnEmbed_Params(values) {
     this.initDefaults_();
     this.initFields_(values);
@@ -2182,6 +2299,123 @@
     encoder.writeUint32(0);
   };
 
+  function ViewManagerClient_OnPerformAction_Params(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ViewManagerClient_OnPerformAction_Params.prototype.initDefaults_ = function() {
+    this.view_id = 0;
+    this.action = null;
+  };
+  ViewManagerClient_OnPerformAction_Params.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ViewManagerClient_OnPerformAction_Params.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ViewManagerClient_OnPerformAction_Params.encodedSize, 2);
+    if (err !== validator.validationError.NONE)
+        return err;
+    // validate ViewManagerClient_OnPerformAction_Params.action
+    err = messageValidator.validateStringPointer(offset + codec.kStructHeaderSize + 8, false)
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ViewManagerClient_OnPerformAction_Params.encodedSize = codec.kStructHeaderSize + 16;
+
+  ViewManagerClient_OnPerformAction_Params.decode = function(decoder) {
+    var packed;
+    var val = new ViewManagerClient_OnPerformAction_Params();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.view_id = decoder.decodeStruct(codec.Uint32);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    val.action = decoder.decodeStruct(codec.String);
+    return val;
+  };
+
+  ViewManagerClient_OnPerformAction_Params.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ViewManagerClient_OnPerformAction_Params.encodedSize);
+    encoder.writeUint32(2);
+    encoder.encodeStruct(codec.Uint32, val.view_id);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.encodeStruct(codec.String, val.action);
+  };
+
+  function ViewManagerClient_OnPerformAction_ResponseParams(values) {
+    this.initDefaults_();
+    this.initFields_(values);
+  }
+
+
+  ViewManagerClient_OnPerformAction_ResponseParams.prototype.initDefaults_ = function() {
+    this.success = false;
+  };
+  ViewManagerClient_OnPerformAction_ResponseParams.prototype.initFields_ = function(fields) {
+    for(var field in fields) {
+        if (this.hasOwnProperty(field))
+          this[field] = fields[field];
+    }
+  };
+
+  ViewManagerClient_OnPerformAction_ResponseParams.validate = function(messageValidator, offset) {
+    var err;
+
+    err = messageValidator.validateStructHeader(offset, ViewManagerClient_OnPerformAction_ResponseParams.encodedSize, 1);
+    if (err !== validator.validationError.NONE)
+        return err;
+
+    return validator.validationError.NONE;
+  };
+
+  ViewManagerClient_OnPerformAction_ResponseParams.encodedSize = codec.kStructHeaderSize + 8;
+
+  ViewManagerClient_OnPerformAction_ResponseParams.decode = function(decoder) {
+    var packed;
+    var val = new ViewManagerClient_OnPerformAction_ResponseParams();
+    var numberOfBytes = decoder.readUint32();
+    var version = decoder.readUint32();
+    val.success = decoder.decodeStruct(codec.Uint8);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    decoder.skip(1);
+    return val;
+  };
+
+  ViewManagerClient_OnPerformAction_ResponseParams.encode = function(encoder, val) {
+    var packed;
+    encoder.writeUint32(ViewManagerClient_OnPerformAction_ResponseParams.encodedSize);
+    encoder.writeUint32(1);
+    encoder.encodeStruct(codec.Uint8, val.success);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+    encoder.skip(1);
+  };
+
   var kViewManagerService_CreateView_Name = 0;
   var kViewManagerService_DeleteView_Name = 1;
   var kViewManagerService_SetViewBounds_Name = 2;
@@ -2194,6 +2428,7 @@
   var kViewManagerService_SetViewSurfaceId_Name = 9;
   var kViewManagerService_EmbedUrl_Name = 10;
   var kViewManagerService_Embed_Name = 11;
+  var kViewManagerService_PerformAction_Name = 12;
 
   function ViewManagerServiceProxy(receiver) {
     bindings.ProxyBase.call(this, receiver);
@@ -2451,6 +2686,27 @@
       });
     }.bind(this));
   };
+  ViewManagerServiceProxy.prototype.performAction = function(view_id, action) {
+    var params = new ViewManagerService_PerformAction_Params();
+    params.view_id = view_id;
+    params.action = action;
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kViewManagerService_PerformAction_Name,
+          codec.align(ViewManagerService_PerformAction_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(ViewManagerService_PerformAction_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(ViewManagerService_PerformAction_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
+  };
 
   function ViewManagerServiceStub(delegate) {
     bindings.StubBase.call(this, delegate);
@@ -2491,6 +2747,9 @@
   }
   ViewManagerServiceStub.prototype.embed = function(view_id, client) {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.embed && bindings.StubBindings(this).delegate.embed(view_id, connection.bindHandleToProxy(client, ViewManagerClient));
+  }
+  ViewManagerServiceStub.prototype.performAction = function(view_id, action) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.performAction && bindings.StubBindings(this).delegate.performAction(view_id, action);
   }
 
   ViewManagerServiceStub.prototype.accept = function(message) {
@@ -2685,6 +2944,21 @@
         var message = builder.finish();
         responder.accept(message);
       });
+    case kViewManagerService_PerformAction_Name:
+      var params = reader.decodeStruct(ViewManagerService_PerformAction_Params);
+      return this.performAction(params.view_id, params.action).then(function(response) {
+        var responseParams =
+            new ViewManagerService_PerformAction_ResponseParams();
+        responseParams.success = response.success;
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kViewManagerService_PerformAction_Name,
+            codec.align(ViewManagerService_PerformAction_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(ViewManagerService_PerformAction_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
     default:
       return Promise.reject(Error("Unhandled message: " + reader.messageName));
     }
@@ -2741,6 +3015,10 @@
       case kViewManagerService_Embed_Name:
         if (message.expectsResponse())
           paramsClass = ViewManagerService_Embed_Params;
+      break;
+      case kViewManagerService_PerformAction_Name:
+        if (message.expectsResponse())
+          paramsClass = ViewManagerService_PerformAction_Params;
       break;
     }
     if (paramsClass === null)
@@ -2800,6 +3078,10 @@
         if (message.isResponse())
           paramsClass = ViewManagerService_Embed_ResponseParams;
         break;
+      case kViewManagerService_PerformAction_Name:
+        if (message.isResponse())
+          paramsClass = ViewManagerService_PerformAction_ResponseParams;
+        break;
     }
     if (paramsClass === null)
       return validator.validationError.NONE;
@@ -2827,6 +3109,7 @@
   var kViewManagerClient_OnViewDrawnStateChanged_Name = 8;
   var kViewManagerClient_OnViewSharedPropertyChanged_Name = 9;
   var kViewManagerClient_OnViewInputEvent_Name = 10;
+  var kViewManagerClient_OnPerformAction_Name = 11;
 
   function ViewManagerClientProxy(receiver) {
     bindings.ProxyBase.call(this, receiver);
@@ -2971,6 +3254,27 @@
       });
     }.bind(this));
   };
+  ViewManagerClientProxy.prototype.onPerformAction = function(view_id, action) {
+    var params = new ViewManagerClient_OnPerformAction_Params();
+    params.view_id = view_id;
+    params.action = action;
+    return new Promise(function(resolve, reject) {
+      var builder = new codec.MessageWithRequestIDBuilder(
+          kViewManagerClient_OnPerformAction_Name,
+          codec.align(ViewManagerClient_OnPerformAction_Params.encodedSize),
+          codec.kMessageExpectsResponse, 0);
+      builder.encodeStruct(ViewManagerClient_OnPerformAction_Params, params);
+      var message = builder.finish();
+      this.receiver_.acceptAndExpectResponse(message).then(function(message) {
+        var reader = new codec.MessageReader(message);
+        var responseParams =
+            reader.decodeStruct(ViewManagerClient_OnPerformAction_ResponseParams);
+        resolve(responseParams);
+      }).catch(function(result) {
+        reject(Error("Connection error: " + result));
+      });
+    }.bind(this));
+  };
 
   function ViewManagerClientStub(delegate) {
     bindings.StubBase.call(this, delegate);
@@ -3008,6 +3312,9 @@
   }
   ViewManagerClientStub.prototype.onViewInputEvent = function(view, event) {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.onViewInputEvent && bindings.StubBindings(this).delegate.onViewInputEvent(view, event);
+  }
+  ViewManagerClientStub.prototype.onPerformAction = function(view_id, action) {
+    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.onPerformAction && bindings.StubBindings(this).delegate.onPerformAction(view_id, action);
   }
 
   ViewManagerClientStub.prototype.accept = function(message) {
@@ -3076,6 +3383,21 @@
         var message = builder.finish();
         responder.accept(message);
       });
+    case kViewManagerClient_OnPerformAction_Name:
+      var params = reader.decodeStruct(ViewManagerClient_OnPerformAction_Params);
+      return this.onPerformAction(params.view_id, params.action).then(function(response) {
+        var responseParams =
+            new ViewManagerClient_OnPerformAction_ResponseParams();
+        responseParams.success = response.success;
+        var builder = new codec.MessageWithRequestIDBuilder(
+            kViewManagerClient_OnPerformAction_Name,
+            codec.align(ViewManagerClient_OnPerformAction_ResponseParams.encodedSize),
+            codec.kMessageIsResponse, reader.requestID);
+        builder.encodeStruct(ViewManagerClient_OnPerformAction_ResponseParams,
+                             responseParams);
+        var message = builder.finish();
+        responder.accept(message);
+      });
     default:
       return Promise.reject(Error("Unhandled message: " + reader.messageName));
     }
@@ -3129,6 +3451,10 @@
         if (message.expectsResponse())
           paramsClass = ViewManagerClient_OnViewInputEvent_Params;
       break;
+      case kViewManagerClient_OnPerformAction_Name:
+        if (message.expectsResponse())
+          paramsClass = ViewManagerClient_OnPerformAction_Params;
+      break;
     }
     if (paramsClass === null)
       return validator.validationError.NONE;
@@ -3142,6 +3468,10 @@
       case kViewManagerClient_OnViewInputEvent_Name:
         if (message.isResponse())
           paramsClass = ViewManagerClient_OnViewInputEvent_ResponseParams;
+        break;
+      case kViewManagerClient_OnPerformAction_Name:
+        if (message.isResponse())
+          paramsClass = ViewManagerClient_OnPerformAction_ResponseParams;
         break;
     }
     if (paramsClass === null)

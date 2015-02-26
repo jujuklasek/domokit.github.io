@@ -5,8 +5,8 @@
 library child.mojom;
 
 import 'dart:async';
-import 'dart:mojo_bindings' as bindings;
-import 'dart:mojo_core' as core;
+import 'mojo:bindings' as bindings;
+import 'mojo:core' as core;
 import 'package:mojo/services/geometry/public/interfaces/geometry.mojom.dart' as geometry_mojom;
 import 'package:mojo/services/surfaces/public/interfaces/quads.mojom.dart' as quads_mojom;
 import 'package:mojo/services/surfaces/public/interfaces/surface_id.mojom.dart' as surface_id_mojom;

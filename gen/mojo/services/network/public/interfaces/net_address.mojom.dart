@@ -5,8 +5,8 @@
 library net_address.mojom;
 
 import 'dart:async';
-import 'dart:mojo_bindings' as bindings;
-import 'dart:mojo_core' as core;
+import 'mojo:bindings' as bindings;
+import 'mojo:core' as core;
 
 final int NetAddressFamily_UNSPECIFIED = 0;
 final int NetAddressFamily_IPV4 = NetAddressFamily_UNSPECIFIED + 1;

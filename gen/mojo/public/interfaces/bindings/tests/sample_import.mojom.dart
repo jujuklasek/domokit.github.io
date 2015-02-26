@@ -5,8 +5,8 @@
 library sample_import.mojom;
 
 import 'dart:async';
-import 'dart:mojo_bindings' as bindings;
-import 'dart:mojo_core' as core;
+import 'mojo:bindings' as bindings;
+import 'mojo:core' as core;
 
 final int Shape_RECTANGLE = 1;
 final int Shape_CIRCLE = Shape_RECTANGLE + 1;

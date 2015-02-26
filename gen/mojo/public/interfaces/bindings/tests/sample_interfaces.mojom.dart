@@ -5,8 +5,8 @@
 library sample_interfaces.mojom;
 
 import 'dart:async';
-import 'dart:mojo_bindings' as bindings;
-import 'dart:mojo_core' as core;
+import 'mojo:bindings' as bindings;
+import 'mojo:core' as core;
 final kLong = 4405;
 
 final int Enum_VALUE = 0;

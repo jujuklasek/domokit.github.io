@@ -5,8 +5,8 @@
 library debug_panel_host.mojom;
 
 import 'dart:async';
-import 'dart:mojo_bindings' as bindings;
-import 'dart:mojo_core' as core;
+import 'mojo:bindings' as bindings;
+import 'mojo:core' as core;
 import 'package:mojo/services/navigation/public/interfaces/navigation.mojom.dart' as navigation_mojom;
 
 

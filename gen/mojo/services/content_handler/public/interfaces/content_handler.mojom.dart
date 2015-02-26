@@ -5,8 +5,8 @@
 library content_handler.mojom;
 
 import 'dart:async';
-import 'dart:mojo_bindings' as bindings;
-import 'dart:mojo_core' as core;
+import 'mojo:bindings' as bindings;
+import 'mojo:core' as core;
 import 'package:mojo/public/interfaces/application/application.mojom.dart' as application_mojom;
 import 'package:mojo/services/network/public/interfaces/url_loader.mojom.dart' as url_loader_mojom;
 

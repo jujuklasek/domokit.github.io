@@ -5,8 +5,8 @@
 library inspector.mojom;
 
 import 'dart:async';
-import 'dart:mojo_bindings' as bindings;
-import 'dart:mojo_core' as core;
+import 'mojo:bindings' as bindings;
+import 'mojo:core' as core;
 
 
 class InspectorServiceInjectParams extends bindings.Struct {

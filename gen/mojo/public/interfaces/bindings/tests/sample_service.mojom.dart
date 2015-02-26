@@ -5,8 +5,8 @@
 library sample_service.mojom;
 
 import 'dart:async';
-import 'dart:mojo_bindings' as bindings;
-import 'dart:mojo_core' as core;
+import 'mojo:bindings' as bindings;
+import 'mojo:core' as core;
 import 'package:mojo/public/interfaces/bindings/tests/sample_import.mojom.dart' as sample_import_mojom;
 import 'package:mojo/public/interfaces/bindings/tests/sample_import2.mojom.dart' as sample_import2_mojom;
 final kTwelve = 12;

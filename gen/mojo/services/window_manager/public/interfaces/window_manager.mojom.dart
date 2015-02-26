@@ -5,8 +5,8 @@
 library window_manager.mojom;
 
 import 'dart:async';
-import 'dart:mojo_bindings' as bindings;
-import 'dart:mojo_core' as core;
+import 'mojo:bindings' as bindings;
+import 'mojo:core' as core;
 import 'package:mojo/services/input_events/public/interfaces/input_events.mojom.dart' as input_events_mojom;
 import 'package:mojo/public/interfaces/application/service_provider.mojom.dart' as service_provider_mojom;
 

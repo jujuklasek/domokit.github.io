@@ -5,8 +5,8 @@
 library http_server_factory.mojom;
 
 import 'dart:async';
-import 'dart:mojo_bindings' as bindings;
-import 'dart:mojo_core' as core;
+import 'mojo:bindings' as bindings;
+import 'mojo:core' as core;
 import 'package:mojo/services/network/public/interfaces/net_address.mojom.dart' as net_address_mojom;
 import 'package:services/http_server/public/http_server.mojom.dart' as http_server_mojom;
 

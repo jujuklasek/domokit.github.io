@@ -5,8 +5,8 @@
 library udp_socket.mojom;
 
 import 'dart:async';
-import 'dart:mojo_bindings' as bindings;
-import 'dart:mojo_core' as core;
+import 'mojo:bindings' as bindings;
+import 'mojo:core' as core;
 import 'package:mojo/services/network/public/interfaces/net_address.mojom.dart' as net_address_mojom;
 import 'package:mojo/services/network/public/interfaces/network_error.mojom.dart' as network_error_mojom;
 

@@ -5,8 +5,8 @@
 library view_manager.mojom;
 
 import 'dart:async';
-import 'dart:mojo_bindings' as bindings;
-import 'dart:mojo_core' as core;
+import 'mojo:bindings' as bindings;
+import 'mojo:core' as core;
 import 'package:mojo/services/geometry/public/interfaces/geometry.mojom.dart' as geometry_mojom;
 import 'package:mojo/services/input_events/public/interfaces/input_events.mojom.dart' as input_events_mojom;
 import 'package:mojo/public/interfaces/application/service_provider.mojom.dart' as service_provider_mojom;
@@ -1145,6 +1145,87 @@ class ViewManagerServiceEmbedResponseParams extends bindings.Struct {
   }
 }
 
+class ViewManagerServicePerformActionParams extends bindings.Struct {
+  static const int kStructSize = 24;
+  static const bindings.StructDataHeader kDefaultStructInfo =
+      const bindings.StructDataHeader(kStructSize, 2);
+  int viewId = 0;
+  String action = null;
+
+  ViewManagerServicePerformActionParams() : super(kStructSize);
+
+  static ViewManagerServicePerformActionParams deserialize(bindings.Message message) {
+    return decode(new bindings.Decoder(message));
+  }
+
+  static ViewManagerServicePerformActionParams decode(bindings.Decoder decoder0) {
+    if (decoder0 == null) {
+      return null;
+    }
+    ViewManagerServicePerformActionParams result = new ViewManagerServicePerformActionParams();
+
+    var mainDataHeader = decoder0.decodeStructDataHeader();
+    if ((mainDataHeader.size < kStructSize) ||
+        (mainDataHeader.version < 2)) {
+      throw new bindings.MojoCodecError('Malformed header');
+    }
+    {
+      
+      result.viewId = decoder0.decodeUint32(8);
+    }
+    {
+      
+      result.action = decoder0.decodeString(16, false);
+    }
+    return result;
+  }
+
+  void encode(bindings.Encoder encoder) {
+    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    
+    encoder0.encodeUint32(viewId, 8);
+    
+    encoder0.encodeString(action, 16, false);
+  }
+}
+
+class ViewManagerServicePerformActionResponseParams extends bindings.Struct {
+  static const int kStructSize = 16;
+  static const bindings.StructDataHeader kDefaultStructInfo =
+      const bindings.StructDataHeader(kStructSize, 1);
+  bool success = false;
+
+  ViewManagerServicePerformActionResponseParams() : super(kStructSize);
+
+  static ViewManagerServicePerformActionResponseParams deserialize(bindings.Message message) {
+    return decode(new bindings.Decoder(message));
+  }
+
+  static ViewManagerServicePerformActionResponseParams decode(bindings.Decoder decoder0) {
+    if (decoder0 == null) {
+      return null;
+    }
+    ViewManagerServicePerformActionResponseParams result = new ViewManagerServicePerformActionResponseParams();
+
+    var mainDataHeader = decoder0.decodeStructDataHeader();
+    if ((mainDataHeader.size < kStructSize) ||
+        (mainDataHeader.version < 1)) {
+      throw new bindings.MojoCodecError('Malformed header');
+    }
+    {
+      
+      result.success = decoder0.decodeBool(8, 0);
+    }
+    return result;
+  }
+
+  void encode(bindings.Encoder encoder) {
+    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    
+    encoder0.encodeBool(success, 8, 0);
+  }
+}
+
 class ViewManagerClientOnEmbedParams extends bindings.Struct {
   static const int kStructSize = 48;
   static const bindings.StructDataHeader kDefaultStructInfo =
@@ -1737,6 +1818,87 @@ class ViewManagerClientOnViewInputEventResponseParams extends bindings.Struct {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
 }
+
+class ViewManagerClientOnPerformActionParams extends bindings.Struct {
+  static const int kStructSize = 24;
+  static const bindings.StructDataHeader kDefaultStructInfo =
+      const bindings.StructDataHeader(kStructSize, 2);
+  int viewId = 0;
+  String action = null;
+
+  ViewManagerClientOnPerformActionParams() : super(kStructSize);
+
+  static ViewManagerClientOnPerformActionParams deserialize(bindings.Message message) {
+    return decode(new bindings.Decoder(message));
+  }
+
+  static ViewManagerClientOnPerformActionParams decode(bindings.Decoder decoder0) {
+    if (decoder0 == null) {
+      return null;
+    }
+    ViewManagerClientOnPerformActionParams result = new ViewManagerClientOnPerformActionParams();
+
+    var mainDataHeader = decoder0.decodeStructDataHeader();
+    if ((mainDataHeader.size < kStructSize) ||
+        (mainDataHeader.version < 2)) {
+      throw new bindings.MojoCodecError('Malformed header');
+    }
+    {
+      
+      result.viewId = decoder0.decodeUint32(8);
+    }
+    {
+      
+      result.action = decoder0.decodeString(16, false);
+    }
+    return result;
+  }
+
+  void encode(bindings.Encoder encoder) {
+    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    
+    encoder0.encodeUint32(viewId, 8);
+    
+    encoder0.encodeString(action, 16, false);
+  }
+}
+
+class ViewManagerClientOnPerformActionResponseParams extends bindings.Struct {
+  static const int kStructSize = 16;
+  static const bindings.StructDataHeader kDefaultStructInfo =
+      const bindings.StructDataHeader(kStructSize, 1);
+  bool success = false;
+
+  ViewManagerClientOnPerformActionResponseParams() : super(kStructSize);
+
+  static ViewManagerClientOnPerformActionResponseParams deserialize(bindings.Message message) {
+    return decode(new bindings.Decoder(message));
+  }
+
+  static ViewManagerClientOnPerformActionResponseParams decode(bindings.Decoder decoder0) {
+    if (decoder0 == null) {
+      return null;
+    }
+    ViewManagerClientOnPerformActionResponseParams result = new ViewManagerClientOnPerformActionResponseParams();
+
+    var mainDataHeader = decoder0.decodeStructDataHeader();
+    if ((mainDataHeader.size < kStructSize) ||
+        (mainDataHeader.version < 1)) {
+      throw new bindings.MojoCodecError('Malformed header');
+    }
+    {
+      
+      result.success = decoder0.decodeBool(8, 0);
+    }
+    return result;
+  }
+
+  void encode(bindings.Encoder encoder) {
+    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    
+    encoder0.encodeBool(success, 8, 0);
+  }
+}
 const int kViewManagerService_createView_name = 0;
 const int kViewManagerService_deleteView_name = 1;
 const int kViewManagerService_setViewBounds_name = 2;
@@ -1749,6 +1911,7 @@ const int kViewManagerService_getViewTree_name = 8;
 const int kViewManagerService_setViewSurfaceId_name = 9;
 const int kViewManagerService_embedUrl_name = 10;
 const int kViewManagerService_embed_name = 11;
+const int kViewManagerService_performAction_name = 12;
 
 abstract class ViewManagerService implements core.Listener {
   static const String name = 'mojo::ViewManagerService';
@@ -1785,6 +1948,7 @@ abstract class ViewManagerService implements core.Listener {
   Future<ViewManagerServiceSetViewSurfaceIdResponseParams> setViewSurfaceId(int viewId,surface_id_mojom.SurfaceId surfaceId,[Function responseFactory = null]);
   Future<ViewManagerServiceEmbedUrlResponseParams> embedUrl(String url,int viewId,Object services,Object exposedServices,[Function responseFactory = null]);
   Future<ViewManagerServiceEmbedResponseParams> embed(int viewId,Object client,[Function responseFactory = null]);
+  Future<ViewManagerServicePerformActionResponseParams> performAction(int viewId,String action,[Function responseFactory = null]);
 
 }
 
@@ -1924,6 +2088,16 @@ class ViewManagerServiceProxy extends bindings.Proxy implements ViewManagerServi
         completerMap[message.header.requestId] = null;
         c.complete(r);
         break;
+      case kViewManagerService_performAction_name:
+        var r = ViewManagerServicePerformActionResponseParams.deserialize(
+            message.payload);
+        if (!message.header.hasRequestId) {
+          throw 'Expected a message with a valid request Id.';
+        }
+        Completer c = completerMap[message.header.requestId];
+        completerMap[message.header.requestId] = null;
+        c.complete(r);
+        break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
         break;
@@ -2049,6 +2223,16 @@ class ViewManagerServiceProxy extends bindings.Proxy implements ViewManagerServi
         -1,
         bindings.MessageHeader.kMessageExpectsResponse);
   }
+  Future<ViewManagerServicePerformActionResponseParams> performAction(int viewId,String action,[Function responseFactory = null]) {
+    var params = new ViewManagerServicePerformActionParams();
+    params.viewId = viewId;
+    params.action = action;
+    return sendMessageWithRequestId(
+        params,
+        kViewManagerService_performAction_name,
+        -1,
+        bindings.MessageHeader.kMessageExpectsResponse);
+  }
 }
 
 class ViewManagerServiceStub extends bindings.Stub {
@@ -2125,6 +2309,11 @@ class ViewManagerServiceStub extends bindings.Stub {
   }
   ViewManagerServiceEmbedResponseParams _ViewManagerServiceEmbedResponseParamsFactory(bool success) {
     var result = new ViewManagerServiceEmbedResponseParams();
+    result.success = success;
+    return result;
+  }
+  ViewManagerServicePerformActionResponseParams _ViewManagerServicePerformActionResponseParamsFactory(bool success) {
+    var result = new ViewManagerServicePerformActionResponseParams();
     result.success = success;
     return result;
   }
@@ -2288,6 +2477,19 @@ class ViewManagerServiceStub extends bindings.Stub {
           }
         });
         break;
+      case kViewManagerService_performAction_name:
+        var params = ViewManagerServicePerformActionParams.deserialize(
+            message.payload);
+        return _delegate.performAction(params.viewId,params.action,_ViewManagerServicePerformActionResponseParamsFactory).then((response) {
+          if (response != null) {
+            return buildResponseWithId(
+                response,
+                kViewManagerService_performAction_name,
+                message.header.requestId,
+                bindings.MessageHeader.kMessageIsResponse);
+          }
+        });
+        break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
         break;
@@ -2315,6 +2517,7 @@ const int kViewManagerClient_onViewVisibilityChanged_name = 7;
 const int kViewManagerClient_onViewDrawnStateChanged_name = 8;
 const int kViewManagerClient_onViewSharedPropertyChanged_name = 9;
 const int kViewManagerClient_onViewInputEvent_name = 10;
+const int kViewManagerClient_onPerformAction_name = 11;
 
 abstract class ViewManagerClient implements core.Listener {
   static const String name = 'mojo::ViewManagerClient';
@@ -2350,6 +2553,7 @@ abstract class ViewManagerClient implements core.Listener {
   void onViewDrawnStateChanged(int view, bool drawn);
   void onViewSharedPropertyChanged(int view, String name, List<int> newData);
   Future<ViewManagerClientOnViewInputEventResponseParams> onViewInputEvent(int view,input_events_mojom.Event event,[Function responseFactory = null]);
+  Future<ViewManagerClientOnPerformActionResponseParams> onPerformAction(int viewId,String action,[Function responseFactory = null]);
 
 }
 
@@ -2371,6 +2575,16 @@ class ViewManagerClientProxy extends bindings.Proxy implements ViewManagerClient
     switch (message.header.type) {
       case kViewManagerClient_onViewInputEvent_name:
         var r = ViewManagerClientOnViewInputEventResponseParams.deserialize(
+            message.payload);
+        if (!message.header.hasRequestId) {
+          throw 'Expected a message with a valid request Id.';
+        }
+        Completer c = completerMap[message.header.requestId];
+        completerMap[message.header.requestId] = null;
+        c.complete(r);
+        break;
+      case kViewManagerClient_onPerformAction_name:
+        var r = ViewManagerClientOnPerformActionResponseParams.deserialize(
             message.payload);
         if (!message.header.hasRequestId) {
           throw 'Expected a message with a valid request Id.';
@@ -2472,6 +2686,16 @@ class ViewManagerClientProxy extends bindings.Proxy implements ViewManagerClient
         -1,
         bindings.MessageHeader.kMessageExpectsResponse);
   }
+  Future<ViewManagerClientOnPerformActionResponseParams> onPerformAction(int viewId,String action,[Function responseFactory = null]) {
+    var params = new ViewManagerClientOnPerformActionParams();
+    params.viewId = viewId;
+    params.action = action;
+    return sendMessageWithRequestId(
+        params,
+        kViewManagerClient_onPerformAction_name,
+        -1,
+        bindings.MessageHeader.kMessageExpectsResponse);
+  }
 }
 
 class ViewManagerClientStub extends bindings.Stub {
@@ -2493,6 +2717,11 @@ class ViewManagerClientStub extends bindings.Stub {
 
   ViewManagerClientOnViewInputEventResponseParams _ViewManagerClientOnViewInputEventResponseParamsFactory() {
     var result = new ViewManagerClientOnViewInputEventResponseParams();
+    return result;
+  }
+  ViewManagerClientOnPerformActionResponseParams _ViewManagerClientOnPerformActionResponseParamsFactory(bool success) {
+    var result = new ViewManagerClientOnPerformActionResponseParams();
+    result.success = success;
     return result;
   }
 
@@ -2557,6 +2786,19 @@ class ViewManagerClientStub extends bindings.Stub {
             return buildResponseWithId(
                 response,
                 kViewManagerClient_onViewInputEvent_name,
+                message.header.requestId,
+                bindings.MessageHeader.kMessageIsResponse);
+          }
+        });
+        break;
+      case kViewManagerClient_onPerformAction_name:
+        var params = ViewManagerClientOnPerformActionParams.deserialize(
+            message.payload);
+        return _delegate.onPerformAction(params.viewId,params.action,_ViewManagerClientOnPerformActionResponseParamsFactory).then((response) {
+          if (response != null) {
+            return buildResponseWithId(
+                response,
+                kViewManagerClient_onPerformAction_name,
                 message.header.requestId,
                 bindings.MessageHeader.kMessageIsResponse);
           }
