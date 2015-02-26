@@ -204,7 +204,8 @@ abstract class TcpBoundSocket implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   TcpBoundSocket get delegate => stub.delegate;
   set delegate(TcpBoundSocket d) {
@@ -349,7 +350,5 @@ class TcpBoundSocketStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

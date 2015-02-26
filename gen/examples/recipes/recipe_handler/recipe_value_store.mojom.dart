@@ -292,7 +292,8 @@ abstract class RecipeValueStore implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   RecipeValueStore get delegate => stub.delegate;
   set delegate(RecipeValueStore d) {
@@ -383,8 +384,6 @@ class RecipeValueStoreStub extends bindings.Stub {
   }
 }
 
-
-
 const int kRecipeValueStoreObserver_onValuesChanged_name = 0;
 
 abstract class RecipeValueStoreObserver implements core.Listener {
@@ -404,7 +403,8 @@ abstract class RecipeValueStoreObserver implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   RecipeValueStoreObserver get delegate => stub.delegate;
   set delegate(RecipeValueStoreObserver d) {
@@ -482,7 +482,5 @@ class RecipeValueStoreObserverStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

@@ -712,7 +712,8 @@ abstract class ResourceReturner implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   ResourceReturner get delegate => stub.delegate;
   set delegate(ResourceReturner d) {
@@ -791,8 +792,6 @@ class ResourceReturnerStub extends bindings.Stub {
   }
 }
 
-
-
 const int kSurface_getIdNamespace_name = 0;
 const int kSurface_setResourceReturner_name = 1;
 const int kSurface_createSurface_name = 2;
@@ -817,7 +816,8 @@ abstract class Surface implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   Surface get delegate => stub.delegate;
   set delegate(Surface d) {
@@ -1009,7 +1009,5 @@ class SurfaceStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

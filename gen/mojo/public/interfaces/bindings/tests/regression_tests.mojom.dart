@@ -435,7 +435,8 @@ abstract class CheckMethodWithEmptyResponse implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   CheckMethodWithEmptyResponse get delegate => stub.delegate;
   set delegate(CheckMethodWithEmptyResponse d) {
@@ -575,8 +576,6 @@ class CheckMethodWithEmptyResponseStub extends bindings.Stub {
   }
 }
 
-
-
 const int kCheckNameCollision_withNameCollision_name = 0;
 
 abstract class CheckNameCollision implements core.Listener {
@@ -596,7 +595,8 @@ abstract class CheckNameCollision implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   CheckNameCollision get delegate => stub.delegate;
   set delegate(CheckNameCollision d) {
@@ -702,7 +702,5 @@ class CheckNameCollisionStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

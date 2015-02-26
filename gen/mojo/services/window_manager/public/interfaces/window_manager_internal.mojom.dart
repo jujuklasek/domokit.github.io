@@ -231,7 +231,8 @@ abstract class WindowManagerInternal implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   WindowManagerInternal get delegate => stub.delegate;
   set delegate(WindowManagerInternal d) {
@@ -323,8 +324,6 @@ class WindowManagerInternalStub extends bindings.Stub {
   }
 }
 
-
-
 const int kWindowManagerInternalClient_dispatchInputEventToView_name = 0;
 const int kWindowManagerInternalClient_setViewportSize_name = 1;
 const int kWindowManagerInternalClient_cloneAndAnimate_name = 2;
@@ -346,7 +345,8 @@ abstract class WindowManagerInternalClient implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   WindowManagerInternalClient get delegate => stub.delegate;
   set delegate(WindowManagerInternalClient d) {
@@ -449,7 +449,5 @@ class WindowManagerInternalClientStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

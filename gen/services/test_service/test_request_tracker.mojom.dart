@@ -327,7 +327,8 @@ abstract class TestTrackedRequestService implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   TestTrackedRequestService get delegate => stub.delegate;
   set delegate(TestTrackedRequestService d) {
@@ -431,8 +432,6 @@ class TestTrackedRequestServiceStub extends bindings.Stub {
   }
 }
 
-
-
 const int kTestRequestTracker_setNameAndReturnId_name = 0;
 const int kTestRequestTracker_recordStats_name = 1;
 
@@ -453,7 +452,8 @@ abstract class TestRequestTracker implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   TestRequestTracker get delegate => stub.delegate;
   set delegate(TestRequestTracker d) {
@@ -570,7 +570,5 @@ class TestRequestTrackerStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

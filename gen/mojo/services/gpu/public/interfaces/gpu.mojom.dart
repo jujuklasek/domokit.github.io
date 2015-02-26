@@ -127,7 +127,8 @@ abstract class Gpu implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   Gpu get delegate => stub.delegate;
   set delegate(Gpu d) {
@@ -220,7 +221,5 @@ class GpuStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

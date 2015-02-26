@@ -490,7 +490,8 @@ abstract class CppSide implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   CppSide get delegate => stub.delegate;
   set delegate(CppSide d) {
@@ -602,8 +603,6 @@ class CppSideStub extends bindings.Stub {
   }
 }
 
-
-
 const int kDartSide_setClient_name = 0;
 const int kDartSide_ping_name = 1;
 const int kDartSide_echo_name = 2;
@@ -625,7 +624,8 @@ abstract class DartSide implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   DartSide get delegate => stub.delegate;
   set delegate(DartSide d) {
@@ -727,7 +727,5 @@ class DartSideStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

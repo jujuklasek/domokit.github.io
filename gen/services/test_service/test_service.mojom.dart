@@ -350,7 +350,8 @@ abstract class TestService implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   TestService get delegate => stub.delegate;
   set delegate(TestService d) {
@@ -527,8 +528,6 @@ class TestServiceStub extends bindings.Stub {
   }
 }
 
-
-
 const int kTestTimeService_getPartyTime_name = 0;
 const int kTestTimeService_startTrackingRequests_name = 1;
 
@@ -549,7 +548,8 @@ abstract class TestTimeService implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   TestTimeService get delegate => stub.delegate;
   set delegate(TestTimeService d) {
@@ -688,7 +688,5 @@ class TestTimeServiceStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

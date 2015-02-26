@@ -161,7 +161,8 @@ abstract class InspectorFrontend implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   InspectorFrontend get delegate => stub.delegate;
   set delegate(InspectorFrontend d) {
@@ -240,8 +241,6 @@ class InspectorFrontendStub extends bindings.Stub {
   }
 }
 
-
-
 const int kInspectorBackend_onConnect_name = 0;
 const int kInspectorBackend_onDisconnect_name = 1;
 const int kInspectorBackend_onMessage_name = 2;
@@ -263,7 +262,8 @@ abstract class InspectorBackend implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   InspectorBackend get delegate => stub.delegate;
   set delegate(InspectorBackend d) {
@@ -363,7 +363,5 @@ class InspectorBackendStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

@@ -71,7 +71,8 @@ abstract class ServiceProvider implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   ServiceProvider get delegate => stub.delegate;
   set delegate(ServiceProvider d) {
@@ -150,7 +151,5 @@ class ServiceProviderStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

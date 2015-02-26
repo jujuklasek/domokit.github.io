@@ -213,7 +213,8 @@ abstract class TraceController implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   TraceController get delegate => stub.delegate;
   set delegate(TraceController d) {
@@ -304,8 +305,6 @@ class TraceControllerStub extends bindings.Stub {
   }
 }
 
-
-
 const int kTraceDataCollector_dataCollected_name = 0;
 
 abstract class TraceDataCollector implements core.Listener {
@@ -325,7 +324,8 @@ abstract class TraceDataCollector implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   TraceDataCollector get delegate => stub.delegate;
   set delegate(TraceDataCollector d) {
@@ -404,8 +404,6 @@ class TraceDataCollectorStub extends bindings.Stub {
   }
 }
 
-
-
 const int kTraceCoordinator_start_name = 0;
 const int kTraceCoordinator_stopAndFlush_name = 1;
 
@@ -426,7 +424,8 @@ abstract class TraceCoordinator implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   TraceCoordinator get delegate => stub.delegate;
   set delegate(TraceCoordinator d) {
@@ -516,7 +515,5 @@ class TraceCoordinatorStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

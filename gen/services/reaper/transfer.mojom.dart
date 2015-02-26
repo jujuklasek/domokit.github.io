@@ -132,7 +132,8 @@ abstract class Transfer implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   Transfer get delegate => stub.delegate;
   set delegate(Transfer d) {
@@ -247,7 +248,5 @@ class TransferStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

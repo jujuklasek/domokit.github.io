@@ -846,7 +846,8 @@ abstract class Service implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   Service get delegate => stub.delegate;
   set delegate(Service d) {
@@ -969,8 +970,6 @@ class ServiceStub extends bindings.Stub {
   }
 }
 
-
-
 const int kPort_postMessage_name = 0;
 
 abstract class Port implements core.Listener {
@@ -990,7 +989,8 @@ abstract class Port implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   Port get delegate => stub.delegate;
   set delegate(Port d) {
@@ -1069,7 +1069,5 @@ class PortStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

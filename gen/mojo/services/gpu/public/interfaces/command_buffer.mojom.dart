@@ -656,7 +656,8 @@ abstract class CommandBufferSyncClient implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   CommandBufferSyncClient get delegate => stub.delegate;
   set delegate(CommandBufferSyncClient d) {
@@ -748,8 +749,6 @@ class CommandBufferSyncClientStub extends bindings.Stub {
   }
 }
 
-
-
 const int kCommandBufferSyncPointClient_didInsertSyncPoint_name = 0;
 
 abstract class CommandBufferSyncPointClient implements core.Listener {
@@ -769,7 +768,8 @@ abstract class CommandBufferSyncPointClient implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   CommandBufferSyncPointClient get delegate => stub.delegate;
   set delegate(CommandBufferSyncPointClient d) {
@@ -848,8 +848,6 @@ class CommandBufferSyncPointClientStub extends bindings.Stub {
   }
 }
 
-
-
 const int kCommandBufferLostContextObserver_didLoseContext_name = 0;
 
 abstract class CommandBufferLostContextObserver implements core.Listener {
@@ -869,7 +867,8 @@ abstract class CommandBufferLostContextObserver implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   CommandBufferLostContextObserver get delegate => stub.delegate;
   set delegate(CommandBufferLostContextObserver d) {
@@ -948,8 +947,6 @@ class CommandBufferLostContextObserverStub extends bindings.Stub {
   }
 }
 
-
-
 const int kCommandBuffer_initialize_name = 0;
 const int kCommandBuffer_setGetBuffer_name = 1;
 const int kCommandBuffer_flush_name = 2;
@@ -977,7 +974,8 @@ abstract class CommandBuffer implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   CommandBuffer get delegate => stub.delegate;
   set delegate(CommandBuffer d) {
@@ -1180,7 +1178,5 @@ class CommandBufferStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

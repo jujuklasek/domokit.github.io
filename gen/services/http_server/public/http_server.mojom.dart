@@ -254,7 +254,8 @@ abstract class HttpServer implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   HttpServer get delegate => stub.delegate;
   set delegate(HttpServer d) {
@@ -397,8 +398,6 @@ class HttpServerStub extends bindings.Stub {
   }
 }
 
-
-
 const int kHttpHandler_handleRequest_name = 0;
 
 abstract class HttpHandler implements core.Listener {
@@ -418,7 +417,8 @@ abstract class HttpHandler implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   HttpHandler get delegate => stub.delegate;
   set delegate(HttpHandler d) {
@@ -522,7 +522,5 @@ class HttpHandlerStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

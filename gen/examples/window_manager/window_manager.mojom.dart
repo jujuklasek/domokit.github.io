@@ -65,7 +65,8 @@ abstract class IWindowManager implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   IWindowManager get delegate => stub.delegate;
   set delegate(IWindowManager d) {
@@ -143,7 +144,5 @@ class IWindowManagerStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

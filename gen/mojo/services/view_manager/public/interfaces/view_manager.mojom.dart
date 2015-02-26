@@ -1930,7 +1930,8 @@ abstract class ViewManagerService implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   ViewManagerService get delegate => stub.delegate;
   set delegate(ViewManagerService d) {
@@ -2504,8 +2505,6 @@ class ViewManagerServiceStub extends bindings.Stub {
   }
 }
 
-
-
 const int kViewManagerClient_onEmbed_name = 0;
 const int kViewManagerClient_onEmbeddedAppDisconnected_name = 1;
 const int kViewManagerClient_onViewBoundsChanged_name = 2;
@@ -2536,7 +2535,8 @@ abstract class ViewManagerClient implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   ViewManagerClient get delegate => stub.delegate;
   set delegate(ViewManagerClient d) {
@@ -2817,7 +2817,5 @@ class ViewManagerClientStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

@@ -59,6 +59,43 @@ class NavigatorHostRequestNavigateParams extends bindings.Struct {
   }
 }
 
+class NavigatorHostRequestNavigateHistoryParams extends bindings.Struct {
+  static const int kStructSize = 16;
+  static const bindings.StructDataHeader kDefaultStructInfo =
+      const bindings.StructDataHeader(kStructSize, 1);
+  int delta = 0;
+
+  NavigatorHostRequestNavigateHistoryParams() : super(kStructSize);
+
+  static NavigatorHostRequestNavigateHistoryParams deserialize(bindings.Message message) {
+    return decode(new bindings.Decoder(message));
+  }
+
+  static NavigatorHostRequestNavigateHistoryParams decode(bindings.Decoder decoder0) {
+    if (decoder0 == null) {
+      return null;
+    }
+    NavigatorHostRequestNavigateHistoryParams result = new NavigatorHostRequestNavigateHistoryParams();
+
+    var mainDataHeader = decoder0.decodeStructDataHeader();
+    if ((mainDataHeader.size < kStructSize) ||
+        (mainDataHeader.version < 1)) {
+      throw new bindings.MojoCodecError('Malformed header');
+    }
+    {
+      
+      result.delta = decoder0.decodeInt32(8);
+    }
+    return result;
+  }
+
+  void encode(bindings.Encoder encoder) {
+    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    
+    encoder0.encodeInt32(delta, 8);
+  }
+}
+
 class NavigatorHostDidNavigateLocallyParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
@@ -96,7 +133,8 @@ class NavigatorHostDidNavigateLocallyParams extends bindings.Struct {
   }
 }
 const int kNavigatorHost_requestNavigate_name = 0;
-const int kNavigatorHost_didNavigateLocally_name = 1;
+const int kNavigatorHost_requestNavigateHistory_name = 1;
+const int kNavigatorHost_didNavigateLocally_name = 2;
 
 abstract class NavigatorHost implements core.Listener {
   static const String name = 'mojo::NavigatorHost';
@@ -115,13 +153,15 @@ abstract class NavigatorHost implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   NavigatorHost get delegate => stub.delegate;
   set delegate(NavigatorHost d) {
     stub.delegate = d;
   }
   void requestNavigate(int target, url_loader_mojom.UrlRequest request);
+  void requestNavigateHistory(int delta);
   void didNavigateLocally(String url);
 
 }
@@ -152,6 +192,12 @@ class NavigatorHostProxy extends bindings.Proxy implements NavigatorHost {
     params.target = target;
     params.request = request;
     sendMessage(params, kNavigatorHost_requestNavigate_name);
+  }
+
+  void requestNavigateHistory(int delta) {
+    var params = new NavigatorHostRequestNavigateHistoryParams();
+    params.delta = delta;
+    sendMessage(params, kNavigatorHost_requestNavigateHistory_name);
   }
 
   void didNavigateLocally(String url) {
@@ -188,6 +234,11 @@ class NavigatorHostStub extends bindings.Stub {
             message.payload);
         _delegate.requestNavigate(params.target, params.request);
         break;
+      case kNavigatorHost_requestNavigateHistory_name:
+        var params = NavigatorHostRequestNavigateHistoryParams.deserialize(
+            message.payload);
+        _delegate.requestNavigateHistory(params.delta);
+        break;
       case kNavigatorHost_didNavigateLocally_name:
         var params = NavigatorHostDidNavigateLocallyParams.deserialize(
             message.payload);
@@ -206,7 +257,5 @@ class NavigatorHostStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

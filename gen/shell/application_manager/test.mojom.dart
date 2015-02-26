@@ -334,7 +334,8 @@ abstract class TestService implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   TestService get delegate => stub.delegate;
   set delegate(TestService d) {
@@ -438,8 +439,6 @@ class TestServiceStub extends bindings.Stub {
   }
 }
 
-
-
 const int kTestA_callB_name = 0;
 const int kTestA_callCFromB_name = 1;
 
@@ -460,7 +459,8 @@ abstract class TestA implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   TestA get delegate => stub.delegate;
   set delegate(TestA d) {
@@ -549,8 +549,6 @@ class TestAStub extends bindings.Stub {
   }
 }
 
-
-
 const int kTestB_b_name = 0;
 const int kTestB_callC_name = 1;
 
@@ -571,7 +569,8 @@ abstract class TestB implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   TestB get delegate => stub.delegate;
   set delegate(TestB d) {
@@ -710,8 +709,6 @@ class TestBStub extends bindings.Stub {
   }
 }
 
-
-
 const int kTestC_c_name = 0;
 
 abstract class TestC implements core.Listener {
@@ -731,7 +728,8 @@ abstract class TestC implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   TestC get delegate => stub.delegate;
   set delegate(TestC d) {
@@ -833,7 +831,5 @@ class TestCStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

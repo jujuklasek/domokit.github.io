@@ -71,7 +71,8 @@ abstract class ViewportParameterListener implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   ViewportParameterListener get delegate => stub.delegate;
   set delegate(ViewportParameterListener d) {
@@ -150,7 +151,5 @@ class ViewportParameterListenerStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

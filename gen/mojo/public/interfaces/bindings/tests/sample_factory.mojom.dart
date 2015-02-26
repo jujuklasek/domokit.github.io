@@ -584,7 +584,8 @@ abstract class NamedObject implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   NamedObject get delegate => stub.delegate;
   set delegate(NamedObject d) {
@@ -700,8 +701,6 @@ class NamedObjectStub extends bindings.Stub {
   }
 }
 
-
-
 const int kFactory_doStuff_name = 0;
 const int kFactory_doStuff2_name = 1;
 const int kFactory_createNamedObject_name = 2;
@@ -725,7 +724,8 @@ abstract class Factory implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   Factory get delegate => stub.delegate;
   set delegate(Factory d) {
@@ -957,7 +957,5 @@ class FactoryStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

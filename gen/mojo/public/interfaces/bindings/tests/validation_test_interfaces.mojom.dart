@@ -1043,7 +1043,8 @@ abstract class ConformanceTestInterface implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   ConformanceTestInterface get delegate => stub.delegate;
   set delegate(ConformanceTestInterface d) {
@@ -1258,8 +1259,6 @@ class ConformanceTestInterfaceStub extends bindings.Stub {
   }
 }
 
-
-
 const int kIntegrationTestInterface_method0_name = 0;
 
 abstract class IntegrationTestInterface implements core.Listener {
@@ -1279,7 +1278,8 @@ abstract class IntegrationTestInterface implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   IntegrationTestInterface get delegate => stub.delegate;
   set delegate(IntegrationTestInterface d) {
@@ -1383,7 +1383,5 @@ class IntegrationTestInterfaceStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

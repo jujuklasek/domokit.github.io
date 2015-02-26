@@ -114,7 +114,8 @@ abstract class Child implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   Child get delegate => stub.delegate;
   set delegate(Child d) {
@@ -219,7 +220,5 @@ class ChildStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

@@ -505,7 +505,8 @@ abstract class WindowManager implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   WindowManager get delegate => stub.delegate;
   set delegate(WindowManager d) {
@@ -740,8 +741,6 @@ class WindowManagerStub extends bindings.Stub {
   }
 }
 
-
-
 const int kWindowManagerObserver_onCaptureChanged_name = 0;
 const int kWindowManagerObserver_onFocusChanged_name = 1;
 const int kWindowManagerObserver_onActiveWindowChanged_name = 2;
@@ -763,7 +762,8 @@ abstract class WindowManagerObserver implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   WindowManagerObserver get delegate => stub.delegate;
   set delegate(WindowManagerObserver d) {
@@ -865,7 +865,5 @@ class WindowManagerObserverStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

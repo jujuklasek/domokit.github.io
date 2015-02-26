@@ -74,7 +74,8 @@ abstract class HttpServerFactory implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   HttpServerFactory get delegate => stub.delegate;
   set delegate(HttpServerFactory d) {
@@ -153,7 +154,5 @@ class HttpServerFactoryStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

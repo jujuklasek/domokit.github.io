@@ -26,7 +26,8 @@ abstract class TcpConnectedSocket implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   TcpConnectedSocket get delegate => stub.delegate;
   set delegate(TcpConnectedSocket d) {
@@ -92,7 +93,5 @@ class TcpConnectedSocketStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

@@ -114,7 +114,8 @@ abstract class ImportedInterface implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   ImportedInterface get delegate => stub.delegate;
   set delegate(ImportedInterface d) {
@@ -191,7 +192,5 @@ class ImportedInterfaceStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

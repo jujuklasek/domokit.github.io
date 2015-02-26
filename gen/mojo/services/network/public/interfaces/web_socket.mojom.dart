@@ -478,7 +478,8 @@ abstract class WebSocket implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   WebSocket get delegate => stub.delegate;
   set delegate(WebSocket d) {
@@ -605,8 +606,6 @@ class WebSocketStub extends bindings.Stub {
   }
 }
 
-
-
 const int kWebSocketClient_didConnect_name = 0;
 const int kWebSocketClient_didReceiveData_name = 1;
 const int kWebSocketClient_didReceiveFlowControl_name = 2;
@@ -630,7 +629,8 @@ abstract class WebSocketClient implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   WebSocketClient get delegate => stub.delegate;
   set delegate(WebSocketClient d) {
@@ -763,7 +763,5 @@ class WebSocketClientStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

@@ -168,7 +168,8 @@ abstract class IntegerService implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   IntegerService get delegate => stub.delegate;
   set delegate(IntegerService d) {
@@ -272,8 +273,6 @@ class IntegerServiceStub extends bindings.Stub {
   }
 }
 
-
-
 const int kIndirectIntegerService_set_name = 0;
 const int kIndirectIntegerService_get_name = 1;
 
@@ -294,7 +293,8 @@ abstract class IndirectIntegerService implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   IndirectIntegerService get delegate => stub.delegate;
   set delegate(IndirectIntegerService d) {
@@ -384,7 +384,5 @@ class IndirectIntegerServiceStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

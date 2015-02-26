@@ -127,7 +127,8 @@ abstract class TcpServerSocket implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   TcpServerSocket get delegate => stub.delegate;
   set delegate(TcpServerSocket d) {
@@ -234,7 +235,5 @@ class TcpServerSocketStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

@@ -683,7 +683,8 @@ abstract class UdpSocket implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   UdpSocket get delegate => stub.delegate;
   set delegate(UdpSocket d) {
@@ -1032,8 +1033,6 @@ class UdpSocketStub extends bindings.Stub {
   }
 }
 
-
-
 const int kUdpSocketReceiver_onReceived_name = 0;
 
 abstract class UdpSocketReceiver implements core.Listener {
@@ -1053,7 +1052,8 @@ abstract class UdpSocketReceiver implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   UdpSocketReceiver get delegate => stub.delegate;
   set delegate(UdpSocketReceiver d) {
@@ -1133,7 +1133,5 @@ class UdpSocketReceiverStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

@@ -505,7 +505,8 @@ abstract class NativeViewport implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   NativeViewport get delegate => stub.delegate;
   set delegate(NativeViewport d) {
@@ -717,8 +718,6 @@ class NativeViewportStub extends bindings.Stub {
   }
 }
 
-
-
 const int kNativeViewportEventDispatcher_onEvent_name = 0;
 
 abstract class NativeViewportEventDispatcher implements core.Listener {
@@ -738,7 +737,8 @@ abstract class NativeViewportEventDispatcher implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   NativeViewportEventDispatcher get delegate => stub.delegate;
   set delegate(NativeViewportEventDispatcher d) {
@@ -841,7 +841,5 @@ class NativeViewportEventDispatcherStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

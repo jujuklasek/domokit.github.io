@@ -125,7 +125,8 @@ abstract class Scythe implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   Scythe get delegate => stub.delegate;
   set delegate(Scythe d) {
@@ -239,7 +240,5 @@ class ScytheStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 

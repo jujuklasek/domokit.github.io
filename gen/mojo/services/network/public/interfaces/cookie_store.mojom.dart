@@ -183,7 +183,8 @@ abstract class CookieStore implements core.Listener {
 
   void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
 
-  StreamSubscription<int> listen() => stub.listen();
+  StreamSubscription<int> listen({Function onClosed}) =>
+      stub.listen(onClosed: onClosed);
 
   CookieStore get delegate => stub.delegate;
   set delegate(CookieStore d) {
@@ -326,7 +327,5 @@ class CookieStoreStub extends bindings.Stub {
     _delegate = d;
   }
 }
-
-
 
 
