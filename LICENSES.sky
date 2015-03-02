@@ -43,7 +43,6 @@ body {
   background-color: #e8eef7;
   border-radius: 3px;
   clear: both;
-  display: none;
   padding: 16px;
 }
 .licence h3 {
@@ -60,11 +59,9 @@ body {
 </head>
 <body>
 <span class="page-title" style="float:left;">Credits</span>
-<a id="print-link" href="#" style="float:right;">Print</a>
 <div style="clear:both; overflow:auto;"><!-- Chromium <3s the following projects -->
 <div class="product">
 <span class="title">David M. Gay's floating point routines</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://www.netlib.org/fp/">homepage</a></span>
 <div class="licence">
 <pre>/****************************************************************
@@ -92,7 +89,6 @@ body {
 
 <div class="product">
 <span class="title">dynamic annotations</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://code.google.com/p/data-race-test/wiki/DynamicAnnotations">homepage</a></span>
 <div class="licence">
 <pre>/* Copyright (c) 2008-2009, Google Inc.
@@ -130,7 +126,6 @@ body {
 
 <div class="product">
 <span class="title">Netscape Portable Runtime (NSPR)</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://www.mozilla.org/projects/nspr/">homepage</a></span>
 <div class="licence">
 <pre>/* ***** BEGIN LICENSE BLOCK *****
@@ -175,7 +170,6 @@ body {
 
 <div class="product">
 <span class="title">Paul Hsieh's SuperFastHash</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://www.azillionmonkeys.com/qed/hash.html">homepage</a></span>
 <div class="licence">
 <pre>Paul Hsieh OLD BSD license
@@ -212,7 +206,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 <div class="product">
 <span class="title">google-glog's symbolization library</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://code.google.com/p/google-glog/">homepage</a></span>
 <div class="licence">
 <pre>// Copyright (c) 2006, Google Inc.
@@ -250,7 +243,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 <div class="product">
 <span class="title">valgrind</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://valgrind.org">homepage</a></span>
 <div class="licence">
 <pre>   Notice that the following BSD-style license applies to the Valgrind header
@@ -299,7 +291,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 <div class="product">
 <span class="title">xdg-mime</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://freedesktop.org">homepage</a></span>
 <div class="licence">
 <pre>Licensed under the Academic Free License version 2.0 (below)
@@ -477,7 +468,6 @@ permission of its copyright owner.
 
 <div class="product">
 <span class="title">xdg-user-dirs</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://www.freedesktop.org/wiki/Software/xdg-user-dirs">homepage</a></span>
 <div class="licence">
 <pre>  Copyright (c) 2007 Red Hat, inc
@@ -508,7 +498,6 @@ permission of its copyright owner.
 
 <div class="product">
 <span class="title">libcxx</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://libcxx.llvm.org/">homepage</a></span>
 <div class="licence">
 <pre>==============================================================================
@@ -594,7 +583,6 @@ THE SOFTWARE.
 
 <div class="product">
 <span class="title">libcxxabi</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://libcxxabi.llvm.org/">homepage</a></span>
 <div class="licence">
 <pre>==============================================================================
@@ -680,7 +668,6 @@ THE SOFTWARE.
 
 <div class="product">
 <span class="title">Network Security Services (NSS)</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://www.mozilla.org/projects/security/pki/nss/">homepage</a></span>
 <div class="licence">
 <pre>/* ***** BEGIN LICENSE BLOCK *****
@@ -725,7 +712,6 @@ THE SOFTWARE.
 
 <div class="product">
 <span class="title">PLY (Python Lex-Yacc)</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://www.dabeaz.com/ply/ply-3.4.tar.gz">homepage</a></span>
 <div class="licence">
 <pre>PLY (Python Lex-Yacc)                   Version 3.4
@@ -764,7 +750,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
 
 <div class="product">
 <span class="title">open-vcdiff</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://code.google.com/p/open-vcdiff">homepage</a></span>
 <div class="licence">
 <pre>
@@ -976,7 +961,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
 
 <div class="product">
 <span class="title">Android Tools (SDK/NDK)</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://developer.android.com/sdk/index.html">homepage</a></span>
 <div class="licence">
 <pre>Notice for all the files in this folder.
@@ -1204,7 +1188,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
 
 <div class="product">
 <span class="title">Almost Native Graphics Layer Engine</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://code.google.com/p/angleproject/">homepage</a></span>
 <div class="licence">
 <pre>// Copyright (C) 2002-2013 The ANGLE Project Authors. 
@@ -1246,7 +1229,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
 
 <div class="product">
 <span class="title">Android</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://source.android.com">homepage</a></span>
 <div class="licence">
 <pre>
@@ -1458,7 +1440,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
 
 <div class="product">
 <span class="title">boringssl</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="https://boringssl.googlesource.com/boringssl">homepage</a></span>
 <div class="licence">
 <pre>
@@ -1595,7 +1576,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
 
 <div class="product">
 <span class="title">Brotli</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="https://github.com/google/brotli">homepage</a></span>
 <div class="licence">
 <pre>
@@ -1807,7 +1787,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
 
 <div class="product">
 <span class="title">Checkstyle is a development tool to help programmers write Java code that</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://checkstyle.sourceforge.net/">homepage</a></span>
 <div class="licence">
 <pre>		  GNU LESSER GENERAL PUBLIC LICENSE
@@ -2321,7 +2300,6 @@ That's all there is to it!
 
 <div class="product">
 <span class="title">Expat XML Parser</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://sourceforge.net/projects/expat/">homepage</a></span>
 <div class="licence">
 <pre>Copyright (c) 1998, 1999, 2000 Thai Open Source Software Center Ltd
@@ -2353,7 +2331,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 <div class="product">
 <span class="title">fontconfig</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://www.freedesktop.org/wiki/Software/fontconfig/">homepage</a></span>
 <div class="licence">
 <pre>fontconfig/COPYING
@@ -2391,7 +2368,6 @@ PERFORMANCE OF THIS SOFTWARE.
 
 <div class="product">
 <span class="title">Freetype</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="https://android.googlesource.com/platform/external/freetype/">homepage</a></span>
 <div class="licence">
 <pre>This software is based in part on the work of the FreeType Team.
@@ -2574,7 +2550,6 @@ Legal Terms
 
 <div class="product">
 <span class="title">harfbuzz-ng</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://harfbuzz.org">homepage</a></span>
 <div class="licence">
 <pre>HarfBuzz is licensed under the so-called "Old MIT" license.  Details follow.
@@ -2620,7 +2595,6 @@ PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
 <div class="product">
 <span class="title">IAccessible2 COM interfaces for accessibility</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://www.linuxfoundation.org/collaborate/workgroups/accessibility/iaccessible2">homepage</a></span>
 <div class="licence">
 <pre>/*************************************************************************
@@ -2680,7 +2654,6 @@ PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
 <div class="product">
 <span class="title">iccjpeg</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://www.ijg.org">homepage</a></span>
 <div class="licence">
 <pre>LICENSE extracted from IJG's jpeg distribution:
@@ -2739,7 +2712,6 @@ assumed by the product vendor.
 
 <div class="product">
 <span class="title">icu</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://site.icu-project.org/">homepage</a></span>
 <div class="licence">
 <pre>ICU License - ICU 1.8.1 and later
@@ -3161,7 +3133,6 @@ THIS
 
 <div class="product">
 <span class="title">JSR 305: Annotations for Software Defect Detection in Java</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="https://code.google.com/p/jsr-305/">homepage</a></span>
 <div class="licence">
 <pre>Copyright (c) 2007-2009, JSR305 expert group
@@ -3199,7 +3170,6 @@ POSSIBILITY OF SUCH DAMAGE.
 
 <div class="product">
 <span class="title">google-jstemplate</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://code.google.com/p/google-jstemplate/">homepage</a></span>
 <div class="licence">
 <pre>
@@ -3411,7 +3381,6 @@ POSSIBILITY OF SUCH DAMAGE.
 
 <div class="product">
 <span class="title">Khronos header files</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://www.khronos.org/registry">homepage</a></span>
 <div class="licence">
 <pre>Copyright (c) 2007-2010 The Khronos Group Inc.
@@ -3469,7 +3438,6 @@ Graphics, Inc.
 
 <div class="product">
 <span class="title">NVidia Control X Extension Library</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://cgit.freedesktop.org/~aplattner/nvidia-settings/">homepage</a></span>
 <div class="licence">
 <pre>/*
@@ -3500,7 +3468,6 @@ Graphics, Inc.
 
 <div class="product">
 <span class="title">libevent</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://www.monkey.org/~provos/libevent/">homepage</a></span>
 <div class="licence">
 <pre>Copyright 2000-2007 Niels Provos &lt;provos@citi.umich.edu&gt;
@@ -3534,7 +3501,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 <div class="product">
 <span class="title">libjpeg</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://www.ijg.org/">homepage</a></span>
 <div class="licence">
 <pre>(Copied from the README.)
@@ -3619,7 +3585,6 @@ We are required to state that
 
 <div class="product">
 <span class="title">libjpeg-turbo</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://sourceforge.net/projects/libjpeg-turbo/">homepage</a></span>
 <div class="licence">
 <pre>libjpeg-turbo is licensed under a non-restrictive, BSD-style license
@@ -3656,7 +3621,6 @@ POSSIBILITY OF SUCH DAMAGE.
 
 <div class="product">
 <span class="title">libpng</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://libpng.org/">homepage</a></span>
 <div class="licence">
 <pre>
@@ -3777,7 +3741,6 @@ July 7, 2011
 
 <div class="product">
 <span class="title">libxml</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://xmlsoft.org">homepage</a></span>
 <div class="licence">
 <pre>Except where otherwise noted in the source code (e.g. the files hash.c,
@@ -3814,7 +3777,6 @@ ings in this Software without prior written authorization from him.
 
 <div class="product">
 <span class="title">libyuv</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://code.google.com/p/libyuv/">homepage</a></span>
 <div class="licence">
 <pre>Copyright 2011 The LibYuv Project Authors. All rights reserved.
@@ -3853,7 +3815,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 <div class="product">
 <span class="title">linenoise</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="https://github.com/antirez/linenoise">homepage</a></span>
 <div class="licence">
 <pre>Copyright (c) 2010-2014, Salvatore Sanfilippo &lt;antirez at gmail dot com&gt;
@@ -3888,7 +3849,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 <div class="product">
 <span class="title">linux-syscall-support</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://code.google.com/p/linux-syscall-support/">homepage</a></span>
 <div class="licence">
 <pre>// Copyright 2014 The Chromium Authors. All rights reserved.
@@ -3925,7 +3885,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 <div class="product">
 <span class="title">mesa</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://www.mesa3d.org/">homepage</a></span>
 <div class="licence">
 <pre>The default Mesa license is as follows:
@@ -4447,7 +4406,6 @@ That's all there is to it!
 
 <div class="product">
 <span class="title">modp base64 decoder</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://code.google.com/p/stringencoders/">homepage</a></span>
 <div class="licence">
 <pre> * MODP_B64 - High performance base64 encoder/decoder
@@ -4490,7 +4448,6 @@ That's all there is to it!
 
 <div class="product">
 <span class="title">OTS (OpenType Sanitizer)</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://code.google.com/p/ots/">homepage</a></span>
 <div class="licence">
 <pre>// Copyright (c) 2009 The Chromium Authors. All rights reserved.
@@ -4527,7 +4484,6 @@ That's all there is to it!
 
 <div class="product">
 <span class="title">PDFium</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://code.google.com/p/pdfium/">homepage</a></span>
 <div class="licence">
 <pre>// Copyright 2014 PDFium Authors. All rights reserved.
@@ -4564,7 +4520,6 @@ That's all there is to it!
 
 <div class="product">
 <span class="title">PLY (Python Lex-Yacc)</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://www.dabeaz.com/ply/ply-3.4.tar.gz">homepage</a></span>
 <div class="licence">
 <pre>PLY (Python Lex-Yacc)                   Version 3.4
@@ -4603,7 +4558,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
 
 <div class="product">
 <span class="title">Protocol Buffers</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://protobuf.googlecode.com/svn/trunk">homepage</a></span>
 <div class="licence">
 <pre>Copyright 2008, Google Inc.
@@ -4646,7 +4600,6 @@ support library is itself covered by the above license.
 
 <div class="product">
 <span class="title">mock</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://pypi.python.org/pypi/mock">homepage</a></span>
 <div class="licence">
 <pre>Copyright (c) 2003-2012, Michael Foord
@@ -4682,7 +4635,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 <div class="product">
 <span class="title">Quick Color Management System</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="https://github.com/jrmuizel/qcms/tree/v4">homepage</a></span>
 <div class="licence">
 <pre>qcms
@@ -4713,7 +4665,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 <div class="product">
 <span class="title">re2 - an efficient, principled regular expression library</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://code.google.com/p/re2/">homepage</a></span>
 <div class="licence">
 <pre>// Copyright (c) 2009 The RE2 Authors. All rights reserved.
@@ -4750,7 +4701,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 <div class="product">
 <span class="title">sfntly</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://code.google.com/p/sfntly/">homepage</a></span>
 <div class="licence">
 <pre>
@@ -4963,7 +4913,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 <div class="product">
 <span class="title">skia</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://code.google.com/p/skia">homepage</a></span>
 <div class="licence">
 <pre>// Copyright (c) 2011 Google Inc. All rights reserved.
@@ -5000,7 +4949,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 <div class="product">
 <span class="title">SMHasher</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://code.google.com/p/smhasher/">homepage</a></span>
 <div class="licence">
 <pre>All MurmurHash source files are placed in the public domain.
@@ -5033,7 +4981,6 @@ THE SOFTWARE.
 
 <div class="product">
 <span class="title">sqlite</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://sqlite.org/">homepage</a></span>
 <div class="licence">
 <pre>The author disclaims copyright to this source code.  In place of
@@ -5049,7 +4996,6 @@ a legal notice, here is a blessing:
 
 <div class="product">
 <span class="title">tcmalloc</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://gperftools.googlecode.com/">homepage</a></span>
 <div class="licence">
 <pre>// Copyright (c) 2005, Google Inc.
@@ -5087,7 +5033,6 @@ a legal notice, here is a blessing:
 
 <div class="product">
 <span class="title">wtl</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=e5ba5ba4-6e6b-462a-b24c-61115e846f0c">homepage</a></span>
 <div class="licence">
 <pre>Microsoft Permissive License (Ms-PL)
@@ -5162,7 +5107,6 @@ non-infringement.
 
 <div class="product">
 <span class="title">yasm</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://www.tortall.net/projects/yasm/">homepage</a></span>
 <div class="licence">
 <pre>Yasm is Copyright (c) 2001-2010 Peter Johnson and other Yasm developers.
@@ -5233,7 +5177,6 @@ GNU_LGPL-2.0 - GNU Library General Public License
 
 <div class="product">
 <span class="title">zlib</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://zlib.net/">homepage</a></span>
 <div class="licence">
 <pre>/* zlib.h -- interface of the 'zlib' general purpose compression library
@@ -5268,7 +5211,6 @@ GNU_LGPL-2.0 - GNU Library General Public License
 
 <div class="product">
 <span class="title">url_parse</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://mxr.mozilla.org/comm-central/source/mozilla/netwerk/base/src/nsURLParsers.cpp">homepage</a></span>
 <div class="licence">
 <pre>Copyright 2007, Google Inc.
@@ -5343,7 +5285,6 @@ the terms of any one of the MPL, the GPL or the LGPL.
 
 <div class="product">
 <span class="title">V8 JavaScript Engine</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://code.google.com/p/v8">homepage</a></span>
 <div class="licence">
 <pre>This license applies to all parts of V8 that are not externally
@@ -5407,7 +5348,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 <div class="product">
 <span class="title">Strongtalk</span>
-<a class="show" href="#">show license</a>
 <span class="homepage"><a href="http://www.strongtalk.org/">homepage</a></span>
 <div class="licence">
 <pre>Copyright (c) 1994-2006 Sun Microsystems Inc.
