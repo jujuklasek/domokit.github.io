@@ -267,30 +267,10 @@ const int kReaper_dropNode_name = 2;
 const int kReaper_startTransfer_name = 3;
 const int kReaper_ping_name = 4;
 
-abstract class Reaper implements core.Listener {
-  static const String name = 'reaper::Reaper';
-  ReaperStub stub;
+const String ReaperName =
+      'reaper::Reaper';
 
-  Reaper(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new ReaperStub(endpoint);
-
-  Reaper.fromHandle(core.MojoHandle handle) :
-      stub = new ReaperStub.fromHandle(handle);
-
-  Reaper.fromStub(this.stub);
-
-  Reaper.unbound() :
-      stub = new ReaperStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  Reaper get delegate => stub.delegate;
-  set delegate(Reaper d) {
-    stub.delegate = d;
-  }
+abstract class Reaper {
   Future<ReaperGetApplicationSecretResponseParams> getApplicationSecret([Function responseFactory = null]);
   void createReference(int sourceNode, int targetNode);
   void dropNode(int node);
@@ -299,19 +279,21 @@ abstract class Reaper implements core.Listener {
 
 }
 
-class ReaperProxy extends bindings.Proxy implements Reaper {
-  ReaperProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  ReaperProxy.fromHandle(core.MojoHandle handle) :
+class ReaperProxyImpl extends bindings.Proxy {
+  ReaperProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  ReaperProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  ReaperProxy.unbound() : super.unbound();
+  ReaperProxyImpl.unbound() : super.unbound();
 
-  String get name => Reaper.name;
-
-  static ReaperProxy newFromEndpoint(
+  static ReaperProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ReaperProxy(endpoint);
+      new ReaperProxyImpl.fromEndpoint(endpoint);
+
+  String get name => ReaperName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -340,48 +322,90 @@ class ReaperProxy extends bindings.Proxy implements Reaper {
         break;
     }
   }
-  Future<ReaperGetApplicationSecretResponseParams> getApplicationSecret([Function responseFactory = null]) {
-    var params = new ReaperGetApplicationSecretParams();
-    return sendMessageWithRequestId(
-        params,
-        kReaper_getApplicationSecret_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  void createReference(int sourceNode, int targetNode) {
-    var params = new ReaperCreateReferenceParams();
-    params.sourceNode = sourceNode;
-    params.targetNode = targetNode;
-    sendMessage(params, kReaper_createReference_name);
-  }
-
-  void dropNode(int node) {
-    var params = new ReaperDropNodeParams();
-    params.node = node;
-    sendMessage(params, kReaper_dropNode_name);
-  }
-
-  void startTransfer(int node, Object transfer) {
-    var params = new ReaperStartTransferParams();
-    params.node = node;
-    params.transfer = transfer;
-    sendMessage(params, kReaper_startTransfer_name);
-  }
-
-  Future<ReaperPingResponseParams> ping([Function responseFactory = null]) {
-    var params = new ReaperPingParams();
-    return sendMessageWithRequestId(
-        params,
-        kReaper_ping_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _ReaperProxyCalls implements Reaper {
+  ReaperProxyImpl _proxyImpl;
+
+  _ReaperProxyCalls(this._proxyImpl);
+    Future<ReaperGetApplicationSecretResponseParams> getApplicationSecret([Function responseFactory = null]) {
+      var params = new ReaperGetApplicationSecretParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kReaper_getApplicationSecret_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    void createReference(int sourceNode, int targetNode) {
+      var params = new ReaperCreateReferenceParams();
+      params.sourceNode = sourceNode;
+      params.targetNode = targetNode;
+      _proxyImpl.sendMessage(params, kReaper_createReference_name);
+    }
+  
+    void dropNode(int node) {
+      var params = new ReaperDropNodeParams();
+      params.node = node;
+      _proxyImpl.sendMessage(params, kReaper_dropNode_name);
+    }
+  
+    void startTransfer(int node, Object transfer) {
+      var params = new ReaperStartTransferParams();
+      params.node = node;
+      params.transfer = transfer;
+      _proxyImpl.sendMessage(params, kReaper_startTransfer_name);
+    }
+  
+    Future<ReaperPingResponseParams> ping([Function responseFactory = null]) {
+      var params = new ReaperPingParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kReaper_ping_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class ReaperProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  Reaper ptr;
+  final String name = ReaperName;
+
+  ReaperProxy(ReaperProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _ReaperProxyCalls(proxyImpl);
+
+  ReaperProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new ReaperProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _ReaperProxyCalls(impl);
+  }
+
+  ReaperProxy.fromHandle(core.MojoHandle handle) :
+      impl = new ReaperProxyImpl.fromHandle(handle) {
+    ptr = new _ReaperProxyCalls(impl);
+  }
+
+  ReaperProxy.unbound() :
+      impl = new ReaperProxyImpl.unbound() {
+    ptr = new _ReaperProxyCalls(impl);
+  }
+
+  static ReaperProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new ReaperProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class ReaperStub extends bindings.Stub {
   Reaper _delegate = null;
 
-  ReaperStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  ReaperStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   ReaperStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -390,9 +414,9 @@ class ReaperStub extends bindings.Stub {
 
   static ReaperStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ReaperStub(endpoint);
+      new ReaperStub.fromEndpoint(endpoint);
 
-  static const String name = Reaper.name;
+  static const String name = ReaperName;
 
 
   ReaperGetApplicationSecretResponseParams _ReaperGetApplicationSecretResponseParamsFactory(int secret) {

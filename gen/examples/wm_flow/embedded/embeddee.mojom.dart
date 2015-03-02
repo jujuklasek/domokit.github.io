@@ -70,47 +70,29 @@ class EmbeddeeHelloBackResponseParams extends bindings.Struct {
 }
 const int kEmbeddee_helloBack_name = 0;
 
-abstract class Embeddee implements core.Listener {
-  static const String name = 'examples::Embeddee';
-  EmbeddeeStub stub;
+const String EmbeddeeName =
+      'examples::Embeddee';
 
-  Embeddee(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new EmbeddeeStub(endpoint);
-
-  Embeddee.fromHandle(core.MojoHandle handle) :
-      stub = new EmbeddeeStub.fromHandle(handle);
-
-  Embeddee.fromStub(this.stub);
-
-  Embeddee.unbound() :
-      stub = new EmbeddeeStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  Embeddee get delegate => stub.delegate;
-  set delegate(Embeddee d) {
-    stub.delegate = d;
-  }
+abstract class Embeddee {
   Future<EmbeddeeHelloBackResponseParams> helloBack([Function responseFactory = null]);
 
 }
 
-class EmbeddeeProxy extends bindings.Proxy implements Embeddee {
-  EmbeddeeProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  EmbeddeeProxy.fromHandle(core.MojoHandle handle) :
+class EmbeddeeProxyImpl extends bindings.Proxy {
+  EmbeddeeProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  EmbeddeeProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  EmbeddeeProxy.unbound() : super.unbound();
+  EmbeddeeProxyImpl.unbound() : super.unbound();
 
-  String get name => Embeddee.name;
-
-  static EmbeddeeProxy newFromEndpoint(
+  static EmbeddeeProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new EmbeddeeProxy(endpoint);
+      new EmbeddeeProxyImpl.fromEndpoint(endpoint);
+
+  String get name => EmbeddeeName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -129,20 +111,62 @@ class EmbeddeeProxy extends bindings.Proxy implements Embeddee {
         break;
     }
   }
-  Future<EmbeddeeHelloBackResponseParams> helloBack([Function responseFactory = null]) {
-    var params = new EmbeddeeHelloBackParams();
-    return sendMessageWithRequestId(
-        params,
-        kEmbeddee_helloBack_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _EmbeddeeProxyCalls implements Embeddee {
+  EmbeddeeProxyImpl _proxyImpl;
+
+  _EmbeddeeProxyCalls(this._proxyImpl);
+    Future<EmbeddeeHelloBackResponseParams> helloBack([Function responseFactory = null]) {
+      var params = new EmbeddeeHelloBackParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kEmbeddee_helloBack_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class EmbeddeeProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  Embeddee ptr;
+  final String name = EmbeddeeName;
+
+  EmbeddeeProxy(EmbeddeeProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _EmbeddeeProxyCalls(proxyImpl);
+
+  EmbeddeeProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new EmbeddeeProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _EmbeddeeProxyCalls(impl);
+  }
+
+  EmbeddeeProxy.fromHandle(core.MojoHandle handle) :
+      impl = new EmbeddeeProxyImpl.fromHandle(handle) {
+    ptr = new _EmbeddeeProxyCalls(impl);
+  }
+
+  EmbeddeeProxy.unbound() :
+      impl = new EmbeddeeProxyImpl.unbound() {
+    ptr = new _EmbeddeeProxyCalls(impl);
+  }
+
+  static EmbeddeeProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new EmbeddeeProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class EmbeddeeStub extends bindings.Stub {
   Embeddee _delegate = null;
 
-  EmbeddeeStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  EmbeddeeStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   EmbeddeeStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -151,9 +175,9 @@ class EmbeddeeStub extends bindings.Stub {
 
   static EmbeddeeStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new EmbeddeeStub(endpoint);
+      new EmbeddeeStub.fromEndpoint(endpoint);
 
-  static const String name = Embeddee.name;
+  static const String name = EmbeddeeName;
 
 
   EmbeddeeHelloBackResponseParams _EmbeddeeHelloBackResponseParamsFactory() {

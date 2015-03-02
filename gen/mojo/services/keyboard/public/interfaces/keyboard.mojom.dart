@@ -71,48 +71,30 @@ class KeyboardHideParams extends bindings.Struct {
 const int kKeyboard_show_name = 0;
 const int kKeyboard_hide_name = 1;
 
-abstract class Keyboard implements core.Listener {
-  static const String name = 'mojo::Keyboard';
-  KeyboardStub stub;
+const String KeyboardName =
+      'mojo::Keyboard';
 
-  Keyboard(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new KeyboardStub(endpoint);
-
-  Keyboard.fromHandle(core.MojoHandle handle) :
-      stub = new KeyboardStub.fromHandle(handle);
-
-  Keyboard.fromStub(this.stub);
-
-  Keyboard.unbound() :
-      stub = new KeyboardStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  Keyboard get delegate => stub.delegate;
-  set delegate(Keyboard d) {
-    stub.delegate = d;
-  }
+abstract class Keyboard {
   void show();
   void hide();
 
 }
 
-class KeyboardProxy extends bindings.Proxy implements Keyboard {
-  KeyboardProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  KeyboardProxy.fromHandle(core.MojoHandle handle) :
+class KeyboardProxyImpl extends bindings.Proxy {
+  KeyboardProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  KeyboardProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  KeyboardProxy.unbound() : super.unbound();
+  KeyboardProxyImpl.unbound() : super.unbound();
 
-  String get name => Keyboard.name;
-
-  static KeyboardProxy newFromEndpoint(
+  static KeyboardProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new KeyboardProxy(endpoint);
+      new KeyboardProxyImpl.fromEndpoint(endpoint);
+
+  String get name => KeyboardName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -121,22 +103,64 @@ class KeyboardProxy extends bindings.Proxy implements Keyboard {
         break;
     }
   }
-  void show() {
-    var params = new KeyboardShowParams();
-    sendMessage(params, kKeyboard_show_name);
-  }
-
-  void hide() {
-    var params = new KeyboardHideParams();
-    sendMessage(params, kKeyboard_hide_name);
-  }
-
 }
+
+
+class _KeyboardProxyCalls implements Keyboard {
+  KeyboardProxyImpl _proxyImpl;
+
+  _KeyboardProxyCalls(this._proxyImpl);
+    void show() {
+      var params = new KeyboardShowParams();
+      _proxyImpl.sendMessage(params, kKeyboard_show_name);
+    }
+  
+    void hide() {
+      var params = new KeyboardHideParams();
+      _proxyImpl.sendMessage(params, kKeyboard_hide_name);
+    }
+  
+}
+
+
+class KeyboardProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  Keyboard ptr;
+  final String name = KeyboardName;
+
+  KeyboardProxy(KeyboardProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _KeyboardProxyCalls(proxyImpl);
+
+  KeyboardProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new KeyboardProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _KeyboardProxyCalls(impl);
+  }
+
+  KeyboardProxy.fromHandle(core.MojoHandle handle) :
+      impl = new KeyboardProxyImpl.fromHandle(handle) {
+    ptr = new _KeyboardProxyCalls(impl);
+  }
+
+  KeyboardProxy.unbound() :
+      impl = new KeyboardProxyImpl.unbound() {
+    ptr = new _KeyboardProxyCalls(impl);
+  }
+
+  static KeyboardProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new KeyboardProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class KeyboardStub extends bindings.Stub {
   Keyboard _delegate = null;
 
-  KeyboardStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  KeyboardStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   KeyboardStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -145,9 +169,9 @@ class KeyboardStub extends bindings.Stub {
 
   static KeyboardStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new KeyboardStub(endpoint);
+      new KeyboardStub.fromEndpoint(endpoint);
 
-  static const String name = Keyboard.name;
+  static const String name = KeyboardName;
 
 
 

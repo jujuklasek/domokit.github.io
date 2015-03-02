@@ -488,30 +488,10 @@ const int kWindowManager_focusWindow_name = 2;
 const int kWindowManager_activateWindow_name = 3;
 const int kWindowManager_getFocusedAndActiveViews_name = 4;
 
-abstract class WindowManager implements core.Listener {
-  static const String name = 'mojo::WindowManager';
-  WindowManagerStub stub;
+const String WindowManagerName =
+      'mojo::WindowManager';
 
-  WindowManager(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new WindowManagerStub(endpoint);
-
-  WindowManager.fromHandle(core.MojoHandle handle) :
-      stub = new WindowManagerStub.fromHandle(handle);
-
-  WindowManager.fromStub(this.stub);
-
-  WindowManager.unbound() :
-      stub = new WindowManagerStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  WindowManager get delegate => stub.delegate;
-  set delegate(WindowManager d) {
-    stub.delegate = d;
-  }
+abstract class WindowManager {
   void embed(String url, Object services, Object exposedServices);
   Future<WindowManagerSetCaptureResponseParams> setCapture(int viewId,[Function responseFactory = null]);
   Future<WindowManagerFocusWindowResponseParams> focusWindow(int viewId,[Function responseFactory = null]);
@@ -520,19 +500,21 @@ abstract class WindowManager implements core.Listener {
 
 }
 
-class WindowManagerProxy extends bindings.Proxy implements WindowManager {
-  WindowManagerProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  WindowManagerProxy.fromHandle(core.MojoHandle handle) :
+class WindowManagerProxyImpl extends bindings.Proxy {
+  WindowManagerProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  WindowManagerProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  WindowManagerProxy.unbound() : super.unbound();
+  WindowManagerProxyImpl.unbound() : super.unbound();
 
-  String get name => WindowManager.name;
-
-  static WindowManagerProxy newFromEndpoint(
+  static WindowManagerProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new WindowManagerProxy(endpoint);
+      new WindowManagerProxyImpl.fromEndpoint(endpoint);
+
+  String get name => WindowManagerName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -581,56 +563,98 @@ class WindowManagerProxy extends bindings.Proxy implements WindowManager {
         break;
     }
   }
-  void embed(String url, Object services, Object exposedServices) {
-    var params = new WindowManagerEmbedParams();
-    params.url = url;
-    params.services = services;
-    params.exposedServices = exposedServices;
-    sendMessage(params, kWindowManager_embed_name);
+}
+
+
+class _WindowManagerProxyCalls implements WindowManager {
+  WindowManagerProxyImpl _proxyImpl;
+
+  _WindowManagerProxyCalls(this._proxyImpl);
+    void embed(String url, Object services, Object exposedServices) {
+      var params = new WindowManagerEmbedParams();
+      params.url = url;
+      params.services = services;
+      params.exposedServices = exposedServices;
+      _proxyImpl.sendMessage(params, kWindowManager_embed_name);
+    }
+  
+    Future<WindowManagerSetCaptureResponseParams> setCapture(int viewId,[Function responseFactory = null]) {
+      var params = new WindowManagerSetCaptureParams();
+      params.viewId = viewId;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kWindowManager_setCapture_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<WindowManagerFocusWindowResponseParams> focusWindow(int viewId,[Function responseFactory = null]) {
+      var params = new WindowManagerFocusWindowParams();
+      params.viewId = viewId;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kWindowManager_focusWindow_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<WindowManagerActivateWindowResponseParams> activateWindow(int viewId,[Function responseFactory = null]) {
+      var params = new WindowManagerActivateWindowParams();
+      params.viewId = viewId;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kWindowManager_activateWindow_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<WindowManagerGetFocusedAndActiveViewsResponseParams> getFocusedAndActiveViews(Object observer,[Function responseFactory = null]) {
+      var params = new WindowManagerGetFocusedAndActiveViewsParams();
+      params.observer = observer;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kWindowManager_getFocusedAndActiveViews_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class WindowManagerProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  WindowManager ptr;
+  final String name = WindowManagerName;
+
+  WindowManagerProxy(WindowManagerProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _WindowManagerProxyCalls(proxyImpl);
+
+  WindowManagerProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new WindowManagerProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _WindowManagerProxyCalls(impl);
   }
 
-  Future<WindowManagerSetCaptureResponseParams> setCapture(int viewId,[Function responseFactory = null]) {
-    var params = new WindowManagerSetCaptureParams();
-    params.viewId = viewId;
-    return sendMessageWithRequestId(
-        params,
-        kWindowManager_setCapture_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
+  WindowManagerProxy.fromHandle(core.MojoHandle handle) :
+      impl = new WindowManagerProxyImpl.fromHandle(handle) {
+    ptr = new _WindowManagerProxyCalls(impl);
   }
-  Future<WindowManagerFocusWindowResponseParams> focusWindow(int viewId,[Function responseFactory = null]) {
-    var params = new WindowManagerFocusWindowParams();
-    params.viewId = viewId;
-    return sendMessageWithRequestId(
-        params,
-        kWindowManager_focusWindow_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
+
+  WindowManagerProxy.unbound() :
+      impl = new WindowManagerProxyImpl.unbound() {
+    ptr = new _WindowManagerProxyCalls(impl);
   }
-  Future<WindowManagerActivateWindowResponseParams> activateWindow(int viewId,[Function responseFactory = null]) {
-    var params = new WindowManagerActivateWindowParams();
-    params.viewId = viewId;
-    return sendMessageWithRequestId(
-        params,
-        kWindowManager_activateWindow_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<WindowManagerGetFocusedAndActiveViewsResponseParams> getFocusedAndActiveViews(Object observer,[Function responseFactory = null]) {
-    var params = new WindowManagerGetFocusedAndActiveViewsParams();
-    params.observer = observer;
-    return sendMessageWithRequestId(
-        params,
-        kWindowManager_getFocusedAndActiveViews_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
+
+  static WindowManagerProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new WindowManagerProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class WindowManagerStub extends bindings.Stub {
   WindowManager _delegate = null;
 
-  WindowManagerStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  WindowManagerStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   WindowManagerStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -639,9 +663,9 @@ class WindowManagerStub extends bindings.Stub {
 
   static WindowManagerStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new WindowManagerStub(endpoint);
+      new WindowManagerStub.fromEndpoint(endpoint);
 
-  static const String name = WindowManager.name;
+  static const String name = WindowManagerName;
 
 
   WindowManagerSetCaptureResponseParams _WindowManagerSetCaptureResponseParamsFactory(bool success) {
@@ -745,49 +769,31 @@ const int kWindowManagerObserver_onCaptureChanged_name = 0;
 const int kWindowManagerObserver_onFocusChanged_name = 1;
 const int kWindowManagerObserver_onActiveWindowChanged_name = 2;
 
-abstract class WindowManagerObserver implements core.Listener {
-  static const String name = 'mojo::WindowManagerObserver';
-  WindowManagerObserverStub stub;
+const String WindowManagerObserverName =
+      'mojo::WindowManagerObserver';
 
-  WindowManagerObserver(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new WindowManagerObserverStub(endpoint);
-
-  WindowManagerObserver.fromHandle(core.MojoHandle handle) :
-      stub = new WindowManagerObserverStub.fromHandle(handle);
-
-  WindowManagerObserver.fromStub(this.stub);
-
-  WindowManagerObserver.unbound() :
-      stub = new WindowManagerObserverStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  WindowManagerObserver get delegate => stub.delegate;
-  set delegate(WindowManagerObserver d) {
-    stub.delegate = d;
-  }
+abstract class WindowManagerObserver {
   void onCaptureChanged(int captureViewId);
   void onFocusChanged(int focusedViewId);
   void onActiveWindowChanged(int focusedViewId);
 
 }
 
-class WindowManagerObserverProxy extends bindings.Proxy implements WindowManagerObserver {
-  WindowManagerObserverProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  WindowManagerObserverProxy.fromHandle(core.MojoHandle handle) :
+class WindowManagerObserverProxyImpl extends bindings.Proxy {
+  WindowManagerObserverProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  WindowManagerObserverProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  WindowManagerObserverProxy.unbound() : super.unbound();
+  WindowManagerObserverProxyImpl.unbound() : super.unbound();
 
-  String get name => WindowManagerObserver.name;
-
-  static WindowManagerObserverProxy newFromEndpoint(
+  static WindowManagerObserverProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new WindowManagerObserverProxy(endpoint);
+      new WindowManagerObserverProxyImpl.fromEndpoint(endpoint);
+
+  String get name => WindowManagerObserverName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -796,30 +802,72 @@ class WindowManagerObserverProxy extends bindings.Proxy implements WindowManager
         break;
     }
   }
-  void onCaptureChanged(int captureViewId) {
-    var params = new WindowManagerObserverOnCaptureChangedParams();
-    params.captureViewId = captureViewId;
-    sendMessage(params, kWindowManagerObserver_onCaptureChanged_name);
-  }
-
-  void onFocusChanged(int focusedViewId) {
-    var params = new WindowManagerObserverOnFocusChangedParams();
-    params.focusedViewId = focusedViewId;
-    sendMessage(params, kWindowManagerObserver_onFocusChanged_name);
-  }
-
-  void onActiveWindowChanged(int focusedViewId) {
-    var params = new WindowManagerObserverOnActiveWindowChangedParams();
-    params.focusedViewId = focusedViewId;
-    sendMessage(params, kWindowManagerObserver_onActiveWindowChanged_name);
-  }
-
 }
+
+
+class _WindowManagerObserverProxyCalls implements WindowManagerObserver {
+  WindowManagerObserverProxyImpl _proxyImpl;
+
+  _WindowManagerObserverProxyCalls(this._proxyImpl);
+    void onCaptureChanged(int captureViewId) {
+      var params = new WindowManagerObserverOnCaptureChangedParams();
+      params.captureViewId = captureViewId;
+      _proxyImpl.sendMessage(params, kWindowManagerObserver_onCaptureChanged_name);
+    }
+  
+    void onFocusChanged(int focusedViewId) {
+      var params = new WindowManagerObserverOnFocusChangedParams();
+      params.focusedViewId = focusedViewId;
+      _proxyImpl.sendMessage(params, kWindowManagerObserver_onFocusChanged_name);
+    }
+  
+    void onActiveWindowChanged(int focusedViewId) {
+      var params = new WindowManagerObserverOnActiveWindowChangedParams();
+      params.focusedViewId = focusedViewId;
+      _proxyImpl.sendMessage(params, kWindowManagerObserver_onActiveWindowChanged_name);
+    }
+  
+}
+
+
+class WindowManagerObserverProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  WindowManagerObserver ptr;
+  final String name = WindowManagerObserverName;
+
+  WindowManagerObserverProxy(WindowManagerObserverProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _WindowManagerObserverProxyCalls(proxyImpl);
+
+  WindowManagerObserverProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new WindowManagerObserverProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _WindowManagerObserverProxyCalls(impl);
+  }
+
+  WindowManagerObserverProxy.fromHandle(core.MojoHandle handle) :
+      impl = new WindowManagerObserverProxyImpl.fromHandle(handle) {
+    ptr = new _WindowManagerObserverProxyCalls(impl);
+  }
+
+  WindowManagerObserverProxy.unbound() :
+      impl = new WindowManagerObserverProxyImpl.unbound() {
+    ptr = new _WindowManagerObserverProxyCalls(impl);
+  }
+
+  static WindowManagerObserverProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new WindowManagerObserverProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class WindowManagerObserverStub extends bindings.Stub {
   WindowManagerObserver _delegate = null;
 
-  WindowManagerObserverStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  WindowManagerObserverStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   WindowManagerObserverStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -828,9 +876,9 @@ class WindowManagerObserverStub extends bindings.Stub {
 
   static WindowManagerObserverStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new WindowManagerObserverStub(endpoint);
+      new WindowManagerObserverStub.fromEndpoint(endpoint);
 
-  static const String name = WindowManagerObserver.name;
+  static const String name = WindowManagerObserverName;
 
 
 

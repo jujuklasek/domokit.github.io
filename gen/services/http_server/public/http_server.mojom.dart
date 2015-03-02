@@ -237,48 +237,30 @@ class HttpHandlerHandleRequestResponseParams extends bindings.Struct {
 const int kHttpServer_setHandler_name = 0;
 const int kHttpServer_getPort_name = 1;
 
-abstract class HttpServer implements core.Listener {
-  static const String name = 'http_server::HttpServer';
-  HttpServerStub stub;
+const String HttpServerName =
+      'http_server::HttpServer';
 
-  HttpServer(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new HttpServerStub(endpoint);
-
-  HttpServer.fromHandle(core.MojoHandle handle) :
-      stub = new HttpServerStub.fromHandle(handle);
-
-  HttpServer.fromStub(this.stub);
-
-  HttpServer.unbound() :
-      stub = new HttpServerStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  HttpServer get delegate => stub.delegate;
-  set delegate(HttpServer d) {
-    stub.delegate = d;
-  }
+abstract class HttpServer {
   Future<HttpServerSetHandlerResponseParams> setHandler(String pattern,Object handler,[Function responseFactory = null]);
   Future<HttpServerGetPortResponseParams> getPort([Function responseFactory = null]);
 
 }
 
-class HttpServerProxy extends bindings.Proxy implements HttpServer {
-  HttpServerProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  HttpServerProxy.fromHandle(core.MojoHandle handle) :
+class HttpServerProxyImpl extends bindings.Proxy {
+  HttpServerProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  HttpServerProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  HttpServerProxy.unbound() : super.unbound();
+  HttpServerProxyImpl.unbound() : super.unbound();
 
-  String get name => HttpServer.name;
-
-  static HttpServerProxy newFromEndpoint(
+  static HttpServerProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new HttpServerProxy(endpoint);
+      new HttpServerProxyImpl.fromEndpoint(endpoint);
+
+  String get name => HttpServerName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -307,30 +289,72 @@ class HttpServerProxy extends bindings.Proxy implements HttpServer {
         break;
     }
   }
-  Future<HttpServerSetHandlerResponseParams> setHandler(String pattern,Object handler,[Function responseFactory = null]) {
-    var params = new HttpServerSetHandlerParams();
-    params.pattern = pattern;
-    params.handler = handler;
-    return sendMessageWithRequestId(
-        params,
-        kHttpServer_setHandler_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<HttpServerGetPortResponseParams> getPort([Function responseFactory = null]) {
-    var params = new HttpServerGetPortParams();
-    return sendMessageWithRequestId(
-        params,
-        kHttpServer_getPort_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _HttpServerProxyCalls implements HttpServer {
+  HttpServerProxyImpl _proxyImpl;
+
+  _HttpServerProxyCalls(this._proxyImpl);
+    Future<HttpServerSetHandlerResponseParams> setHandler(String pattern,Object handler,[Function responseFactory = null]) {
+      var params = new HttpServerSetHandlerParams();
+      params.pattern = pattern;
+      params.handler = handler;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kHttpServer_setHandler_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<HttpServerGetPortResponseParams> getPort([Function responseFactory = null]) {
+      var params = new HttpServerGetPortParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kHttpServer_getPort_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class HttpServerProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  HttpServer ptr;
+  final String name = HttpServerName;
+
+  HttpServerProxy(HttpServerProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _HttpServerProxyCalls(proxyImpl);
+
+  HttpServerProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new HttpServerProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _HttpServerProxyCalls(impl);
+  }
+
+  HttpServerProxy.fromHandle(core.MojoHandle handle) :
+      impl = new HttpServerProxyImpl.fromHandle(handle) {
+    ptr = new _HttpServerProxyCalls(impl);
+  }
+
+  HttpServerProxy.unbound() :
+      impl = new HttpServerProxyImpl.unbound() {
+    ptr = new _HttpServerProxyCalls(impl);
+  }
+
+  static HttpServerProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new HttpServerProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class HttpServerStub extends bindings.Stub {
   HttpServer _delegate = null;
 
-  HttpServerStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  HttpServerStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   HttpServerStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -339,9 +363,9 @@ class HttpServerStub extends bindings.Stub {
 
   static HttpServerStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new HttpServerStub(endpoint);
+      new HttpServerStub.fromEndpoint(endpoint);
 
-  static const String name = HttpServer.name;
+  static const String name = HttpServerName;
 
 
   HttpServerSetHandlerResponseParams _HttpServerSetHandlerResponseParamsFactory(bool success) {
@@ -400,47 +424,29 @@ class HttpServerStub extends bindings.Stub {
 
 const int kHttpHandler_handleRequest_name = 0;
 
-abstract class HttpHandler implements core.Listener {
-  static const String name = 'http_server::HttpHandler';
-  HttpHandlerStub stub;
+const String HttpHandlerName =
+      'http_server::HttpHandler';
 
-  HttpHandler(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new HttpHandlerStub(endpoint);
-
-  HttpHandler.fromHandle(core.MojoHandle handle) :
-      stub = new HttpHandlerStub.fromHandle(handle);
-
-  HttpHandler.fromStub(this.stub);
-
-  HttpHandler.unbound() :
-      stub = new HttpHandlerStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  HttpHandler get delegate => stub.delegate;
-  set delegate(HttpHandler d) {
-    stub.delegate = d;
-  }
+abstract class HttpHandler {
   Future<HttpHandlerHandleRequestResponseParams> handleRequest(http_request_mojom.HttpRequest request,[Function responseFactory = null]);
 
 }
 
-class HttpHandlerProxy extends bindings.Proxy implements HttpHandler {
-  HttpHandlerProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  HttpHandlerProxy.fromHandle(core.MojoHandle handle) :
+class HttpHandlerProxyImpl extends bindings.Proxy {
+  HttpHandlerProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  HttpHandlerProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  HttpHandlerProxy.unbound() : super.unbound();
+  HttpHandlerProxyImpl.unbound() : super.unbound();
 
-  String get name => HttpHandler.name;
-
-  static HttpHandlerProxy newFromEndpoint(
+  static HttpHandlerProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new HttpHandlerProxy(endpoint);
+      new HttpHandlerProxyImpl.fromEndpoint(endpoint);
+
+  String get name => HttpHandlerName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -459,21 +465,63 @@ class HttpHandlerProxy extends bindings.Proxy implements HttpHandler {
         break;
     }
   }
-  Future<HttpHandlerHandleRequestResponseParams> handleRequest(http_request_mojom.HttpRequest request,[Function responseFactory = null]) {
-    var params = new HttpHandlerHandleRequestParams();
-    params.request = request;
-    return sendMessageWithRequestId(
-        params,
-        kHttpHandler_handleRequest_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _HttpHandlerProxyCalls implements HttpHandler {
+  HttpHandlerProxyImpl _proxyImpl;
+
+  _HttpHandlerProxyCalls(this._proxyImpl);
+    Future<HttpHandlerHandleRequestResponseParams> handleRequest(http_request_mojom.HttpRequest request,[Function responseFactory = null]) {
+      var params = new HttpHandlerHandleRequestParams();
+      params.request = request;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kHttpHandler_handleRequest_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class HttpHandlerProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  HttpHandler ptr;
+  final String name = HttpHandlerName;
+
+  HttpHandlerProxy(HttpHandlerProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _HttpHandlerProxyCalls(proxyImpl);
+
+  HttpHandlerProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new HttpHandlerProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _HttpHandlerProxyCalls(impl);
+  }
+
+  HttpHandlerProxy.fromHandle(core.MojoHandle handle) :
+      impl = new HttpHandlerProxyImpl.fromHandle(handle) {
+    ptr = new _HttpHandlerProxyCalls(impl);
+  }
+
+  HttpHandlerProxy.unbound() :
+      impl = new HttpHandlerProxyImpl.unbound() {
+    ptr = new _HttpHandlerProxyCalls(impl);
+  }
+
+  static HttpHandlerProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new HttpHandlerProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class HttpHandlerStub extends bindings.Stub {
   HttpHandler _delegate = null;
 
-  HttpHandlerStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  HttpHandlerStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   HttpHandlerStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -482,9 +530,9 @@ class HttpHandlerStub extends bindings.Stub {
 
   static HttpHandlerStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new HttpHandlerStub(endpoint);
+      new HttpHandlerStub.fromEndpoint(endpoint);
 
-  static const String name = HttpHandler.name;
+  static const String name = HttpHandlerName;
 
 
   HttpHandlerHandleRequestResponseParams _HttpHandlerHandleRequestResponseParamsFactory(http_response_mojom.HttpResponse response) {

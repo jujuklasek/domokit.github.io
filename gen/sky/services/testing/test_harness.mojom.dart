@@ -94,48 +94,30 @@ class TestHarnessDispatchInputEventParams extends bindings.Struct {
 const int kTestHarness_onTestComplete_name = 0;
 const int kTestHarness_dispatchInputEvent_name = 1;
 
-abstract class TestHarness implements core.Listener {
-  static const String name = 'sky::TestHarness';
-  TestHarnessStub stub;
+const String TestHarnessName =
+      'sky::TestHarness';
 
-  TestHarness(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new TestHarnessStub(endpoint);
-
-  TestHarness.fromHandle(core.MojoHandle handle) :
-      stub = new TestHarnessStub.fromHandle(handle);
-
-  TestHarness.fromStub(this.stub);
-
-  TestHarness.unbound() :
-      stub = new TestHarnessStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  TestHarness get delegate => stub.delegate;
-  set delegate(TestHarness d) {
-    stub.delegate = d;
-  }
+abstract class TestHarness {
   void onTestComplete(String testResult, List<int> pixels);
   void dispatchInputEvent(input_events_mojom.Event event);
 
 }
 
-class TestHarnessProxy extends bindings.Proxy implements TestHarness {
-  TestHarnessProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  TestHarnessProxy.fromHandle(core.MojoHandle handle) :
+class TestHarnessProxyImpl extends bindings.Proxy {
+  TestHarnessProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  TestHarnessProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  TestHarnessProxy.unbound() : super.unbound();
+  TestHarnessProxyImpl.unbound() : super.unbound();
 
-  String get name => TestHarness.name;
-
-  static TestHarnessProxy newFromEndpoint(
+  static TestHarnessProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TestHarnessProxy(endpoint);
+      new TestHarnessProxyImpl.fromEndpoint(endpoint);
+
+  String get name => TestHarnessName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -144,25 +126,67 @@ class TestHarnessProxy extends bindings.Proxy implements TestHarness {
         break;
     }
   }
-  void onTestComplete(String testResult, List<int> pixels) {
-    var params = new TestHarnessOnTestCompleteParams();
-    params.testResult = testResult;
-    params.pixels = pixels;
-    sendMessage(params, kTestHarness_onTestComplete_name);
-  }
-
-  void dispatchInputEvent(input_events_mojom.Event event) {
-    var params = new TestHarnessDispatchInputEventParams();
-    params.event = event;
-    sendMessage(params, kTestHarness_dispatchInputEvent_name);
-  }
-
 }
+
+
+class _TestHarnessProxyCalls implements TestHarness {
+  TestHarnessProxyImpl _proxyImpl;
+
+  _TestHarnessProxyCalls(this._proxyImpl);
+    void onTestComplete(String testResult, List<int> pixels) {
+      var params = new TestHarnessOnTestCompleteParams();
+      params.testResult = testResult;
+      params.pixels = pixels;
+      _proxyImpl.sendMessage(params, kTestHarness_onTestComplete_name);
+    }
+  
+    void dispatchInputEvent(input_events_mojom.Event event) {
+      var params = new TestHarnessDispatchInputEventParams();
+      params.event = event;
+      _proxyImpl.sendMessage(params, kTestHarness_dispatchInputEvent_name);
+    }
+  
+}
+
+
+class TestHarnessProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  TestHarness ptr;
+  final String name = TestHarnessName;
+
+  TestHarnessProxy(TestHarnessProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _TestHarnessProxyCalls(proxyImpl);
+
+  TestHarnessProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new TestHarnessProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _TestHarnessProxyCalls(impl);
+  }
+
+  TestHarnessProxy.fromHandle(core.MojoHandle handle) :
+      impl = new TestHarnessProxyImpl.fromHandle(handle) {
+    ptr = new _TestHarnessProxyCalls(impl);
+  }
+
+  TestHarnessProxy.unbound() :
+      impl = new TestHarnessProxyImpl.unbound() {
+    ptr = new _TestHarnessProxyCalls(impl);
+  }
+
+  static TestHarnessProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new TestHarnessProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class TestHarnessStub extends bindings.Stub {
   TestHarness _delegate = null;
 
-  TestHarnessStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  TestHarnessStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   TestHarnessStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -171,9 +195,9 @@ class TestHarnessStub extends bindings.Stub {
 
   static TestHarnessStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TestHarnessStub(endpoint);
+      new TestHarnessStub.fromEndpoint(endpoint);
 
-  static const String name = TestHarness.name;
+  static const String name = TestHarnessName;
 
 
 

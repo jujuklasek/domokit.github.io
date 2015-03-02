@@ -110,47 +110,29 @@ class ExternalApplicationRegistrarRegisterResponseParams extends bindings.Struct
 }
 const int kExternalApplicationRegistrar_register_name = 0;
 
-abstract class ExternalApplicationRegistrar implements core.Listener {
-  static const String name = 'mojo::ExternalApplicationRegistrar';
-  ExternalApplicationRegistrarStub stub;
+const String ExternalApplicationRegistrarName =
+      'mojo::ExternalApplicationRegistrar';
 
-  ExternalApplicationRegistrar(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new ExternalApplicationRegistrarStub(endpoint);
-
-  ExternalApplicationRegistrar.fromHandle(core.MojoHandle handle) :
-      stub = new ExternalApplicationRegistrarStub.fromHandle(handle);
-
-  ExternalApplicationRegistrar.fromStub(this.stub);
-
-  ExternalApplicationRegistrar.unbound() :
-      stub = new ExternalApplicationRegistrarStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  ExternalApplicationRegistrar get delegate => stub.delegate;
-  set delegate(ExternalApplicationRegistrar d) {
-    stub.delegate = d;
-  }
+abstract class ExternalApplicationRegistrar {
   Future<ExternalApplicationRegistrarRegisterResponseParams> register(String applicationUrl,List<String> args,[Function responseFactory = null]);
 
 }
 
-class ExternalApplicationRegistrarProxy extends bindings.Proxy implements ExternalApplicationRegistrar {
-  ExternalApplicationRegistrarProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  ExternalApplicationRegistrarProxy.fromHandle(core.MojoHandle handle) :
+class ExternalApplicationRegistrarProxyImpl extends bindings.Proxy {
+  ExternalApplicationRegistrarProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  ExternalApplicationRegistrarProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  ExternalApplicationRegistrarProxy.unbound() : super.unbound();
+  ExternalApplicationRegistrarProxyImpl.unbound() : super.unbound();
 
-  String get name => ExternalApplicationRegistrar.name;
-
-  static ExternalApplicationRegistrarProxy newFromEndpoint(
+  static ExternalApplicationRegistrarProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ExternalApplicationRegistrarProxy(endpoint);
+      new ExternalApplicationRegistrarProxyImpl.fromEndpoint(endpoint);
+
+  String get name => ExternalApplicationRegistrarName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -169,22 +151,64 @@ class ExternalApplicationRegistrarProxy extends bindings.Proxy implements Extern
         break;
     }
   }
-  Future<ExternalApplicationRegistrarRegisterResponseParams> register(String applicationUrl,List<String> args,[Function responseFactory = null]) {
-    var params = new ExternalApplicationRegistrarRegisterParams();
-    params.applicationUrl = applicationUrl;
-    params.args = args;
-    return sendMessageWithRequestId(
-        params,
-        kExternalApplicationRegistrar_register_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _ExternalApplicationRegistrarProxyCalls implements ExternalApplicationRegistrar {
+  ExternalApplicationRegistrarProxyImpl _proxyImpl;
+
+  _ExternalApplicationRegistrarProxyCalls(this._proxyImpl);
+    Future<ExternalApplicationRegistrarRegisterResponseParams> register(String applicationUrl,List<String> args,[Function responseFactory = null]) {
+      var params = new ExternalApplicationRegistrarRegisterParams();
+      params.applicationUrl = applicationUrl;
+      params.args = args;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kExternalApplicationRegistrar_register_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class ExternalApplicationRegistrarProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  ExternalApplicationRegistrar ptr;
+  final String name = ExternalApplicationRegistrarName;
+
+  ExternalApplicationRegistrarProxy(ExternalApplicationRegistrarProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _ExternalApplicationRegistrarProxyCalls(proxyImpl);
+
+  ExternalApplicationRegistrarProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new ExternalApplicationRegistrarProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _ExternalApplicationRegistrarProxyCalls(impl);
+  }
+
+  ExternalApplicationRegistrarProxy.fromHandle(core.MojoHandle handle) :
+      impl = new ExternalApplicationRegistrarProxyImpl.fromHandle(handle) {
+    ptr = new _ExternalApplicationRegistrarProxyCalls(impl);
+  }
+
+  ExternalApplicationRegistrarProxy.unbound() :
+      impl = new ExternalApplicationRegistrarProxyImpl.unbound() {
+    ptr = new _ExternalApplicationRegistrarProxyCalls(impl);
+  }
+
+  static ExternalApplicationRegistrarProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new ExternalApplicationRegistrarProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class ExternalApplicationRegistrarStub extends bindings.Stub {
   ExternalApplicationRegistrar _delegate = null;
 
-  ExternalApplicationRegistrarStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  ExternalApplicationRegistrarStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   ExternalApplicationRegistrarStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -193,9 +217,9 @@ class ExternalApplicationRegistrarStub extends bindings.Stub {
 
   static ExternalApplicationRegistrarStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ExternalApplicationRegistrarStub(endpoint);
+      new ExternalApplicationRegistrarStub.fromEndpoint(endpoint);
 
-  static const String name = ExternalApplicationRegistrar.name;
+  static const String name = ExternalApplicationRegistrarName;
 
 
   ExternalApplicationRegistrarRegisterResponseParams _ExternalApplicationRegistrarRegisterResponseParamsFactory(Object applicationRequest) {

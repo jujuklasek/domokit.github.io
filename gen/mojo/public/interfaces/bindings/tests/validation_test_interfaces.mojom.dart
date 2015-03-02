@@ -1026,30 +1026,10 @@ const int kConformanceTestInterface_method9_name = 9;
 const int kConformanceTestInterface_method10_name = 10;
 const int kConformanceTestInterface_method11_name = 11;
 
-abstract class ConformanceTestInterface implements core.Listener {
-  static const String name = 'mojo::test::ConformanceTestInterface';
-  ConformanceTestInterfaceStub stub;
+const String ConformanceTestInterfaceName =
+      'mojo::test::ConformanceTestInterface';
 
-  ConformanceTestInterface(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new ConformanceTestInterfaceStub(endpoint);
-
-  ConformanceTestInterface.fromHandle(core.MojoHandle handle) :
-      stub = new ConformanceTestInterfaceStub.fromHandle(handle);
-
-  ConformanceTestInterface.fromStub(this.stub);
-
-  ConformanceTestInterface.unbound() :
-      stub = new ConformanceTestInterfaceStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  ConformanceTestInterface get delegate => stub.delegate;
-  set delegate(ConformanceTestInterface d) {
-    stub.delegate = d;
-  }
+abstract class ConformanceTestInterface {
   void method0(double param0);
   void method1(StructA param0);
   void method2(StructB param0, StructA param1);
@@ -1065,19 +1045,21 @@ abstract class ConformanceTestInterface implements core.Listener {
 
 }
 
-class ConformanceTestInterfaceProxy extends bindings.Proxy implements ConformanceTestInterface {
-  ConformanceTestInterfaceProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  ConformanceTestInterfaceProxy.fromHandle(core.MojoHandle handle) :
+class ConformanceTestInterfaceProxyImpl extends bindings.Proxy {
+  ConformanceTestInterfaceProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  ConformanceTestInterfaceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  ConformanceTestInterfaceProxy.unbound() : super.unbound();
+  ConformanceTestInterfaceProxyImpl.unbound() : super.unbound();
 
-  String get name => ConformanceTestInterface.name;
-
-  static ConformanceTestInterfaceProxy newFromEndpoint(
+  static ConformanceTestInterfaceProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ConformanceTestInterfaceProxy(endpoint);
+      new ConformanceTestInterfaceProxyImpl.fromEndpoint(endpoint);
+
+  String get name => ConformanceTestInterfaceName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -1086,88 +1068,130 @@ class ConformanceTestInterfaceProxy extends bindings.Proxy implements Conformanc
         break;
     }
   }
-  void method0(double param0) {
-    var params = new ConformanceTestInterfaceMethod0Params();
-    params.param0 = param0;
-    sendMessage(params, kConformanceTestInterface_method0_name);
-  }
-
-  void method1(StructA param0) {
-    var params = new ConformanceTestInterfaceMethod1Params();
-    params.param0 = param0;
-    sendMessage(params, kConformanceTestInterface_method1_name);
-  }
-
-  void method2(StructB param0, StructA param1) {
-    var params = new ConformanceTestInterfaceMethod2Params();
-    params.param0 = param0;
-    params.param1 = param1;
-    sendMessage(params, kConformanceTestInterface_method2_name);
-  }
-
-  void method3(List<bool> param0) {
-    var params = new ConformanceTestInterfaceMethod3Params();
-    params.param0 = param0;
-    sendMessage(params, kConformanceTestInterface_method3_name);
-  }
-
-  void method4(StructC param0, List<int> param1) {
-    var params = new ConformanceTestInterfaceMethod4Params();
-    params.param0 = param0;
-    params.param1 = param1;
-    sendMessage(params, kConformanceTestInterface_method4_name);
-  }
-
-  void method5(StructE param0, core.MojoDataPipeProducer param1) {
-    var params = new ConformanceTestInterfaceMethod5Params();
-    params.param0 = param0;
-    params.param1 = param1;
-    sendMessage(params, kConformanceTestInterface_method5_name);
-  }
-
-  void method6(List<List<int>> param0) {
-    var params = new ConformanceTestInterfaceMethod6Params();
-    params.param0 = param0;
-    sendMessage(params, kConformanceTestInterface_method6_name);
-  }
-
-  void method7(StructF param0, List<List<int>> param1) {
-    var params = new ConformanceTestInterfaceMethod7Params();
-    params.param0 = param0;
-    params.param1 = param1;
-    sendMessage(params, kConformanceTestInterface_method7_name);
-  }
-
-  void method8(List<List<String>> param0) {
-    var params = new ConformanceTestInterfaceMethod8Params();
-    params.param0 = param0;
-    sendMessage(params, kConformanceTestInterface_method8_name);
-  }
-
-  void method9(List<List<core.MojoHandle>> param0) {
-    var params = new ConformanceTestInterfaceMethod9Params();
-    params.param0 = param0;
-    sendMessage(params, kConformanceTestInterface_method9_name);
-  }
-
-  void method10(Map<String, int> param0) {
-    var params = new ConformanceTestInterfaceMethod10Params();
-    params.param0 = param0;
-    sendMessage(params, kConformanceTestInterface_method10_name);
-  }
-
-  void method11(StructG param0) {
-    var params = new ConformanceTestInterfaceMethod11Params();
-    params.param0 = param0;
-    sendMessage(params, kConformanceTestInterface_method11_name);
-  }
-
 }
+
+
+class _ConformanceTestInterfaceProxyCalls implements ConformanceTestInterface {
+  ConformanceTestInterfaceProxyImpl _proxyImpl;
+
+  _ConformanceTestInterfaceProxyCalls(this._proxyImpl);
+    void method0(double param0) {
+      var params = new ConformanceTestInterfaceMethod0Params();
+      params.param0 = param0;
+      _proxyImpl.sendMessage(params, kConformanceTestInterface_method0_name);
+    }
+  
+    void method1(StructA param0) {
+      var params = new ConformanceTestInterfaceMethod1Params();
+      params.param0 = param0;
+      _proxyImpl.sendMessage(params, kConformanceTestInterface_method1_name);
+    }
+  
+    void method2(StructB param0, StructA param1) {
+      var params = new ConformanceTestInterfaceMethod2Params();
+      params.param0 = param0;
+      params.param1 = param1;
+      _proxyImpl.sendMessage(params, kConformanceTestInterface_method2_name);
+    }
+  
+    void method3(List<bool> param0) {
+      var params = new ConformanceTestInterfaceMethod3Params();
+      params.param0 = param0;
+      _proxyImpl.sendMessage(params, kConformanceTestInterface_method3_name);
+    }
+  
+    void method4(StructC param0, List<int> param1) {
+      var params = new ConformanceTestInterfaceMethod4Params();
+      params.param0 = param0;
+      params.param1 = param1;
+      _proxyImpl.sendMessage(params, kConformanceTestInterface_method4_name);
+    }
+  
+    void method5(StructE param0, core.MojoDataPipeProducer param1) {
+      var params = new ConformanceTestInterfaceMethod5Params();
+      params.param0 = param0;
+      params.param1 = param1;
+      _proxyImpl.sendMessage(params, kConformanceTestInterface_method5_name);
+    }
+  
+    void method6(List<List<int>> param0) {
+      var params = new ConformanceTestInterfaceMethod6Params();
+      params.param0 = param0;
+      _proxyImpl.sendMessage(params, kConformanceTestInterface_method6_name);
+    }
+  
+    void method7(StructF param0, List<List<int>> param1) {
+      var params = new ConformanceTestInterfaceMethod7Params();
+      params.param0 = param0;
+      params.param1 = param1;
+      _proxyImpl.sendMessage(params, kConformanceTestInterface_method7_name);
+    }
+  
+    void method8(List<List<String>> param0) {
+      var params = new ConformanceTestInterfaceMethod8Params();
+      params.param0 = param0;
+      _proxyImpl.sendMessage(params, kConformanceTestInterface_method8_name);
+    }
+  
+    void method9(List<List<core.MojoHandle>> param0) {
+      var params = new ConformanceTestInterfaceMethod9Params();
+      params.param0 = param0;
+      _proxyImpl.sendMessage(params, kConformanceTestInterface_method9_name);
+    }
+  
+    void method10(Map<String, int> param0) {
+      var params = new ConformanceTestInterfaceMethod10Params();
+      params.param0 = param0;
+      _proxyImpl.sendMessage(params, kConformanceTestInterface_method10_name);
+    }
+  
+    void method11(StructG param0) {
+      var params = new ConformanceTestInterfaceMethod11Params();
+      params.param0 = param0;
+      _proxyImpl.sendMessage(params, kConformanceTestInterface_method11_name);
+    }
+  
+}
+
+
+class ConformanceTestInterfaceProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  ConformanceTestInterface ptr;
+  final String name = ConformanceTestInterfaceName;
+
+  ConformanceTestInterfaceProxy(ConformanceTestInterfaceProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _ConformanceTestInterfaceProxyCalls(proxyImpl);
+
+  ConformanceTestInterfaceProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new ConformanceTestInterfaceProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _ConformanceTestInterfaceProxyCalls(impl);
+  }
+
+  ConformanceTestInterfaceProxy.fromHandle(core.MojoHandle handle) :
+      impl = new ConformanceTestInterfaceProxyImpl.fromHandle(handle) {
+    ptr = new _ConformanceTestInterfaceProxyCalls(impl);
+  }
+
+  ConformanceTestInterfaceProxy.unbound() :
+      impl = new ConformanceTestInterfaceProxyImpl.unbound() {
+    ptr = new _ConformanceTestInterfaceProxyCalls(impl);
+  }
+
+  static ConformanceTestInterfaceProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new ConformanceTestInterfaceProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class ConformanceTestInterfaceStub extends bindings.Stub {
   ConformanceTestInterface _delegate = null;
 
-  ConformanceTestInterfaceStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  ConformanceTestInterfaceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   ConformanceTestInterfaceStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -1176,9 +1200,9 @@ class ConformanceTestInterfaceStub extends bindings.Stub {
 
   static ConformanceTestInterfaceStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ConformanceTestInterfaceStub(endpoint);
+      new ConformanceTestInterfaceStub.fromEndpoint(endpoint);
 
-  static const String name = ConformanceTestInterface.name;
+  static const String name = ConformanceTestInterfaceName;
 
 
 
@@ -1261,47 +1285,29 @@ class ConformanceTestInterfaceStub extends bindings.Stub {
 
 const int kIntegrationTestInterface_method0_name = 0;
 
-abstract class IntegrationTestInterface implements core.Listener {
-  static const String name = 'mojo::test::IntegrationTestInterface';
-  IntegrationTestInterfaceStub stub;
+const String IntegrationTestInterfaceName =
+      'mojo::test::IntegrationTestInterface';
 
-  IntegrationTestInterface(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new IntegrationTestInterfaceStub(endpoint);
-
-  IntegrationTestInterface.fromHandle(core.MojoHandle handle) :
-      stub = new IntegrationTestInterfaceStub.fromHandle(handle);
-
-  IntegrationTestInterface.fromStub(this.stub);
-
-  IntegrationTestInterface.unbound() :
-      stub = new IntegrationTestInterfaceStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  IntegrationTestInterface get delegate => stub.delegate;
-  set delegate(IntegrationTestInterface d) {
-    stub.delegate = d;
-  }
+abstract class IntegrationTestInterface {
   Future<IntegrationTestInterfaceMethod0ResponseParams> method0(BasicStruct param0,[Function responseFactory = null]);
 
 }
 
-class IntegrationTestInterfaceProxy extends bindings.Proxy implements IntegrationTestInterface {
-  IntegrationTestInterfaceProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  IntegrationTestInterfaceProxy.fromHandle(core.MojoHandle handle) :
+class IntegrationTestInterfaceProxyImpl extends bindings.Proxy {
+  IntegrationTestInterfaceProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  IntegrationTestInterfaceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  IntegrationTestInterfaceProxy.unbound() : super.unbound();
+  IntegrationTestInterfaceProxyImpl.unbound() : super.unbound();
 
-  String get name => IntegrationTestInterface.name;
-
-  static IntegrationTestInterfaceProxy newFromEndpoint(
+  static IntegrationTestInterfaceProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new IntegrationTestInterfaceProxy(endpoint);
+      new IntegrationTestInterfaceProxyImpl.fromEndpoint(endpoint);
+
+  String get name => IntegrationTestInterfaceName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -1320,21 +1326,63 @@ class IntegrationTestInterfaceProxy extends bindings.Proxy implements Integratio
         break;
     }
   }
-  Future<IntegrationTestInterfaceMethod0ResponseParams> method0(BasicStruct param0,[Function responseFactory = null]) {
-    var params = new IntegrationTestInterfaceMethod0Params();
-    params.param0 = param0;
-    return sendMessageWithRequestId(
-        params,
-        kIntegrationTestInterface_method0_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _IntegrationTestInterfaceProxyCalls implements IntegrationTestInterface {
+  IntegrationTestInterfaceProxyImpl _proxyImpl;
+
+  _IntegrationTestInterfaceProxyCalls(this._proxyImpl);
+    Future<IntegrationTestInterfaceMethod0ResponseParams> method0(BasicStruct param0,[Function responseFactory = null]) {
+      var params = new IntegrationTestInterfaceMethod0Params();
+      params.param0 = param0;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kIntegrationTestInterface_method0_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class IntegrationTestInterfaceProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  IntegrationTestInterface ptr;
+  final String name = IntegrationTestInterfaceName;
+
+  IntegrationTestInterfaceProxy(IntegrationTestInterfaceProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _IntegrationTestInterfaceProxyCalls(proxyImpl);
+
+  IntegrationTestInterfaceProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new IntegrationTestInterfaceProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _IntegrationTestInterfaceProxyCalls(impl);
+  }
+
+  IntegrationTestInterfaceProxy.fromHandle(core.MojoHandle handle) :
+      impl = new IntegrationTestInterfaceProxyImpl.fromHandle(handle) {
+    ptr = new _IntegrationTestInterfaceProxyCalls(impl);
+  }
+
+  IntegrationTestInterfaceProxy.unbound() :
+      impl = new IntegrationTestInterfaceProxyImpl.unbound() {
+    ptr = new _IntegrationTestInterfaceProxyCalls(impl);
+  }
+
+  static IntegrationTestInterfaceProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new IntegrationTestInterfaceProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class IntegrationTestInterfaceStub extends bindings.Stub {
   IntegrationTestInterface _delegate = null;
 
-  IntegrationTestInterfaceStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  IntegrationTestInterfaceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   IntegrationTestInterfaceStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -1343,9 +1391,9 @@ class IntegrationTestInterfaceStub extends bindings.Stub {
 
   static IntegrationTestInterfaceStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new IntegrationTestInterfaceStub(endpoint);
+      new IntegrationTestInterfaceStub.fromEndpoint(endpoint);
 
-  static const String name = IntegrationTestInterface.name;
+  static const String name = IntegrationTestInterfaceName;
 
 
   IntegrationTestInterfaceMethod0ResponseParams _IntegrationTestInterfaceMethod0ResponseParamsFactory(List<int> param0) {

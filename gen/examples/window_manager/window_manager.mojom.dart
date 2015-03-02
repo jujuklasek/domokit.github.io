@@ -48,47 +48,29 @@ class IWindowManagerCloseWindowParams extends bindings.Struct {
 }
 const int kIWindowManager_closeWindow_name = 0;
 
-abstract class IWindowManager implements core.Listener {
-  static const String name = 'mojo::IWindowManager';
-  IWindowManagerStub stub;
+const String IWindowManagerName =
+      'mojo::IWindowManager';
 
-  IWindowManager(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new IWindowManagerStub(endpoint);
-
-  IWindowManager.fromHandle(core.MojoHandle handle) :
-      stub = new IWindowManagerStub.fromHandle(handle);
-
-  IWindowManager.fromStub(this.stub);
-
-  IWindowManager.unbound() :
-      stub = new IWindowManagerStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  IWindowManager get delegate => stub.delegate;
-  set delegate(IWindowManager d) {
-    stub.delegate = d;
-  }
+abstract class IWindowManager {
   void closeWindow(int nodeId);
 
 }
 
-class IWindowManagerProxy extends bindings.Proxy implements IWindowManager {
-  IWindowManagerProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  IWindowManagerProxy.fromHandle(core.MojoHandle handle) :
+class IWindowManagerProxyImpl extends bindings.Proxy {
+  IWindowManagerProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  IWindowManagerProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  IWindowManagerProxy.unbound() : super.unbound();
+  IWindowManagerProxyImpl.unbound() : super.unbound();
 
-  String get name => IWindowManager.name;
-
-  static IWindowManagerProxy newFromEndpoint(
+  static IWindowManagerProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new IWindowManagerProxy(endpoint);
+      new IWindowManagerProxyImpl.fromEndpoint(endpoint);
+
+  String get name => IWindowManagerName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -97,18 +79,60 @@ class IWindowManagerProxy extends bindings.Proxy implements IWindowManager {
         break;
     }
   }
-  void closeWindow(int nodeId) {
-    var params = new IWindowManagerCloseWindowParams();
-    params.nodeId = nodeId;
-    sendMessage(params, kIWindowManager_closeWindow_name);
+}
+
+
+class _IWindowManagerProxyCalls implements IWindowManager {
+  IWindowManagerProxyImpl _proxyImpl;
+
+  _IWindowManagerProxyCalls(this._proxyImpl);
+    void closeWindow(int nodeId) {
+      var params = new IWindowManagerCloseWindowParams();
+      params.nodeId = nodeId;
+      _proxyImpl.sendMessage(params, kIWindowManager_closeWindow_name);
+    }
+  
+}
+
+
+class IWindowManagerProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  IWindowManager ptr;
+  final String name = IWindowManagerName;
+
+  IWindowManagerProxy(IWindowManagerProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _IWindowManagerProxyCalls(proxyImpl);
+
+  IWindowManagerProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new IWindowManagerProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _IWindowManagerProxyCalls(impl);
   }
 
+  IWindowManagerProxy.fromHandle(core.MojoHandle handle) :
+      impl = new IWindowManagerProxyImpl.fromHandle(handle) {
+    ptr = new _IWindowManagerProxyCalls(impl);
+  }
+
+  IWindowManagerProxy.unbound() :
+      impl = new IWindowManagerProxyImpl.unbound() {
+    ptr = new _IWindowManagerProxyCalls(impl);
+  }
+
+  static IWindowManagerProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new IWindowManagerProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class IWindowManagerStub extends bindings.Stub {
   IWindowManager _delegate = null;
 
-  IWindowManagerStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  IWindowManagerStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   IWindowManagerStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -117,9 +141,9 @@ class IWindowManagerStub extends bindings.Stub {
 
   static IWindowManagerStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new IWindowManagerStub(endpoint);
+      new IWindowManagerStub.fromEndpoint(endpoint);
 
-  static const String name = IWindowManager.name;
+  static const String name = IWindowManagerName;
 
 
 

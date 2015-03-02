@@ -84,47 +84,29 @@ class ExampleServicePingResponseParams extends bindings.Struct {
 }
 const int kExampleService_ping_name = 0;
 
-abstract class ExampleService implements core.Listener {
-  static const String name = 'mojo::ExampleService';
-  ExampleServiceStub stub;
+const String ExampleServiceName =
+      'mojo::ExampleService';
 
-  ExampleService(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new ExampleServiceStub(endpoint);
-
-  ExampleService.fromHandle(core.MojoHandle handle) :
-      stub = new ExampleServiceStub.fromHandle(handle);
-
-  ExampleService.fromStub(this.stub);
-
-  ExampleService.unbound() :
-      stub = new ExampleServiceStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  ExampleService get delegate => stub.delegate;
-  set delegate(ExampleService d) {
-    stub.delegate = d;
-  }
+abstract class ExampleService {
   Future<ExampleServicePingResponseParams> ping(int pingValue,[Function responseFactory = null]);
 
 }
 
-class ExampleServiceProxy extends bindings.Proxy implements ExampleService {
-  ExampleServiceProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  ExampleServiceProxy.fromHandle(core.MojoHandle handle) :
+class ExampleServiceProxyImpl extends bindings.Proxy {
+  ExampleServiceProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  ExampleServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  ExampleServiceProxy.unbound() : super.unbound();
+  ExampleServiceProxyImpl.unbound() : super.unbound();
 
-  String get name => ExampleService.name;
-
-  static ExampleServiceProxy newFromEndpoint(
+  static ExampleServiceProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ExampleServiceProxy(endpoint);
+      new ExampleServiceProxyImpl.fromEndpoint(endpoint);
+
+  String get name => ExampleServiceName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -143,21 +125,63 @@ class ExampleServiceProxy extends bindings.Proxy implements ExampleService {
         break;
     }
   }
-  Future<ExampleServicePingResponseParams> ping(int pingValue,[Function responseFactory = null]) {
-    var params = new ExampleServicePingParams();
-    params.pingValue = pingValue;
-    return sendMessageWithRequestId(
-        params,
-        kExampleService_ping_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _ExampleServiceProxyCalls implements ExampleService {
+  ExampleServiceProxyImpl _proxyImpl;
+
+  _ExampleServiceProxyCalls(this._proxyImpl);
+    Future<ExampleServicePingResponseParams> ping(int pingValue,[Function responseFactory = null]) {
+      var params = new ExampleServicePingParams();
+      params.pingValue = pingValue;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kExampleService_ping_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class ExampleServiceProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  ExampleService ptr;
+  final String name = ExampleServiceName;
+
+  ExampleServiceProxy(ExampleServiceProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _ExampleServiceProxyCalls(proxyImpl);
+
+  ExampleServiceProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new ExampleServiceProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _ExampleServiceProxyCalls(impl);
+  }
+
+  ExampleServiceProxy.fromHandle(core.MojoHandle handle) :
+      impl = new ExampleServiceProxyImpl.fromHandle(handle) {
+    ptr = new _ExampleServiceProxyCalls(impl);
+  }
+
+  ExampleServiceProxy.unbound() :
+      impl = new ExampleServiceProxyImpl.unbound() {
+    ptr = new _ExampleServiceProxyCalls(impl);
+  }
+
+  static ExampleServiceProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new ExampleServiceProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class ExampleServiceStub extends bindings.Stub {
   ExampleService _delegate = null;
 
-  ExampleServiceStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  ExampleServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   ExampleServiceStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -166,9 +190,9 @@ class ExampleServiceStub extends bindings.Stub {
 
   static ExampleServiceStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ExampleServiceStub(endpoint);
+      new ExampleServiceStub.fromEndpoint(endpoint);
 
-  static const String name = ExampleService.name;
+  static const String name = ExampleServiceName;
 
 
   ExampleServicePingResponseParams _ExampleServicePingResponseParamsFactory(int pongValue) {

@@ -187,48 +187,30 @@ class TcpBoundSocketConnectResponseParams extends bindings.Struct {
 const int kTcpBoundSocket_startListening_name = 0;
 const int kTcpBoundSocket_connect_name = 1;
 
-abstract class TcpBoundSocket implements core.Listener {
-  static const String name = 'mojo::TcpBoundSocket';
-  TcpBoundSocketStub stub;
+const String TcpBoundSocketName =
+      'mojo::TcpBoundSocket';
 
-  TcpBoundSocket(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new TcpBoundSocketStub(endpoint);
-
-  TcpBoundSocket.fromHandle(core.MojoHandle handle) :
-      stub = new TcpBoundSocketStub.fromHandle(handle);
-
-  TcpBoundSocket.fromStub(this.stub);
-
-  TcpBoundSocket.unbound() :
-      stub = new TcpBoundSocketStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  TcpBoundSocket get delegate => stub.delegate;
-  set delegate(TcpBoundSocket d) {
-    stub.delegate = d;
-  }
+abstract class TcpBoundSocket {
   Future<TcpBoundSocketStartListeningResponseParams> startListening(Object server,[Function responseFactory = null]);
   Future<TcpBoundSocketConnectResponseParams> connect(net_address_mojom.NetAddress remoteAddress,core.MojoDataPipeConsumer sendStream,core.MojoDataPipeProducer receiveStream,Object clientSocket,[Function responseFactory = null]);
 
 }
 
-class TcpBoundSocketProxy extends bindings.Proxy implements TcpBoundSocket {
-  TcpBoundSocketProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  TcpBoundSocketProxy.fromHandle(core.MojoHandle handle) :
+class TcpBoundSocketProxyImpl extends bindings.Proxy {
+  TcpBoundSocketProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  TcpBoundSocketProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  TcpBoundSocketProxy.unbound() : super.unbound();
+  TcpBoundSocketProxyImpl.unbound() : super.unbound();
 
-  String get name => TcpBoundSocket.name;
-
-  static TcpBoundSocketProxy newFromEndpoint(
+  static TcpBoundSocketProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TcpBoundSocketProxy(endpoint);
+      new TcpBoundSocketProxyImpl.fromEndpoint(endpoint);
+
+  String get name => TcpBoundSocketName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -257,33 +239,75 @@ class TcpBoundSocketProxy extends bindings.Proxy implements TcpBoundSocket {
         break;
     }
   }
-  Future<TcpBoundSocketStartListeningResponseParams> startListening(Object server,[Function responseFactory = null]) {
-    var params = new TcpBoundSocketStartListeningParams();
-    params.server = server;
-    return sendMessageWithRequestId(
-        params,
-        kTcpBoundSocket_startListening_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<TcpBoundSocketConnectResponseParams> connect(net_address_mojom.NetAddress remoteAddress,core.MojoDataPipeConsumer sendStream,core.MojoDataPipeProducer receiveStream,Object clientSocket,[Function responseFactory = null]) {
-    var params = new TcpBoundSocketConnectParams();
-    params.remoteAddress = remoteAddress;
-    params.sendStream = sendStream;
-    params.receiveStream = receiveStream;
-    params.clientSocket = clientSocket;
-    return sendMessageWithRequestId(
-        params,
-        kTcpBoundSocket_connect_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _TcpBoundSocketProxyCalls implements TcpBoundSocket {
+  TcpBoundSocketProxyImpl _proxyImpl;
+
+  _TcpBoundSocketProxyCalls(this._proxyImpl);
+    Future<TcpBoundSocketStartListeningResponseParams> startListening(Object server,[Function responseFactory = null]) {
+      var params = new TcpBoundSocketStartListeningParams();
+      params.server = server;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kTcpBoundSocket_startListening_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<TcpBoundSocketConnectResponseParams> connect(net_address_mojom.NetAddress remoteAddress,core.MojoDataPipeConsumer sendStream,core.MojoDataPipeProducer receiveStream,Object clientSocket,[Function responseFactory = null]) {
+      var params = new TcpBoundSocketConnectParams();
+      params.remoteAddress = remoteAddress;
+      params.sendStream = sendStream;
+      params.receiveStream = receiveStream;
+      params.clientSocket = clientSocket;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kTcpBoundSocket_connect_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class TcpBoundSocketProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  TcpBoundSocket ptr;
+  final String name = TcpBoundSocketName;
+
+  TcpBoundSocketProxy(TcpBoundSocketProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _TcpBoundSocketProxyCalls(proxyImpl);
+
+  TcpBoundSocketProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new TcpBoundSocketProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _TcpBoundSocketProxyCalls(impl);
+  }
+
+  TcpBoundSocketProxy.fromHandle(core.MojoHandle handle) :
+      impl = new TcpBoundSocketProxyImpl.fromHandle(handle) {
+    ptr = new _TcpBoundSocketProxyCalls(impl);
+  }
+
+  TcpBoundSocketProxy.unbound() :
+      impl = new TcpBoundSocketProxyImpl.unbound() {
+    ptr = new _TcpBoundSocketProxyCalls(impl);
+  }
+
+  static TcpBoundSocketProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new TcpBoundSocketProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class TcpBoundSocketStub extends bindings.Stub {
   TcpBoundSocket _delegate = null;
 
-  TcpBoundSocketStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  TcpBoundSocketStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   TcpBoundSocketStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -292,9 +316,9 @@ class TcpBoundSocketStub extends bindings.Stub {
 
   static TcpBoundSocketStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TcpBoundSocketStub(endpoint);
+      new TcpBoundSocketStub.fromEndpoint(endpoint);
 
-  static const String name = TcpBoundSocket.name;
+  static const String name = TcpBoundSocketName;
 
 
   TcpBoundSocketStartListeningResponseParams _TcpBoundSocketStartListeningResponseParamsFactory(network_error_mojom.NetworkError result) {

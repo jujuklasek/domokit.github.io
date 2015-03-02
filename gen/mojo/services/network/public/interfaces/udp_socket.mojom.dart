@@ -666,30 +666,10 @@ const int kUdpSocket_negotiateMaxPendingSendRequests_name = 5;
 const int kUdpSocket_receiveMore_name = 6;
 const int kUdpSocket_sendTo_name = 7;
 
-abstract class UdpSocket implements core.Listener {
-  static const String name = 'mojo::UdpSocket';
-  UdpSocketStub stub;
+const String UdpSocketName =
+      'mojo::UdpSocket';
 
-  UdpSocket(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new UdpSocketStub(endpoint);
-
-  UdpSocket.fromHandle(core.MojoHandle handle) :
-      stub = new UdpSocketStub.fromHandle(handle);
-
-  UdpSocket.fromStub(this.stub);
-
-  UdpSocket.unbound() :
-      stub = new UdpSocketStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  UdpSocket get delegate => stub.delegate;
-  set delegate(UdpSocket d) {
-    stub.delegate = d;
-  }
+abstract class UdpSocket {
   Future<UdpSocketAllowAddressReuseResponseParams> allowAddressReuse([Function responseFactory = null]);
   Future<UdpSocketBindResponseParams> bind(net_address_mojom.NetAddress addr,[Function responseFactory = null]);
   Future<UdpSocketConnectResponseParams> connect(net_address_mojom.NetAddress remoteAddr,[Function responseFactory = null]);
@@ -701,19 +681,21 @@ abstract class UdpSocket implements core.Listener {
 
 }
 
-class UdpSocketProxy extends bindings.Proxy implements UdpSocket {
-  UdpSocketProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  UdpSocketProxy.fromHandle(core.MojoHandle handle) :
+class UdpSocketProxyImpl extends bindings.Proxy {
+  UdpSocketProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  UdpSocketProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  UdpSocketProxy.unbound() : super.unbound();
+  UdpSocketProxyImpl.unbound() : super.unbound();
 
-  String get name => UdpSocket.name;
-
-  static UdpSocketProxy newFromEndpoint(
+  static UdpSocketProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new UdpSocketProxy(endpoint);
+      new UdpSocketProxyImpl.fromEndpoint(endpoint);
+
+  String get name => UdpSocketName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -792,81 +774,123 @@ class UdpSocketProxy extends bindings.Proxy implements UdpSocket {
         break;
     }
   }
-  Future<UdpSocketAllowAddressReuseResponseParams> allowAddressReuse([Function responseFactory = null]) {
-    var params = new UdpSocketAllowAddressReuseParams();
-    return sendMessageWithRequestId(
-        params,
-        kUdpSocket_allowAddressReuse_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<UdpSocketBindResponseParams> bind(net_address_mojom.NetAddress addr,[Function responseFactory = null]) {
-    var params = new UdpSocketBindParams();
-    params.addr = addr;
-    return sendMessageWithRequestId(
-        params,
-        kUdpSocket_bind_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<UdpSocketConnectResponseParams> connect(net_address_mojom.NetAddress remoteAddr,[Function responseFactory = null]) {
-    var params = new UdpSocketConnectParams();
-    params.remoteAddr = remoteAddr;
-    return sendMessageWithRequestId(
-        params,
-        kUdpSocket_connect_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<UdpSocketSetSendBufferSizeResponseParams> setSendBufferSize(int size,[Function responseFactory = null]) {
-    var params = new UdpSocketSetSendBufferSizeParams();
-    params.size = size;
-    return sendMessageWithRequestId(
-        params,
-        kUdpSocket_setSendBufferSize_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<UdpSocketSetReceiveBufferSizeResponseParams> setReceiveBufferSize(int size,[Function responseFactory = null]) {
-    var params = new UdpSocketSetReceiveBufferSizeParams();
-    params.size = size;
-    return sendMessageWithRequestId(
-        params,
-        kUdpSocket_setReceiveBufferSize_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<UdpSocketNegotiateMaxPendingSendRequestsResponseParams> negotiateMaxPendingSendRequests(int requestedSize,[Function responseFactory = null]) {
-    var params = new UdpSocketNegotiateMaxPendingSendRequestsParams();
-    params.requestedSize = requestedSize;
-    return sendMessageWithRequestId(
-        params,
-        kUdpSocket_negotiateMaxPendingSendRequests_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  void receiveMore(int datagramNumber) {
-    var params = new UdpSocketReceiveMoreParams();
-    params.datagramNumber = datagramNumber;
-    sendMessage(params, kUdpSocket_receiveMore_name);
+}
+
+
+class _UdpSocketProxyCalls implements UdpSocket {
+  UdpSocketProxyImpl _proxyImpl;
+
+  _UdpSocketProxyCalls(this._proxyImpl);
+    Future<UdpSocketAllowAddressReuseResponseParams> allowAddressReuse([Function responseFactory = null]) {
+      var params = new UdpSocketAllowAddressReuseParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kUdpSocket_allowAddressReuse_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<UdpSocketBindResponseParams> bind(net_address_mojom.NetAddress addr,[Function responseFactory = null]) {
+      var params = new UdpSocketBindParams();
+      params.addr = addr;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kUdpSocket_bind_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<UdpSocketConnectResponseParams> connect(net_address_mojom.NetAddress remoteAddr,[Function responseFactory = null]) {
+      var params = new UdpSocketConnectParams();
+      params.remoteAddr = remoteAddr;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kUdpSocket_connect_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<UdpSocketSetSendBufferSizeResponseParams> setSendBufferSize(int size,[Function responseFactory = null]) {
+      var params = new UdpSocketSetSendBufferSizeParams();
+      params.size = size;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kUdpSocket_setSendBufferSize_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<UdpSocketSetReceiveBufferSizeResponseParams> setReceiveBufferSize(int size,[Function responseFactory = null]) {
+      var params = new UdpSocketSetReceiveBufferSizeParams();
+      params.size = size;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kUdpSocket_setReceiveBufferSize_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<UdpSocketNegotiateMaxPendingSendRequestsResponseParams> negotiateMaxPendingSendRequests(int requestedSize,[Function responseFactory = null]) {
+      var params = new UdpSocketNegotiateMaxPendingSendRequestsParams();
+      params.requestedSize = requestedSize;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kUdpSocket_negotiateMaxPendingSendRequests_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    void receiveMore(int datagramNumber) {
+      var params = new UdpSocketReceiveMoreParams();
+      params.datagramNumber = datagramNumber;
+      _proxyImpl.sendMessage(params, kUdpSocket_receiveMore_name);
+    }
+  
+    Future<UdpSocketSendToResponseParams> sendTo(net_address_mojom.NetAddress destAddr,List<int> data,[Function responseFactory = null]) {
+      var params = new UdpSocketSendToParams();
+      params.destAddr = destAddr;
+      params.data = data;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kUdpSocket_sendTo_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class UdpSocketProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  UdpSocket ptr;
+  final String name = UdpSocketName;
+
+  UdpSocketProxy(UdpSocketProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _UdpSocketProxyCalls(proxyImpl);
+
+  UdpSocketProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new UdpSocketProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _UdpSocketProxyCalls(impl);
   }
 
-  Future<UdpSocketSendToResponseParams> sendTo(net_address_mojom.NetAddress destAddr,List<int> data,[Function responseFactory = null]) {
-    var params = new UdpSocketSendToParams();
-    params.destAddr = destAddr;
-    params.data = data;
-    return sendMessageWithRequestId(
-        params,
-        kUdpSocket_sendTo_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
+  UdpSocketProxy.fromHandle(core.MojoHandle handle) :
+      impl = new UdpSocketProxyImpl.fromHandle(handle) {
+    ptr = new _UdpSocketProxyCalls(impl);
   }
+
+  UdpSocketProxy.unbound() :
+      impl = new UdpSocketProxyImpl.unbound() {
+    ptr = new _UdpSocketProxyCalls(impl);
+  }
+
+  static UdpSocketProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new UdpSocketProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class UdpSocketStub extends bindings.Stub {
   UdpSocket _delegate = null;
 
-  UdpSocketStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  UdpSocketStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   UdpSocketStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -875,9 +899,9 @@ class UdpSocketStub extends bindings.Stub {
 
   static UdpSocketStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new UdpSocketStub(endpoint);
+      new UdpSocketStub.fromEndpoint(endpoint);
 
-  static const String name = UdpSocket.name;
+  static const String name = UdpSocketName;
 
 
   UdpSocketAllowAddressReuseResponseParams _UdpSocketAllowAddressReuseResponseParamsFactory(network_error_mojom.NetworkError result) {
@@ -1035,47 +1059,29 @@ class UdpSocketStub extends bindings.Stub {
 
 const int kUdpSocketReceiver_onReceived_name = 0;
 
-abstract class UdpSocketReceiver implements core.Listener {
-  static const String name = 'mojo::UdpSocketReceiver';
-  UdpSocketReceiverStub stub;
+const String UdpSocketReceiverName =
+      'mojo::UdpSocketReceiver';
 
-  UdpSocketReceiver(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new UdpSocketReceiverStub(endpoint);
-
-  UdpSocketReceiver.fromHandle(core.MojoHandle handle) :
-      stub = new UdpSocketReceiverStub.fromHandle(handle);
-
-  UdpSocketReceiver.fromStub(this.stub);
-
-  UdpSocketReceiver.unbound() :
-      stub = new UdpSocketReceiverStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  UdpSocketReceiver get delegate => stub.delegate;
-  set delegate(UdpSocketReceiver d) {
-    stub.delegate = d;
-  }
+abstract class UdpSocketReceiver {
   void onReceived(network_error_mojom.NetworkError result, net_address_mojom.NetAddress srcAddr, List<int> data);
 
 }
 
-class UdpSocketReceiverProxy extends bindings.Proxy implements UdpSocketReceiver {
-  UdpSocketReceiverProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  UdpSocketReceiverProxy.fromHandle(core.MojoHandle handle) :
+class UdpSocketReceiverProxyImpl extends bindings.Proxy {
+  UdpSocketReceiverProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  UdpSocketReceiverProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  UdpSocketReceiverProxy.unbound() : super.unbound();
+  UdpSocketReceiverProxyImpl.unbound() : super.unbound();
 
-  String get name => UdpSocketReceiver.name;
-
-  static UdpSocketReceiverProxy newFromEndpoint(
+  static UdpSocketReceiverProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new UdpSocketReceiverProxy(endpoint);
+      new UdpSocketReceiverProxyImpl.fromEndpoint(endpoint);
+
+  String get name => UdpSocketReceiverName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -1084,20 +1090,62 @@ class UdpSocketReceiverProxy extends bindings.Proxy implements UdpSocketReceiver
         break;
     }
   }
-  void onReceived(network_error_mojom.NetworkError result, net_address_mojom.NetAddress srcAddr, List<int> data) {
-    var params = new UdpSocketReceiverOnReceivedParams();
-    params.result = result;
-    params.srcAddr = srcAddr;
-    params.data = data;
-    sendMessage(params, kUdpSocketReceiver_onReceived_name);
+}
+
+
+class _UdpSocketReceiverProxyCalls implements UdpSocketReceiver {
+  UdpSocketReceiverProxyImpl _proxyImpl;
+
+  _UdpSocketReceiverProxyCalls(this._proxyImpl);
+    void onReceived(network_error_mojom.NetworkError result, net_address_mojom.NetAddress srcAddr, List<int> data) {
+      var params = new UdpSocketReceiverOnReceivedParams();
+      params.result = result;
+      params.srcAddr = srcAddr;
+      params.data = data;
+      _proxyImpl.sendMessage(params, kUdpSocketReceiver_onReceived_name);
+    }
+  
+}
+
+
+class UdpSocketReceiverProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  UdpSocketReceiver ptr;
+  final String name = UdpSocketReceiverName;
+
+  UdpSocketReceiverProxy(UdpSocketReceiverProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _UdpSocketReceiverProxyCalls(proxyImpl);
+
+  UdpSocketReceiverProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new UdpSocketReceiverProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _UdpSocketReceiverProxyCalls(impl);
   }
 
+  UdpSocketReceiverProxy.fromHandle(core.MojoHandle handle) :
+      impl = new UdpSocketReceiverProxyImpl.fromHandle(handle) {
+    ptr = new _UdpSocketReceiverProxyCalls(impl);
+  }
+
+  UdpSocketReceiverProxy.unbound() :
+      impl = new UdpSocketReceiverProxyImpl.unbound() {
+    ptr = new _UdpSocketReceiverProxyCalls(impl);
+  }
+
+  static UdpSocketReceiverProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new UdpSocketReceiverProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class UdpSocketReceiverStub extends bindings.Stub {
   UdpSocketReceiver _delegate = null;
 
-  UdpSocketReceiverStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  UdpSocketReceiverStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   UdpSocketReceiverStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -1106,9 +1154,9 @@ class UdpSocketReceiverStub extends bindings.Stub {
 
   static UdpSocketReceiverStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new UdpSocketReceiverStub(endpoint);
+      new UdpSocketReceiverStub.fromEndpoint(endpoint);
 
-  static const String name = UdpSocketReceiver.name;
+  static const String name = UdpSocketReceiverName;
 
 
 

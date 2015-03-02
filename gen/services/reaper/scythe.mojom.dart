@@ -108,48 +108,30 @@ class ScythePingResponseParams extends bindings.Struct {
 const int kScythe_killApplication_name = 0;
 const int kScythe_ping_name = 1;
 
-abstract class Scythe implements core.Listener {
-  static const String name = 'reaper::Scythe';
-  ScytheStub stub;
+const String ScytheName =
+      'reaper::Scythe';
 
-  Scythe(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new ScytheStub(endpoint);
-
-  Scythe.fromHandle(core.MojoHandle handle) :
-      stub = new ScytheStub.fromHandle(handle);
-
-  Scythe.fromStub(this.stub);
-
-  Scythe.unbound() :
-      stub = new ScytheStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  Scythe get delegate => stub.delegate;
-  set delegate(Scythe d) {
-    stub.delegate = d;
-  }
+abstract class Scythe {
   void killApplication(String url);
   Future<ScythePingResponseParams> ping([Function responseFactory = null]);
 
 }
 
-class ScytheProxy extends bindings.Proxy implements Scythe {
-  ScytheProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  ScytheProxy.fromHandle(core.MojoHandle handle) :
+class ScytheProxyImpl extends bindings.Proxy {
+  ScytheProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  ScytheProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  ScytheProxy.unbound() : super.unbound();
+  ScytheProxyImpl.unbound() : super.unbound();
 
-  String get name => Scythe.name;
-
-  static ScytheProxy newFromEndpoint(
+  static ScytheProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ScytheProxy(endpoint);
+      new ScytheProxyImpl.fromEndpoint(endpoint);
+
+  String get name => ScytheName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -168,26 +150,68 @@ class ScytheProxy extends bindings.Proxy implements Scythe {
         break;
     }
   }
-  void killApplication(String url) {
-    var params = new ScytheKillApplicationParams();
-    params.url = url;
-    sendMessage(params, kScythe_killApplication_name);
+}
+
+
+class _ScytheProxyCalls implements Scythe {
+  ScytheProxyImpl _proxyImpl;
+
+  _ScytheProxyCalls(this._proxyImpl);
+    void killApplication(String url) {
+      var params = new ScytheKillApplicationParams();
+      params.url = url;
+      _proxyImpl.sendMessage(params, kScythe_killApplication_name);
+    }
+  
+    Future<ScythePingResponseParams> ping([Function responseFactory = null]) {
+      var params = new ScythePingParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kScythe_ping_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class ScytheProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  Scythe ptr;
+  final String name = ScytheName;
+
+  ScytheProxy(ScytheProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _ScytheProxyCalls(proxyImpl);
+
+  ScytheProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new ScytheProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _ScytheProxyCalls(impl);
   }
 
-  Future<ScythePingResponseParams> ping([Function responseFactory = null]) {
-    var params = new ScythePingParams();
-    return sendMessageWithRequestId(
-        params,
-        kScythe_ping_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
+  ScytheProxy.fromHandle(core.MojoHandle handle) :
+      impl = new ScytheProxyImpl.fromHandle(handle) {
+    ptr = new _ScytheProxyCalls(impl);
   }
+
+  ScytheProxy.unbound() :
+      impl = new ScytheProxyImpl.unbound() {
+    ptr = new _ScytheProxyCalls(impl);
+  }
+
+  static ScytheProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new ScytheProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class ScytheStub extends bindings.Stub {
   Scythe _delegate = null;
 
-  ScytheStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  ScytheStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   ScytheStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -196,9 +220,9 @@ class ScytheStub extends bindings.Stub {
 
   static ScytheStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ScytheStub(endpoint);
+      new ScytheStub.fromEndpoint(endpoint);
 
-  static const String name = Scythe.name;
+  static const String name = ScytheName;
 
 
   ScythePingResponseParams _ScythePingResponseParamsFactory() {

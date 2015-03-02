@@ -333,49 +333,31 @@ const int kTestService_ping_name = 0;
 const int kTestService_connectToAppAndGetTime_name = 1;
 const int kTestService_startTrackingRequests_name = 2;
 
-abstract class TestService implements core.Listener {
-  static const String name = 'mojo::test::TestService';
-  TestServiceStub stub;
+const String TestServiceName =
+      'mojo::test::TestService';
 
-  TestService(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new TestServiceStub(endpoint);
-
-  TestService.fromHandle(core.MojoHandle handle) :
-      stub = new TestServiceStub.fromHandle(handle);
-
-  TestService.fromStub(this.stub);
-
-  TestService.unbound() :
-      stub = new TestServiceStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  TestService get delegate => stub.delegate;
-  set delegate(TestService d) {
-    stub.delegate = d;
-  }
+abstract class TestService {
   Future<TestServicePingResponseParams> ping([Function responseFactory = null]);
   Future<TestServiceConnectToAppAndGetTimeResponseParams> connectToAppAndGetTime(String appUrl,[Function responseFactory = null]);
   Future<TestServiceStartTrackingRequestsResponseParams> startTrackingRequests([Function responseFactory = null]);
 
 }
 
-class TestServiceProxy extends bindings.Proxy implements TestService {
-  TestServiceProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  TestServiceProxy.fromHandle(core.MojoHandle handle) :
+class TestServiceProxyImpl extends bindings.Proxy {
+  TestServiceProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  TestServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  TestServiceProxy.unbound() : super.unbound();
+  TestServiceProxyImpl.unbound() : super.unbound();
 
-  String get name => TestService.name;
-
-  static TestServiceProxy newFromEndpoint(
+  static TestServiceProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TestServiceProxy(endpoint);
+      new TestServiceProxyImpl.fromEndpoint(endpoint);
+
+  String get name => TestServiceName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -414,37 +396,79 @@ class TestServiceProxy extends bindings.Proxy implements TestService {
         break;
     }
   }
-  Future<TestServicePingResponseParams> ping([Function responseFactory = null]) {
-    var params = new TestServicePingParams();
-    return sendMessageWithRequestId(
-        params,
-        kTestService_ping_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<TestServiceConnectToAppAndGetTimeResponseParams> connectToAppAndGetTime(String appUrl,[Function responseFactory = null]) {
-    var params = new TestServiceConnectToAppAndGetTimeParams();
-    params.appUrl = appUrl;
-    return sendMessageWithRequestId(
-        params,
-        kTestService_connectToAppAndGetTime_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<TestServiceStartTrackingRequestsResponseParams> startTrackingRequests([Function responseFactory = null]) {
-    var params = new TestServiceStartTrackingRequestsParams();
-    return sendMessageWithRequestId(
-        params,
-        kTestService_startTrackingRequests_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _TestServiceProxyCalls implements TestService {
+  TestServiceProxyImpl _proxyImpl;
+
+  _TestServiceProxyCalls(this._proxyImpl);
+    Future<TestServicePingResponseParams> ping([Function responseFactory = null]) {
+      var params = new TestServicePingParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kTestService_ping_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<TestServiceConnectToAppAndGetTimeResponseParams> connectToAppAndGetTime(String appUrl,[Function responseFactory = null]) {
+      var params = new TestServiceConnectToAppAndGetTimeParams();
+      params.appUrl = appUrl;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kTestService_connectToAppAndGetTime_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<TestServiceStartTrackingRequestsResponseParams> startTrackingRequests([Function responseFactory = null]) {
+      var params = new TestServiceStartTrackingRequestsParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kTestService_startTrackingRequests_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class TestServiceProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  TestService ptr;
+  final String name = TestServiceName;
+
+  TestServiceProxy(TestServiceProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _TestServiceProxyCalls(proxyImpl);
+
+  TestServiceProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new TestServiceProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _TestServiceProxyCalls(impl);
+  }
+
+  TestServiceProxy.fromHandle(core.MojoHandle handle) :
+      impl = new TestServiceProxyImpl.fromHandle(handle) {
+    ptr = new _TestServiceProxyCalls(impl);
+  }
+
+  TestServiceProxy.unbound() :
+      impl = new TestServiceProxyImpl.unbound() {
+    ptr = new _TestServiceProxyCalls(impl);
+  }
+
+  static TestServiceProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new TestServiceProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class TestServiceStub extends bindings.Stub {
   TestService _delegate = null;
 
-  TestServiceStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  TestServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   TestServiceStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -453,9 +477,9 @@ class TestServiceStub extends bindings.Stub {
 
   static TestServiceStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TestServiceStub(endpoint);
+      new TestServiceStub.fromEndpoint(endpoint);
 
-  static const String name = TestService.name;
+  static const String name = TestServiceName;
 
 
   TestServicePingResponseParams _TestServicePingResponseParamsFactory() {
@@ -531,48 +555,30 @@ class TestServiceStub extends bindings.Stub {
 const int kTestTimeService_getPartyTime_name = 0;
 const int kTestTimeService_startTrackingRequests_name = 1;
 
-abstract class TestTimeService implements core.Listener {
-  static const String name = 'mojo::test::TestTimeService';
-  TestTimeServiceStub stub;
+const String TestTimeServiceName =
+      'mojo::test::TestTimeService';
 
-  TestTimeService(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new TestTimeServiceStub(endpoint);
-
-  TestTimeService.fromHandle(core.MojoHandle handle) :
-      stub = new TestTimeServiceStub.fromHandle(handle);
-
-  TestTimeService.fromStub(this.stub);
-
-  TestTimeService.unbound() :
-      stub = new TestTimeServiceStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  TestTimeService get delegate => stub.delegate;
-  set delegate(TestTimeService d) {
-    stub.delegate = d;
-  }
+abstract class TestTimeService {
   Future<TestTimeServiceGetPartyTimeResponseParams> getPartyTime([Function responseFactory = null]);
   Future<TestTimeServiceStartTrackingRequestsResponseParams> startTrackingRequests([Function responseFactory = null]);
 
 }
 
-class TestTimeServiceProxy extends bindings.Proxy implements TestTimeService {
-  TestTimeServiceProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  TestTimeServiceProxy.fromHandle(core.MojoHandle handle) :
+class TestTimeServiceProxyImpl extends bindings.Proxy {
+  TestTimeServiceProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  TestTimeServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  TestTimeServiceProxy.unbound() : super.unbound();
+  TestTimeServiceProxyImpl.unbound() : super.unbound();
 
-  String get name => TestTimeService.name;
-
-  static TestTimeServiceProxy newFromEndpoint(
+  static TestTimeServiceProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TestTimeServiceProxy(endpoint);
+      new TestTimeServiceProxyImpl.fromEndpoint(endpoint);
+
+  String get name => TestTimeServiceName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -601,28 +607,70 @@ class TestTimeServiceProxy extends bindings.Proxy implements TestTimeService {
         break;
     }
   }
-  Future<TestTimeServiceGetPartyTimeResponseParams> getPartyTime([Function responseFactory = null]) {
-    var params = new TestTimeServiceGetPartyTimeParams();
-    return sendMessageWithRequestId(
-        params,
-        kTestTimeService_getPartyTime_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<TestTimeServiceStartTrackingRequestsResponseParams> startTrackingRequests([Function responseFactory = null]) {
-    var params = new TestTimeServiceStartTrackingRequestsParams();
-    return sendMessageWithRequestId(
-        params,
-        kTestTimeService_startTrackingRequests_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _TestTimeServiceProxyCalls implements TestTimeService {
+  TestTimeServiceProxyImpl _proxyImpl;
+
+  _TestTimeServiceProxyCalls(this._proxyImpl);
+    Future<TestTimeServiceGetPartyTimeResponseParams> getPartyTime([Function responseFactory = null]) {
+      var params = new TestTimeServiceGetPartyTimeParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kTestTimeService_getPartyTime_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<TestTimeServiceStartTrackingRequestsResponseParams> startTrackingRequests([Function responseFactory = null]) {
+      var params = new TestTimeServiceStartTrackingRequestsParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kTestTimeService_startTrackingRequests_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class TestTimeServiceProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  TestTimeService ptr;
+  final String name = TestTimeServiceName;
+
+  TestTimeServiceProxy(TestTimeServiceProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _TestTimeServiceProxyCalls(proxyImpl);
+
+  TestTimeServiceProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new TestTimeServiceProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _TestTimeServiceProxyCalls(impl);
+  }
+
+  TestTimeServiceProxy.fromHandle(core.MojoHandle handle) :
+      impl = new TestTimeServiceProxyImpl.fromHandle(handle) {
+    ptr = new _TestTimeServiceProxyCalls(impl);
+  }
+
+  TestTimeServiceProxy.unbound() :
+      impl = new TestTimeServiceProxyImpl.unbound() {
+    ptr = new _TestTimeServiceProxyCalls(impl);
+  }
+
+  static TestTimeServiceProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new TestTimeServiceProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class TestTimeServiceStub extends bindings.Stub {
   TestTimeService _delegate = null;
 
-  TestTimeServiceStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  TestTimeServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   TestTimeServiceStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -631,9 +679,9 @@ class TestTimeServiceStub extends bindings.Stub {
 
   static TestTimeServiceStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TestTimeServiceStub(endpoint);
+      new TestTimeServiceStub.fromEndpoint(endpoint);
 
-  static const String name = TestTimeService.name;
+  static const String name = TestTimeServiceName;
 
 
   TestTimeServiceGetPartyTimeResponseParams _TestTimeServiceGetPartyTimeResponseParamsFactory(int timeUsec) {

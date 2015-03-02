@@ -196,48 +196,30 @@ class TraceCoordinatorStopAndFlushParams extends bindings.Struct {
 const int kTraceController_startTracing_name = 0;
 const int kTraceController_stopTracing_name = 1;
 
-abstract class TraceController implements core.Listener {
-  static const String name = 'tracing::TraceController';
-  TraceControllerStub stub;
+const String TraceControllerName =
+      'tracing::TraceController';
 
-  TraceController(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new TraceControllerStub(endpoint);
-
-  TraceController.fromHandle(core.MojoHandle handle) :
-      stub = new TraceControllerStub.fromHandle(handle);
-
-  TraceController.fromStub(this.stub);
-
-  TraceController.unbound() :
-      stub = new TraceControllerStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  TraceController get delegate => stub.delegate;
-  set delegate(TraceController d) {
-    stub.delegate = d;
-  }
+abstract class TraceController {
   void startTracing(String categories, Object collector);
   void stopTracing();
 
 }
 
-class TraceControllerProxy extends bindings.Proxy implements TraceController {
-  TraceControllerProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  TraceControllerProxy.fromHandle(core.MojoHandle handle) :
+class TraceControllerProxyImpl extends bindings.Proxy {
+  TraceControllerProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  TraceControllerProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  TraceControllerProxy.unbound() : super.unbound();
+  TraceControllerProxyImpl.unbound() : super.unbound();
 
-  String get name => TraceController.name;
-
-  static TraceControllerProxy newFromEndpoint(
+  static TraceControllerProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TraceControllerProxy(endpoint);
+      new TraceControllerProxyImpl.fromEndpoint(endpoint);
+
+  String get name => TraceControllerName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -246,24 +228,66 @@ class TraceControllerProxy extends bindings.Proxy implements TraceController {
         break;
     }
   }
-  void startTracing(String categories, Object collector) {
-    var params = new TraceControllerStartTracingParams();
-    params.categories = categories;
-    params.collector = collector;
-    sendMessage(params, kTraceController_startTracing_name);
-  }
-
-  void stopTracing() {
-    var params = new TraceControllerStopTracingParams();
-    sendMessage(params, kTraceController_stopTracing_name);
-  }
-
 }
+
+
+class _TraceControllerProxyCalls implements TraceController {
+  TraceControllerProxyImpl _proxyImpl;
+
+  _TraceControllerProxyCalls(this._proxyImpl);
+    void startTracing(String categories, Object collector) {
+      var params = new TraceControllerStartTracingParams();
+      params.categories = categories;
+      params.collector = collector;
+      _proxyImpl.sendMessage(params, kTraceController_startTracing_name);
+    }
+  
+    void stopTracing() {
+      var params = new TraceControllerStopTracingParams();
+      _proxyImpl.sendMessage(params, kTraceController_stopTracing_name);
+    }
+  
+}
+
+
+class TraceControllerProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  TraceController ptr;
+  final String name = TraceControllerName;
+
+  TraceControllerProxy(TraceControllerProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _TraceControllerProxyCalls(proxyImpl);
+
+  TraceControllerProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new TraceControllerProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _TraceControllerProxyCalls(impl);
+  }
+
+  TraceControllerProxy.fromHandle(core.MojoHandle handle) :
+      impl = new TraceControllerProxyImpl.fromHandle(handle) {
+    ptr = new _TraceControllerProxyCalls(impl);
+  }
+
+  TraceControllerProxy.unbound() :
+      impl = new TraceControllerProxyImpl.unbound() {
+    ptr = new _TraceControllerProxyCalls(impl);
+  }
+
+  static TraceControllerProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new TraceControllerProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class TraceControllerStub extends bindings.Stub {
   TraceController _delegate = null;
 
-  TraceControllerStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  TraceControllerStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   TraceControllerStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -272,9 +296,9 @@ class TraceControllerStub extends bindings.Stub {
 
   static TraceControllerStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TraceControllerStub(endpoint);
+      new TraceControllerStub.fromEndpoint(endpoint);
 
-  static const String name = TraceController.name;
+  static const String name = TraceControllerName;
 
 
 
@@ -307,47 +331,29 @@ class TraceControllerStub extends bindings.Stub {
 
 const int kTraceDataCollector_dataCollected_name = 0;
 
-abstract class TraceDataCollector implements core.Listener {
-  static const String name = 'tracing::TraceDataCollector';
-  TraceDataCollectorStub stub;
+const String TraceDataCollectorName =
+      'tracing::TraceDataCollector';
 
-  TraceDataCollector(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new TraceDataCollectorStub(endpoint);
-
-  TraceDataCollector.fromHandle(core.MojoHandle handle) :
-      stub = new TraceDataCollectorStub.fromHandle(handle);
-
-  TraceDataCollector.fromStub(this.stub);
-
-  TraceDataCollector.unbound() :
-      stub = new TraceDataCollectorStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  TraceDataCollector get delegate => stub.delegate;
-  set delegate(TraceDataCollector d) {
-    stub.delegate = d;
-  }
+abstract class TraceDataCollector {
   void dataCollected(String json);
 
 }
 
-class TraceDataCollectorProxy extends bindings.Proxy implements TraceDataCollector {
-  TraceDataCollectorProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  TraceDataCollectorProxy.fromHandle(core.MojoHandle handle) :
+class TraceDataCollectorProxyImpl extends bindings.Proxy {
+  TraceDataCollectorProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  TraceDataCollectorProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  TraceDataCollectorProxy.unbound() : super.unbound();
+  TraceDataCollectorProxyImpl.unbound() : super.unbound();
 
-  String get name => TraceDataCollector.name;
-
-  static TraceDataCollectorProxy newFromEndpoint(
+  static TraceDataCollectorProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TraceDataCollectorProxy(endpoint);
+      new TraceDataCollectorProxyImpl.fromEndpoint(endpoint);
+
+  String get name => TraceDataCollectorName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -356,18 +362,60 @@ class TraceDataCollectorProxy extends bindings.Proxy implements TraceDataCollect
         break;
     }
   }
-  void dataCollected(String json) {
-    var params = new TraceDataCollectorDataCollectedParams();
-    params.json = json;
-    sendMessage(params, kTraceDataCollector_dataCollected_name);
+}
+
+
+class _TraceDataCollectorProxyCalls implements TraceDataCollector {
+  TraceDataCollectorProxyImpl _proxyImpl;
+
+  _TraceDataCollectorProxyCalls(this._proxyImpl);
+    void dataCollected(String json) {
+      var params = new TraceDataCollectorDataCollectedParams();
+      params.json = json;
+      _proxyImpl.sendMessage(params, kTraceDataCollector_dataCollected_name);
+    }
+  
+}
+
+
+class TraceDataCollectorProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  TraceDataCollector ptr;
+  final String name = TraceDataCollectorName;
+
+  TraceDataCollectorProxy(TraceDataCollectorProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _TraceDataCollectorProxyCalls(proxyImpl);
+
+  TraceDataCollectorProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new TraceDataCollectorProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _TraceDataCollectorProxyCalls(impl);
   }
 
+  TraceDataCollectorProxy.fromHandle(core.MojoHandle handle) :
+      impl = new TraceDataCollectorProxyImpl.fromHandle(handle) {
+    ptr = new _TraceDataCollectorProxyCalls(impl);
+  }
+
+  TraceDataCollectorProxy.unbound() :
+      impl = new TraceDataCollectorProxyImpl.unbound() {
+    ptr = new _TraceDataCollectorProxyCalls(impl);
+  }
+
+  static TraceDataCollectorProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new TraceDataCollectorProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class TraceDataCollectorStub extends bindings.Stub {
   TraceDataCollector _delegate = null;
 
-  TraceDataCollectorStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  TraceDataCollectorStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   TraceDataCollectorStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -376,9 +424,9 @@ class TraceDataCollectorStub extends bindings.Stub {
 
   static TraceDataCollectorStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TraceDataCollectorStub(endpoint);
+      new TraceDataCollectorStub.fromEndpoint(endpoint);
 
-  static const String name = TraceDataCollector.name;
+  static const String name = TraceDataCollectorName;
 
 
 
@@ -407,48 +455,30 @@ class TraceDataCollectorStub extends bindings.Stub {
 const int kTraceCoordinator_start_name = 0;
 const int kTraceCoordinator_stopAndFlush_name = 1;
 
-abstract class TraceCoordinator implements core.Listener {
-  static const String name = 'tracing::TraceCoordinator';
-  TraceCoordinatorStub stub;
+const String TraceCoordinatorName =
+      'tracing::TraceCoordinator';
 
-  TraceCoordinator(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new TraceCoordinatorStub(endpoint);
-
-  TraceCoordinator.fromHandle(core.MojoHandle handle) :
-      stub = new TraceCoordinatorStub.fromHandle(handle);
-
-  TraceCoordinator.fromStub(this.stub);
-
-  TraceCoordinator.unbound() :
-      stub = new TraceCoordinatorStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  TraceCoordinator get delegate => stub.delegate;
-  set delegate(TraceCoordinator d) {
-    stub.delegate = d;
-  }
+abstract class TraceCoordinator {
   void start(core.MojoDataPipeProducer stream, String categories);
   void stopAndFlush();
 
 }
 
-class TraceCoordinatorProxy extends bindings.Proxy implements TraceCoordinator {
-  TraceCoordinatorProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  TraceCoordinatorProxy.fromHandle(core.MojoHandle handle) :
+class TraceCoordinatorProxyImpl extends bindings.Proxy {
+  TraceCoordinatorProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  TraceCoordinatorProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  TraceCoordinatorProxy.unbound() : super.unbound();
+  TraceCoordinatorProxyImpl.unbound() : super.unbound();
 
-  String get name => TraceCoordinator.name;
-
-  static TraceCoordinatorProxy newFromEndpoint(
+  static TraceCoordinatorProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TraceCoordinatorProxy(endpoint);
+      new TraceCoordinatorProxyImpl.fromEndpoint(endpoint);
+
+  String get name => TraceCoordinatorName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -457,24 +487,66 @@ class TraceCoordinatorProxy extends bindings.Proxy implements TraceCoordinator {
         break;
     }
   }
-  void start(core.MojoDataPipeProducer stream, String categories) {
-    var params = new TraceCoordinatorStartParams();
-    params.stream = stream;
-    params.categories = categories;
-    sendMessage(params, kTraceCoordinator_start_name);
-  }
-
-  void stopAndFlush() {
-    var params = new TraceCoordinatorStopAndFlushParams();
-    sendMessage(params, kTraceCoordinator_stopAndFlush_name);
-  }
-
 }
+
+
+class _TraceCoordinatorProxyCalls implements TraceCoordinator {
+  TraceCoordinatorProxyImpl _proxyImpl;
+
+  _TraceCoordinatorProxyCalls(this._proxyImpl);
+    void start(core.MojoDataPipeProducer stream, String categories) {
+      var params = new TraceCoordinatorStartParams();
+      params.stream = stream;
+      params.categories = categories;
+      _proxyImpl.sendMessage(params, kTraceCoordinator_start_name);
+    }
+  
+    void stopAndFlush() {
+      var params = new TraceCoordinatorStopAndFlushParams();
+      _proxyImpl.sendMessage(params, kTraceCoordinator_stopAndFlush_name);
+    }
+  
+}
+
+
+class TraceCoordinatorProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  TraceCoordinator ptr;
+  final String name = TraceCoordinatorName;
+
+  TraceCoordinatorProxy(TraceCoordinatorProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _TraceCoordinatorProxyCalls(proxyImpl);
+
+  TraceCoordinatorProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new TraceCoordinatorProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _TraceCoordinatorProxyCalls(impl);
+  }
+
+  TraceCoordinatorProxy.fromHandle(core.MojoHandle handle) :
+      impl = new TraceCoordinatorProxyImpl.fromHandle(handle) {
+    ptr = new _TraceCoordinatorProxyCalls(impl);
+  }
+
+  TraceCoordinatorProxy.unbound() :
+      impl = new TraceCoordinatorProxyImpl.unbound() {
+    ptr = new _TraceCoordinatorProxyCalls(impl);
+  }
+
+  static TraceCoordinatorProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new TraceCoordinatorProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class TraceCoordinatorStub extends bindings.Stub {
   TraceCoordinator _delegate = null;
 
-  TraceCoordinatorStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  TraceCoordinatorStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   TraceCoordinatorStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -483,9 +555,9 @@ class TraceCoordinatorStub extends bindings.Stub {
 
   static TraceCoordinatorStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TraceCoordinatorStub(endpoint);
+      new TraceCoordinatorStub.fromEndpoint(endpoint);
 
-  static const String name = TraceCoordinator.name;
+  static const String name = TraceCoordinatorName;
 
 
 

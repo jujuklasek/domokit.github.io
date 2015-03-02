@@ -367,30 +367,10 @@ const int kNetworkService_createTcpBoundSocket_name = 3;
 const int kNetworkService_createTcpConnectedSocket_name = 4;
 const int kNetworkService_createUdpSocket_name = 5;
 
-abstract class NetworkService implements core.Listener {
-  static const String name = 'mojo::NetworkService';
-  NetworkServiceStub stub;
+const String NetworkServiceName =
+      'mojo::NetworkService';
 
-  NetworkService(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new NetworkServiceStub(endpoint);
-
-  NetworkService.fromHandle(core.MojoHandle handle) :
-      stub = new NetworkServiceStub.fromHandle(handle);
-
-  NetworkService.fromStub(this.stub);
-
-  NetworkService.unbound() :
-      stub = new NetworkServiceStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  NetworkService get delegate => stub.delegate;
-  set delegate(NetworkService d) {
-    stub.delegate = d;
-  }
+abstract class NetworkService {
   void createUrlLoader(Object loader);
   void getCookieStore(Object cookieStore);
   void createWebSocket(Object socket);
@@ -400,19 +380,21 @@ abstract class NetworkService implements core.Listener {
 
 }
 
-class NetworkServiceProxy extends bindings.Proxy implements NetworkService {
-  NetworkServiceProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  NetworkServiceProxy.fromHandle(core.MojoHandle handle) :
+class NetworkServiceProxyImpl extends bindings.Proxy {
+  NetworkServiceProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  NetworkServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  NetworkServiceProxy.unbound() : super.unbound();
+  NetworkServiceProxyImpl.unbound() : super.unbound();
 
-  String get name => NetworkService.name;
-
-  static NetworkServiceProxy newFromEndpoint(
+  static NetworkServiceProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new NetworkServiceProxy(endpoint);
+      new NetworkServiceProxyImpl.fromEndpoint(endpoint);
+
+  String get name => NetworkServiceName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -441,58 +423,100 @@ class NetworkServiceProxy extends bindings.Proxy implements NetworkService {
         break;
     }
   }
-  void createUrlLoader(Object loader) {
-    var params = new NetworkServiceCreateUrlLoaderParams();
-    params.loader = loader;
-    sendMessage(params, kNetworkService_createUrlLoader_name);
-  }
-
-  void getCookieStore(Object cookieStore) {
-    var params = new NetworkServiceGetCookieStoreParams();
-    params.cookieStore = cookieStore;
-    sendMessage(params, kNetworkService_getCookieStore_name);
-  }
-
-  void createWebSocket(Object socket) {
-    var params = new NetworkServiceCreateWebSocketParams();
-    params.socket = socket;
-    sendMessage(params, kNetworkService_createWebSocket_name);
-  }
-
-  Future<NetworkServiceCreateTcpBoundSocketResponseParams> createTcpBoundSocket(net_address_mojom.NetAddress localAddress,Object boundSocket,[Function responseFactory = null]) {
-    var params = new NetworkServiceCreateTcpBoundSocketParams();
-    params.localAddress = localAddress;
-    params.boundSocket = boundSocket;
-    return sendMessageWithRequestId(
-        params,
-        kNetworkService_createTcpBoundSocket_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<NetworkServiceCreateTcpConnectedSocketResponseParams> createTcpConnectedSocket(net_address_mojom.NetAddress remoteAddress,core.MojoDataPipeConsumer sendStream,core.MojoDataPipeProducer receiveStream,Object clientSocket,[Function responseFactory = null]) {
-    var params = new NetworkServiceCreateTcpConnectedSocketParams();
-    params.remoteAddress = remoteAddress;
-    params.sendStream = sendStream;
-    params.receiveStream = receiveStream;
-    params.clientSocket = clientSocket;
-    return sendMessageWithRequestId(
-        params,
-        kNetworkService_createTcpConnectedSocket_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  void createUdpSocket(Object socket) {
-    var params = new NetworkServiceCreateUdpSocketParams();
-    params.socket = socket;
-    sendMessage(params, kNetworkService_createUdpSocket_name);
-  }
-
 }
+
+
+class _NetworkServiceProxyCalls implements NetworkService {
+  NetworkServiceProxyImpl _proxyImpl;
+
+  _NetworkServiceProxyCalls(this._proxyImpl);
+    void createUrlLoader(Object loader) {
+      var params = new NetworkServiceCreateUrlLoaderParams();
+      params.loader = loader;
+      _proxyImpl.sendMessage(params, kNetworkService_createUrlLoader_name);
+    }
+  
+    void getCookieStore(Object cookieStore) {
+      var params = new NetworkServiceGetCookieStoreParams();
+      params.cookieStore = cookieStore;
+      _proxyImpl.sendMessage(params, kNetworkService_getCookieStore_name);
+    }
+  
+    void createWebSocket(Object socket) {
+      var params = new NetworkServiceCreateWebSocketParams();
+      params.socket = socket;
+      _proxyImpl.sendMessage(params, kNetworkService_createWebSocket_name);
+    }
+  
+    Future<NetworkServiceCreateTcpBoundSocketResponseParams> createTcpBoundSocket(net_address_mojom.NetAddress localAddress,Object boundSocket,[Function responseFactory = null]) {
+      var params = new NetworkServiceCreateTcpBoundSocketParams();
+      params.localAddress = localAddress;
+      params.boundSocket = boundSocket;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kNetworkService_createTcpBoundSocket_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<NetworkServiceCreateTcpConnectedSocketResponseParams> createTcpConnectedSocket(net_address_mojom.NetAddress remoteAddress,core.MojoDataPipeConsumer sendStream,core.MojoDataPipeProducer receiveStream,Object clientSocket,[Function responseFactory = null]) {
+      var params = new NetworkServiceCreateTcpConnectedSocketParams();
+      params.remoteAddress = remoteAddress;
+      params.sendStream = sendStream;
+      params.receiveStream = receiveStream;
+      params.clientSocket = clientSocket;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kNetworkService_createTcpConnectedSocket_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    void createUdpSocket(Object socket) {
+      var params = new NetworkServiceCreateUdpSocketParams();
+      params.socket = socket;
+      _proxyImpl.sendMessage(params, kNetworkService_createUdpSocket_name);
+    }
+  
+}
+
+
+class NetworkServiceProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  NetworkService ptr;
+  final String name = NetworkServiceName;
+
+  NetworkServiceProxy(NetworkServiceProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _NetworkServiceProxyCalls(proxyImpl);
+
+  NetworkServiceProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new NetworkServiceProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _NetworkServiceProxyCalls(impl);
+  }
+
+  NetworkServiceProxy.fromHandle(core.MojoHandle handle) :
+      impl = new NetworkServiceProxyImpl.fromHandle(handle) {
+    ptr = new _NetworkServiceProxyCalls(impl);
+  }
+
+  NetworkServiceProxy.unbound() :
+      impl = new NetworkServiceProxyImpl.unbound() {
+    ptr = new _NetworkServiceProxyCalls(impl);
+  }
+
+  static NetworkServiceProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new NetworkServiceProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class NetworkServiceStub extends bindings.Stub {
   NetworkService _delegate = null;
 
-  NetworkServiceStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  NetworkServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   NetworkServiceStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -501,9 +525,9 @@ class NetworkServiceStub extends bindings.Stub {
 
   static NetworkServiceStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new NetworkServiceStub(endpoint);
+      new NetworkServiceStub.fromEndpoint(endpoint);
 
-  static const String name = NetworkService.name;
+  static const String name = NetworkServiceName;
 
 
   NetworkServiceCreateTcpBoundSocketResponseParams _NetworkServiceCreateTcpBoundSocketResponseParamsFactory(network_error_mojom.NetworkError result, net_address_mojom.NetAddress boundTo) {

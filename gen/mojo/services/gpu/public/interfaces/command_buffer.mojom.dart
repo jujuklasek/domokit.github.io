@@ -639,48 +639,30 @@ class CommandBufferEchoResponseParams extends bindings.Struct {
 const int kCommandBufferSyncClient_didInitialize_name = 0;
 const int kCommandBufferSyncClient_didMakeProgress_name = 1;
 
-abstract class CommandBufferSyncClient implements core.Listener {
-  static const String name = 'mojo::CommandBufferSyncClient';
-  CommandBufferSyncClientStub stub;
+const String CommandBufferSyncClientName =
+      'mojo::CommandBufferSyncClient';
 
-  CommandBufferSyncClient(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new CommandBufferSyncClientStub(endpoint);
-
-  CommandBufferSyncClient.fromHandle(core.MojoHandle handle) :
-      stub = new CommandBufferSyncClientStub.fromHandle(handle);
-
-  CommandBufferSyncClient.fromStub(this.stub);
-
-  CommandBufferSyncClient.unbound() :
-      stub = new CommandBufferSyncClientStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  CommandBufferSyncClient get delegate => stub.delegate;
-  set delegate(CommandBufferSyncClient d) {
-    stub.delegate = d;
-  }
+abstract class CommandBufferSyncClient {
   void didInitialize(bool success, gpu_capabilities_mojom.GpuCapabilities capabilities);
   void didMakeProgress(CommandBufferState state);
 
 }
 
-class CommandBufferSyncClientProxy extends bindings.Proxy implements CommandBufferSyncClient {
-  CommandBufferSyncClientProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  CommandBufferSyncClientProxy.fromHandle(core.MojoHandle handle) :
+class CommandBufferSyncClientProxyImpl extends bindings.Proxy {
+  CommandBufferSyncClientProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  CommandBufferSyncClientProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  CommandBufferSyncClientProxy.unbound() : super.unbound();
+  CommandBufferSyncClientProxyImpl.unbound() : super.unbound();
 
-  String get name => CommandBufferSyncClient.name;
-
-  static CommandBufferSyncClientProxy newFromEndpoint(
+  static CommandBufferSyncClientProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new CommandBufferSyncClientProxy(endpoint);
+      new CommandBufferSyncClientProxyImpl.fromEndpoint(endpoint);
+
+  String get name => CommandBufferSyncClientName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -689,25 +671,67 @@ class CommandBufferSyncClientProxy extends bindings.Proxy implements CommandBuff
         break;
     }
   }
-  void didInitialize(bool success, gpu_capabilities_mojom.GpuCapabilities capabilities) {
-    var params = new CommandBufferSyncClientDidInitializeParams();
-    params.success = success;
-    params.capabilities = capabilities;
-    sendMessage(params, kCommandBufferSyncClient_didInitialize_name);
-  }
-
-  void didMakeProgress(CommandBufferState state) {
-    var params = new CommandBufferSyncClientDidMakeProgressParams();
-    params.state = state;
-    sendMessage(params, kCommandBufferSyncClient_didMakeProgress_name);
-  }
-
 }
+
+
+class _CommandBufferSyncClientProxyCalls implements CommandBufferSyncClient {
+  CommandBufferSyncClientProxyImpl _proxyImpl;
+
+  _CommandBufferSyncClientProxyCalls(this._proxyImpl);
+    void didInitialize(bool success, gpu_capabilities_mojom.GpuCapabilities capabilities) {
+      var params = new CommandBufferSyncClientDidInitializeParams();
+      params.success = success;
+      params.capabilities = capabilities;
+      _proxyImpl.sendMessage(params, kCommandBufferSyncClient_didInitialize_name);
+    }
+  
+    void didMakeProgress(CommandBufferState state) {
+      var params = new CommandBufferSyncClientDidMakeProgressParams();
+      params.state = state;
+      _proxyImpl.sendMessage(params, kCommandBufferSyncClient_didMakeProgress_name);
+    }
+  
+}
+
+
+class CommandBufferSyncClientProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  CommandBufferSyncClient ptr;
+  final String name = CommandBufferSyncClientName;
+
+  CommandBufferSyncClientProxy(CommandBufferSyncClientProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _CommandBufferSyncClientProxyCalls(proxyImpl);
+
+  CommandBufferSyncClientProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new CommandBufferSyncClientProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _CommandBufferSyncClientProxyCalls(impl);
+  }
+
+  CommandBufferSyncClientProxy.fromHandle(core.MojoHandle handle) :
+      impl = new CommandBufferSyncClientProxyImpl.fromHandle(handle) {
+    ptr = new _CommandBufferSyncClientProxyCalls(impl);
+  }
+
+  CommandBufferSyncClientProxy.unbound() :
+      impl = new CommandBufferSyncClientProxyImpl.unbound() {
+    ptr = new _CommandBufferSyncClientProxyCalls(impl);
+  }
+
+  static CommandBufferSyncClientProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new CommandBufferSyncClientProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class CommandBufferSyncClientStub extends bindings.Stub {
   CommandBufferSyncClient _delegate = null;
 
-  CommandBufferSyncClientStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  CommandBufferSyncClientStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   CommandBufferSyncClientStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -716,9 +740,9 @@ class CommandBufferSyncClientStub extends bindings.Stub {
 
   static CommandBufferSyncClientStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new CommandBufferSyncClientStub(endpoint);
+      new CommandBufferSyncClientStub.fromEndpoint(endpoint);
 
-  static const String name = CommandBufferSyncClient.name;
+  static const String name = CommandBufferSyncClientName;
 
 
 
@@ -751,47 +775,29 @@ class CommandBufferSyncClientStub extends bindings.Stub {
 
 const int kCommandBufferSyncPointClient_didInsertSyncPoint_name = 0;
 
-abstract class CommandBufferSyncPointClient implements core.Listener {
-  static const String name = 'mojo::CommandBufferSyncPointClient';
-  CommandBufferSyncPointClientStub stub;
+const String CommandBufferSyncPointClientName =
+      'mojo::CommandBufferSyncPointClient';
 
-  CommandBufferSyncPointClient(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new CommandBufferSyncPointClientStub(endpoint);
-
-  CommandBufferSyncPointClient.fromHandle(core.MojoHandle handle) :
-      stub = new CommandBufferSyncPointClientStub.fromHandle(handle);
-
-  CommandBufferSyncPointClient.fromStub(this.stub);
-
-  CommandBufferSyncPointClient.unbound() :
-      stub = new CommandBufferSyncPointClientStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  CommandBufferSyncPointClient get delegate => stub.delegate;
-  set delegate(CommandBufferSyncPointClient d) {
-    stub.delegate = d;
-  }
+abstract class CommandBufferSyncPointClient {
   void didInsertSyncPoint(int syncPoint);
 
 }
 
-class CommandBufferSyncPointClientProxy extends bindings.Proxy implements CommandBufferSyncPointClient {
-  CommandBufferSyncPointClientProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  CommandBufferSyncPointClientProxy.fromHandle(core.MojoHandle handle) :
+class CommandBufferSyncPointClientProxyImpl extends bindings.Proxy {
+  CommandBufferSyncPointClientProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  CommandBufferSyncPointClientProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  CommandBufferSyncPointClientProxy.unbound() : super.unbound();
+  CommandBufferSyncPointClientProxyImpl.unbound() : super.unbound();
 
-  String get name => CommandBufferSyncPointClient.name;
-
-  static CommandBufferSyncPointClientProxy newFromEndpoint(
+  static CommandBufferSyncPointClientProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new CommandBufferSyncPointClientProxy(endpoint);
+      new CommandBufferSyncPointClientProxyImpl.fromEndpoint(endpoint);
+
+  String get name => CommandBufferSyncPointClientName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -800,18 +806,60 @@ class CommandBufferSyncPointClientProxy extends bindings.Proxy implements Comman
         break;
     }
   }
-  void didInsertSyncPoint(int syncPoint) {
-    var params = new CommandBufferSyncPointClientDidInsertSyncPointParams();
-    params.syncPoint = syncPoint;
-    sendMessage(params, kCommandBufferSyncPointClient_didInsertSyncPoint_name);
+}
+
+
+class _CommandBufferSyncPointClientProxyCalls implements CommandBufferSyncPointClient {
+  CommandBufferSyncPointClientProxyImpl _proxyImpl;
+
+  _CommandBufferSyncPointClientProxyCalls(this._proxyImpl);
+    void didInsertSyncPoint(int syncPoint) {
+      var params = new CommandBufferSyncPointClientDidInsertSyncPointParams();
+      params.syncPoint = syncPoint;
+      _proxyImpl.sendMessage(params, kCommandBufferSyncPointClient_didInsertSyncPoint_name);
+    }
+  
+}
+
+
+class CommandBufferSyncPointClientProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  CommandBufferSyncPointClient ptr;
+  final String name = CommandBufferSyncPointClientName;
+
+  CommandBufferSyncPointClientProxy(CommandBufferSyncPointClientProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _CommandBufferSyncPointClientProxyCalls(proxyImpl);
+
+  CommandBufferSyncPointClientProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new CommandBufferSyncPointClientProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _CommandBufferSyncPointClientProxyCalls(impl);
   }
 
+  CommandBufferSyncPointClientProxy.fromHandle(core.MojoHandle handle) :
+      impl = new CommandBufferSyncPointClientProxyImpl.fromHandle(handle) {
+    ptr = new _CommandBufferSyncPointClientProxyCalls(impl);
+  }
+
+  CommandBufferSyncPointClientProxy.unbound() :
+      impl = new CommandBufferSyncPointClientProxyImpl.unbound() {
+    ptr = new _CommandBufferSyncPointClientProxyCalls(impl);
+  }
+
+  static CommandBufferSyncPointClientProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new CommandBufferSyncPointClientProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class CommandBufferSyncPointClientStub extends bindings.Stub {
   CommandBufferSyncPointClient _delegate = null;
 
-  CommandBufferSyncPointClientStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  CommandBufferSyncPointClientStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   CommandBufferSyncPointClientStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -820,9 +868,9 @@ class CommandBufferSyncPointClientStub extends bindings.Stub {
 
   static CommandBufferSyncPointClientStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new CommandBufferSyncPointClientStub(endpoint);
+      new CommandBufferSyncPointClientStub.fromEndpoint(endpoint);
 
-  static const String name = CommandBufferSyncPointClient.name;
+  static const String name = CommandBufferSyncPointClientName;
 
 
 
@@ -850,47 +898,29 @@ class CommandBufferSyncPointClientStub extends bindings.Stub {
 
 const int kCommandBufferLostContextObserver_didLoseContext_name = 0;
 
-abstract class CommandBufferLostContextObserver implements core.Listener {
-  static const String name = 'mojo::CommandBufferLostContextObserver';
-  CommandBufferLostContextObserverStub stub;
+const String CommandBufferLostContextObserverName =
+      'mojo::CommandBufferLostContextObserver';
 
-  CommandBufferLostContextObserver(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new CommandBufferLostContextObserverStub(endpoint);
-
-  CommandBufferLostContextObserver.fromHandle(core.MojoHandle handle) :
-      stub = new CommandBufferLostContextObserverStub.fromHandle(handle);
-
-  CommandBufferLostContextObserver.fromStub(this.stub);
-
-  CommandBufferLostContextObserver.unbound() :
-      stub = new CommandBufferLostContextObserverStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  CommandBufferLostContextObserver get delegate => stub.delegate;
-  set delegate(CommandBufferLostContextObserver d) {
-    stub.delegate = d;
-  }
+abstract class CommandBufferLostContextObserver {
   void didLoseContext(int contextLostReason);
 
 }
 
-class CommandBufferLostContextObserverProxy extends bindings.Proxy implements CommandBufferLostContextObserver {
-  CommandBufferLostContextObserverProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  CommandBufferLostContextObserverProxy.fromHandle(core.MojoHandle handle) :
+class CommandBufferLostContextObserverProxyImpl extends bindings.Proxy {
+  CommandBufferLostContextObserverProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  CommandBufferLostContextObserverProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  CommandBufferLostContextObserverProxy.unbound() : super.unbound();
+  CommandBufferLostContextObserverProxyImpl.unbound() : super.unbound();
 
-  String get name => CommandBufferLostContextObserver.name;
-
-  static CommandBufferLostContextObserverProxy newFromEndpoint(
+  static CommandBufferLostContextObserverProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new CommandBufferLostContextObserverProxy(endpoint);
+      new CommandBufferLostContextObserverProxyImpl.fromEndpoint(endpoint);
+
+  String get name => CommandBufferLostContextObserverName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -899,18 +929,60 @@ class CommandBufferLostContextObserverProxy extends bindings.Proxy implements Co
         break;
     }
   }
-  void didLoseContext(int contextLostReason) {
-    var params = new CommandBufferLostContextObserverDidLoseContextParams();
-    params.contextLostReason = contextLostReason;
-    sendMessage(params, kCommandBufferLostContextObserver_didLoseContext_name);
+}
+
+
+class _CommandBufferLostContextObserverProxyCalls implements CommandBufferLostContextObserver {
+  CommandBufferLostContextObserverProxyImpl _proxyImpl;
+
+  _CommandBufferLostContextObserverProxyCalls(this._proxyImpl);
+    void didLoseContext(int contextLostReason) {
+      var params = new CommandBufferLostContextObserverDidLoseContextParams();
+      params.contextLostReason = contextLostReason;
+      _proxyImpl.sendMessage(params, kCommandBufferLostContextObserver_didLoseContext_name);
+    }
+  
+}
+
+
+class CommandBufferLostContextObserverProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  CommandBufferLostContextObserver ptr;
+  final String name = CommandBufferLostContextObserverName;
+
+  CommandBufferLostContextObserverProxy(CommandBufferLostContextObserverProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _CommandBufferLostContextObserverProxyCalls(proxyImpl);
+
+  CommandBufferLostContextObserverProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new CommandBufferLostContextObserverProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _CommandBufferLostContextObserverProxyCalls(impl);
   }
 
+  CommandBufferLostContextObserverProxy.fromHandle(core.MojoHandle handle) :
+      impl = new CommandBufferLostContextObserverProxyImpl.fromHandle(handle) {
+    ptr = new _CommandBufferLostContextObserverProxyCalls(impl);
+  }
+
+  CommandBufferLostContextObserverProxy.unbound() :
+      impl = new CommandBufferLostContextObserverProxyImpl.unbound() {
+    ptr = new _CommandBufferLostContextObserverProxyCalls(impl);
+  }
+
+  static CommandBufferLostContextObserverProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new CommandBufferLostContextObserverProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class CommandBufferLostContextObserverStub extends bindings.Stub {
   CommandBufferLostContextObserver _delegate = null;
 
-  CommandBufferLostContextObserverStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  CommandBufferLostContextObserverStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   CommandBufferLostContextObserverStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -919,9 +991,9 @@ class CommandBufferLostContextObserverStub extends bindings.Stub {
 
   static CommandBufferLostContextObserverStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new CommandBufferLostContextObserverStub(endpoint);
+      new CommandBufferLostContextObserverStub.fromEndpoint(endpoint);
 
-  static const String name = CommandBufferLostContextObserver.name;
+  static const String name = CommandBufferLostContextObserverName;
 
 
 
@@ -957,30 +1029,10 @@ const int kCommandBuffer_insertSyncPoint_name = 6;
 const int kCommandBuffer_retireSyncPoint_name = 7;
 const int kCommandBuffer_echo_name = 8;
 
-abstract class CommandBuffer implements core.Listener {
-  static const String name = 'mojo::CommandBuffer';
-  CommandBufferStub stub;
+const String CommandBufferName =
+      'mojo::CommandBuffer';
 
-  CommandBuffer(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new CommandBufferStub(endpoint);
-
-  CommandBuffer.fromHandle(core.MojoHandle handle) :
-      stub = new CommandBufferStub.fromHandle(handle);
-
-  CommandBuffer.fromStub(this.stub);
-
-  CommandBuffer.unbound() :
-      stub = new CommandBufferStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  CommandBuffer get delegate => stub.delegate;
-  set delegate(CommandBuffer d) {
-    stub.delegate = d;
-  }
+abstract class CommandBuffer {
   void initialize(Object syncClient, Object syncPointClient, Object lostObserver, core.MojoSharedBuffer sharedState);
   void setGetBuffer(int buffer);
   void flush(int putOffset);
@@ -993,19 +1045,21 @@ abstract class CommandBuffer implements core.Listener {
 
 }
 
-class CommandBufferProxy extends bindings.Proxy implements CommandBuffer {
-  CommandBufferProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  CommandBufferProxy.fromHandle(core.MojoHandle handle) :
+class CommandBufferProxyImpl extends bindings.Proxy {
+  CommandBufferProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  CommandBufferProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  CommandBufferProxy.unbound() : super.unbound();
+  CommandBufferProxyImpl.unbound() : super.unbound();
 
-  String get name => CommandBuffer.name;
-
-  static CommandBufferProxy newFromEndpoint(
+  static CommandBufferProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new CommandBufferProxy(endpoint);
+      new CommandBufferProxyImpl.fromEndpoint(endpoint);
+
+  String get name => CommandBufferName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -1024,73 +1078,115 @@ class CommandBufferProxy extends bindings.Proxy implements CommandBuffer {
         break;
     }
   }
-  void initialize(Object syncClient, Object syncPointClient, Object lostObserver, core.MojoSharedBuffer sharedState) {
-    var params = new CommandBufferInitializeParams();
-    params.syncClient = syncClient;
-    params.syncPointClient = syncPointClient;
-    params.lostObserver = lostObserver;
-    params.sharedState = sharedState;
-    sendMessage(params, kCommandBuffer_initialize_name);
-  }
-
-  void setGetBuffer(int buffer) {
-    var params = new CommandBufferSetGetBufferParams();
-    params.buffer = buffer;
-    sendMessage(params, kCommandBuffer_setGetBuffer_name);
-  }
-
-  void flush(int putOffset) {
-    var params = new CommandBufferFlushParams();
-    params.putOffset = putOffset;
-    sendMessage(params, kCommandBuffer_flush_name);
-  }
-
-  void makeProgress(int lastGetOffset) {
-    var params = new CommandBufferMakeProgressParams();
-    params.lastGetOffset = lastGetOffset;
-    sendMessage(params, kCommandBuffer_makeProgress_name);
-  }
-
-  void registerTransferBuffer(int id, core.MojoSharedBuffer transferBuffer, int size) {
-    var params = new CommandBufferRegisterTransferBufferParams();
-    params.id = id;
-    params.transferBuffer = transferBuffer;
-    params.size = size;
-    sendMessage(params, kCommandBuffer_registerTransferBuffer_name);
-  }
-
-  void destroyTransferBuffer(int id) {
-    var params = new CommandBufferDestroyTransferBufferParams();
-    params.id = id;
-    sendMessage(params, kCommandBuffer_destroyTransferBuffer_name);
-  }
-
-  void insertSyncPoint(bool retire) {
-    var params = new CommandBufferInsertSyncPointParams();
-    params.retire = retire;
-    sendMessage(params, kCommandBuffer_insertSyncPoint_name);
-  }
-
-  void retireSyncPoint(int syncPoint) {
-    var params = new CommandBufferRetireSyncPointParams();
-    params.syncPoint = syncPoint;
-    sendMessage(params, kCommandBuffer_retireSyncPoint_name);
-  }
-
-  Future<CommandBufferEchoResponseParams> echo([Function responseFactory = null]) {
-    var params = new CommandBufferEchoParams();
-    return sendMessageWithRequestId(
-        params,
-        kCommandBuffer_echo_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _CommandBufferProxyCalls implements CommandBuffer {
+  CommandBufferProxyImpl _proxyImpl;
+
+  _CommandBufferProxyCalls(this._proxyImpl);
+    void initialize(Object syncClient, Object syncPointClient, Object lostObserver, core.MojoSharedBuffer sharedState) {
+      var params = new CommandBufferInitializeParams();
+      params.syncClient = syncClient;
+      params.syncPointClient = syncPointClient;
+      params.lostObserver = lostObserver;
+      params.sharedState = sharedState;
+      _proxyImpl.sendMessage(params, kCommandBuffer_initialize_name);
+    }
+  
+    void setGetBuffer(int buffer) {
+      var params = new CommandBufferSetGetBufferParams();
+      params.buffer = buffer;
+      _proxyImpl.sendMessage(params, kCommandBuffer_setGetBuffer_name);
+    }
+  
+    void flush(int putOffset) {
+      var params = new CommandBufferFlushParams();
+      params.putOffset = putOffset;
+      _proxyImpl.sendMessage(params, kCommandBuffer_flush_name);
+    }
+  
+    void makeProgress(int lastGetOffset) {
+      var params = new CommandBufferMakeProgressParams();
+      params.lastGetOffset = lastGetOffset;
+      _proxyImpl.sendMessage(params, kCommandBuffer_makeProgress_name);
+    }
+  
+    void registerTransferBuffer(int id, core.MojoSharedBuffer transferBuffer, int size) {
+      var params = new CommandBufferRegisterTransferBufferParams();
+      params.id = id;
+      params.transferBuffer = transferBuffer;
+      params.size = size;
+      _proxyImpl.sendMessage(params, kCommandBuffer_registerTransferBuffer_name);
+    }
+  
+    void destroyTransferBuffer(int id) {
+      var params = new CommandBufferDestroyTransferBufferParams();
+      params.id = id;
+      _proxyImpl.sendMessage(params, kCommandBuffer_destroyTransferBuffer_name);
+    }
+  
+    void insertSyncPoint(bool retire) {
+      var params = new CommandBufferInsertSyncPointParams();
+      params.retire = retire;
+      _proxyImpl.sendMessage(params, kCommandBuffer_insertSyncPoint_name);
+    }
+  
+    void retireSyncPoint(int syncPoint) {
+      var params = new CommandBufferRetireSyncPointParams();
+      params.syncPoint = syncPoint;
+      _proxyImpl.sendMessage(params, kCommandBuffer_retireSyncPoint_name);
+    }
+  
+    Future<CommandBufferEchoResponseParams> echo([Function responseFactory = null]) {
+      var params = new CommandBufferEchoParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kCommandBuffer_echo_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class CommandBufferProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  CommandBuffer ptr;
+  final String name = CommandBufferName;
+
+  CommandBufferProxy(CommandBufferProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _CommandBufferProxyCalls(proxyImpl);
+
+  CommandBufferProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new CommandBufferProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _CommandBufferProxyCalls(impl);
+  }
+
+  CommandBufferProxy.fromHandle(core.MojoHandle handle) :
+      impl = new CommandBufferProxyImpl.fromHandle(handle) {
+    ptr = new _CommandBufferProxyCalls(impl);
+  }
+
+  CommandBufferProxy.unbound() :
+      impl = new CommandBufferProxyImpl.unbound() {
+    ptr = new _CommandBufferProxyCalls(impl);
+  }
+
+  static CommandBufferProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new CommandBufferProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class CommandBufferStub extends bindings.Stub {
   CommandBuffer _delegate = null;
 
-  CommandBufferStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  CommandBufferStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   CommandBufferStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -1099,9 +1195,9 @@ class CommandBufferStub extends bindings.Stub {
 
   static CommandBufferStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new CommandBufferStub(endpoint);
+      new CommandBufferStub.fromEndpoint(endpoint);
 
-  static const String name = CommandBuffer.name;
+  static const String name = CommandBufferName;
 
 
   CommandBufferEchoResponseParams _CommandBufferEchoResponseParamsFactory() {

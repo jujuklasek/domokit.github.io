@@ -567,48 +567,30 @@ class FactoryTakeImportedInterfaceResponseParams extends bindings.Struct {
 const int kNamedObject_setName_name = 0;
 const int kNamedObject_getName_name = 1;
 
-abstract class NamedObject implements core.Listener {
-  static const String name = 'sample::NamedObject';
-  NamedObjectStub stub;
+const String NamedObjectName =
+      'sample::NamedObject';
 
-  NamedObject(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new NamedObjectStub(endpoint);
-
-  NamedObject.fromHandle(core.MojoHandle handle) :
-      stub = new NamedObjectStub.fromHandle(handle);
-
-  NamedObject.fromStub(this.stub);
-
-  NamedObject.unbound() :
-      stub = new NamedObjectStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  NamedObject get delegate => stub.delegate;
-  set delegate(NamedObject d) {
-    stub.delegate = d;
-  }
+abstract class NamedObject {
   void setName(String name);
   Future<NamedObjectGetNameResponseParams> getName([Function responseFactory = null]);
 
 }
 
-class NamedObjectProxy extends bindings.Proxy implements NamedObject {
-  NamedObjectProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  NamedObjectProxy.fromHandle(core.MojoHandle handle) :
+class NamedObjectProxyImpl extends bindings.Proxy {
+  NamedObjectProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  NamedObjectProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  NamedObjectProxy.unbound() : super.unbound();
+  NamedObjectProxyImpl.unbound() : super.unbound();
 
-  String get name => NamedObject.name;
-
-  static NamedObjectProxy newFromEndpoint(
+  static NamedObjectProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new NamedObjectProxy(endpoint);
+      new NamedObjectProxyImpl.fromEndpoint(endpoint);
+
+  String get name => NamedObjectName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -627,26 +609,68 @@ class NamedObjectProxy extends bindings.Proxy implements NamedObject {
         break;
     }
   }
-  void setName(String name) {
-    var params = new NamedObjectSetNameParams();
-    params.name = name;
-    sendMessage(params, kNamedObject_setName_name);
+}
+
+
+class _NamedObjectProxyCalls implements NamedObject {
+  NamedObjectProxyImpl _proxyImpl;
+
+  _NamedObjectProxyCalls(this._proxyImpl);
+    void setName(String name) {
+      var params = new NamedObjectSetNameParams();
+      params.name = name;
+      _proxyImpl.sendMessage(params, kNamedObject_setName_name);
+    }
+  
+    Future<NamedObjectGetNameResponseParams> getName([Function responseFactory = null]) {
+      var params = new NamedObjectGetNameParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kNamedObject_getName_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class NamedObjectProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  NamedObject ptr;
+  final String name = NamedObjectName;
+
+  NamedObjectProxy(NamedObjectProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _NamedObjectProxyCalls(proxyImpl);
+
+  NamedObjectProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new NamedObjectProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _NamedObjectProxyCalls(impl);
   }
 
-  Future<NamedObjectGetNameResponseParams> getName([Function responseFactory = null]) {
-    var params = new NamedObjectGetNameParams();
-    return sendMessageWithRequestId(
-        params,
-        kNamedObject_getName_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
+  NamedObjectProxy.fromHandle(core.MojoHandle handle) :
+      impl = new NamedObjectProxyImpl.fromHandle(handle) {
+    ptr = new _NamedObjectProxyCalls(impl);
   }
+
+  NamedObjectProxy.unbound() :
+      impl = new NamedObjectProxyImpl.unbound() {
+    ptr = new _NamedObjectProxyCalls(impl);
+  }
+
+  static NamedObjectProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new NamedObjectProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class NamedObjectStub extends bindings.Stub {
   NamedObject _delegate = null;
 
-  NamedObjectStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  NamedObjectStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   NamedObjectStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -655,9 +679,9 @@ class NamedObjectStub extends bindings.Stub {
 
   static NamedObjectStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new NamedObjectStub(endpoint);
+      new NamedObjectStub.fromEndpoint(endpoint);
 
-  static const String name = NamedObject.name;
+  static const String name = NamedObjectName;
 
 
   NamedObjectGetNameResponseParams _NamedObjectGetNameResponseParamsFactory(String name) {
@@ -707,30 +731,10 @@ const int kFactory_createNamedObject_name = 2;
 const int kFactory_requestImportedInterface_name = 3;
 const int kFactory_takeImportedInterface_name = 4;
 
-abstract class Factory implements core.Listener {
-  static const String name = 'sample::Factory';
-  FactoryStub stub;
+const String FactoryName =
+      'sample::Factory';
 
-  Factory(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new FactoryStub(endpoint);
-
-  Factory.fromHandle(core.MojoHandle handle) :
-      stub = new FactoryStub.fromHandle(handle);
-
-  Factory.fromStub(this.stub);
-
-  Factory.unbound() :
-      stub = new FactoryStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  Factory get delegate => stub.delegate;
-  set delegate(Factory d) {
-    stub.delegate = d;
-  }
+abstract class Factory {
   Future<FactoryDoStuffResponseParams> doStuff(Request request,core.MojoMessagePipeEndpoint pipe,[Function responseFactory = null]);
   Future<FactoryDoStuff2ResponseParams> doStuff2(core.MojoDataPipeConsumer pipe,[Function responseFactory = null]);
   void createNamedObject(Object obj);
@@ -739,19 +743,21 @@ abstract class Factory implements core.Listener {
 
 }
 
-class FactoryProxy extends bindings.Proxy implements Factory {
-  FactoryProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  FactoryProxy.fromHandle(core.MojoHandle handle) :
+class FactoryProxyImpl extends bindings.Proxy {
+  FactoryProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  FactoryProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  FactoryProxy.unbound() : super.unbound();
+  FactoryProxyImpl.unbound() : super.unbound();
 
-  String get name => Factory.name;
-
-  static FactoryProxy newFromEndpoint(
+  static FactoryProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new FactoryProxy(endpoint);
+      new FactoryProxyImpl.fromEndpoint(endpoint);
+
+  String get name => FactoryName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -800,55 +806,97 @@ class FactoryProxy extends bindings.Proxy implements Factory {
         break;
     }
   }
-  Future<FactoryDoStuffResponseParams> doStuff(Request request,core.MojoMessagePipeEndpoint pipe,[Function responseFactory = null]) {
-    var params = new FactoryDoStuffParams();
-    params.request = request;
-    params.pipe = pipe;
-    return sendMessageWithRequestId(
-        params,
-        kFactory_doStuff_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<FactoryDoStuff2ResponseParams> doStuff2(core.MojoDataPipeConsumer pipe,[Function responseFactory = null]) {
-    var params = new FactoryDoStuff2Params();
-    params.pipe = pipe;
-    return sendMessageWithRequestId(
-        params,
-        kFactory_doStuff2_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  void createNamedObject(Object obj) {
-    var params = new FactoryCreateNamedObjectParams();
-    params.obj = obj;
-    sendMessage(params, kFactory_createNamedObject_name);
+}
+
+
+class _FactoryProxyCalls implements Factory {
+  FactoryProxyImpl _proxyImpl;
+
+  _FactoryProxyCalls(this._proxyImpl);
+    Future<FactoryDoStuffResponseParams> doStuff(Request request,core.MojoMessagePipeEndpoint pipe,[Function responseFactory = null]) {
+      var params = new FactoryDoStuffParams();
+      params.request = request;
+      params.pipe = pipe;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kFactory_doStuff_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<FactoryDoStuff2ResponseParams> doStuff2(core.MojoDataPipeConsumer pipe,[Function responseFactory = null]) {
+      var params = new FactoryDoStuff2Params();
+      params.pipe = pipe;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kFactory_doStuff2_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    void createNamedObject(Object obj) {
+      var params = new FactoryCreateNamedObjectParams();
+      params.obj = obj;
+      _proxyImpl.sendMessage(params, kFactory_createNamedObject_name);
+    }
+  
+    Future<FactoryRequestImportedInterfaceResponseParams> requestImportedInterface(Object obj,[Function responseFactory = null]) {
+      var params = new FactoryRequestImportedInterfaceParams();
+      params.obj = obj;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kFactory_requestImportedInterface_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<FactoryTakeImportedInterfaceResponseParams> takeImportedInterface(Object obj,[Function responseFactory = null]) {
+      var params = new FactoryTakeImportedInterfaceParams();
+      params.obj = obj;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kFactory_takeImportedInterface_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class FactoryProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  Factory ptr;
+  final String name = FactoryName;
+
+  FactoryProxy(FactoryProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _FactoryProxyCalls(proxyImpl);
+
+  FactoryProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new FactoryProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _FactoryProxyCalls(impl);
   }
 
-  Future<FactoryRequestImportedInterfaceResponseParams> requestImportedInterface(Object obj,[Function responseFactory = null]) {
-    var params = new FactoryRequestImportedInterfaceParams();
-    params.obj = obj;
-    return sendMessageWithRequestId(
-        params,
-        kFactory_requestImportedInterface_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
+  FactoryProxy.fromHandle(core.MojoHandle handle) :
+      impl = new FactoryProxyImpl.fromHandle(handle) {
+    ptr = new _FactoryProxyCalls(impl);
   }
-  Future<FactoryTakeImportedInterfaceResponseParams> takeImportedInterface(Object obj,[Function responseFactory = null]) {
-    var params = new FactoryTakeImportedInterfaceParams();
-    params.obj = obj;
-    return sendMessageWithRequestId(
-        params,
-        kFactory_takeImportedInterface_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
+
+  FactoryProxy.unbound() :
+      impl = new FactoryProxyImpl.unbound() {
+    ptr = new _FactoryProxyCalls(impl);
   }
+
+  static FactoryProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new FactoryProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class FactoryStub extends bindings.Stub {
   Factory _delegate = null;
 
-  FactoryStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  FactoryStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   FactoryStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -857,9 +905,9 @@ class FactoryStub extends bindings.Stub {
 
   static FactoryStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new FactoryStub(endpoint);
+      new FactoryStub.fromEndpoint(endpoint);
 
-  static const String name = Factory.name;
+  static const String name = FactoryName;
 
 
   FactoryDoStuffResponseParams _FactoryDoStuffResponseParamsFactory(Response response, String text) {

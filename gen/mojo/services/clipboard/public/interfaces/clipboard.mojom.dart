@@ -358,30 +358,10 @@ const int kClipboard_getAvailableMimeTypes_name = 1;
 const int kClipboard_readMimeType_name = 2;
 const int kClipboard_writeClipboardData_name = 3;
 
-abstract class Clipboard implements core.Listener {
-  static const String name = 'mojo::Clipboard';
-  ClipboardStub stub;
+const String ClipboardName =
+      'mojo::Clipboard';
 
-  Clipboard(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new ClipboardStub(endpoint);
-
-  Clipboard.fromHandle(core.MojoHandle handle) :
-      stub = new ClipboardStub.fromHandle(handle);
-
-  Clipboard.fromStub(this.stub);
-
-  Clipboard.unbound() :
-      stub = new ClipboardStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  Clipboard get delegate => stub.delegate;
-  set delegate(Clipboard d) {
-    stub.delegate = d;
-  }
+abstract class Clipboard {
   Future<ClipboardGetSequenceNumberResponseParams> getSequenceNumber(int clipboardType,[Function responseFactory = null]);
   Future<ClipboardGetAvailableMimeTypesResponseParams> getAvailableMimeTypes(int clipboardTypes,[Function responseFactory = null]);
   Future<ClipboardReadMimeTypeResponseParams> readMimeType(int clipboardType,String mimeType,[Function responseFactory = null]);
@@ -396,19 +376,21 @@ abstract class Clipboard implements core.Listener {
   static final int Type_DRAG = 2;
 }
 
-class ClipboardProxy extends bindings.Proxy implements Clipboard {
-  ClipboardProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  ClipboardProxy.fromHandle(core.MojoHandle handle) :
+class ClipboardProxyImpl extends bindings.Proxy {
+  ClipboardProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  ClipboardProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  ClipboardProxy.unbound() : super.unbound();
+  ClipboardProxyImpl.unbound() : super.unbound();
 
-  String get name => Clipboard.name;
-
-  static ClipboardProxy newFromEndpoint(
+  static ClipboardProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ClipboardProxy(endpoint);
+      new ClipboardProxyImpl.fromEndpoint(endpoint);
+
+  String get name => ClipboardName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -447,47 +429,89 @@ class ClipboardProxy extends bindings.Proxy implements Clipboard {
         break;
     }
   }
-  Future<ClipboardGetSequenceNumberResponseParams> getSequenceNumber(int clipboardType,[Function responseFactory = null]) {
-    var params = new ClipboardGetSequenceNumberParams();
-    params.clipboardType = clipboardType;
-    return sendMessageWithRequestId(
-        params,
-        kClipboard_getSequenceNumber_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<ClipboardGetAvailableMimeTypesResponseParams> getAvailableMimeTypes(int clipboardTypes,[Function responseFactory = null]) {
-    var params = new ClipboardGetAvailableMimeTypesParams();
-    params.clipboardTypes = clipboardTypes;
-    return sendMessageWithRequestId(
-        params,
-        kClipboard_getAvailableMimeTypes_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<ClipboardReadMimeTypeResponseParams> readMimeType(int clipboardType,String mimeType,[Function responseFactory = null]) {
-    var params = new ClipboardReadMimeTypeParams();
-    params.clipboardType = clipboardType;
-    params.mimeType = mimeType;
-    return sendMessageWithRequestId(
-        params,
-        kClipboard_readMimeType_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  void writeClipboardData(int clipboardType, Map<String, List<int>> data) {
-    var params = new ClipboardWriteClipboardDataParams();
-    params.clipboardType = clipboardType;
-    params.data = data;
-    sendMessage(params, kClipboard_writeClipboardData_name);
+}
+
+
+class _ClipboardProxyCalls implements Clipboard {
+  ClipboardProxyImpl _proxyImpl;
+
+  _ClipboardProxyCalls(this._proxyImpl);
+    Future<ClipboardGetSequenceNumberResponseParams> getSequenceNumber(int clipboardType,[Function responseFactory = null]) {
+      var params = new ClipboardGetSequenceNumberParams();
+      params.clipboardType = clipboardType;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kClipboard_getSequenceNumber_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<ClipboardGetAvailableMimeTypesResponseParams> getAvailableMimeTypes(int clipboardTypes,[Function responseFactory = null]) {
+      var params = new ClipboardGetAvailableMimeTypesParams();
+      params.clipboardTypes = clipboardTypes;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kClipboard_getAvailableMimeTypes_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<ClipboardReadMimeTypeResponseParams> readMimeType(int clipboardType,String mimeType,[Function responseFactory = null]) {
+      var params = new ClipboardReadMimeTypeParams();
+      params.clipboardType = clipboardType;
+      params.mimeType = mimeType;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kClipboard_readMimeType_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    void writeClipboardData(int clipboardType, Map<String, List<int>> data) {
+      var params = new ClipboardWriteClipboardDataParams();
+      params.clipboardType = clipboardType;
+      params.data = data;
+      _proxyImpl.sendMessage(params, kClipboard_writeClipboardData_name);
+    }
+  
+}
+
+
+class ClipboardProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  Clipboard ptr;
+  final String name = ClipboardName;
+
+  ClipboardProxy(ClipboardProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _ClipboardProxyCalls(proxyImpl);
+
+  ClipboardProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new ClipboardProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _ClipboardProxyCalls(impl);
   }
 
+  ClipboardProxy.fromHandle(core.MojoHandle handle) :
+      impl = new ClipboardProxyImpl.fromHandle(handle) {
+    ptr = new _ClipboardProxyCalls(impl);
+  }
+
+  ClipboardProxy.unbound() :
+      impl = new ClipboardProxyImpl.unbound() {
+    ptr = new _ClipboardProxyCalls(impl);
+  }
+
+  static ClipboardProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new ClipboardProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class ClipboardStub extends bindings.Stub {
   Clipboard _delegate = null;
 
-  ClipboardStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  ClipboardStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   ClipboardStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -496,9 +520,9 @@ class ClipboardStub extends bindings.Stub {
 
   static ClipboardStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ClipboardStub(endpoint);
+      new ClipboardStub.fromEndpoint(endpoint);
 
-  static const String name = Clipboard.name;
+  static const String name = ClipboardName;
 
 
   ClipboardGetSequenceNumberResponseParams _ClipboardGetSequenceNumberResponseParamsFactory(int sequence) {

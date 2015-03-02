@@ -381,30 +381,10 @@ const int kDiagnostics_setIsRoot_name = 3;
 const int kDiagnostics_setScythe_name = 4;
 const int kDiagnostics_ping_name = 5;
 
-abstract class Diagnostics implements core.Listener {
-  static const String name = 'reaper::Diagnostics';
-  DiagnosticsStub stub;
+const String DiagnosticsName =
+      'reaper::Diagnostics';
 
-  Diagnostics(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new DiagnosticsStub(endpoint);
-
-  Diagnostics.fromHandle(core.MojoHandle handle) :
-      stub = new DiagnosticsStub.fromHandle(handle);
-
-  Diagnostics.fromStub(this.stub);
-
-  Diagnostics.unbound() :
-      stub = new DiagnosticsStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  Diagnostics get delegate => stub.delegate;
-  set delegate(Diagnostics d) {
-    stub.delegate = d;
-  }
+abstract class Diagnostics {
   Future<DiagnosticsDumpNodesResponseParams> dumpNodes([Function responseFactory = null]);
   void reset();
   void getReaperForApp(String appUrl, Object reaper);
@@ -414,19 +394,21 @@ abstract class Diagnostics implements core.Listener {
 
 }
 
-class DiagnosticsProxy extends bindings.Proxy implements Diagnostics {
-  DiagnosticsProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  DiagnosticsProxy.fromHandle(core.MojoHandle handle) :
+class DiagnosticsProxyImpl extends bindings.Proxy {
+  DiagnosticsProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  DiagnosticsProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  DiagnosticsProxy.unbound() : super.unbound();
+  DiagnosticsProxyImpl.unbound() : super.unbound();
 
-  String get name => Diagnostics.name;
-
-  static DiagnosticsProxy newFromEndpoint(
+  static DiagnosticsProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new DiagnosticsProxy(endpoint);
+      new DiagnosticsProxyImpl.fromEndpoint(endpoint);
+
+  String get name => DiagnosticsName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -455,53 +437,95 @@ class DiagnosticsProxy extends bindings.Proxy implements Diagnostics {
         break;
     }
   }
-  Future<DiagnosticsDumpNodesResponseParams> dumpNodes([Function responseFactory = null]) {
-    var params = new DiagnosticsDumpNodesParams();
-    return sendMessageWithRequestId(
-        params,
-        kDiagnostics_dumpNodes_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  void reset() {
-    var params = new DiagnosticsResetParams();
-    sendMessage(params, kDiagnostics_reset_name);
-  }
-
-  void getReaperForApp(String appUrl, Object reaper) {
-    var params = new DiagnosticsGetReaperForAppParams();
-    params.appUrl = appUrl;
-    params.reaper = reaper;
-    sendMessage(params, kDiagnostics_getReaperForApp_name);
-  }
-
-  void setIsRoot(String appUrl, bool isRoot) {
-    var params = new DiagnosticsSetIsRootParams();
-    params.appUrl = appUrl;
-    params.isRoot = isRoot;
-    sendMessage(params, kDiagnostics_setIsRoot_name);
-  }
-
-  void setScythe(Object scythe) {
-    var params = new DiagnosticsSetScytheParams();
-    params.scythe = scythe;
-    sendMessage(params, kDiagnostics_setScythe_name);
-  }
-
-  Future<DiagnosticsPingResponseParams> ping([Function responseFactory = null]) {
-    var params = new DiagnosticsPingParams();
-    return sendMessageWithRequestId(
-        params,
-        kDiagnostics_ping_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _DiagnosticsProxyCalls implements Diagnostics {
+  DiagnosticsProxyImpl _proxyImpl;
+
+  _DiagnosticsProxyCalls(this._proxyImpl);
+    Future<DiagnosticsDumpNodesResponseParams> dumpNodes([Function responseFactory = null]) {
+      var params = new DiagnosticsDumpNodesParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kDiagnostics_dumpNodes_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    void reset() {
+      var params = new DiagnosticsResetParams();
+      _proxyImpl.sendMessage(params, kDiagnostics_reset_name);
+    }
+  
+    void getReaperForApp(String appUrl, Object reaper) {
+      var params = new DiagnosticsGetReaperForAppParams();
+      params.appUrl = appUrl;
+      params.reaper = reaper;
+      _proxyImpl.sendMessage(params, kDiagnostics_getReaperForApp_name);
+    }
+  
+    void setIsRoot(String appUrl, bool isRoot) {
+      var params = new DiagnosticsSetIsRootParams();
+      params.appUrl = appUrl;
+      params.isRoot = isRoot;
+      _proxyImpl.sendMessage(params, kDiagnostics_setIsRoot_name);
+    }
+  
+    void setScythe(Object scythe) {
+      var params = new DiagnosticsSetScytheParams();
+      params.scythe = scythe;
+      _proxyImpl.sendMessage(params, kDiagnostics_setScythe_name);
+    }
+  
+    Future<DiagnosticsPingResponseParams> ping([Function responseFactory = null]) {
+      var params = new DiagnosticsPingParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kDiagnostics_ping_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class DiagnosticsProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  Diagnostics ptr;
+  final String name = DiagnosticsName;
+
+  DiagnosticsProxy(DiagnosticsProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _DiagnosticsProxyCalls(proxyImpl);
+
+  DiagnosticsProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new DiagnosticsProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _DiagnosticsProxyCalls(impl);
+  }
+
+  DiagnosticsProxy.fromHandle(core.MojoHandle handle) :
+      impl = new DiagnosticsProxyImpl.fromHandle(handle) {
+    ptr = new _DiagnosticsProxyCalls(impl);
+  }
+
+  DiagnosticsProxy.unbound() :
+      impl = new DiagnosticsProxyImpl.unbound() {
+    ptr = new _DiagnosticsProxyCalls(impl);
+  }
+
+  static DiagnosticsProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new DiagnosticsProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class DiagnosticsStub extends bindings.Stub {
   Diagnostics _delegate = null;
 
-  DiagnosticsStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  DiagnosticsStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   DiagnosticsStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -510,9 +534,9 @@ class DiagnosticsStub extends bindings.Stub {
 
   static DiagnosticsStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new DiagnosticsStub(endpoint);
+      new DiagnosticsStub.fromEndpoint(endpoint);
 
-  static const String name = Diagnostics.name;
+  static const String name = DiagnosticsName;
 
 
   DiagnosticsDumpNodesResponseParams _DiagnosticsDumpNodesResponseParamsFactory(List<Node> nodes) {

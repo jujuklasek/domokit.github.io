@@ -54,47 +54,29 @@ class ServiceProviderConnectToServiceParams extends bindings.Struct {
 }
 const int kServiceProvider_connectToService_name = 0;
 
-abstract class ServiceProvider implements core.Listener {
-  static const String name = 'mojo::ServiceProvider';
-  ServiceProviderStub stub;
+const String ServiceProviderName =
+      'mojo::ServiceProvider';
 
-  ServiceProvider(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new ServiceProviderStub(endpoint);
-
-  ServiceProvider.fromHandle(core.MojoHandle handle) :
-      stub = new ServiceProviderStub.fromHandle(handle);
-
-  ServiceProvider.fromStub(this.stub);
-
-  ServiceProvider.unbound() :
-      stub = new ServiceProviderStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  ServiceProvider get delegate => stub.delegate;
-  set delegate(ServiceProvider d) {
-    stub.delegate = d;
-  }
+abstract class ServiceProvider {
   void connectToService(String interfaceName, core.MojoMessagePipeEndpoint pipe);
 
 }
 
-class ServiceProviderProxy extends bindings.Proxy implements ServiceProvider {
-  ServiceProviderProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  ServiceProviderProxy.fromHandle(core.MojoHandle handle) :
+class ServiceProviderProxyImpl extends bindings.Proxy {
+  ServiceProviderProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  ServiceProviderProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  ServiceProviderProxy.unbound() : super.unbound();
+  ServiceProviderProxyImpl.unbound() : super.unbound();
 
-  String get name => ServiceProvider.name;
-
-  static ServiceProviderProxy newFromEndpoint(
+  static ServiceProviderProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ServiceProviderProxy(endpoint);
+      new ServiceProviderProxyImpl.fromEndpoint(endpoint);
+
+  String get name => ServiceProviderName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -103,19 +85,61 @@ class ServiceProviderProxy extends bindings.Proxy implements ServiceProvider {
         break;
     }
   }
-  void connectToService(String interfaceName, core.MojoMessagePipeEndpoint pipe) {
-    var params = new ServiceProviderConnectToServiceParams();
-    params.interfaceName = interfaceName;
-    params.pipe = pipe;
-    sendMessage(params, kServiceProvider_connectToService_name);
+}
+
+
+class _ServiceProviderProxyCalls implements ServiceProvider {
+  ServiceProviderProxyImpl _proxyImpl;
+
+  _ServiceProviderProxyCalls(this._proxyImpl);
+    void connectToService(String interfaceName, core.MojoMessagePipeEndpoint pipe) {
+      var params = new ServiceProviderConnectToServiceParams();
+      params.interfaceName = interfaceName;
+      params.pipe = pipe;
+      _proxyImpl.sendMessage(params, kServiceProvider_connectToService_name);
+    }
+  
+}
+
+
+class ServiceProviderProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  ServiceProvider ptr;
+  final String name = ServiceProviderName;
+
+  ServiceProviderProxy(ServiceProviderProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _ServiceProviderProxyCalls(proxyImpl);
+
+  ServiceProviderProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new ServiceProviderProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _ServiceProviderProxyCalls(impl);
   }
 
+  ServiceProviderProxy.fromHandle(core.MojoHandle handle) :
+      impl = new ServiceProviderProxyImpl.fromHandle(handle) {
+    ptr = new _ServiceProviderProxyCalls(impl);
+  }
+
+  ServiceProviderProxy.unbound() :
+      impl = new ServiceProviderProxyImpl.unbound() {
+    ptr = new _ServiceProviderProxyCalls(impl);
+  }
+
+  static ServiceProviderProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new ServiceProviderProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class ServiceProviderStub extends bindings.Stub {
   ServiceProvider _delegate = null;
 
-  ServiceProviderStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  ServiceProviderStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   ServiceProviderStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -124,9 +148,9 @@ class ServiceProviderStub extends bindings.Stub {
 
   static ServiceProviderStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ServiceProviderStub(endpoint);
+      new ServiceProviderStub.fromEndpoint(endpoint);
 
-  static const String name = ServiceProvider.name;
+  static const String name = ServiceProviderName;
 
 
 

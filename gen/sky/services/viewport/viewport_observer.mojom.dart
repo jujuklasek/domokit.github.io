@@ -139,49 +139,31 @@ const int kViewportObserver_onViewportMetricsChanged_name = 0;
 const int kViewportObserver_onInputEvent_name = 1;
 const int kViewportObserver_loadUrl_name = 2;
 
-abstract class ViewportObserver implements core.Listener {
-  static const String name = 'sky::ViewportObserver';
-  ViewportObserverStub stub;
+const String ViewportObserverName =
+      'sky::ViewportObserver';
 
-  ViewportObserver(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new ViewportObserverStub(endpoint);
-
-  ViewportObserver.fromHandle(core.MojoHandle handle) :
-      stub = new ViewportObserverStub.fromHandle(handle);
-
-  ViewportObserver.fromStub(this.stub);
-
-  ViewportObserver.unbound() :
-      stub = new ViewportObserverStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  ViewportObserver get delegate => stub.delegate;
-  set delegate(ViewportObserver d) {
-    stub.delegate = d;
-  }
+abstract class ViewportObserver {
   void onViewportMetricsChanged(int width, int height, double devicePixelRatio);
   void onInputEvent(input_event_mojom.InputEvent event);
   void loadUrl(String url);
 
 }
 
-class ViewportObserverProxy extends bindings.Proxy implements ViewportObserver {
-  ViewportObserverProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  ViewportObserverProxy.fromHandle(core.MojoHandle handle) :
+class ViewportObserverProxyImpl extends bindings.Proxy {
+  ViewportObserverProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  ViewportObserverProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  ViewportObserverProxy.unbound() : super.unbound();
+  ViewportObserverProxyImpl.unbound() : super.unbound();
 
-  String get name => ViewportObserver.name;
-
-  static ViewportObserverProxy newFromEndpoint(
+  static ViewportObserverProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ViewportObserverProxy(endpoint);
+      new ViewportObserverProxyImpl.fromEndpoint(endpoint);
+
+  String get name => ViewportObserverName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -190,32 +172,74 @@ class ViewportObserverProxy extends bindings.Proxy implements ViewportObserver {
         break;
     }
   }
-  void onViewportMetricsChanged(int width, int height, double devicePixelRatio) {
-    var params = new ViewportObserverOnViewportMetricsChangedParams();
-    params.width = width;
-    params.height = height;
-    params.devicePixelRatio = devicePixelRatio;
-    sendMessage(params, kViewportObserver_onViewportMetricsChanged_name);
-  }
-
-  void onInputEvent(input_event_mojom.InputEvent event) {
-    var params = new ViewportObserverOnInputEventParams();
-    params.event = event;
-    sendMessage(params, kViewportObserver_onInputEvent_name);
-  }
-
-  void loadUrl(String url) {
-    var params = new ViewportObserverLoadUrlParams();
-    params.url = url;
-    sendMessage(params, kViewportObserver_loadUrl_name);
-  }
-
 }
+
+
+class _ViewportObserverProxyCalls implements ViewportObserver {
+  ViewportObserverProxyImpl _proxyImpl;
+
+  _ViewportObserverProxyCalls(this._proxyImpl);
+    void onViewportMetricsChanged(int width, int height, double devicePixelRatio) {
+      var params = new ViewportObserverOnViewportMetricsChangedParams();
+      params.width = width;
+      params.height = height;
+      params.devicePixelRatio = devicePixelRatio;
+      _proxyImpl.sendMessage(params, kViewportObserver_onViewportMetricsChanged_name);
+    }
+  
+    void onInputEvent(input_event_mojom.InputEvent event) {
+      var params = new ViewportObserverOnInputEventParams();
+      params.event = event;
+      _proxyImpl.sendMessage(params, kViewportObserver_onInputEvent_name);
+    }
+  
+    void loadUrl(String url) {
+      var params = new ViewportObserverLoadUrlParams();
+      params.url = url;
+      _proxyImpl.sendMessage(params, kViewportObserver_loadUrl_name);
+    }
+  
+}
+
+
+class ViewportObserverProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  ViewportObserver ptr;
+  final String name = ViewportObserverName;
+
+  ViewportObserverProxy(ViewportObserverProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _ViewportObserverProxyCalls(proxyImpl);
+
+  ViewportObserverProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new ViewportObserverProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _ViewportObserverProxyCalls(impl);
+  }
+
+  ViewportObserverProxy.fromHandle(core.MojoHandle handle) :
+      impl = new ViewportObserverProxyImpl.fromHandle(handle) {
+    ptr = new _ViewportObserverProxyCalls(impl);
+  }
+
+  ViewportObserverProxy.unbound() :
+      impl = new ViewportObserverProxyImpl.unbound() {
+    ptr = new _ViewportObserverProxyCalls(impl);
+  }
+
+  static ViewportObserverProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new ViewportObserverProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class ViewportObserverStub extends bindings.Stub {
   ViewportObserver _delegate = null;
 
-  ViewportObserverStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  ViewportObserverStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   ViewportObserverStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -224,9 +248,9 @@ class ViewportObserverStub extends bindings.Stub {
 
   static ViewportObserverStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ViewportObserverStub(endpoint);
+      new ViewportObserverStub.fromEndpoint(endpoint);
 
-  static const String name = ViewportObserver.name;
+  static const String name = ViewportObserverName;
 
 
 

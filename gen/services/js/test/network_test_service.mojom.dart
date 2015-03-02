@@ -122,48 +122,30 @@ class NetworkTestServiceQuitParams extends bindings.Struct {
 const int kNetworkTestService_getFileSize_name = 0;
 const int kNetworkTestService_quit_name = 1;
 
-abstract class NetworkTestService implements core.Listener {
-  static const String name = 'js::NetworkTestService';
-  NetworkTestServiceStub stub;
+const String NetworkTestServiceName =
+      'js::NetworkTestService';
 
-  NetworkTestService(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new NetworkTestServiceStub(endpoint);
-
-  NetworkTestService.fromHandle(core.MojoHandle handle) :
-      stub = new NetworkTestServiceStub.fromHandle(handle);
-
-  NetworkTestService.fromStub(this.stub);
-
-  NetworkTestService.unbound() :
-      stub = new NetworkTestServiceStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  NetworkTestService get delegate => stub.delegate;
-  set delegate(NetworkTestService d) {
-    stub.delegate = d;
-  }
+abstract class NetworkTestService {
   Future<NetworkTestServiceGetFileSizeResponseParams> getFileSize(String url,[Function responseFactory = null]);
   void quit();
 
 }
 
-class NetworkTestServiceProxy extends bindings.Proxy implements NetworkTestService {
-  NetworkTestServiceProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  NetworkTestServiceProxy.fromHandle(core.MojoHandle handle) :
+class NetworkTestServiceProxyImpl extends bindings.Proxy {
+  NetworkTestServiceProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  NetworkTestServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  NetworkTestServiceProxy.unbound() : super.unbound();
+  NetworkTestServiceProxyImpl.unbound() : super.unbound();
 
-  String get name => NetworkTestService.name;
-
-  static NetworkTestServiceProxy newFromEndpoint(
+  static NetworkTestServiceProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new NetworkTestServiceProxy(endpoint);
+      new NetworkTestServiceProxyImpl.fromEndpoint(endpoint);
+
+  String get name => NetworkTestServiceName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -182,26 +164,68 @@ class NetworkTestServiceProxy extends bindings.Proxy implements NetworkTestServi
         break;
     }
   }
-  Future<NetworkTestServiceGetFileSizeResponseParams> getFileSize(String url,[Function responseFactory = null]) {
-    var params = new NetworkTestServiceGetFileSizeParams();
-    params.url = url;
-    return sendMessageWithRequestId(
-        params,
-        kNetworkTestService_getFileSize_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  void quit() {
-    var params = new NetworkTestServiceQuitParams();
-    sendMessage(params, kNetworkTestService_quit_name);
+}
+
+
+class _NetworkTestServiceProxyCalls implements NetworkTestService {
+  NetworkTestServiceProxyImpl _proxyImpl;
+
+  _NetworkTestServiceProxyCalls(this._proxyImpl);
+    Future<NetworkTestServiceGetFileSizeResponseParams> getFileSize(String url,[Function responseFactory = null]) {
+      var params = new NetworkTestServiceGetFileSizeParams();
+      params.url = url;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kNetworkTestService_getFileSize_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    void quit() {
+      var params = new NetworkTestServiceQuitParams();
+      _proxyImpl.sendMessage(params, kNetworkTestService_quit_name);
+    }
+  
+}
+
+
+class NetworkTestServiceProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  NetworkTestService ptr;
+  final String name = NetworkTestServiceName;
+
+  NetworkTestServiceProxy(NetworkTestServiceProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _NetworkTestServiceProxyCalls(proxyImpl);
+
+  NetworkTestServiceProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new NetworkTestServiceProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _NetworkTestServiceProxyCalls(impl);
   }
 
+  NetworkTestServiceProxy.fromHandle(core.MojoHandle handle) :
+      impl = new NetworkTestServiceProxyImpl.fromHandle(handle) {
+    ptr = new _NetworkTestServiceProxyCalls(impl);
+  }
+
+  NetworkTestServiceProxy.unbound() :
+      impl = new NetworkTestServiceProxyImpl.unbound() {
+    ptr = new _NetworkTestServiceProxyCalls(impl);
+  }
+
+  static NetworkTestServiceProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new NetworkTestServiceProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class NetworkTestServiceStub extends bindings.Stub {
   NetworkTestService _delegate = null;
 
-  NetworkTestServiceStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  NetworkTestServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   NetworkTestServiceStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -210,9 +234,9 @@ class NetworkTestServiceStub extends bindings.Stub {
 
   static NetworkTestServiceStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new NetworkTestServiceStub(endpoint);
+      new NetworkTestServiceStub.fromEndpoint(endpoint);
 
-  static const String name = NetworkTestService.name;
+  static const String name = NetworkTestServiceName;
 
 
   NetworkTestServiceGetFileSizeResponseParams _NetworkTestServiceGetFileSizeResponseParamsFactory(bool ok, int size) {

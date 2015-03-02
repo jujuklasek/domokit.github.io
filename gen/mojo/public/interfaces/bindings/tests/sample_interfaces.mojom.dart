@@ -326,30 +326,10 @@ const int kProvider_echoStrings_name = 1;
 const int kProvider_echoMessagePipeHandle_name = 2;
 const int kProvider_echoEnum_name = 3;
 
-abstract class Provider implements core.Listener {
-  static const String name = 'sample::Provider';
-  ProviderStub stub;
+const String ProviderName =
+      'sample::Provider';
 
-  Provider(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new ProviderStub(endpoint);
-
-  Provider.fromHandle(core.MojoHandle handle) :
-      stub = new ProviderStub.fromHandle(handle);
-
-  Provider.fromStub(this.stub);
-
-  Provider.unbound() :
-      stub = new ProviderStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  Provider get delegate => stub.delegate;
-  set delegate(Provider d) {
-    stub.delegate = d;
-  }
+abstract class Provider {
   Future<ProviderEchoStringResponseParams> echoString(String a,[Function responseFactory = null]);
   Future<ProviderEchoStringsResponseParams> echoStrings(String a,String b,[Function responseFactory = null]);
   Future<ProviderEchoMessagePipeHandleResponseParams> echoMessagePipeHandle(core.MojoMessagePipeEndpoint a,[Function responseFactory = null]);
@@ -357,19 +337,21 @@ abstract class Provider implements core.Listener {
 
 }
 
-class ProviderProxy extends bindings.Proxy implements Provider {
-  ProviderProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  ProviderProxy.fromHandle(core.MojoHandle handle) :
+class ProviderProxyImpl extends bindings.Proxy {
+  ProviderProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  ProviderProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  ProviderProxy.unbound() : super.unbound();
+  ProviderProxyImpl.unbound() : super.unbound();
 
-  String get name => Provider.name;
-
-  static ProviderProxy newFromEndpoint(
+  static ProviderProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ProviderProxy(endpoint);
+      new ProviderProxyImpl.fromEndpoint(endpoint);
+
+  String get name => ProviderName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -418,49 +400,91 @@ class ProviderProxy extends bindings.Proxy implements Provider {
         break;
     }
   }
-  Future<ProviderEchoStringResponseParams> echoString(String a,[Function responseFactory = null]) {
-    var params = new ProviderEchoStringParams();
-    params.a = a;
-    return sendMessageWithRequestId(
-        params,
-        kProvider_echoString_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<ProviderEchoStringsResponseParams> echoStrings(String a,String b,[Function responseFactory = null]) {
-    var params = new ProviderEchoStringsParams();
-    params.a = a;
-    params.b = b;
-    return sendMessageWithRequestId(
-        params,
-        kProvider_echoStrings_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<ProviderEchoMessagePipeHandleResponseParams> echoMessagePipeHandle(core.MojoMessagePipeEndpoint a,[Function responseFactory = null]) {
-    var params = new ProviderEchoMessagePipeHandleParams();
-    params.a = a;
-    return sendMessageWithRequestId(
-        params,
-        kProvider_echoMessagePipeHandle_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<ProviderEchoEnumResponseParams> echoEnum(int a,[Function responseFactory = null]) {
-    var params = new ProviderEchoEnumParams();
-    params.a = a;
-    return sendMessageWithRequestId(
-        params,
-        kProvider_echoEnum_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _ProviderProxyCalls implements Provider {
+  ProviderProxyImpl _proxyImpl;
+
+  _ProviderProxyCalls(this._proxyImpl);
+    Future<ProviderEchoStringResponseParams> echoString(String a,[Function responseFactory = null]) {
+      var params = new ProviderEchoStringParams();
+      params.a = a;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kProvider_echoString_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<ProviderEchoStringsResponseParams> echoStrings(String a,String b,[Function responseFactory = null]) {
+      var params = new ProviderEchoStringsParams();
+      params.a = a;
+      params.b = b;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kProvider_echoStrings_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<ProviderEchoMessagePipeHandleResponseParams> echoMessagePipeHandle(core.MojoMessagePipeEndpoint a,[Function responseFactory = null]) {
+      var params = new ProviderEchoMessagePipeHandleParams();
+      params.a = a;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kProvider_echoMessagePipeHandle_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<ProviderEchoEnumResponseParams> echoEnum(int a,[Function responseFactory = null]) {
+      var params = new ProviderEchoEnumParams();
+      params.a = a;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kProvider_echoEnum_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class ProviderProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  Provider ptr;
+  final String name = ProviderName;
+
+  ProviderProxy(ProviderProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _ProviderProxyCalls(proxyImpl);
+
+  ProviderProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new ProviderProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _ProviderProxyCalls(impl);
+  }
+
+  ProviderProxy.fromHandle(core.MojoHandle handle) :
+      impl = new ProviderProxyImpl.fromHandle(handle) {
+    ptr = new _ProviderProxyCalls(impl);
+  }
+
+  ProviderProxy.unbound() :
+      impl = new ProviderProxyImpl.unbound() {
+    ptr = new _ProviderProxyCalls(impl);
+  }
+
+  static ProviderProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new ProviderProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class ProviderStub extends bindings.Stub {
   Provider _delegate = null;
 
-  ProviderStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  ProviderStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   ProviderStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -469,9 +493,9 @@ class ProviderStub extends bindings.Stub {
 
   static ProviderStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ProviderStub(endpoint);
+      new ProviderStub.fromEndpoint(endpoint);
 
-  static const String name = Provider.name;
+  static const String name = ProviderName;
 
 
   ProviderEchoStringResponseParams _ProviderEchoStringResponseParamsFactory(String a) {

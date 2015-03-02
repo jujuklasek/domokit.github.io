@@ -1913,30 +1913,10 @@ const int kViewManagerService_embedUrl_name = 10;
 const int kViewManagerService_embed_name = 11;
 const int kViewManagerService_performAction_name = 12;
 
-abstract class ViewManagerService implements core.Listener {
-  static const String name = 'mojo::ViewManagerService';
-  ViewManagerServiceStub stub;
+const String ViewManagerServiceName =
+      'mojo::ViewManagerService';
 
-  ViewManagerService(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new ViewManagerServiceStub(endpoint);
-
-  ViewManagerService.fromHandle(core.MojoHandle handle) :
-      stub = new ViewManagerServiceStub.fromHandle(handle);
-
-  ViewManagerService.fromStub(this.stub);
-
-  ViewManagerService.unbound() :
-      stub = new ViewManagerServiceStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  ViewManagerService get delegate => stub.delegate;
-  set delegate(ViewManagerService d) {
-    stub.delegate = d;
-  }
+abstract class ViewManagerService {
   Future<ViewManagerServiceCreateViewResponseParams> createView(int viewId,[Function responseFactory = null]);
   Future<ViewManagerServiceDeleteViewResponseParams> deleteView(int viewId,[Function responseFactory = null]);
   Future<ViewManagerServiceSetViewBoundsResponseParams> setViewBounds(int viewId,geometry_mojom.Rect bounds,[Function responseFactory = null]);
@@ -1953,19 +1933,21 @@ abstract class ViewManagerService implements core.Listener {
 
 }
 
-class ViewManagerServiceProxy extends bindings.Proxy implements ViewManagerService {
-  ViewManagerServiceProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  ViewManagerServiceProxy.fromHandle(core.MojoHandle handle) :
+class ViewManagerServiceProxyImpl extends bindings.Proxy {
+  ViewManagerServiceProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  ViewManagerServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  ViewManagerServiceProxy.unbound() : super.unbound();
+  ViewManagerServiceProxyImpl.unbound() : super.unbound();
 
-  String get name => ViewManagerService.name;
-
-  static ViewManagerServiceProxy newFromEndpoint(
+  static ViewManagerServiceProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ViewManagerServiceProxy(endpoint);
+      new ViewManagerServiceProxyImpl.fromEndpoint(endpoint);
+
+  String get name => ViewManagerServiceName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -2104,142 +2086,184 @@ class ViewManagerServiceProxy extends bindings.Proxy implements ViewManagerServi
         break;
     }
   }
-  Future<ViewManagerServiceCreateViewResponseParams> createView(int viewId,[Function responseFactory = null]) {
-    var params = new ViewManagerServiceCreateViewParams();
-    params.viewId = viewId;
-    return sendMessageWithRequestId(
-        params,
-        kViewManagerService_createView_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<ViewManagerServiceDeleteViewResponseParams> deleteView(int viewId,[Function responseFactory = null]) {
-    var params = new ViewManagerServiceDeleteViewParams();
-    params.viewId = viewId;
-    return sendMessageWithRequestId(
-        params,
-        kViewManagerService_deleteView_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<ViewManagerServiceSetViewBoundsResponseParams> setViewBounds(int viewId,geometry_mojom.Rect bounds,[Function responseFactory = null]) {
-    var params = new ViewManagerServiceSetViewBoundsParams();
-    params.viewId = viewId;
-    params.bounds = bounds;
-    return sendMessageWithRequestId(
-        params,
-        kViewManagerService_setViewBounds_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<ViewManagerServiceSetViewVisibilityResponseParams> setViewVisibility(int viewId,bool visible,[Function responseFactory = null]) {
-    var params = new ViewManagerServiceSetViewVisibilityParams();
-    params.viewId = viewId;
-    params.visible = visible;
-    return sendMessageWithRequestId(
-        params,
-        kViewManagerService_setViewVisibility_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<ViewManagerServiceSetViewPropertyResponseParams> setViewProperty(int viewId,String name,List<int> value,[Function responseFactory = null]) {
-    var params = new ViewManagerServiceSetViewPropertyParams();
-    params.viewId = viewId;
-    params.name = name;
-    params.value = value;
-    return sendMessageWithRequestId(
-        params,
-        kViewManagerService_setViewProperty_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<ViewManagerServiceAddViewResponseParams> addView(int parent,int child,[Function responseFactory = null]) {
-    var params = new ViewManagerServiceAddViewParams();
-    params.parent = parent;
-    params.child = child;
-    return sendMessageWithRequestId(
-        params,
-        kViewManagerService_addView_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<ViewManagerServiceRemoveViewFromParentResponseParams> removeViewFromParent(int viewId,[Function responseFactory = null]) {
-    var params = new ViewManagerServiceRemoveViewFromParentParams();
-    params.viewId = viewId;
-    return sendMessageWithRequestId(
-        params,
-        kViewManagerService_removeViewFromParent_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<ViewManagerServiceReorderViewResponseParams> reorderView(int viewId,int relativeViewId,int direction,[Function responseFactory = null]) {
-    var params = new ViewManagerServiceReorderViewParams();
-    params.viewId = viewId;
-    params.relativeViewId = relativeViewId;
-    params.direction = direction;
-    return sendMessageWithRequestId(
-        params,
-        kViewManagerService_reorderView_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<ViewManagerServiceGetViewTreeResponseParams> getViewTree(int viewId,[Function responseFactory = null]) {
-    var params = new ViewManagerServiceGetViewTreeParams();
-    params.viewId = viewId;
-    return sendMessageWithRequestId(
-        params,
-        kViewManagerService_getViewTree_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<ViewManagerServiceSetViewSurfaceIdResponseParams> setViewSurfaceId(int viewId,surface_id_mojom.SurfaceId surfaceId,[Function responseFactory = null]) {
-    var params = new ViewManagerServiceSetViewSurfaceIdParams();
-    params.viewId = viewId;
-    params.surfaceId = surfaceId;
-    return sendMessageWithRequestId(
-        params,
-        kViewManagerService_setViewSurfaceId_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<ViewManagerServiceEmbedUrlResponseParams> embedUrl(String url,int viewId,Object services,Object exposedServices,[Function responseFactory = null]) {
-    var params = new ViewManagerServiceEmbedUrlParams();
-    params.url = url;
-    params.viewId = viewId;
-    params.services = services;
-    params.exposedServices = exposedServices;
-    return sendMessageWithRequestId(
-        params,
-        kViewManagerService_embedUrl_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<ViewManagerServiceEmbedResponseParams> embed(int viewId,Object client,[Function responseFactory = null]) {
-    var params = new ViewManagerServiceEmbedParams();
-    params.viewId = viewId;
-    params.client = client;
-    return sendMessageWithRequestId(
-        params,
-        kViewManagerService_embed_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<ViewManagerServicePerformActionResponseParams> performAction(int viewId,String action,[Function responseFactory = null]) {
-    var params = new ViewManagerServicePerformActionParams();
-    params.viewId = viewId;
-    params.action = action;
-    return sendMessageWithRequestId(
-        params,
-        kViewManagerService_performAction_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _ViewManagerServiceProxyCalls implements ViewManagerService {
+  ViewManagerServiceProxyImpl _proxyImpl;
+
+  _ViewManagerServiceProxyCalls(this._proxyImpl);
+    Future<ViewManagerServiceCreateViewResponseParams> createView(int viewId,[Function responseFactory = null]) {
+      var params = new ViewManagerServiceCreateViewParams();
+      params.viewId = viewId;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kViewManagerService_createView_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<ViewManagerServiceDeleteViewResponseParams> deleteView(int viewId,[Function responseFactory = null]) {
+      var params = new ViewManagerServiceDeleteViewParams();
+      params.viewId = viewId;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kViewManagerService_deleteView_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<ViewManagerServiceSetViewBoundsResponseParams> setViewBounds(int viewId,geometry_mojom.Rect bounds,[Function responseFactory = null]) {
+      var params = new ViewManagerServiceSetViewBoundsParams();
+      params.viewId = viewId;
+      params.bounds = bounds;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kViewManagerService_setViewBounds_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<ViewManagerServiceSetViewVisibilityResponseParams> setViewVisibility(int viewId,bool visible,[Function responseFactory = null]) {
+      var params = new ViewManagerServiceSetViewVisibilityParams();
+      params.viewId = viewId;
+      params.visible = visible;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kViewManagerService_setViewVisibility_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<ViewManagerServiceSetViewPropertyResponseParams> setViewProperty(int viewId,String name,List<int> value,[Function responseFactory = null]) {
+      var params = new ViewManagerServiceSetViewPropertyParams();
+      params.viewId = viewId;
+      params.name = name;
+      params.value = value;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kViewManagerService_setViewProperty_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<ViewManagerServiceAddViewResponseParams> addView(int parent,int child,[Function responseFactory = null]) {
+      var params = new ViewManagerServiceAddViewParams();
+      params.parent = parent;
+      params.child = child;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kViewManagerService_addView_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<ViewManagerServiceRemoveViewFromParentResponseParams> removeViewFromParent(int viewId,[Function responseFactory = null]) {
+      var params = new ViewManagerServiceRemoveViewFromParentParams();
+      params.viewId = viewId;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kViewManagerService_removeViewFromParent_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<ViewManagerServiceReorderViewResponseParams> reorderView(int viewId,int relativeViewId,int direction,[Function responseFactory = null]) {
+      var params = new ViewManagerServiceReorderViewParams();
+      params.viewId = viewId;
+      params.relativeViewId = relativeViewId;
+      params.direction = direction;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kViewManagerService_reorderView_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<ViewManagerServiceGetViewTreeResponseParams> getViewTree(int viewId,[Function responseFactory = null]) {
+      var params = new ViewManagerServiceGetViewTreeParams();
+      params.viewId = viewId;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kViewManagerService_getViewTree_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<ViewManagerServiceSetViewSurfaceIdResponseParams> setViewSurfaceId(int viewId,surface_id_mojom.SurfaceId surfaceId,[Function responseFactory = null]) {
+      var params = new ViewManagerServiceSetViewSurfaceIdParams();
+      params.viewId = viewId;
+      params.surfaceId = surfaceId;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kViewManagerService_setViewSurfaceId_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<ViewManagerServiceEmbedUrlResponseParams> embedUrl(String url,int viewId,Object services,Object exposedServices,[Function responseFactory = null]) {
+      var params = new ViewManagerServiceEmbedUrlParams();
+      params.url = url;
+      params.viewId = viewId;
+      params.services = services;
+      params.exposedServices = exposedServices;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kViewManagerService_embedUrl_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<ViewManagerServiceEmbedResponseParams> embed(int viewId,Object client,[Function responseFactory = null]) {
+      var params = new ViewManagerServiceEmbedParams();
+      params.viewId = viewId;
+      params.client = client;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kViewManagerService_embed_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<ViewManagerServicePerformActionResponseParams> performAction(int viewId,String action,[Function responseFactory = null]) {
+      var params = new ViewManagerServicePerformActionParams();
+      params.viewId = viewId;
+      params.action = action;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kViewManagerService_performAction_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class ViewManagerServiceProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  ViewManagerService ptr;
+  final String name = ViewManagerServiceName;
+
+  ViewManagerServiceProxy(ViewManagerServiceProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _ViewManagerServiceProxyCalls(proxyImpl);
+
+  ViewManagerServiceProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new ViewManagerServiceProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _ViewManagerServiceProxyCalls(impl);
+  }
+
+  ViewManagerServiceProxy.fromHandle(core.MojoHandle handle) :
+      impl = new ViewManagerServiceProxyImpl.fromHandle(handle) {
+    ptr = new _ViewManagerServiceProxyCalls(impl);
+  }
+
+  ViewManagerServiceProxy.unbound() :
+      impl = new ViewManagerServiceProxyImpl.unbound() {
+    ptr = new _ViewManagerServiceProxyCalls(impl);
+  }
+
+  static ViewManagerServiceProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new ViewManagerServiceProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class ViewManagerServiceStub extends bindings.Stub {
   ViewManagerService _delegate = null;
 
-  ViewManagerServiceStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  ViewManagerServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   ViewManagerServiceStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -2248,9 +2272,9 @@ class ViewManagerServiceStub extends bindings.Stub {
 
   static ViewManagerServiceStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ViewManagerServiceStub(endpoint);
+      new ViewManagerServiceStub.fromEndpoint(endpoint);
 
-  static const String name = ViewManagerService.name;
+  static const String name = ViewManagerServiceName;
 
 
   ViewManagerServiceCreateViewResponseParams _ViewManagerServiceCreateViewResponseParamsFactory(int errorCode) {
@@ -2518,30 +2542,10 @@ const int kViewManagerClient_onViewSharedPropertyChanged_name = 9;
 const int kViewManagerClient_onViewInputEvent_name = 10;
 const int kViewManagerClient_onPerformAction_name = 11;
 
-abstract class ViewManagerClient implements core.Listener {
-  static const String name = 'mojo::ViewManagerClient';
-  ViewManagerClientStub stub;
+const String ViewManagerClientName =
+      'mojo::ViewManagerClient';
 
-  ViewManagerClient(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new ViewManagerClientStub(endpoint);
-
-  ViewManagerClient.fromHandle(core.MojoHandle handle) :
-      stub = new ViewManagerClientStub.fromHandle(handle);
-
-  ViewManagerClient.fromStub(this.stub);
-
-  ViewManagerClient.unbound() :
-      stub = new ViewManagerClientStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  ViewManagerClient get delegate => stub.delegate;
-  set delegate(ViewManagerClient d) {
-    stub.delegate = d;
-  }
+abstract class ViewManagerClient {
   void onEmbed(int connectionId, String embedderUrl, ViewData root, Object viewManagerService, Object services, Object exposedServices, core.MojoMessagePipeEndpoint windowManagerPipe);
   void onEmbeddedAppDisconnected(int view);
   void onViewBoundsChanged(int view, geometry_mojom.Rect oldBounds, geometry_mojom.Rect newBounds);
@@ -2557,19 +2561,21 @@ abstract class ViewManagerClient implements core.Listener {
 
 }
 
-class ViewManagerClientProxy extends bindings.Proxy implements ViewManagerClient {
-  ViewManagerClientProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  ViewManagerClientProxy.fromHandle(core.MojoHandle handle) :
+class ViewManagerClientProxyImpl extends bindings.Proxy {
+  ViewManagerClientProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  ViewManagerClientProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  ViewManagerClientProxy.unbound() : super.unbound();
+  ViewManagerClientProxyImpl.unbound() : super.unbound();
 
-  String get name => ViewManagerClient.name;
-
-  static ViewManagerClientProxy newFromEndpoint(
+  static ViewManagerClientProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ViewManagerClientProxy(endpoint);
+      new ViewManagerClientProxyImpl.fromEndpoint(endpoint);
+
+  String get name => ViewManagerClientName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -2598,110 +2604,152 @@ class ViewManagerClientProxy extends bindings.Proxy implements ViewManagerClient
         break;
     }
   }
-  void onEmbed(int connectionId, String embedderUrl, ViewData root, Object viewManagerService, Object services, Object exposedServices, core.MojoMessagePipeEndpoint windowManagerPipe) {
-    var params = new ViewManagerClientOnEmbedParams();
-    params.connectionId = connectionId;
-    params.embedderUrl = embedderUrl;
-    params.root = root;
-    params.viewManagerService = viewManagerService;
-    params.services = services;
-    params.exposedServices = exposedServices;
-    params.windowManagerPipe = windowManagerPipe;
-    sendMessage(params, kViewManagerClient_onEmbed_name);
-  }
-
-  void onEmbeddedAppDisconnected(int view) {
-    var params = new ViewManagerClientOnEmbeddedAppDisconnectedParams();
-    params.view = view;
-    sendMessage(params, kViewManagerClient_onEmbeddedAppDisconnected_name);
-  }
-
-  void onViewBoundsChanged(int view, geometry_mojom.Rect oldBounds, geometry_mojom.Rect newBounds) {
-    var params = new ViewManagerClientOnViewBoundsChangedParams();
-    params.view = view;
-    params.oldBounds = oldBounds;
-    params.newBounds = newBounds;
-    sendMessage(params, kViewManagerClient_onViewBoundsChanged_name);
-  }
-
-  void onViewViewportMetricsChanged(native_viewport_mojom.ViewportMetrics oldMetrics, native_viewport_mojom.ViewportMetrics newMetrics) {
-    var params = new ViewManagerClientOnViewViewportMetricsChangedParams();
-    params.oldMetrics = oldMetrics;
-    params.newMetrics = newMetrics;
-    sendMessage(params, kViewManagerClient_onViewViewportMetricsChanged_name);
-  }
-
-  void onViewHierarchyChanged(int view, int newParent, int oldParent, List<ViewData> views) {
-    var params = new ViewManagerClientOnViewHierarchyChangedParams();
-    params.view = view;
-    params.newParent = newParent;
-    params.oldParent = oldParent;
-    params.views = views;
-    sendMessage(params, kViewManagerClient_onViewHierarchyChanged_name);
-  }
-
-  void onViewReordered(int viewId, int relativeViewId, int direction) {
-    var params = new ViewManagerClientOnViewReorderedParams();
-    params.viewId = viewId;
-    params.relativeViewId = relativeViewId;
-    params.direction = direction;
-    sendMessage(params, kViewManagerClient_onViewReordered_name);
-  }
-
-  void onViewDeleted(int view) {
-    var params = new ViewManagerClientOnViewDeletedParams();
-    params.view = view;
-    sendMessage(params, kViewManagerClient_onViewDeleted_name);
-  }
-
-  void onViewVisibilityChanged(int view, bool visible) {
-    var params = new ViewManagerClientOnViewVisibilityChangedParams();
-    params.view = view;
-    params.visible = visible;
-    sendMessage(params, kViewManagerClient_onViewVisibilityChanged_name);
-  }
-
-  void onViewDrawnStateChanged(int view, bool drawn) {
-    var params = new ViewManagerClientOnViewDrawnStateChangedParams();
-    params.view = view;
-    params.drawn = drawn;
-    sendMessage(params, kViewManagerClient_onViewDrawnStateChanged_name);
-  }
-
-  void onViewSharedPropertyChanged(int view, String name, List<int> newData) {
-    var params = new ViewManagerClientOnViewSharedPropertyChangedParams();
-    params.view = view;
-    params.name = name;
-    params.newData = newData;
-    sendMessage(params, kViewManagerClient_onViewSharedPropertyChanged_name);
-  }
-
-  Future<ViewManagerClientOnViewInputEventResponseParams> onViewInputEvent(int view,input_events_mojom.Event event,[Function responseFactory = null]) {
-    var params = new ViewManagerClientOnViewInputEventParams();
-    params.view = view;
-    params.event = event;
-    return sendMessageWithRequestId(
-        params,
-        kViewManagerClient_onViewInputEvent_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<ViewManagerClientOnPerformActionResponseParams> onPerformAction(int viewId,String action,[Function responseFactory = null]) {
-    var params = new ViewManagerClientOnPerformActionParams();
-    params.viewId = viewId;
-    params.action = action;
-    return sendMessageWithRequestId(
-        params,
-        kViewManagerClient_onPerformAction_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _ViewManagerClientProxyCalls implements ViewManagerClient {
+  ViewManagerClientProxyImpl _proxyImpl;
+
+  _ViewManagerClientProxyCalls(this._proxyImpl);
+    void onEmbed(int connectionId, String embedderUrl, ViewData root, Object viewManagerService, Object services, Object exposedServices, core.MojoMessagePipeEndpoint windowManagerPipe) {
+      var params = new ViewManagerClientOnEmbedParams();
+      params.connectionId = connectionId;
+      params.embedderUrl = embedderUrl;
+      params.root = root;
+      params.viewManagerService = viewManagerService;
+      params.services = services;
+      params.exposedServices = exposedServices;
+      params.windowManagerPipe = windowManagerPipe;
+      _proxyImpl.sendMessage(params, kViewManagerClient_onEmbed_name);
+    }
+  
+    void onEmbeddedAppDisconnected(int view) {
+      var params = new ViewManagerClientOnEmbeddedAppDisconnectedParams();
+      params.view = view;
+      _proxyImpl.sendMessage(params, kViewManagerClient_onEmbeddedAppDisconnected_name);
+    }
+  
+    void onViewBoundsChanged(int view, geometry_mojom.Rect oldBounds, geometry_mojom.Rect newBounds) {
+      var params = new ViewManagerClientOnViewBoundsChangedParams();
+      params.view = view;
+      params.oldBounds = oldBounds;
+      params.newBounds = newBounds;
+      _proxyImpl.sendMessage(params, kViewManagerClient_onViewBoundsChanged_name);
+    }
+  
+    void onViewViewportMetricsChanged(native_viewport_mojom.ViewportMetrics oldMetrics, native_viewport_mojom.ViewportMetrics newMetrics) {
+      var params = new ViewManagerClientOnViewViewportMetricsChangedParams();
+      params.oldMetrics = oldMetrics;
+      params.newMetrics = newMetrics;
+      _proxyImpl.sendMessage(params, kViewManagerClient_onViewViewportMetricsChanged_name);
+    }
+  
+    void onViewHierarchyChanged(int view, int newParent, int oldParent, List<ViewData> views) {
+      var params = new ViewManagerClientOnViewHierarchyChangedParams();
+      params.view = view;
+      params.newParent = newParent;
+      params.oldParent = oldParent;
+      params.views = views;
+      _proxyImpl.sendMessage(params, kViewManagerClient_onViewHierarchyChanged_name);
+    }
+  
+    void onViewReordered(int viewId, int relativeViewId, int direction) {
+      var params = new ViewManagerClientOnViewReorderedParams();
+      params.viewId = viewId;
+      params.relativeViewId = relativeViewId;
+      params.direction = direction;
+      _proxyImpl.sendMessage(params, kViewManagerClient_onViewReordered_name);
+    }
+  
+    void onViewDeleted(int view) {
+      var params = new ViewManagerClientOnViewDeletedParams();
+      params.view = view;
+      _proxyImpl.sendMessage(params, kViewManagerClient_onViewDeleted_name);
+    }
+  
+    void onViewVisibilityChanged(int view, bool visible) {
+      var params = new ViewManagerClientOnViewVisibilityChangedParams();
+      params.view = view;
+      params.visible = visible;
+      _proxyImpl.sendMessage(params, kViewManagerClient_onViewVisibilityChanged_name);
+    }
+  
+    void onViewDrawnStateChanged(int view, bool drawn) {
+      var params = new ViewManagerClientOnViewDrawnStateChangedParams();
+      params.view = view;
+      params.drawn = drawn;
+      _proxyImpl.sendMessage(params, kViewManagerClient_onViewDrawnStateChanged_name);
+    }
+  
+    void onViewSharedPropertyChanged(int view, String name, List<int> newData) {
+      var params = new ViewManagerClientOnViewSharedPropertyChangedParams();
+      params.view = view;
+      params.name = name;
+      params.newData = newData;
+      _proxyImpl.sendMessage(params, kViewManagerClient_onViewSharedPropertyChanged_name);
+    }
+  
+    Future<ViewManagerClientOnViewInputEventResponseParams> onViewInputEvent(int view,input_events_mojom.Event event,[Function responseFactory = null]) {
+      var params = new ViewManagerClientOnViewInputEventParams();
+      params.view = view;
+      params.event = event;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kViewManagerClient_onViewInputEvent_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<ViewManagerClientOnPerformActionResponseParams> onPerformAction(int viewId,String action,[Function responseFactory = null]) {
+      var params = new ViewManagerClientOnPerformActionParams();
+      params.viewId = viewId;
+      params.action = action;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kViewManagerClient_onPerformAction_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class ViewManagerClientProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  ViewManagerClient ptr;
+  final String name = ViewManagerClientName;
+
+  ViewManagerClientProxy(ViewManagerClientProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _ViewManagerClientProxyCalls(proxyImpl);
+
+  ViewManagerClientProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new ViewManagerClientProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _ViewManagerClientProxyCalls(impl);
+  }
+
+  ViewManagerClientProxy.fromHandle(core.MojoHandle handle) :
+      impl = new ViewManagerClientProxyImpl.fromHandle(handle) {
+    ptr = new _ViewManagerClientProxyCalls(impl);
+  }
+
+  ViewManagerClientProxy.unbound() :
+      impl = new ViewManagerClientProxyImpl.unbound() {
+    ptr = new _ViewManagerClientProxyCalls(impl);
+  }
+
+  static ViewManagerClientProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new ViewManagerClientProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class ViewManagerClientStub extends bindings.Stub {
   ViewManagerClient _delegate = null;
 
-  ViewManagerClientStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  ViewManagerClientStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   ViewManagerClientStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -2710,9 +2758,9 @@ class ViewManagerClientStub extends bindings.Stub {
 
   static ViewManagerClientStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ViewManagerClientStub(endpoint);
+      new ViewManagerClientStub.fromEndpoint(endpoint);
 
-  static const String name = ViewManagerClient.name;
+  static const String name = ViewManagerClientName;
 
 
   ViewManagerClientOnViewInputEventResponseParams _ViewManagerClientOnViewInputEventResponseParamsFactory() {

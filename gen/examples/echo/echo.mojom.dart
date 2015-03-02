@@ -84,47 +84,29 @@ class EchoEchoStringResponseParams extends bindings.Struct {
 }
 const int kEcho_echoString_name = 0;
 
-abstract class Echo implements core.Listener {
-  static const String name = 'mojo::examples::Echo';
-  EchoStub stub;
+const String EchoName =
+      'mojo::examples::Echo';
 
-  Echo(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new EchoStub(endpoint);
-
-  Echo.fromHandle(core.MojoHandle handle) :
-      stub = new EchoStub.fromHandle(handle);
-
-  Echo.fromStub(this.stub);
-
-  Echo.unbound() :
-      stub = new EchoStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  Echo get delegate => stub.delegate;
-  set delegate(Echo d) {
-    stub.delegate = d;
-  }
+abstract class Echo {
   Future<EchoEchoStringResponseParams> echoString(String value,[Function responseFactory = null]);
 
 }
 
-class EchoProxy extends bindings.Proxy implements Echo {
-  EchoProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  EchoProxy.fromHandle(core.MojoHandle handle) :
+class EchoProxyImpl extends bindings.Proxy {
+  EchoProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  EchoProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  EchoProxy.unbound() : super.unbound();
+  EchoProxyImpl.unbound() : super.unbound();
 
-  String get name => Echo.name;
-
-  static EchoProxy newFromEndpoint(
+  static EchoProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new EchoProxy(endpoint);
+      new EchoProxyImpl.fromEndpoint(endpoint);
+
+  String get name => EchoName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -143,21 +125,63 @@ class EchoProxy extends bindings.Proxy implements Echo {
         break;
     }
   }
-  Future<EchoEchoStringResponseParams> echoString(String value,[Function responseFactory = null]) {
-    var params = new EchoEchoStringParams();
-    params.value = value;
-    return sendMessageWithRequestId(
-        params,
-        kEcho_echoString_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _EchoProxyCalls implements Echo {
+  EchoProxyImpl _proxyImpl;
+
+  _EchoProxyCalls(this._proxyImpl);
+    Future<EchoEchoStringResponseParams> echoString(String value,[Function responseFactory = null]) {
+      var params = new EchoEchoStringParams();
+      params.value = value;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kEcho_echoString_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class EchoProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  Echo ptr;
+  final String name = EchoName;
+
+  EchoProxy(EchoProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _EchoProxyCalls(proxyImpl);
+
+  EchoProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new EchoProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _EchoProxyCalls(impl);
+  }
+
+  EchoProxy.fromHandle(core.MojoHandle handle) :
+      impl = new EchoProxyImpl.fromHandle(handle) {
+    ptr = new _EchoProxyCalls(impl);
+  }
+
+  EchoProxy.unbound() :
+      impl = new EchoProxyImpl.unbound() {
+    ptr = new _EchoProxyCalls(impl);
+  }
+
+  static EchoProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new EchoProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class EchoStub extends bindings.Stub {
   Echo _delegate = null;
 
-  EchoStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  EchoStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   EchoStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -166,9 +190,9 @@ class EchoStub extends bindings.Stub {
 
   static EchoStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new EchoStub(endpoint);
+      new EchoStub.fromEndpoint(endpoint);
 
-  static const String name = Echo.name;
+  static const String name = EchoName;
 
 
   EchoEchoStringResponseParams _EchoEchoStringResponseParamsFactory(String value) {

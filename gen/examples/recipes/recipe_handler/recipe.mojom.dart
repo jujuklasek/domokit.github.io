@@ -131,47 +131,29 @@ class RecipeGetIngredientsResponseParams extends bindings.Struct {
 }
 const int kRecipe_getIngredients_name = 0;
 
-abstract class Recipe implements core.Listener {
-  static const String name = 'recipes::Recipe';
-  RecipeStub stub;
+const String RecipeName =
+      'recipes::Recipe';
 
-  Recipe(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new RecipeStub(endpoint);
-
-  Recipe.fromHandle(core.MojoHandle handle) :
-      stub = new RecipeStub.fromHandle(handle);
-
-  Recipe.fromStub(this.stub);
-
-  Recipe.unbound() :
-      stub = new RecipeStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  Recipe get delegate => stub.delegate;
-  set delegate(Recipe d) {
-    stub.delegate = d;
-  }
+abstract class Recipe {
   Future<RecipeGetIngredientsResponseParams> getIngredients([Function responseFactory = null]);
 
 }
 
-class RecipeProxy extends bindings.Proxy implements Recipe {
-  RecipeProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  RecipeProxy.fromHandle(core.MojoHandle handle) :
+class RecipeProxyImpl extends bindings.Proxy {
+  RecipeProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  RecipeProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  RecipeProxy.unbound() : super.unbound();
+  RecipeProxyImpl.unbound() : super.unbound();
 
-  String get name => Recipe.name;
-
-  static RecipeProxy newFromEndpoint(
+  static RecipeProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new RecipeProxy(endpoint);
+      new RecipeProxyImpl.fromEndpoint(endpoint);
+
+  String get name => RecipeName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -190,20 +172,62 @@ class RecipeProxy extends bindings.Proxy implements Recipe {
         break;
     }
   }
-  Future<RecipeGetIngredientsResponseParams> getIngredients([Function responseFactory = null]) {
-    var params = new RecipeGetIngredientsParams();
-    return sendMessageWithRequestId(
-        params,
-        kRecipe_getIngredients_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _RecipeProxyCalls implements Recipe {
+  RecipeProxyImpl _proxyImpl;
+
+  _RecipeProxyCalls(this._proxyImpl);
+    Future<RecipeGetIngredientsResponseParams> getIngredients([Function responseFactory = null]) {
+      var params = new RecipeGetIngredientsParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kRecipe_getIngredients_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class RecipeProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  Recipe ptr;
+  final String name = RecipeName;
+
+  RecipeProxy(RecipeProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _RecipeProxyCalls(proxyImpl);
+
+  RecipeProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new RecipeProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _RecipeProxyCalls(impl);
+  }
+
+  RecipeProxy.fromHandle(core.MojoHandle handle) :
+      impl = new RecipeProxyImpl.fromHandle(handle) {
+    ptr = new _RecipeProxyCalls(impl);
+  }
+
+  RecipeProxy.unbound() :
+      impl = new RecipeProxyImpl.unbound() {
+    ptr = new _RecipeProxyCalls(impl);
+  }
+
+  static RecipeProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new RecipeProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class RecipeStub extends bindings.Stub {
   Recipe _delegate = null;
 
-  RecipeStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  RecipeStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   RecipeStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -212,9 +236,9 @@ class RecipeStub extends bindings.Stub {
 
   static RecipeStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new RecipeStub(endpoint);
+      new RecipeStub.fromEndpoint(endpoint);
 
-  static const String name = Recipe.name;
+  static const String name = RecipeName;
 
 
   RecipeGetIngredientsResponseParams _RecipeGetIngredientsResponseParamsFactory(List<Ingredient> ingredients) {

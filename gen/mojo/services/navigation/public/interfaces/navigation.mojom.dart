@@ -136,49 +136,31 @@ const int kNavigatorHost_requestNavigate_name = 0;
 const int kNavigatorHost_requestNavigateHistory_name = 1;
 const int kNavigatorHost_didNavigateLocally_name = 2;
 
-abstract class NavigatorHost implements core.Listener {
-  static const String name = 'mojo::NavigatorHost';
-  NavigatorHostStub stub;
+const String NavigatorHostName =
+      'mojo::NavigatorHost';
 
-  NavigatorHost(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new NavigatorHostStub(endpoint);
-
-  NavigatorHost.fromHandle(core.MojoHandle handle) :
-      stub = new NavigatorHostStub.fromHandle(handle);
-
-  NavigatorHost.fromStub(this.stub);
-
-  NavigatorHost.unbound() :
-      stub = new NavigatorHostStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  NavigatorHost get delegate => stub.delegate;
-  set delegate(NavigatorHost d) {
-    stub.delegate = d;
-  }
+abstract class NavigatorHost {
   void requestNavigate(int target, url_loader_mojom.UrlRequest request);
   void requestNavigateHistory(int delta);
   void didNavigateLocally(String url);
 
 }
 
-class NavigatorHostProxy extends bindings.Proxy implements NavigatorHost {
-  NavigatorHostProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  NavigatorHostProxy.fromHandle(core.MojoHandle handle) :
+class NavigatorHostProxyImpl extends bindings.Proxy {
+  NavigatorHostProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  NavigatorHostProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  NavigatorHostProxy.unbound() : super.unbound();
+  NavigatorHostProxyImpl.unbound() : super.unbound();
 
-  String get name => NavigatorHost.name;
-
-  static NavigatorHostProxy newFromEndpoint(
+  static NavigatorHostProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new NavigatorHostProxy(endpoint);
+      new NavigatorHostProxyImpl.fromEndpoint(endpoint);
+
+  String get name => NavigatorHostName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -187,31 +169,73 @@ class NavigatorHostProxy extends bindings.Proxy implements NavigatorHost {
         break;
     }
   }
-  void requestNavigate(int target, url_loader_mojom.UrlRequest request) {
-    var params = new NavigatorHostRequestNavigateParams();
-    params.target = target;
-    params.request = request;
-    sendMessage(params, kNavigatorHost_requestNavigate_name);
-  }
-
-  void requestNavigateHistory(int delta) {
-    var params = new NavigatorHostRequestNavigateHistoryParams();
-    params.delta = delta;
-    sendMessage(params, kNavigatorHost_requestNavigateHistory_name);
-  }
-
-  void didNavigateLocally(String url) {
-    var params = new NavigatorHostDidNavigateLocallyParams();
-    params.url = url;
-    sendMessage(params, kNavigatorHost_didNavigateLocally_name);
-  }
-
 }
+
+
+class _NavigatorHostProxyCalls implements NavigatorHost {
+  NavigatorHostProxyImpl _proxyImpl;
+
+  _NavigatorHostProxyCalls(this._proxyImpl);
+    void requestNavigate(int target, url_loader_mojom.UrlRequest request) {
+      var params = new NavigatorHostRequestNavigateParams();
+      params.target = target;
+      params.request = request;
+      _proxyImpl.sendMessage(params, kNavigatorHost_requestNavigate_name);
+    }
+  
+    void requestNavigateHistory(int delta) {
+      var params = new NavigatorHostRequestNavigateHistoryParams();
+      params.delta = delta;
+      _proxyImpl.sendMessage(params, kNavigatorHost_requestNavigateHistory_name);
+    }
+  
+    void didNavigateLocally(String url) {
+      var params = new NavigatorHostDidNavigateLocallyParams();
+      params.url = url;
+      _proxyImpl.sendMessage(params, kNavigatorHost_didNavigateLocally_name);
+    }
+  
+}
+
+
+class NavigatorHostProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  NavigatorHost ptr;
+  final String name = NavigatorHostName;
+
+  NavigatorHostProxy(NavigatorHostProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _NavigatorHostProxyCalls(proxyImpl);
+
+  NavigatorHostProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new NavigatorHostProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _NavigatorHostProxyCalls(impl);
+  }
+
+  NavigatorHostProxy.fromHandle(core.MojoHandle handle) :
+      impl = new NavigatorHostProxyImpl.fromHandle(handle) {
+    ptr = new _NavigatorHostProxyCalls(impl);
+  }
+
+  NavigatorHostProxy.unbound() :
+      impl = new NavigatorHostProxyImpl.unbound() {
+    ptr = new _NavigatorHostProxyCalls(impl);
+  }
+
+  static NavigatorHostProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new NavigatorHostProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class NavigatorHostStub extends bindings.Stub {
   NavigatorHost _delegate = null;
 
-  NavigatorHostStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  NavigatorHostStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   NavigatorHostStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -220,9 +244,9 @@ class NavigatorHostStub extends bindings.Stub {
 
   static NavigatorHostStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new NavigatorHostStub(endpoint);
+      new NavigatorHostStub.fromEndpoint(endpoint);
 
-  static const String name = NavigatorHost.name;
+  static const String name = NavigatorHostName;
 
 
 

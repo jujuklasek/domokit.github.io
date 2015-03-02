@@ -227,49 +227,31 @@ const int kCalculator_clear_name = 0;
 const int kCalculator_add_name = 1;
 const int kCalculator_multiply_name = 2;
 
-abstract class Calculator implements core.Listener {
-  static const String name = 'math::Calculator';
-  CalculatorStub stub;
+const String CalculatorName =
+      'math::Calculator';
 
-  Calculator(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new CalculatorStub(endpoint);
-
-  Calculator.fromHandle(core.MojoHandle handle) :
-      stub = new CalculatorStub.fromHandle(handle);
-
-  Calculator.fromStub(this.stub);
-
-  Calculator.unbound() :
-      stub = new CalculatorStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  Calculator get delegate => stub.delegate;
-  set delegate(Calculator d) {
-    stub.delegate = d;
-  }
+abstract class Calculator {
   Future<CalculatorClearResponseParams> clear([Function responseFactory = null]);
   Future<CalculatorAddResponseParams> add(double value,[Function responseFactory = null]);
   Future<CalculatorMultiplyResponseParams> multiply(double value,[Function responseFactory = null]);
 
 }
 
-class CalculatorProxy extends bindings.Proxy implements Calculator {
-  CalculatorProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  CalculatorProxy.fromHandle(core.MojoHandle handle) :
+class CalculatorProxyImpl extends bindings.Proxy {
+  CalculatorProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  CalculatorProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  CalculatorProxy.unbound() : super.unbound();
+  CalculatorProxyImpl.unbound() : super.unbound();
 
-  String get name => Calculator.name;
-
-  static CalculatorProxy newFromEndpoint(
+  static CalculatorProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new CalculatorProxy(endpoint);
+      new CalculatorProxyImpl.fromEndpoint(endpoint);
+
+  String get name => CalculatorName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -308,38 +290,80 @@ class CalculatorProxy extends bindings.Proxy implements Calculator {
         break;
     }
   }
-  Future<CalculatorClearResponseParams> clear([Function responseFactory = null]) {
-    var params = new CalculatorClearParams();
-    return sendMessageWithRequestId(
-        params,
-        kCalculator_clear_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<CalculatorAddResponseParams> add(double value,[Function responseFactory = null]) {
-    var params = new CalculatorAddParams();
-    params.value = value;
-    return sendMessageWithRequestId(
-        params,
-        kCalculator_add_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<CalculatorMultiplyResponseParams> multiply(double value,[Function responseFactory = null]) {
-    var params = new CalculatorMultiplyParams();
-    params.value = value;
-    return sendMessageWithRequestId(
-        params,
-        kCalculator_multiply_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _CalculatorProxyCalls implements Calculator {
+  CalculatorProxyImpl _proxyImpl;
+
+  _CalculatorProxyCalls(this._proxyImpl);
+    Future<CalculatorClearResponseParams> clear([Function responseFactory = null]) {
+      var params = new CalculatorClearParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kCalculator_clear_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<CalculatorAddResponseParams> add(double value,[Function responseFactory = null]) {
+      var params = new CalculatorAddParams();
+      params.value = value;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kCalculator_add_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<CalculatorMultiplyResponseParams> multiply(double value,[Function responseFactory = null]) {
+      var params = new CalculatorMultiplyParams();
+      params.value = value;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kCalculator_multiply_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class CalculatorProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  Calculator ptr;
+  final String name = CalculatorName;
+
+  CalculatorProxy(CalculatorProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _CalculatorProxyCalls(proxyImpl);
+
+  CalculatorProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new CalculatorProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _CalculatorProxyCalls(impl);
+  }
+
+  CalculatorProxy.fromHandle(core.MojoHandle handle) :
+      impl = new CalculatorProxyImpl.fromHandle(handle) {
+    ptr = new _CalculatorProxyCalls(impl);
+  }
+
+  CalculatorProxy.unbound() :
+      impl = new CalculatorProxyImpl.unbound() {
+    ptr = new _CalculatorProxyCalls(impl);
+  }
+
+  static CalculatorProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new CalculatorProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class CalculatorStub extends bindings.Stub {
   Calculator _delegate = null;
 
-  CalculatorStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  CalculatorStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   CalculatorStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -348,9 +372,9 @@ class CalculatorStub extends bindings.Stub {
 
   static CalculatorStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new CalculatorStub(endpoint);
+      new CalculatorStub.fromEndpoint(endpoint);
 
-  static const String name = Calculator.name;
+  static const String name = CalculatorName;
 
 
   CalculatorClearResponseParams _CalculatorClearResponseParamsFactory(double value) {

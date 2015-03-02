@@ -695,47 +695,29 @@ class SurfaceCreateGleS2BoundSurfaceParams extends bindings.Struct {
 }
 const int kResourceReturner_returnResources_name = 0;
 
-abstract class ResourceReturner implements core.Listener {
-  static const String name = 'mojo::ResourceReturner';
-  ResourceReturnerStub stub;
+const String ResourceReturnerName =
+      'mojo::ResourceReturner';
 
-  ResourceReturner(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new ResourceReturnerStub(endpoint);
-
-  ResourceReturner.fromHandle(core.MojoHandle handle) :
-      stub = new ResourceReturnerStub.fromHandle(handle);
-
-  ResourceReturner.fromStub(this.stub);
-
-  ResourceReturner.unbound() :
-      stub = new ResourceReturnerStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  ResourceReturner get delegate => stub.delegate;
-  set delegate(ResourceReturner d) {
-    stub.delegate = d;
-  }
+abstract class ResourceReturner {
   void returnResources(List<ReturnedResource> resources);
 
 }
 
-class ResourceReturnerProxy extends bindings.Proxy implements ResourceReturner {
-  ResourceReturnerProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  ResourceReturnerProxy.fromHandle(core.MojoHandle handle) :
+class ResourceReturnerProxyImpl extends bindings.Proxy {
+  ResourceReturnerProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  ResourceReturnerProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  ResourceReturnerProxy.unbound() : super.unbound();
+  ResourceReturnerProxyImpl.unbound() : super.unbound();
 
-  String get name => ResourceReturner.name;
-
-  static ResourceReturnerProxy newFromEndpoint(
+  static ResourceReturnerProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ResourceReturnerProxy(endpoint);
+      new ResourceReturnerProxyImpl.fromEndpoint(endpoint);
+
+  String get name => ResourceReturnerName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -744,18 +726,60 @@ class ResourceReturnerProxy extends bindings.Proxy implements ResourceReturner {
         break;
     }
   }
-  void returnResources(List<ReturnedResource> resources) {
-    var params = new ResourceReturnerReturnResourcesParams();
-    params.resources = resources;
-    sendMessage(params, kResourceReturner_returnResources_name);
+}
+
+
+class _ResourceReturnerProxyCalls implements ResourceReturner {
+  ResourceReturnerProxyImpl _proxyImpl;
+
+  _ResourceReturnerProxyCalls(this._proxyImpl);
+    void returnResources(List<ReturnedResource> resources) {
+      var params = new ResourceReturnerReturnResourcesParams();
+      params.resources = resources;
+      _proxyImpl.sendMessage(params, kResourceReturner_returnResources_name);
+    }
+  
+}
+
+
+class ResourceReturnerProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  ResourceReturner ptr;
+  final String name = ResourceReturnerName;
+
+  ResourceReturnerProxy(ResourceReturnerProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _ResourceReturnerProxyCalls(proxyImpl);
+
+  ResourceReturnerProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new ResourceReturnerProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _ResourceReturnerProxyCalls(impl);
   }
 
+  ResourceReturnerProxy.fromHandle(core.MojoHandle handle) :
+      impl = new ResourceReturnerProxyImpl.fromHandle(handle) {
+    ptr = new _ResourceReturnerProxyCalls(impl);
+  }
+
+  ResourceReturnerProxy.unbound() :
+      impl = new ResourceReturnerProxyImpl.unbound() {
+    ptr = new _ResourceReturnerProxyCalls(impl);
+  }
+
+  static ResourceReturnerProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new ResourceReturnerProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class ResourceReturnerStub extends bindings.Stub {
   ResourceReturner _delegate = null;
 
-  ResourceReturnerStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  ResourceReturnerStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   ResourceReturnerStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -764,9 +788,9 @@ class ResourceReturnerStub extends bindings.Stub {
 
   static ResourceReturnerStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ResourceReturnerStub(endpoint);
+      new ResourceReturnerStub.fromEndpoint(endpoint);
 
-  static const String name = ResourceReturner.name;
+  static const String name = ResourceReturnerName;
 
 
 
@@ -799,30 +823,10 @@ const int kSurface_submitFrame_name = 3;
 const int kSurface_destroySurface_name = 4;
 const int kSurface_createGleS2BoundSurface_name = 5;
 
-abstract class Surface implements core.Listener {
-  static const String name = 'mojo::Surface';
-  SurfaceStub stub;
+const String SurfaceName =
+      'mojo::Surface';
 
-  Surface(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new SurfaceStub(endpoint);
-
-  Surface.fromHandle(core.MojoHandle handle) :
-      stub = new SurfaceStub.fromHandle(handle);
-
-  Surface.fromStub(this.stub);
-
-  Surface.unbound() :
-      stub = new SurfaceStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  Surface get delegate => stub.delegate;
-  set delegate(Surface d) {
-    stub.delegate = d;
-  }
+abstract class Surface {
   Future<SurfaceGetIdNamespaceResponseParams> getIdNamespace([Function responseFactory = null]);
   void setResourceReturner(Object returner);
   void createSurface(int idLocal);
@@ -832,19 +836,21 @@ abstract class Surface implements core.Listener {
 
 }
 
-class SurfaceProxy extends bindings.Proxy implements Surface {
-  SurfaceProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  SurfaceProxy.fromHandle(core.MojoHandle handle) :
+class SurfaceProxyImpl extends bindings.Proxy {
+  SurfaceProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  SurfaceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  SurfaceProxy.unbound() : super.unbound();
+  SurfaceProxyImpl.unbound() : super.unbound();
 
-  String get name => Surface.name;
-
-  static SurfaceProxy newFromEndpoint(
+  static SurfaceProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new SurfaceProxy(endpoint);
+      new SurfaceProxyImpl.fromEndpoint(endpoint);
+
+  String get name => SurfaceName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -873,57 +879,99 @@ class SurfaceProxy extends bindings.Proxy implements Surface {
         break;
     }
   }
-  Future<SurfaceGetIdNamespaceResponseParams> getIdNamespace([Function responseFactory = null]) {
-    var params = new SurfaceGetIdNamespaceParams();
-    return sendMessageWithRequestId(
-        params,
-        kSurface_getIdNamespace_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  void setResourceReturner(Object returner) {
-    var params = new SurfaceSetResourceReturnerParams();
-    params.returner = returner;
-    sendMessage(params, kSurface_setResourceReturner_name);
-  }
-
-  void createSurface(int idLocal) {
-    var params = new SurfaceCreateSurfaceParams();
-    params.idLocal = idLocal;
-    sendMessage(params, kSurface_createSurface_name);
-  }
-
-  Future<SurfaceSubmitFrameResponseParams> submitFrame(int idLocal,Frame frame,[Function responseFactory = null]) {
-    var params = new SurfaceSubmitFrameParams();
-    params.idLocal = idLocal;
-    params.frame = frame;
-    return sendMessageWithRequestId(
-        params,
-        kSurface_submitFrame_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  void destroySurface(int idLocal) {
-    var params = new SurfaceDestroySurfaceParams();
-    params.idLocal = idLocal;
-    sendMessage(params, kSurface_destroySurface_name);
-  }
-
-  void createGleS2BoundSurface(Object gles2Client, int idLocal, geometry_mojom.Size size, Object listener) {
-    var params = new SurfaceCreateGleS2BoundSurfaceParams();
-    params.gles2Client = gles2Client;
-    params.idLocal = idLocal;
-    params.size = size;
-    params.listener = listener;
-    sendMessage(params, kSurface_createGleS2BoundSurface_name);
-  }
-
 }
+
+
+class _SurfaceProxyCalls implements Surface {
+  SurfaceProxyImpl _proxyImpl;
+
+  _SurfaceProxyCalls(this._proxyImpl);
+    Future<SurfaceGetIdNamespaceResponseParams> getIdNamespace([Function responseFactory = null]) {
+      var params = new SurfaceGetIdNamespaceParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kSurface_getIdNamespace_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    void setResourceReturner(Object returner) {
+      var params = new SurfaceSetResourceReturnerParams();
+      params.returner = returner;
+      _proxyImpl.sendMessage(params, kSurface_setResourceReturner_name);
+    }
+  
+    void createSurface(int idLocal) {
+      var params = new SurfaceCreateSurfaceParams();
+      params.idLocal = idLocal;
+      _proxyImpl.sendMessage(params, kSurface_createSurface_name);
+    }
+  
+    Future<SurfaceSubmitFrameResponseParams> submitFrame(int idLocal,Frame frame,[Function responseFactory = null]) {
+      var params = new SurfaceSubmitFrameParams();
+      params.idLocal = idLocal;
+      params.frame = frame;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kSurface_submitFrame_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    void destroySurface(int idLocal) {
+      var params = new SurfaceDestroySurfaceParams();
+      params.idLocal = idLocal;
+      _proxyImpl.sendMessage(params, kSurface_destroySurface_name);
+    }
+  
+    void createGleS2BoundSurface(Object gles2Client, int idLocal, geometry_mojom.Size size, Object listener) {
+      var params = new SurfaceCreateGleS2BoundSurfaceParams();
+      params.gles2Client = gles2Client;
+      params.idLocal = idLocal;
+      params.size = size;
+      params.listener = listener;
+      _proxyImpl.sendMessage(params, kSurface_createGleS2BoundSurface_name);
+    }
+  
+}
+
+
+class SurfaceProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  Surface ptr;
+  final String name = SurfaceName;
+
+  SurfaceProxy(SurfaceProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _SurfaceProxyCalls(proxyImpl);
+
+  SurfaceProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new SurfaceProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _SurfaceProxyCalls(impl);
+  }
+
+  SurfaceProxy.fromHandle(core.MojoHandle handle) :
+      impl = new SurfaceProxyImpl.fromHandle(handle) {
+    ptr = new _SurfaceProxyCalls(impl);
+  }
+
+  SurfaceProxy.unbound() :
+      impl = new SurfaceProxyImpl.unbound() {
+    ptr = new _SurfaceProxyCalls(impl);
+  }
+
+  static SurfaceProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new SurfaceProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class SurfaceStub extends bindings.Stub {
   Surface _delegate = null;
 
-  SurfaceStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  SurfaceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   SurfaceStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -932,9 +980,9 @@ class SurfaceStub extends bindings.Stub {
 
   static SurfaceStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new SurfaceStub(endpoint);
+      new SurfaceStub.fromEndpoint(endpoint);
 
-  static const String name = Surface.name;
+  static const String name = SurfaceName;
 
 
   SurfaceGetIdNamespaceResponseParams _SurfaceGetIdNamespaceResponseParamsFactory(int idNamespace) {

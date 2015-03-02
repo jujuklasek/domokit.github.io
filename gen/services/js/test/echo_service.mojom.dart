@@ -183,49 +183,31 @@ const int kEchoService_echoString_name = 0;
 const int kEchoService_shareEchoService_name = 1;
 const int kEchoService_quit_name = 2;
 
-abstract class EchoService implements core.Listener {
-  static const String name = 'mojo::EchoService';
-  EchoServiceStub stub;
+const String EchoServiceName =
+      'mojo::EchoService';
 
-  EchoService(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new EchoServiceStub(endpoint);
-
-  EchoService.fromHandle(core.MojoHandle handle) :
-      stub = new EchoServiceStub.fromHandle(handle);
-
-  EchoService.fromStub(this.stub);
-
-  EchoService.unbound() :
-      stub = new EchoServiceStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  EchoService get delegate => stub.delegate;
-  set delegate(EchoService d) {
-    stub.delegate = d;
-  }
+abstract class EchoService {
   Future<EchoServiceEchoStringResponseParams> echoString(String value,[Function responseFactory = null]);
   Future<EchoServiceShareEchoServiceResponseParams> shareEchoService([Function responseFactory = null]);
   void quit();
 
 }
 
-class EchoServiceProxy extends bindings.Proxy implements EchoService {
-  EchoServiceProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  EchoServiceProxy.fromHandle(core.MojoHandle handle) :
+class EchoServiceProxyImpl extends bindings.Proxy {
+  EchoServiceProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  EchoServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  EchoServiceProxy.unbound() : super.unbound();
+  EchoServiceProxyImpl.unbound() : super.unbound();
 
-  String get name => EchoService.name;
-
-  static EchoServiceProxy newFromEndpoint(
+  static EchoServiceProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new EchoServiceProxy(endpoint);
+      new EchoServiceProxyImpl.fromEndpoint(endpoint);
+
+  String get name => EchoServiceName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -254,34 +236,76 @@ class EchoServiceProxy extends bindings.Proxy implements EchoService {
         break;
     }
   }
-  Future<EchoServiceEchoStringResponseParams> echoString(String value,[Function responseFactory = null]) {
-    var params = new EchoServiceEchoStringParams();
-    params.value = value;
-    return sendMessageWithRequestId(
-        params,
-        kEchoService_echoString_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<EchoServiceShareEchoServiceResponseParams> shareEchoService([Function responseFactory = null]) {
-    var params = new EchoServiceShareEchoServiceParams();
-    return sendMessageWithRequestId(
-        params,
-        kEchoService_shareEchoService_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  void quit() {
-    var params = new EchoServiceQuitParams();
-    sendMessage(params, kEchoService_quit_name);
+}
+
+
+class _EchoServiceProxyCalls implements EchoService {
+  EchoServiceProxyImpl _proxyImpl;
+
+  _EchoServiceProxyCalls(this._proxyImpl);
+    Future<EchoServiceEchoStringResponseParams> echoString(String value,[Function responseFactory = null]) {
+      var params = new EchoServiceEchoStringParams();
+      params.value = value;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kEchoService_echoString_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<EchoServiceShareEchoServiceResponseParams> shareEchoService([Function responseFactory = null]) {
+      var params = new EchoServiceShareEchoServiceParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kEchoService_shareEchoService_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    void quit() {
+      var params = new EchoServiceQuitParams();
+      _proxyImpl.sendMessage(params, kEchoService_quit_name);
+    }
+  
+}
+
+
+class EchoServiceProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  EchoService ptr;
+  final String name = EchoServiceName;
+
+  EchoServiceProxy(EchoServiceProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _EchoServiceProxyCalls(proxyImpl);
+
+  EchoServiceProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new EchoServiceProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _EchoServiceProxyCalls(impl);
   }
 
+  EchoServiceProxy.fromHandle(core.MojoHandle handle) :
+      impl = new EchoServiceProxyImpl.fromHandle(handle) {
+    ptr = new _EchoServiceProxyCalls(impl);
+  }
+
+  EchoServiceProxy.unbound() :
+      impl = new EchoServiceProxyImpl.unbound() {
+    ptr = new _EchoServiceProxyCalls(impl);
+  }
+
+  static EchoServiceProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new EchoServiceProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class EchoServiceStub extends bindings.Stub {
   EchoService _delegate = null;
 
-  EchoServiceStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  EchoServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   EchoServiceStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -290,9 +314,9 @@ class EchoServiceStub extends bindings.Stub {
 
   static EchoServiceStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new EchoServiceStub(endpoint);
+      new EchoServiceStub.fromEndpoint(endpoint);
 
-  static const String name = EchoService.name;
+  static const String name = EchoServiceName;
 
 
   EchoServiceEchoStringResponseParams _EchoServiceEchoStringResponseParamsFactory(String value) {

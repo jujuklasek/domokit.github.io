@@ -70,47 +70,29 @@ class EmbedderHelloWorldResponseParams extends bindings.Struct {
 }
 const int kEmbedder_helloWorld_name = 0;
 
-abstract class Embedder implements core.Listener {
-  static const String name = 'examples::Embedder';
-  EmbedderStub stub;
+const String EmbedderName =
+      'examples::Embedder';
 
-  Embedder(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new EmbedderStub(endpoint);
-
-  Embedder.fromHandle(core.MojoHandle handle) :
-      stub = new EmbedderStub.fromHandle(handle);
-
-  Embedder.fromStub(this.stub);
-
-  Embedder.unbound() :
-      stub = new EmbedderStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  Embedder get delegate => stub.delegate;
-  set delegate(Embedder d) {
-    stub.delegate = d;
-  }
+abstract class Embedder {
   Future<EmbedderHelloWorldResponseParams> helloWorld([Function responseFactory = null]);
 
 }
 
-class EmbedderProxy extends bindings.Proxy implements Embedder {
-  EmbedderProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  EmbedderProxy.fromHandle(core.MojoHandle handle) :
+class EmbedderProxyImpl extends bindings.Proxy {
+  EmbedderProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  EmbedderProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  EmbedderProxy.unbound() : super.unbound();
+  EmbedderProxyImpl.unbound() : super.unbound();
 
-  String get name => Embedder.name;
-
-  static EmbedderProxy newFromEndpoint(
+  static EmbedderProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new EmbedderProxy(endpoint);
+      new EmbedderProxyImpl.fromEndpoint(endpoint);
+
+  String get name => EmbedderName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -129,20 +111,62 @@ class EmbedderProxy extends bindings.Proxy implements Embedder {
         break;
     }
   }
-  Future<EmbedderHelloWorldResponseParams> helloWorld([Function responseFactory = null]) {
-    var params = new EmbedderHelloWorldParams();
-    return sendMessageWithRequestId(
-        params,
-        kEmbedder_helloWorld_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _EmbedderProxyCalls implements Embedder {
+  EmbedderProxyImpl _proxyImpl;
+
+  _EmbedderProxyCalls(this._proxyImpl);
+    Future<EmbedderHelloWorldResponseParams> helloWorld([Function responseFactory = null]) {
+      var params = new EmbedderHelloWorldParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kEmbedder_helloWorld_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class EmbedderProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  Embedder ptr;
+  final String name = EmbedderName;
+
+  EmbedderProxy(EmbedderProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _EmbedderProxyCalls(proxyImpl);
+
+  EmbedderProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new EmbedderProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _EmbedderProxyCalls(impl);
+  }
+
+  EmbedderProxy.fromHandle(core.MojoHandle handle) :
+      impl = new EmbedderProxyImpl.fromHandle(handle) {
+    ptr = new _EmbedderProxyCalls(impl);
+  }
+
+  EmbedderProxy.unbound() :
+      impl = new EmbedderProxyImpl.unbound() {
+    ptr = new _EmbedderProxyCalls(impl);
+  }
+
+  static EmbedderProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new EmbedderProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class EmbedderStub extends bindings.Stub {
   Embedder _delegate = null;
 
-  EmbedderStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  EmbedderStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   EmbedderStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -151,9 +175,9 @@ class EmbedderStub extends bindings.Stub {
 
   static EmbedderStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new EmbedderStub(endpoint);
+      new EmbedderStub.fromEndpoint(endpoint);
 
-  static const String name = Embedder.name;
+  static const String name = EmbedderName;
 
 
   EmbedderHelloWorldResponseParams _EmbedderHelloWorldResponseParamsFactory() {

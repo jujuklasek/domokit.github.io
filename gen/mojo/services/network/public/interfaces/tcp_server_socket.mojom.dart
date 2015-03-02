@@ -110,47 +110,29 @@ class TcpServerSocketAcceptResponseParams extends bindings.Struct {
 }
 const int kTcpServerSocket_accept_name = 0;
 
-abstract class TcpServerSocket implements core.Listener {
-  static const String name = 'mojo::TcpServerSocket';
-  TcpServerSocketStub stub;
+const String TcpServerSocketName =
+      'mojo::TcpServerSocket';
 
-  TcpServerSocket(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new TcpServerSocketStub(endpoint);
-
-  TcpServerSocket.fromHandle(core.MojoHandle handle) :
-      stub = new TcpServerSocketStub.fromHandle(handle);
-
-  TcpServerSocket.fromStub(this.stub);
-
-  TcpServerSocket.unbound() :
-      stub = new TcpServerSocketStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  TcpServerSocket get delegate => stub.delegate;
-  set delegate(TcpServerSocket d) {
-    stub.delegate = d;
-  }
+abstract class TcpServerSocket {
   Future<TcpServerSocketAcceptResponseParams> accept(core.MojoDataPipeConsumer sendStream,core.MojoDataPipeProducer receiveStream,Object clientSocket,[Function responseFactory = null]);
 
 }
 
-class TcpServerSocketProxy extends bindings.Proxy implements TcpServerSocket {
-  TcpServerSocketProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  TcpServerSocketProxy.fromHandle(core.MojoHandle handle) :
+class TcpServerSocketProxyImpl extends bindings.Proxy {
+  TcpServerSocketProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  TcpServerSocketProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  TcpServerSocketProxy.unbound() : super.unbound();
+  TcpServerSocketProxyImpl.unbound() : super.unbound();
 
-  String get name => TcpServerSocket.name;
-
-  static TcpServerSocketProxy newFromEndpoint(
+  static TcpServerSocketProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TcpServerSocketProxy(endpoint);
+      new TcpServerSocketProxyImpl.fromEndpoint(endpoint);
+
+  String get name => TcpServerSocketName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -169,23 +151,65 @@ class TcpServerSocketProxy extends bindings.Proxy implements TcpServerSocket {
         break;
     }
   }
-  Future<TcpServerSocketAcceptResponseParams> accept(core.MojoDataPipeConsumer sendStream,core.MojoDataPipeProducer receiveStream,Object clientSocket,[Function responseFactory = null]) {
-    var params = new TcpServerSocketAcceptParams();
-    params.sendStream = sendStream;
-    params.receiveStream = receiveStream;
-    params.clientSocket = clientSocket;
-    return sendMessageWithRequestId(
-        params,
-        kTcpServerSocket_accept_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _TcpServerSocketProxyCalls implements TcpServerSocket {
+  TcpServerSocketProxyImpl _proxyImpl;
+
+  _TcpServerSocketProxyCalls(this._proxyImpl);
+    Future<TcpServerSocketAcceptResponseParams> accept(core.MojoDataPipeConsumer sendStream,core.MojoDataPipeProducer receiveStream,Object clientSocket,[Function responseFactory = null]) {
+      var params = new TcpServerSocketAcceptParams();
+      params.sendStream = sendStream;
+      params.receiveStream = receiveStream;
+      params.clientSocket = clientSocket;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kTcpServerSocket_accept_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class TcpServerSocketProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  TcpServerSocket ptr;
+  final String name = TcpServerSocketName;
+
+  TcpServerSocketProxy(TcpServerSocketProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _TcpServerSocketProxyCalls(proxyImpl);
+
+  TcpServerSocketProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new TcpServerSocketProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _TcpServerSocketProxyCalls(impl);
+  }
+
+  TcpServerSocketProxy.fromHandle(core.MojoHandle handle) :
+      impl = new TcpServerSocketProxyImpl.fromHandle(handle) {
+    ptr = new _TcpServerSocketProxyCalls(impl);
+  }
+
+  TcpServerSocketProxy.unbound() :
+      impl = new TcpServerSocketProxyImpl.unbound() {
+    ptr = new _TcpServerSocketProxyCalls(impl);
+  }
+
+  static TcpServerSocketProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new TcpServerSocketProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class TcpServerSocketStub extends bindings.Stub {
   TcpServerSocket _delegate = null;
 
-  TcpServerSocketStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  TcpServerSocketStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   TcpServerSocketStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -194,9 +218,9 @@ class TcpServerSocketStub extends bindings.Stub {
 
   static TcpServerSocketStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TcpServerSocketStub(endpoint);
+      new TcpServerSocketStub.fromEndpoint(endpoint);
 
-  static const String name = TcpServerSocket.name;
+  static const String name = TcpServerSocketName;
 
 
   TcpServerSocketAcceptResponseParams _TcpServerSocketAcceptResponseParamsFactory(network_error_mojom.NetworkError result, net_address_mojom.NetAddress remoteAddress) {

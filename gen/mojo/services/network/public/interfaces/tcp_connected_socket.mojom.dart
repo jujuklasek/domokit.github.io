@@ -9,46 +9,28 @@ import 'mojo:bindings' as bindings;
 import 'mojo:core' as core;
 
 
-abstract class TcpConnectedSocket implements core.Listener {
-  static const String name = 'mojo::TcpConnectedSocket';
-  TcpConnectedSocketStub stub;
+const String TcpConnectedSocketName =
+      'mojo::TcpConnectedSocket';
 
-  TcpConnectedSocket(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new TcpConnectedSocketStub(endpoint);
-
-  TcpConnectedSocket.fromHandle(core.MojoHandle handle) :
-      stub = new TcpConnectedSocketStub.fromHandle(handle);
-
-  TcpConnectedSocket.fromStub(this.stub);
-
-  TcpConnectedSocket.unbound() :
-      stub = new TcpConnectedSocketStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  TcpConnectedSocket get delegate => stub.delegate;
-  set delegate(TcpConnectedSocket d) {
-    stub.delegate = d;
-  }
+abstract class TcpConnectedSocket {
 
 }
 
-class TcpConnectedSocketProxy extends bindings.Proxy implements TcpConnectedSocket {
-  TcpConnectedSocketProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  TcpConnectedSocketProxy.fromHandle(core.MojoHandle handle) :
+class TcpConnectedSocketProxyImpl extends bindings.Proxy {
+  TcpConnectedSocketProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  TcpConnectedSocketProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  TcpConnectedSocketProxy.unbound() : super.unbound();
+  TcpConnectedSocketProxyImpl.unbound() : super.unbound();
 
-  String get name => TcpConnectedSocket.name;
-
-  static TcpConnectedSocketProxy newFromEndpoint(
+  static TcpConnectedSocketProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TcpConnectedSocketProxy(endpoint);
+      new TcpConnectedSocketProxyImpl.fromEndpoint(endpoint);
+
+  String get name => TcpConnectedSocketName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -59,10 +41,52 @@ class TcpConnectedSocketProxy extends bindings.Proxy implements TcpConnectedSock
   }
 }
 
+
+class _TcpConnectedSocketProxyCalls implements TcpConnectedSocket {
+  TcpConnectedSocketProxyImpl _proxyImpl;
+
+  _TcpConnectedSocketProxyCalls(this._proxyImpl);
+}
+
+
+class TcpConnectedSocketProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  TcpConnectedSocket ptr;
+  final String name = TcpConnectedSocketName;
+
+  TcpConnectedSocketProxy(TcpConnectedSocketProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _TcpConnectedSocketProxyCalls(proxyImpl);
+
+  TcpConnectedSocketProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new TcpConnectedSocketProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _TcpConnectedSocketProxyCalls(impl);
+  }
+
+  TcpConnectedSocketProxy.fromHandle(core.MojoHandle handle) :
+      impl = new TcpConnectedSocketProxyImpl.fromHandle(handle) {
+    ptr = new _TcpConnectedSocketProxyCalls(impl);
+  }
+
+  TcpConnectedSocketProxy.unbound() :
+      impl = new TcpConnectedSocketProxyImpl.unbound() {
+    ptr = new _TcpConnectedSocketProxyCalls(impl);
+  }
+
+  static TcpConnectedSocketProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new TcpConnectedSocketProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
+
 class TcpConnectedSocketStub extends bindings.Stub {
   TcpConnectedSocket _delegate = null;
 
-  TcpConnectedSocketStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  TcpConnectedSocketStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   TcpConnectedSocketStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -71,9 +95,9 @@ class TcpConnectedSocketStub extends bindings.Stub {
 
   static TcpConnectedSocketStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TcpConnectedSocketStub(endpoint);
+      new TcpConnectedSocketStub.fromEndpoint(endpoint);
 
-  static const String name = TcpConnectedSocket.name;
+  static const String name = TcpConnectedSocketName;
 
 
 

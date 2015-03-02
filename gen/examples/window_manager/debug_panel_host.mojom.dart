@@ -117,49 +117,31 @@ const int kDebugPanelHost_closeTopWindow_name = 0;
 const int kDebugPanelHost_navigateTo_name = 1;
 const int kDebugPanelHost_setNavigationTarget_name = 2;
 
-abstract class DebugPanelHost implements core.Listener {
-  static const String name = 'mojo::examples::DebugPanelHost';
-  DebugPanelHostStub stub;
+const String DebugPanelHostName =
+      'mojo::examples::DebugPanelHost';
 
-  DebugPanelHost(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new DebugPanelHostStub(endpoint);
-
-  DebugPanelHost.fromHandle(core.MojoHandle handle) :
-      stub = new DebugPanelHostStub.fromHandle(handle);
-
-  DebugPanelHost.fromStub(this.stub);
-
-  DebugPanelHost.unbound() :
-      stub = new DebugPanelHostStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  DebugPanelHost get delegate => stub.delegate;
-  set delegate(DebugPanelHost d) {
-    stub.delegate = d;
-  }
+abstract class DebugPanelHost {
   void closeTopWindow();
   void navigateTo(String url);
   void setNavigationTarget(int target);
 
 }
 
-class DebugPanelHostProxy extends bindings.Proxy implements DebugPanelHost {
-  DebugPanelHostProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  DebugPanelHostProxy.fromHandle(core.MojoHandle handle) :
+class DebugPanelHostProxyImpl extends bindings.Proxy {
+  DebugPanelHostProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  DebugPanelHostProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  DebugPanelHostProxy.unbound() : super.unbound();
+  DebugPanelHostProxyImpl.unbound() : super.unbound();
 
-  String get name => DebugPanelHost.name;
-
-  static DebugPanelHostProxy newFromEndpoint(
+  static DebugPanelHostProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new DebugPanelHostProxy(endpoint);
+      new DebugPanelHostProxyImpl.fromEndpoint(endpoint);
+
+  String get name => DebugPanelHostName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -168,29 +150,71 @@ class DebugPanelHostProxy extends bindings.Proxy implements DebugPanelHost {
         break;
     }
   }
-  void closeTopWindow() {
-    var params = new DebugPanelHostCloseTopWindowParams();
-    sendMessage(params, kDebugPanelHost_closeTopWindow_name);
-  }
-
-  void navigateTo(String url) {
-    var params = new DebugPanelHostNavigateToParams();
-    params.url = url;
-    sendMessage(params, kDebugPanelHost_navigateTo_name);
-  }
-
-  void setNavigationTarget(int target) {
-    var params = new DebugPanelHostSetNavigationTargetParams();
-    params.target = target;
-    sendMessage(params, kDebugPanelHost_setNavigationTarget_name);
-  }
-
 }
+
+
+class _DebugPanelHostProxyCalls implements DebugPanelHost {
+  DebugPanelHostProxyImpl _proxyImpl;
+
+  _DebugPanelHostProxyCalls(this._proxyImpl);
+    void closeTopWindow() {
+      var params = new DebugPanelHostCloseTopWindowParams();
+      _proxyImpl.sendMessage(params, kDebugPanelHost_closeTopWindow_name);
+    }
+  
+    void navigateTo(String url) {
+      var params = new DebugPanelHostNavigateToParams();
+      params.url = url;
+      _proxyImpl.sendMessage(params, kDebugPanelHost_navigateTo_name);
+    }
+  
+    void setNavigationTarget(int target) {
+      var params = new DebugPanelHostSetNavigationTargetParams();
+      params.target = target;
+      _proxyImpl.sendMessage(params, kDebugPanelHost_setNavigationTarget_name);
+    }
+  
+}
+
+
+class DebugPanelHostProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  DebugPanelHost ptr;
+  final String name = DebugPanelHostName;
+
+  DebugPanelHostProxy(DebugPanelHostProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _DebugPanelHostProxyCalls(proxyImpl);
+
+  DebugPanelHostProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new DebugPanelHostProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _DebugPanelHostProxyCalls(impl);
+  }
+
+  DebugPanelHostProxy.fromHandle(core.MojoHandle handle) :
+      impl = new DebugPanelHostProxyImpl.fromHandle(handle) {
+    ptr = new _DebugPanelHostProxyCalls(impl);
+  }
+
+  DebugPanelHostProxy.unbound() :
+      impl = new DebugPanelHostProxyImpl.unbound() {
+    ptr = new _DebugPanelHostProxyCalls(impl);
+  }
+
+  static DebugPanelHostProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new DebugPanelHostProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class DebugPanelHostStub extends bindings.Stub {
   DebugPanelHost _delegate = null;
 
-  DebugPanelHostStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  DebugPanelHostStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   DebugPanelHostStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -199,9 +223,9 @@ class DebugPanelHostStub extends bindings.Stub {
 
   static DebugPanelHostStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new DebugPanelHostStub(endpoint);
+      new DebugPanelHostStub.fromEndpoint(endpoint);
 
-  static const String name = DebugPanelHost.name;
+  static const String name = DebugPanelHostName;
 
 
 

@@ -275,48 +275,30 @@ class RecipeValueStoreObserverOnValuesChangedParams extends bindings.Struct {
 const int kRecipeValueStore_updateValues_name = 0;
 const int kRecipeValueStore_setObserver_name = 1;
 
-abstract class RecipeValueStore implements core.Listener {
-  static const String name = 'recipes::RecipeValueStore';
-  RecipeValueStoreStub stub;
+const String RecipeValueStoreName =
+      'recipes::RecipeValueStore';
 
-  RecipeValueStore(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new RecipeValueStoreStub(endpoint);
-
-  RecipeValueStore.fromHandle(core.MojoHandle handle) :
-      stub = new RecipeValueStoreStub.fromHandle(handle);
-
-  RecipeValueStore.fromStub(this.stub);
-
-  RecipeValueStore.unbound() :
-      stub = new RecipeValueStoreStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  RecipeValueStore get delegate => stub.delegate;
-  set delegate(RecipeValueStore d) {
-    stub.delegate = d;
-  }
+abstract class RecipeValueStore {
   void updateValues(Map<String, List<int>> values);
   void setObserver(Object observer);
 
 }
 
-class RecipeValueStoreProxy extends bindings.Proxy implements RecipeValueStore {
-  RecipeValueStoreProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  RecipeValueStoreProxy.fromHandle(core.MojoHandle handle) :
+class RecipeValueStoreProxyImpl extends bindings.Proxy {
+  RecipeValueStoreProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  RecipeValueStoreProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  RecipeValueStoreProxy.unbound() : super.unbound();
+  RecipeValueStoreProxyImpl.unbound() : super.unbound();
 
-  String get name => RecipeValueStore.name;
-
-  static RecipeValueStoreProxy newFromEndpoint(
+  static RecipeValueStoreProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new RecipeValueStoreProxy(endpoint);
+      new RecipeValueStoreProxyImpl.fromEndpoint(endpoint);
+
+  String get name => RecipeValueStoreName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -325,24 +307,66 @@ class RecipeValueStoreProxy extends bindings.Proxy implements RecipeValueStore {
         break;
     }
   }
-  void updateValues(Map<String, List<int>> values) {
-    var params = new RecipeValueStoreUpdateValuesParams();
-    params.values = values;
-    sendMessage(params, kRecipeValueStore_updateValues_name);
-  }
-
-  void setObserver(Object observer) {
-    var params = new RecipeValueStoreSetObserverParams();
-    params.observer = observer;
-    sendMessage(params, kRecipeValueStore_setObserver_name);
-  }
-
 }
+
+
+class _RecipeValueStoreProxyCalls implements RecipeValueStore {
+  RecipeValueStoreProxyImpl _proxyImpl;
+
+  _RecipeValueStoreProxyCalls(this._proxyImpl);
+    void updateValues(Map<String, List<int>> values) {
+      var params = new RecipeValueStoreUpdateValuesParams();
+      params.values = values;
+      _proxyImpl.sendMessage(params, kRecipeValueStore_updateValues_name);
+    }
+  
+    void setObserver(Object observer) {
+      var params = new RecipeValueStoreSetObserverParams();
+      params.observer = observer;
+      _proxyImpl.sendMessage(params, kRecipeValueStore_setObserver_name);
+    }
+  
+}
+
+
+class RecipeValueStoreProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  RecipeValueStore ptr;
+  final String name = RecipeValueStoreName;
+
+  RecipeValueStoreProxy(RecipeValueStoreProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _RecipeValueStoreProxyCalls(proxyImpl);
+
+  RecipeValueStoreProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new RecipeValueStoreProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _RecipeValueStoreProxyCalls(impl);
+  }
+
+  RecipeValueStoreProxy.fromHandle(core.MojoHandle handle) :
+      impl = new RecipeValueStoreProxyImpl.fromHandle(handle) {
+    ptr = new _RecipeValueStoreProxyCalls(impl);
+  }
+
+  RecipeValueStoreProxy.unbound() :
+      impl = new RecipeValueStoreProxyImpl.unbound() {
+    ptr = new _RecipeValueStoreProxyCalls(impl);
+  }
+
+  static RecipeValueStoreProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new RecipeValueStoreProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class RecipeValueStoreStub extends bindings.Stub {
   RecipeValueStore _delegate = null;
 
-  RecipeValueStoreStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  RecipeValueStoreStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   RecipeValueStoreStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -351,9 +375,9 @@ class RecipeValueStoreStub extends bindings.Stub {
 
   static RecipeValueStoreStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new RecipeValueStoreStub(endpoint);
+      new RecipeValueStoreStub.fromEndpoint(endpoint);
 
-  static const String name = RecipeValueStore.name;
+  static const String name = RecipeValueStoreName;
 
 
 
@@ -386,47 +410,29 @@ class RecipeValueStoreStub extends bindings.Stub {
 
 const int kRecipeValueStoreObserver_onValuesChanged_name = 0;
 
-abstract class RecipeValueStoreObserver implements core.Listener {
-  static const String name = 'recipes::RecipeValueStoreObserver';
-  RecipeValueStoreObserverStub stub;
+const String RecipeValueStoreObserverName =
+      'recipes::RecipeValueStoreObserver';
 
-  RecipeValueStoreObserver(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new RecipeValueStoreObserverStub(endpoint);
-
-  RecipeValueStoreObserver.fromHandle(core.MojoHandle handle) :
-      stub = new RecipeValueStoreObserverStub.fromHandle(handle);
-
-  RecipeValueStoreObserver.fromStub(this.stub);
-
-  RecipeValueStoreObserver.unbound() :
-      stub = new RecipeValueStoreObserverStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  RecipeValueStoreObserver get delegate => stub.delegate;
-  set delegate(RecipeValueStoreObserver d) {
-    stub.delegate = d;
-  }
+abstract class RecipeValueStoreObserver {
   void onValuesChanged(Map<String, RecipeChangeValue> changedValues);
 
 }
 
-class RecipeValueStoreObserverProxy extends bindings.Proxy implements RecipeValueStoreObserver {
-  RecipeValueStoreObserverProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  RecipeValueStoreObserverProxy.fromHandle(core.MojoHandle handle) :
+class RecipeValueStoreObserverProxyImpl extends bindings.Proxy {
+  RecipeValueStoreObserverProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  RecipeValueStoreObserverProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  RecipeValueStoreObserverProxy.unbound() : super.unbound();
+  RecipeValueStoreObserverProxyImpl.unbound() : super.unbound();
 
-  String get name => RecipeValueStoreObserver.name;
-
-  static RecipeValueStoreObserverProxy newFromEndpoint(
+  static RecipeValueStoreObserverProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new RecipeValueStoreObserverProxy(endpoint);
+      new RecipeValueStoreObserverProxyImpl.fromEndpoint(endpoint);
+
+  String get name => RecipeValueStoreObserverName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -435,18 +441,60 @@ class RecipeValueStoreObserverProxy extends bindings.Proxy implements RecipeValu
         break;
     }
   }
-  void onValuesChanged(Map<String, RecipeChangeValue> changedValues) {
-    var params = new RecipeValueStoreObserverOnValuesChangedParams();
-    params.changedValues = changedValues;
-    sendMessage(params, kRecipeValueStoreObserver_onValuesChanged_name);
+}
+
+
+class _RecipeValueStoreObserverProxyCalls implements RecipeValueStoreObserver {
+  RecipeValueStoreObserverProxyImpl _proxyImpl;
+
+  _RecipeValueStoreObserverProxyCalls(this._proxyImpl);
+    void onValuesChanged(Map<String, RecipeChangeValue> changedValues) {
+      var params = new RecipeValueStoreObserverOnValuesChangedParams();
+      params.changedValues = changedValues;
+      _proxyImpl.sendMessage(params, kRecipeValueStoreObserver_onValuesChanged_name);
+    }
+  
+}
+
+
+class RecipeValueStoreObserverProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  RecipeValueStoreObserver ptr;
+  final String name = RecipeValueStoreObserverName;
+
+  RecipeValueStoreObserverProxy(RecipeValueStoreObserverProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _RecipeValueStoreObserverProxyCalls(proxyImpl);
+
+  RecipeValueStoreObserverProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new RecipeValueStoreObserverProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _RecipeValueStoreObserverProxyCalls(impl);
   }
 
+  RecipeValueStoreObserverProxy.fromHandle(core.MojoHandle handle) :
+      impl = new RecipeValueStoreObserverProxyImpl.fromHandle(handle) {
+    ptr = new _RecipeValueStoreObserverProxyCalls(impl);
+  }
+
+  RecipeValueStoreObserverProxy.unbound() :
+      impl = new RecipeValueStoreObserverProxyImpl.unbound() {
+    ptr = new _RecipeValueStoreObserverProxyCalls(impl);
+  }
+
+  static RecipeValueStoreObserverProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new RecipeValueStoreObserverProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class RecipeValueStoreObserverStub extends bindings.Stub {
   RecipeValueStoreObserver _delegate = null;
 
-  RecipeValueStoreObserverStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  RecipeValueStoreObserverStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   RecipeValueStoreObserverStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -455,9 +503,9 @@ class RecipeValueStoreObserverStub extends bindings.Stub {
 
   static RecipeValueStoreObserverStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new RecipeValueStoreObserverStub(endpoint);
+      new RecipeValueStoreObserverStub.fromEndpoint(endpoint);
 
-  static const String name = RecipeValueStoreObserver.name;
+  static const String name = RecipeValueStoreObserverName;
 
 
 

@@ -175,48 +175,30 @@ class ConsolePrintLinesResponseParams extends bindings.Struct {
 const int kConsole_readLine_name = 0;
 const int kConsole_printLines_name = 1;
 
-abstract class Console implements core.Listener {
-  static const String name = 'mojo::Console';
-  ConsoleStub stub;
+const String ConsoleName =
+      'mojo::Console';
 
-  Console(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new ConsoleStub(endpoint);
-
-  Console.fromHandle(core.MojoHandle handle) :
-      stub = new ConsoleStub.fromHandle(handle);
-
-  Console.fromStub(this.stub);
-
-  Console.unbound() :
-      stub = new ConsoleStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  Console get delegate => stub.delegate;
-  set delegate(Console d) {
-    stub.delegate = d;
-  }
+abstract class Console {
   Future<ConsoleReadLineResponseParams> readLine([Function responseFactory = null]);
   Future<ConsolePrintLinesResponseParams> printLines(List<String> lines,[Function responseFactory = null]);
 
 }
 
-class ConsoleProxy extends bindings.Proxy implements Console {
-  ConsoleProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  ConsoleProxy.fromHandle(core.MojoHandle handle) :
+class ConsoleProxyImpl extends bindings.Proxy {
+  ConsoleProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  ConsoleProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  ConsoleProxy.unbound() : super.unbound();
+  ConsoleProxyImpl.unbound() : super.unbound();
 
-  String get name => Console.name;
-
-  static ConsoleProxy newFromEndpoint(
+  static ConsoleProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ConsoleProxy(endpoint);
+      new ConsoleProxyImpl.fromEndpoint(endpoint);
+
+  String get name => ConsoleName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -245,29 +227,71 @@ class ConsoleProxy extends bindings.Proxy implements Console {
         break;
     }
   }
-  Future<ConsoleReadLineResponseParams> readLine([Function responseFactory = null]) {
-    var params = new ConsoleReadLineParams();
-    return sendMessageWithRequestId(
-        params,
-        kConsole_readLine_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<ConsolePrintLinesResponseParams> printLines(List<String> lines,[Function responseFactory = null]) {
-    var params = new ConsolePrintLinesParams();
-    params.lines = lines;
-    return sendMessageWithRequestId(
-        params,
-        kConsole_printLines_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _ConsoleProxyCalls implements Console {
+  ConsoleProxyImpl _proxyImpl;
+
+  _ConsoleProxyCalls(this._proxyImpl);
+    Future<ConsoleReadLineResponseParams> readLine([Function responseFactory = null]) {
+      var params = new ConsoleReadLineParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kConsole_readLine_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<ConsolePrintLinesResponseParams> printLines(List<String> lines,[Function responseFactory = null]) {
+      var params = new ConsolePrintLinesParams();
+      params.lines = lines;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kConsole_printLines_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class ConsoleProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  Console ptr;
+  final String name = ConsoleName;
+
+  ConsoleProxy(ConsoleProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _ConsoleProxyCalls(proxyImpl);
+
+  ConsoleProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new ConsoleProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _ConsoleProxyCalls(impl);
+  }
+
+  ConsoleProxy.fromHandle(core.MojoHandle handle) :
+      impl = new ConsoleProxyImpl.fromHandle(handle) {
+    ptr = new _ConsoleProxyCalls(impl);
+  }
+
+  ConsoleProxy.unbound() :
+      impl = new ConsoleProxyImpl.unbound() {
+    ptr = new _ConsoleProxyCalls(impl);
+  }
+
+  static ConsoleProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new ConsoleProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class ConsoleStub extends bindings.Stub {
   Console _delegate = null;
 
-  ConsoleStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  ConsoleStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   ConsoleStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -276,9 +300,9 @@ class ConsoleStub extends bindings.Stub {
 
   static ConsoleStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ConsoleStub(endpoint);
+      new ConsoleStub.fromEndpoint(endpoint);
 
-  static const String name = Console.name;
+  static const String name = ConsoleName;
 
 
   ConsoleReadLineResponseParams _ConsoleReadLineResponseParamsFactory(bool success, String line) {

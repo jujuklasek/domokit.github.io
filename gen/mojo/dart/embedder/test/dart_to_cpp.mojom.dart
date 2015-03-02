@@ -473,30 +473,10 @@ const int kCppSide_testFinished_name = 99999999;
 const int kCppSide_pingResponse_name = 100000000;
 const int kCppSide_echoResponse_name = 100000001;
 
-abstract class CppSide implements core.Listener {
-  static const String name = 'dart_to_cpp::CppSide';
-  CppSideStub stub;
+const String CppSideName =
+      'dart_to_cpp::CppSide';
 
-  CppSide(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new CppSideStub(endpoint);
-
-  CppSide.fromHandle(core.MojoHandle handle) :
-      stub = new CppSideStub.fromHandle(handle);
-
-  CppSide.fromStub(this.stub);
-
-  CppSide.unbound() :
-      stub = new CppSideStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  CppSide get delegate => stub.delegate;
-  set delegate(CppSide d) {
-    stub.delegate = d;
-  }
+abstract class CppSide {
   void startTest();
   void testFinished();
   void pingResponse();
@@ -504,19 +484,21 @@ abstract class CppSide implements core.Listener {
 
 }
 
-class CppSideProxy extends bindings.Proxy implements CppSide {
-  CppSideProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  CppSideProxy.fromHandle(core.MojoHandle handle) :
+class CppSideProxyImpl extends bindings.Proxy {
+  CppSideProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  CppSideProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  CppSideProxy.unbound() : super.unbound();
+  CppSideProxyImpl.unbound() : super.unbound();
 
-  String get name => CppSide.name;
-
-  static CppSideProxy newFromEndpoint(
+  static CppSideProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new CppSideProxy(endpoint);
+      new CppSideProxyImpl.fromEndpoint(endpoint);
+
+  String get name => CppSideName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -525,33 +507,75 @@ class CppSideProxy extends bindings.Proxy implements CppSide {
         break;
     }
   }
-  void startTest() {
-    var params = new CppSideStartTestParams();
-    sendMessage(params, kCppSide_startTest_name);
-  }
-
-  void testFinished() {
-    var params = new CppSideTestFinishedParams();
-    sendMessage(params, kCppSide_testFinished_name);
-  }
-
-  void pingResponse() {
-    var params = new CppSidePingResponseParams();
-    sendMessage(params, kCppSide_pingResponse_name);
-  }
-
-  void echoResponse(EchoArgsList list) {
-    var params = new CppSideEchoResponseParams();
-    params.list = list;
-    sendMessage(params, kCppSide_echoResponse_name);
-  }
-
 }
+
+
+class _CppSideProxyCalls implements CppSide {
+  CppSideProxyImpl _proxyImpl;
+
+  _CppSideProxyCalls(this._proxyImpl);
+    void startTest() {
+      var params = new CppSideStartTestParams();
+      _proxyImpl.sendMessage(params, kCppSide_startTest_name);
+    }
+  
+    void testFinished() {
+      var params = new CppSideTestFinishedParams();
+      _proxyImpl.sendMessage(params, kCppSide_testFinished_name);
+    }
+  
+    void pingResponse() {
+      var params = new CppSidePingResponseParams();
+      _proxyImpl.sendMessage(params, kCppSide_pingResponse_name);
+    }
+  
+    void echoResponse(EchoArgsList list) {
+      var params = new CppSideEchoResponseParams();
+      params.list = list;
+      _proxyImpl.sendMessage(params, kCppSide_echoResponse_name);
+    }
+  
+}
+
+
+class CppSideProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  CppSide ptr;
+  final String name = CppSideName;
+
+  CppSideProxy(CppSideProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _CppSideProxyCalls(proxyImpl);
+
+  CppSideProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new CppSideProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _CppSideProxyCalls(impl);
+  }
+
+  CppSideProxy.fromHandle(core.MojoHandle handle) :
+      impl = new CppSideProxyImpl.fromHandle(handle) {
+    ptr = new _CppSideProxyCalls(impl);
+  }
+
+  CppSideProxy.unbound() :
+      impl = new CppSideProxyImpl.unbound() {
+    ptr = new _CppSideProxyCalls(impl);
+  }
+
+  static CppSideProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new CppSideProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class CppSideStub extends bindings.Stub {
   CppSide _delegate = null;
 
-  CppSideStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  CppSideStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   CppSideStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -560,9 +584,9 @@ class CppSideStub extends bindings.Stub {
 
   static CppSideStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new CppSideStub(endpoint);
+      new CppSideStub.fromEndpoint(endpoint);
 
-  static const String name = CppSide.name;
+  static const String name = CppSideName;
 
 
 
@@ -607,49 +631,31 @@ const int kDartSide_setClient_name = 0;
 const int kDartSide_ping_name = 1;
 const int kDartSide_echo_name = 2;
 
-abstract class DartSide implements core.Listener {
-  static const String name = 'dart_to_cpp::DartSide';
-  DartSideStub stub;
+const String DartSideName =
+      'dart_to_cpp::DartSide';
 
-  DartSide(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new DartSideStub(endpoint);
-
-  DartSide.fromHandle(core.MojoHandle handle) :
-      stub = new DartSideStub.fromHandle(handle);
-
-  DartSide.fromStub(this.stub);
-
-  DartSide.unbound() :
-      stub = new DartSideStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  DartSide get delegate => stub.delegate;
-  set delegate(DartSide d) {
-    stub.delegate = d;
-  }
+abstract class DartSide {
   void setClient(Object cppSide);
   void ping();
   void echo(int numIterations, EchoArgs arg);
 
 }
 
-class DartSideProxy extends bindings.Proxy implements DartSide {
-  DartSideProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  DartSideProxy.fromHandle(core.MojoHandle handle) :
+class DartSideProxyImpl extends bindings.Proxy {
+  DartSideProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  DartSideProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  DartSideProxy.unbound() : super.unbound();
+  DartSideProxyImpl.unbound() : super.unbound();
 
-  String get name => DartSide.name;
-
-  static DartSideProxy newFromEndpoint(
+  static DartSideProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new DartSideProxy(endpoint);
+      new DartSideProxyImpl.fromEndpoint(endpoint);
+
+  String get name => DartSideName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -658,30 +664,72 @@ class DartSideProxy extends bindings.Proxy implements DartSide {
         break;
     }
   }
-  void setClient(Object cppSide) {
-    var params = new DartSideSetClientParams();
-    params.cppSide = cppSide;
-    sendMessage(params, kDartSide_setClient_name);
-  }
-
-  void ping() {
-    var params = new DartSidePingParams();
-    sendMessage(params, kDartSide_ping_name);
-  }
-
-  void echo(int numIterations, EchoArgs arg) {
-    var params = new DartSideEchoParams();
-    params.numIterations = numIterations;
-    params.arg = arg;
-    sendMessage(params, kDartSide_echo_name);
-  }
-
 }
+
+
+class _DartSideProxyCalls implements DartSide {
+  DartSideProxyImpl _proxyImpl;
+
+  _DartSideProxyCalls(this._proxyImpl);
+    void setClient(Object cppSide) {
+      var params = new DartSideSetClientParams();
+      params.cppSide = cppSide;
+      _proxyImpl.sendMessage(params, kDartSide_setClient_name);
+    }
+  
+    void ping() {
+      var params = new DartSidePingParams();
+      _proxyImpl.sendMessage(params, kDartSide_ping_name);
+    }
+  
+    void echo(int numIterations, EchoArgs arg) {
+      var params = new DartSideEchoParams();
+      params.numIterations = numIterations;
+      params.arg = arg;
+      _proxyImpl.sendMessage(params, kDartSide_echo_name);
+    }
+  
+}
+
+
+class DartSideProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  DartSide ptr;
+  final String name = DartSideName;
+
+  DartSideProxy(DartSideProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _DartSideProxyCalls(proxyImpl);
+
+  DartSideProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new DartSideProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _DartSideProxyCalls(impl);
+  }
+
+  DartSideProxy.fromHandle(core.MojoHandle handle) :
+      impl = new DartSideProxyImpl.fromHandle(handle) {
+    ptr = new _DartSideProxyCalls(impl);
+  }
+
+  DartSideProxy.unbound() :
+      impl = new DartSideProxyImpl.unbound() {
+    ptr = new _DartSideProxyCalls(impl);
+  }
+
+  static DartSideProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new DartSideProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class DartSideStub extends bindings.Stub {
   DartSide _delegate = null;
 
-  DartSideStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  DartSideStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   DartSideStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -690,9 +738,9 @@ class DartSideStub extends bindings.Stub {
 
   static DartSideStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new DartSideStub(endpoint);
+      new DartSideStub.fromEndpoint(endpoint);
 
-  static const String name = DartSide.name;
+  static const String name = DartSideName;
 
 
 

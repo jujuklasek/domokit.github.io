@@ -355,30 +355,10 @@ const int kPingPongService_pingTargetService_name = 3;
 const int kPingPongService_getPingPongService_name = 4;
 const int kPingPongService_quit_name = 5;
 
-abstract class PingPongService implements core.Listener {
-  static const String name = 'js::PingPongService';
-  PingPongServiceStub stub;
+const String PingPongServiceName =
+      'js::PingPongService';
 
-  PingPongService(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new PingPongServiceStub(endpoint);
-
-  PingPongService.fromHandle(core.MojoHandle handle) :
-      stub = new PingPongServiceStub.fromHandle(handle);
-
-  PingPongService.fromStub(this.stub);
-
-  PingPongService.unbound() :
-      stub = new PingPongServiceStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  PingPongService get delegate => stub.delegate;
-  set delegate(PingPongService d) {
-    stub.delegate = d;
-  }
+abstract class PingPongService {
   void setClient(Object client);
   void ping(int pingValue);
   Future<PingPongServicePingTargetUrlResponseParams> pingTargetUrl(String url,int count,[Function responseFactory = null]);
@@ -388,19 +368,21 @@ abstract class PingPongService implements core.Listener {
 
 }
 
-class PingPongServiceProxy extends bindings.Proxy implements PingPongService {
-  PingPongServiceProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  PingPongServiceProxy.fromHandle(core.MojoHandle handle) :
+class PingPongServiceProxyImpl extends bindings.Proxy {
+  PingPongServiceProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  PingPongServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  PingPongServiceProxy.unbound() : super.unbound();
+  PingPongServiceProxyImpl.unbound() : super.unbound();
 
-  String get name => PingPongService.name;
-
-  static PingPongServiceProxy newFromEndpoint(
+  static PingPongServiceProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new PingPongServiceProxy(endpoint);
+      new PingPongServiceProxyImpl.fromEndpoint(endpoint);
+
+  String get name => PingPongServiceName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -429,55 +411,97 @@ class PingPongServiceProxy extends bindings.Proxy implements PingPongService {
         break;
     }
   }
-  void setClient(Object client) {
-    var params = new PingPongServiceSetClientParams();
-    params.client = client;
-    sendMessage(params, kPingPongService_setClient_name);
-  }
-
-  void ping(int pingValue) {
-    var params = new PingPongServicePingParams();
-    params.pingValue = pingValue;
-    sendMessage(params, kPingPongService_ping_name);
-  }
-
-  Future<PingPongServicePingTargetUrlResponseParams> pingTargetUrl(String url,int count,[Function responseFactory = null]) {
-    var params = new PingPongServicePingTargetUrlParams();
-    params.url = url;
-    params.count = count;
-    return sendMessageWithRequestId(
-        params,
-        kPingPongService_pingTargetUrl_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<PingPongServicePingTargetServiceResponseParams> pingTargetService(Object service,int count,[Function responseFactory = null]) {
-    var params = new PingPongServicePingTargetServiceParams();
-    params.service = service;
-    params.count = count;
-    return sendMessageWithRequestId(
-        params,
-        kPingPongService_pingTargetService_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  void getPingPongService(Object service) {
-    var params = new PingPongServiceGetPingPongServiceParams();
-    params.service = service;
-    sendMessage(params, kPingPongService_getPingPongService_name);
-  }
-
-  void quit() {
-    var params = new PingPongServiceQuitParams();
-    sendMessage(params, kPingPongService_quit_name);
-  }
-
 }
+
+
+class _PingPongServiceProxyCalls implements PingPongService {
+  PingPongServiceProxyImpl _proxyImpl;
+
+  _PingPongServiceProxyCalls(this._proxyImpl);
+    void setClient(Object client) {
+      var params = new PingPongServiceSetClientParams();
+      params.client = client;
+      _proxyImpl.sendMessage(params, kPingPongService_setClient_name);
+    }
+  
+    void ping(int pingValue) {
+      var params = new PingPongServicePingParams();
+      params.pingValue = pingValue;
+      _proxyImpl.sendMessage(params, kPingPongService_ping_name);
+    }
+  
+    Future<PingPongServicePingTargetUrlResponseParams> pingTargetUrl(String url,int count,[Function responseFactory = null]) {
+      var params = new PingPongServicePingTargetUrlParams();
+      params.url = url;
+      params.count = count;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kPingPongService_pingTargetUrl_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<PingPongServicePingTargetServiceResponseParams> pingTargetService(Object service,int count,[Function responseFactory = null]) {
+      var params = new PingPongServicePingTargetServiceParams();
+      params.service = service;
+      params.count = count;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kPingPongService_pingTargetService_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    void getPingPongService(Object service) {
+      var params = new PingPongServiceGetPingPongServiceParams();
+      params.service = service;
+      _proxyImpl.sendMessage(params, kPingPongService_getPingPongService_name);
+    }
+  
+    void quit() {
+      var params = new PingPongServiceQuitParams();
+      _proxyImpl.sendMessage(params, kPingPongService_quit_name);
+    }
+  
+}
+
+
+class PingPongServiceProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  PingPongService ptr;
+  final String name = PingPongServiceName;
+
+  PingPongServiceProxy(PingPongServiceProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _PingPongServiceProxyCalls(proxyImpl);
+
+  PingPongServiceProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new PingPongServiceProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _PingPongServiceProxyCalls(impl);
+  }
+
+  PingPongServiceProxy.fromHandle(core.MojoHandle handle) :
+      impl = new PingPongServiceProxyImpl.fromHandle(handle) {
+    ptr = new _PingPongServiceProxyCalls(impl);
+  }
+
+  PingPongServiceProxy.unbound() :
+      impl = new PingPongServiceProxyImpl.unbound() {
+    ptr = new _PingPongServiceProxyCalls(impl);
+  }
+
+  static PingPongServiceProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new PingPongServiceProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class PingPongServiceStub extends bindings.Stub {
   PingPongService _delegate = null;
 
-  PingPongServiceStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  PingPongServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   PingPongServiceStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -486,9 +510,9 @@ class PingPongServiceStub extends bindings.Stub {
 
   static PingPongServiceStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new PingPongServiceStub(endpoint);
+      new PingPongServiceStub.fromEndpoint(endpoint);
 
-  static const String name = PingPongService.name;
+  static const String name = PingPongServiceName;
 
 
   PingPongServicePingTargetUrlResponseParams _PingPongServicePingTargetUrlResponseParamsFactory(bool ok) {
@@ -567,47 +591,29 @@ class PingPongServiceStub extends bindings.Stub {
 
 const int kPingPongClient_pong_name = 0;
 
-abstract class PingPongClient implements core.Listener {
-  static const String name = 'js::PingPongClient';
-  PingPongClientStub stub;
+const String PingPongClientName =
+      'js::PingPongClient';
 
-  PingPongClient(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new PingPongClientStub(endpoint);
-
-  PingPongClient.fromHandle(core.MojoHandle handle) :
-      stub = new PingPongClientStub.fromHandle(handle);
-
-  PingPongClient.fromStub(this.stub);
-
-  PingPongClient.unbound() :
-      stub = new PingPongClientStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  PingPongClient get delegate => stub.delegate;
-  set delegate(PingPongClient d) {
-    stub.delegate = d;
-  }
+abstract class PingPongClient {
   void pong(int pongValue);
 
 }
 
-class PingPongClientProxy extends bindings.Proxy implements PingPongClient {
-  PingPongClientProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  PingPongClientProxy.fromHandle(core.MojoHandle handle) :
+class PingPongClientProxyImpl extends bindings.Proxy {
+  PingPongClientProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  PingPongClientProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  PingPongClientProxy.unbound() : super.unbound();
+  PingPongClientProxyImpl.unbound() : super.unbound();
 
-  String get name => PingPongClient.name;
-
-  static PingPongClientProxy newFromEndpoint(
+  static PingPongClientProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new PingPongClientProxy(endpoint);
+      new PingPongClientProxyImpl.fromEndpoint(endpoint);
+
+  String get name => PingPongClientName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -616,18 +622,60 @@ class PingPongClientProxy extends bindings.Proxy implements PingPongClient {
         break;
     }
   }
-  void pong(int pongValue) {
-    var params = new PingPongClientPongParams();
-    params.pongValue = pongValue;
-    sendMessage(params, kPingPongClient_pong_name);
+}
+
+
+class _PingPongClientProxyCalls implements PingPongClient {
+  PingPongClientProxyImpl _proxyImpl;
+
+  _PingPongClientProxyCalls(this._proxyImpl);
+    void pong(int pongValue) {
+      var params = new PingPongClientPongParams();
+      params.pongValue = pongValue;
+      _proxyImpl.sendMessage(params, kPingPongClient_pong_name);
+    }
+  
+}
+
+
+class PingPongClientProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  PingPongClient ptr;
+  final String name = PingPongClientName;
+
+  PingPongClientProxy(PingPongClientProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _PingPongClientProxyCalls(proxyImpl);
+
+  PingPongClientProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new PingPongClientProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _PingPongClientProxyCalls(impl);
   }
 
+  PingPongClientProxy.fromHandle(core.MojoHandle handle) :
+      impl = new PingPongClientProxyImpl.fromHandle(handle) {
+    ptr = new _PingPongClientProxyCalls(impl);
+  }
+
+  PingPongClientProxy.unbound() :
+      impl = new PingPongClientProxyImpl.unbound() {
+    ptr = new _PingPongClientProxyCalls(impl);
+  }
+
+  static PingPongClientProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new PingPongClientProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class PingPongClientStub extends bindings.Stub {
   PingPongClient _delegate = null;
 
-  PingPongClientStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  PingPongClientStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   PingPongClientStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -636,9 +684,9 @@ class PingPongClientStub extends bindings.Stub {
 
   static PingPongClientStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new PingPongClientStub(endpoint);
+      new PingPongClientStub.fromEndpoint(endpoint);
 
-  static const String name = PingPongClient.name;
+  static const String name = PingPongClientName;
 
 
 

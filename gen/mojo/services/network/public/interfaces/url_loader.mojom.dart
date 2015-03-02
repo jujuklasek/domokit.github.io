@@ -486,49 +486,31 @@ const int kUrlLoader_start_name = 0;
 const int kUrlLoader_followRedirect_name = 1;
 const int kUrlLoader_queryStatus_name = 2;
 
-abstract class UrlLoader implements core.Listener {
-  static const String name = 'mojo::UrlLoader';
-  UrlLoaderStub stub;
+const String UrlLoaderName =
+      'mojo::UrlLoader';
 
-  UrlLoader(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new UrlLoaderStub(endpoint);
-
-  UrlLoader.fromHandle(core.MojoHandle handle) :
-      stub = new UrlLoaderStub.fromHandle(handle);
-
-  UrlLoader.fromStub(this.stub);
-
-  UrlLoader.unbound() :
-      stub = new UrlLoaderStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  UrlLoader get delegate => stub.delegate;
-  set delegate(UrlLoader d) {
-    stub.delegate = d;
-  }
+abstract class UrlLoader {
   Future<UrlLoaderStartResponseParams> start(UrlRequest request,[Function responseFactory = null]);
   Future<UrlLoaderFollowRedirectResponseParams> followRedirect([Function responseFactory = null]);
   Future<UrlLoaderQueryStatusResponseParams> queryStatus([Function responseFactory = null]);
 
 }
 
-class UrlLoaderProxy extends bindings.Proxy implements UrlLoader {
-  UrlLoaderProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  UrlLoaderProxy.fromHandle(core.MojoHandle handle) :
+class UrlLoaderProxyImpl extends bindings.Proxy {
+  UrlLoaderProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  UrlLoaderProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  UrlLoaderProxy.unbound() : super.unbound();
+  UrlLoaderProxyImpl.unbound() : super.unbound();
 
-  String get name => UrlLoader.name;
-
-  static UrlLoaderProxy newFromEndpoint(
+  static UrlLoaderProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new UrlLoaderProxy(endpoint);
+      new UrlLoaderProxyImpl.fromEndpoint(endpoint);
+
+  String get name => UrlLoaderName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -567,37 +549,79 @@ class UrlLoaderProxy extends bindings.Proxy implements UrlLoader {
         break;
     }
   }
-  Future<UrlLoaderStartResponseParams> start(UrlRequest request,[Function responseFactory = null]) {
-    var params = new UrlLoaderStartParams();
-    params.request = request;
-    return sendMessageWithRequestId(
-        params,
-        kUrlLoader_start_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<UrlLoaderFollowRedirectResponseParams> followRedirect([Function responseFactory = null]) {
-    var params = new UrlLoaderFollowRedirectParams();
-    return sendMessageWithRequestId(
-        params,
-        kUrlLoader_followRedirect_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<UrlLoaderQueryStatusResponseParams> queryStatus([Function responseFactory = null]) {
-    var params = new UrlLoaderQueryStatusParams();
-    return sendMessageWithRequestId(
-        params,
-        kUrlLoader_queryStatus_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _UrlLoaderProxyCalls implements UrlLoader {
+  UrlLoaderProxyImpl _proxyImpl;
+
+  _UrlLoaderProxyCalls(this._proxyImpl);
+    Future<UrlLoaderStartResponseParams> start(UrlRequest request,[Function responseFactory = null]) {
+      var params = new UrlLoaderStartParams();
+      params.request = request;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kUrlLoader_start_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<UrlLoaderFollowRedirectResponseParams> followRedirect([Function responseFactory = null]) {
+      var params = new UrlLoaderFollowRedirectParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kUrlLoader_followRedirect_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<UrlLoaderQueryStatusResponseParams> queryStatus([Function responseFactory = null]) {
+      var params = new UrlLoaderQueryStatusParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kUrlLoader_queryStatus_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class UrlLoaderProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  UrlLoader ptr;
+  final String name = UrlLoaderName;
+
+  UrlLoaderProxy(UrlLoaderProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _UrlLoaderProxyCalls(proxyImpl);
+
+  UrlLoaderProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new UrlLoaderProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _UrlLoaderProxyCalls(impl);
+  }
+
+  UrlLoaderProxy.fromHandle(core.MojoHandle handle) :
+      impl = new UrlLoaderProxyImpl.fromHandle(handle) {
+    ptr = new _UrlLoaderProxyCalls(impl);
+  }
+
+  UrlLoaderProxy.unbound() :
+      impl = new UrlLoaderProxyImpl.unbound() {
+    ptr = new _UrlLoaderProxyCalls(impl);
+  }
+
+  static UrlLoaderProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new UrlLoaderProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class UrlLoaderStub extends bindings.Stub {
   UrlLoader _delegate = null;
 
-  UrlLoaderStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  UrlLoaderStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   UrlLoaderStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -606,9 +630,9 @@ class UrlLoaderStub extends bindings.Stub {
 
   static UrlLoaderStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new UrlLoaderStub(endpoint);
+      new UrlLoaderStub.fromEndpoint(endpoint);
 
-  static const String name = UrlLoader.name;
+  static const String name = UrlLoaderName;
 
 
   UrlLoaderStartResponseParams _UrlLoaderStartResponseParamsFactory(UrlResponse response) {

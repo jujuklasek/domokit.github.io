@@ -99,47 +99,29 @@ class AppChildControllerStartAppResponseParams extends bindings.Struct {
 }
 const int kAppChildController_startApp_name = 0;
 
-abstract class AppChildController implements core.Listener {
-  static const String name = 'mojo::shell::AppChildController';
-  AppChildControllerStub stub;
+const String AppChildControllerName =
+      'mojo::shell::AppChildController';
 
-  AppChildController(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new AppChildControllerStub(endpoint);
-
-  AppChildController.fromHandle(core.MojoHandle handle) :
-      stub = new AppChildControllerStub.fromHandle(handle);
-
-  AppChildController.fromStub(this.stub);
-
-  AppChildController.unbound() :
-      stub = new AppChildControllerStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  AppChildController get delegate => stub.delegate;
-  set delegate(AppChildController d) {
-    stub.delegate = d;
-  }
+abstract class AppChildController {
   Future<AppChildControllerStartAppResponseParams> startApp(String appPath,bool cleanAppPath,Object applicationRequest,[Function responseFactory = null]);
 
 }
 
-class AppChildControllerProxy extends bindings.Proxy implements AppChildController {
-  AppChildControllerProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  AppChildControllerProxy.fromHandle(core.MojoHandle handle) :
+class AppChildControllerProxyImpl extends bindings.Proxy {
+  AppChildControllerProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  AppChildControllerProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  AppChildControllerProxy.unbound() : super.unbound();
+  AppChildControllerProxyImpl.unbound() : super.unbound();
 
-  String get name => AppChildController.name;
-
-  static AppChildControllerProxy newFromEndpoint(
+  static AppChildControllerProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new AppChildControllerProxy(endpoint);
+      new AppChildControllerProxyImpl.fromEndpoint(endpoint);
+
+  String get name => AppChildControllerName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -158,23 +140,65 @@ class AppChildControllerProxy extends bindings.Proxy implements AppChildControll
         break;
     }
   }
-  Future<AppChildControllerStartAppResponseParams> startApp(String appPath,bool cleanAppPath,Object applicationRequest,[Function responseFactory = null]) {
-    var params = new AppChildControllerStartAppParams();
-    params.appPath = appPath;
-    params.cleanAppPath = cleanAppPath;
-    params.applicationRequest = applicationRequest;
-    return sendMessageWithRequestId(
-        params,
-        kAppChildController_startApp_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _AppChildControllerProxyCalls implements AppChildController {
+  AppChildControllerProxyImpl _proxyImpl;
+
+  _AppChildControllerProxyCalls(this._proxyImpl);
+    Future<AppChildControllerStartAppResponseParams> startApp(String appPath,bool cleanAppPath,Object applicationRequest,[Function responseFactory = null]) {
+      var params = new AppChildControllerStartAppParams();
+      params.appPath = appPath;
+      params.cleanAppPath = cleanAppPath;
+      params.applicationRequest = applicationRequest;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kAppChildController_startApp_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class AppChildControllerProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  AppChildController ptr;
+  final String name = AppChildControllerName;
+
+  AppChildControllerProxy(AppChildControllerProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _AppChildControllerProxyCalls(proxyImpl);
+
+  AppChildControllerProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new AppChildControllerProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _AppChildControllerProxyCalls(impl);
+  }
+
+  AppChildControllerProxy.fromHandle(core.MojoHandle handle) :
+      impl = new AppChildControllerProxyImpl.fromHandle(handle) {
+    ptr = new _AppChildControllerProxyCalls(impl);
+  }
+
+  AppChildControllerProxy.unbound() :
+      impl = new AppChildControllerProxyImpl.unbound() {
+    ptr = new _AppChildControllerProxyCalls(impl);
+  }
+
+  static AppChildControllerProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new AppChildControllerProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class AppChildControllerStub extends bindings.Stub {
   AppChildController _delegate = null;
 
-  AppChildControllerStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  AppChildControllerStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   AppChildControllerStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -183,9 +207,9 @@ class AppChildControllerStub extends bindings.Stub {
 
   static AppChildControllerStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new AppChildControllerStub(endpoint);
+      new AppChildControllerStub.fromEndpoint(endpoint);
 
-  static const String name = AppChildController.name;
+  static const String name = AppChildControllerName;
 
 
   AppChildControllerStartAppResponseParams _AppChildControllerStartAppResponseParamsFactory(int result) {

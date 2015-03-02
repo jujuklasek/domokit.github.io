@@ -418,48 +418,30 @@ class CheckNameCollisionWithNameCollisionResponseParams extends bindings.Struct 
 const int kCheckMethodWithEmptyResponse_withouParameterAndEmptyResponse_name = 0;
 const int kCheckMethodWithEmptyResponse_withParameterAndEmptyResponse_name = 1;
 
-abstract class CheckMethodWithEmptyResponse implements core.Listener {
-  static const String name = 'regression_tests::CheckMethodWithEmptyResponse';
-  CheckMethodWithEmptyResponseStub stub;
+const String CheckMethodWithEmptyResponseName =
+      'regression_tests::CheckMethodWithEmptyResponse';
 
-  CheckMethodWithEmptyResponse(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new CheckMethodWithEmptyResponseStub(endpoint);
-
-  CheckMethodWithEmptyResponse.fromHandle(core.MojoHandle handle) :
-      stub = new CheckMethodWithEmptyResponseStub.fromHandle(handle);
-
-  CheckMethodWithEmptyResponse.fromStub(this.stub);
-
-  CheckMethodWithEmptyResponse.unbound() :
-      stub = new CheckMethodWithEmptyResponseStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  CheckMethodWithEmptyResponse get delegate => stub.delegate;
-  set delegate(CheckMethodWithEmptyResponse d) {
-    stub.delegate = d;
-  }
+abstract class CheckMethodWithEmptyResponse {
   Future<CheckMethodWithEmptyResponseWithouParameterAndEmptyResponseResponseParams> withouParameterAndEmptyResponse([Function responseFactory = null]);
   Future<CheckMethodWithEmptyResponseWithParameterAndEmptyResponseResponseParams> withParameterAndEmptyResponse(bool b,[Function responseFactory = null]);
 
 }
 
-class CheckMethodWithEmptyResponseProxy extends bindings.Proxy implements CheckMethodWithEmptyResponse {
-  CheckMethodWithEmptyResponseProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  CheckMethodWithEmptyResponseProxy.fromHandle(core.MojoHandle handle) :
+class CheckMethodWithEmptyResponseProxyImpl extends bindings.Proxy {
+  CheckMethodWithEmptyResponseProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  CheckMethodWithEmptyResponseProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  CheckMethodWithEmptyResponseProxy.unbound() : super.unbound();
+  CheckMethodWithEmptyResponseProxyImpl.unbound() : super.unbound();
 
-  String get name => CheckMethodWithEmptyResponse.name;
-
-  static CheckMethodWithEmptyResponseProxy newFromEndpoint(
+  static CheckMethodWithEmptyResponseProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new CheckMethodWithEmptyResponseProxy(endpoint);
+      new CheckMethodWithEmptyResponseProxyImpl.fromEndpoint(endpoint);
+
+  String get name => CheckMethodWithEmptyResponseName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -488,29 +470,71 @@ class CheckMethodWithEmptyResponseProxy extends bindings.Proxy implements CheckM
         break;
     }
   }
-  Future<CheckMethodWithEmptyResponseWithouParameterAndEmptyResponseResponseParams> withouParameterAndEmptyResponse([Function responseFactory = null]) {
-    var params = new CheckMethodWithEmptyResponseWithouParameterAndEmptyResponseParams();
-    return sendMessageWithRequestId(
-        params,
-        kCheckMethodWithEmptyResponse_withouParameterAndEmptyResponse_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<CheckMethodWithEmptyResponseWithParameterAndEmptyResponseResponseParams> withParameterAndEmptyResponse(bool b,[Function responseFactory = null]) {
-    var params = new CheckMethodWithEmptyResponseWithParameterAndEmptyResponseParams();
-    params.b = b;
-    return sendMessageWithRequestId(
-        params,
-        kCheckMethodWithEmptyResponse_withParameterAndEmptyResponse_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _CheckMethodWithEmptyResponseProxyCalls implements CheckMethodWithEmptyResponse {
+  CheckMethodWithEmptyResponseProxyImpl _proxyImpl;
+
+  _CheckMethodWithEmptyResponseProxyCalls(this._proxyImpl);
+    Future<CheckMethodWithEmptyResponseWithouParameterAndEmptyResponseResponseParams> withouParameterAndEmptyResponse([Function responseFactory = null]) {
+      var params = new CheckMethodWithEmptyResponseWithouParameterAndEmptyResponseParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kCheckMethodWithEmptyResponse_withouParameterAndEmptyResponse_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<CheckMethodWithEmptyResponseWithParameterAndEmptyResponseResponseParams> withParameterAndEmptyResponse(bool b,[Function responseFactory = null]) {
+      var params = new CheckMethodWithEmptyResponseWithParameterAndEmptyResponseParams();
+      params.b = b;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kCheckMethodWithEmptyResponse_withParameterAndEmptyResponse_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class CheckMethodWithEmptyResponseProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  CheckMethodWithEmptyResponse ptr;
+  final String name = CheckMethodWithEmptyResponseName;
+
+  CheckMethodWithEmptyResponseProxy(CheckMethodWithEmptyResponseProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _CheckMethodWithEmptyResponseProxyCalls(proxyImpl);
+
+  CheckMethodWithEmptyResponseProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new CheckMethodWithEmptyResponseProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _CheckMethodWithEmptyResponseProxyCalls(impl);
+  }
+
+  CheckMethodWithEmptyResponseProxy.fromHandle(core.MojoHandle handle) :
+      impl = new CheckMethodWithEmptyResponseProxyImpl.fromHandle(handle) {
+    ptr = new _CheckMethodWithEmptyResponseProxyCalls(impl);
+  }
+
+  CheckMethodWithEmptyResponseProxy.unbound() :
+      impl = new CheckMethodWithEmptyResponseProxyImpl.unbound() {
+    ptr = new _CheckMethodWithEmptyResponseProxyCalls(impl);
+  }
+
+  static CheckMethodWithEmptyResponseProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new CheckMethodWithEmptyResponseProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class CheckMethodWithEmptyResponseStub extends bindings.Stub {
   CheckMethodWithEmptyResponse _delegate = null;
 
-  CheckMethodWithEmptyResponseStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  CheckMethodWithEmptyResponseStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   CheckMethodWithEmptyResponseStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -519,9 +543,9 @@ class CheckMethodWithEmptyResponseStub extends bindings.Stub {
 
   static CheckMethodWithEmptyResponseStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new CheckMethodWithEmptyResponseStub(endpoint);
+      new CheckMethodWithEmptyResponseStub.fromEndpoint(endpoint);
 
-  static const String name = CheckMethodWithEmptyResponse.name;
+  static const String name = CheckMethodWithEmptyResponseName;
 
 
   CheckMethodWithEmptyResponseWithouParameterAndEmptyResponseResponseParams _CheckMethodWithEmptyResponseWithouParameterAndEmptyResponseResponseParamsFactory() {
@@ -578,47 +602,29 @@ class CheckMethodWithEmptyResponseStub extends bindings.Stub {
 
 const int kCheckNameCollision_withNameCollision_name = 0;
 
-abstract class CheckNameCollision implements core.Listener {
-  static const String name = 'regression_tests::CheckNameCollision';
-  CheckNameCollisionStub stub;
+const String CheckNameCollisionName =
+      'regression_tests::CheckNameCollision';
 
-  CheckNameCollision(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new CheckNameCollisionStub(endpoint);
-
-  CheckNameCollision.fromHandle(core.MojoHandle handle) :
-      stub = new CheckNameCollisionStub.fromHandle(handle);
-
-  CheckNameCollision.fromStub(this.stub);
-
-  CheckNameCollision.unbound() :
-      stub = new CheckNameCollisionStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  CheckNameCollision get delegate => stub.delegate;
-  set delegate(CheckNameCollision d) {
-    stub.delegate = d;
-  }
+abstract class CheckNameCollision {
   Future<CheckNameCollisionWithNameCollisionResponseParams> withNameCollision(bool message,bool response,[Function responseFactory = null]);
 
 }
 
-class CheckNameCollisionProxy extends bindings.Proxy implements CheckNameCollision {
-  CheckNameCollisionProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  CheckNameCollisionProxy.fromHandle(core.MojoHandle handle) :
+class CheckNameCollisionProxyImpl extends bindings.Proxy {
+  CheckNameCollisionProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  CheckNameCollisionProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  CheckNameCollisionProxy.unbound() : super.unbound();
+  CheckNameCollisionProxyImpl.unbound() : super.unbound();
 
-  String get name => CheckNameCollision.name;
-
-  static CheckNameCollisionProxy newFromEndpoint(
+  static CheckNameCollisionProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new CheckNameCollisionProxy(endpoint);
+      new CheckNameCollisionProxyImpl.fromEndpoint(endpoint);
+
+  String get name => CheckNameCollisionName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -637,22 +643,64 @@ class CheckNameCollisionProxy extends bindings.Proxy implements CheckNameCollisi
         break;
     }
   }
-  Future<CheckNameCollisionWithNameCollisionResponseParams> withNameCollision(bool message,bool response,[Function responseFactory = null]) {
-    var params = new CheckNameCollisionWithNameCollisionParams();
-    params.message = message;
-    params.response = response;
-    return sendMessageWithRequestId(
-        params,
-        kCheckNameCollision_withNameCollision_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _CheckNameCollisionProxyCalls implements CheckNameCollision {
+  CheckNameCollisionProxyImpl _proxyImpl;
+
+  _CheckNameCollisionProxyCalls(this._proxyImpl);
+    Future<CheckNameCollisionWithNameCollisionResponseParams> withNameCollision(bool message,bool response,[Function responseFactory = null]) {
+      var params = new CheckNameCollisionWithNameCollisionParams();
+      params.message = message;
+      params.response = response;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kCheckNameCollision_withNameCollision_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class CheckNameCollisionProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  CheckNameCollision ptr;
+  final String name = CheckNameCollisionName;
+
+  CheckNameCollisionProxy(CheckNameCollisionProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _CheckNameCollisionProxyCalls(proxyImpl);
+
+  CheckNameCollisionProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new CheckNameCollisionProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _CheckNameCollisionProxyCalls(impl);
+  }
+
+  CheckNameCollisionProxy.fromHandle(core.MojoHandle handle) :
+      impl = new CheckNameCollisionProxyImpl.fromHandle(handle) {
+    ptr = new _CheckNameCollisionProxyCalls(impl);
+  }
+
+  CheckNameCollisionProxy.unbound() :
+      impl = new CheckNameCollisionProxyImpl.unbound() {
+    ptr = new _CheckNameCollisionProxyCalls(impl);
+  }
+
+  static CheckNameCollisionProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new CheckNameCollisionProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class CheckNameCollisionStub extends bindings.Stub {
   CheckNameCollision _delegate = null;
 
-  CheckNameCollisionStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  CheckNameCollisionStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   CheckNameCollisionStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -661,9 +709,9 @@ class CheckNameCollisionStub extends bindings.Stub {
 
   static CheckNameCollisionStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new CheckNameCollisionStub(endpoint);
+      new CheckNameCollisionStub.fromEndpoint(endpoint);
 
-  static const String name = CheckNameCollision.name;
+  static const String name = CheckNameCollisionName;
 
 
   CheckNameCollisionWithNameCollisionResponseParams _CheckNameCollisionWithNameCollisionResponseParamsFactory(bool message, bool response) {

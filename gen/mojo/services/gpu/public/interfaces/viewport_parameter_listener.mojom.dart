@@ -54,47 +54,29 @@ class ViewportParameterListenerOnVSyncParametersUpdatedParams extends bindings.S
 }
 const int kViewportParameterListener_onVSyncParametersUpdated_name = 0;
 
-abstract class ViewportParameterListener implements core.Listener {
-  static const String name = 'mojo::ViewportParameterListener';
-  ViewportParameterListenerStub stub;
+const String ViewportParameterListenerName =
+      'mojo::ViewportParameterListener';
 
-  ViewportParameterListener(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new ViewportParameterListenerStub(endpoint);
-
-  ViewportParameterListener.fromHandle(core.MojoHandle handle) :
-      stub = new ViewportParameterListenerStub.fromHandle(handle);
-
-  ViewportParameterListener.fromStub(this.stub);
-
-  ViewportParameterListener.unbound() :
-      stub = new ViewportParameterListenerStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  ViewportParameterListener get delegate => stub.delegate;
-  set delegate(ViewportParameterListener d) {
-    stub.delegate = d;
-  }
+abstract class ViewportParameterListener {
   void onVSyncParametersUpdated(int timebase, int interval);
 
 }
 
-class ViewportParameterListenerProxy extends bindings.Proxy implements ViewportParameterListener {
-  ViewportParameterListenerProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  ViewportParameterListenerProxy.fromHandle(core.MojoHandle handle) :
+class ViewportParameterListenerProxyImpl extends bindings.Proxy {
+  ViewportParameterListenerProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  ViewportParameterListenerProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  ViewportParameterListenerProxy.unbound() : super.unbound();
+  ViewportParameterListenerProxyImpl.unbound() : super.unbound();
 
-  String get name => ViewportParameterListener.name;
-
-  static ViewportParameterListenerProxy newFromEndpoint(
+  static ViewportParameterListenerProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ViewportParameterListenerProxy(endpoint);
+      new ViewportParameterListenerProxyImpl.fromEndpoint(endpoint);
+
+  String get name => ViewportParameterListenerName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -103,19 +85,61 @@ class ViewportParameterListenerProxy extends bindings.Proxy implements ViewportP
         break;
     }
   }
-  void onVSyncParametersUpdated(int timebase, int interval) {
-    var params = new ViewportParameterListenerOnVSyncParametersUpdatedParams();
-    params.timebase = timebase;
-    params.interval = interval;
-    sendMessage(params, kViewportParameterListener_onVSyncParametersUpdated_name);
+}
+
+
+class _ViewportParameterListenerProxyCalls implements ViewportParameterListener {
+  ViewportParameterListenerProxyImpl _proxyImpl;
+
+  _ViewportParameterListenerProxyCalls(this._proxyImpl);
+    void onVSyncParametersUpdated(int timebase, int interval) {
+      var params = new ViewportParameterListenerOnVSyncParametersUpdatedParams();
+      params.timebase = timebase;
+      params.interval = interval;
+      _proxyImpl.sendMessage(params, kViewportParameterListener_onVSyncParametersUpdated_name);
+    }
+  
+}
+
+
+class ViewportParameterListenerProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  ViewportParameterListener ptr;
+  final String name = ViewportParameterListenerName;
+
+  ViewportParameterListenerProxy(ViewportParameterListenerProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _ViewportParameterListenerProxyCalls(proxyImpl);
+
+  ViewportParameterListenerProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new ViewportParameterListenerProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _ViewportParameterListenerProxyCalls(impl);
   }
 
+  ViewportParameterListenerProxy.fromHandle(core.MojoHandle handle) :
+      impl = new ViewportParameterListenerProxyImpl.fromHandle(handle) {
+    ptr = new _ViewportParameterListenerProxyCalls(impl);
+  }
+
+  ViewportParameterListenerProxy.unbound() :
+      impl = new ViewportParameterListenerProxyImpl.unbound() {
+    ptr = new _ViewportParameterListenerProxyCalls(impl);
+  }
+
+  static ViewportParameterListenerProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new ViewportParameterListenerProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class ViewportParameterListenerStub extends bindings.Stub {
   ViewportParameterListener _delegate = null;
 
-  ViewportParameterListenerStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  ViewportParameterListenerStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   ViewportParameterListenerStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -124,9 +148,9 @@ class ViewportParameterListenerStub extends bindings.Stub {
 
   static ViewportParameterListenerStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ViewportParameterListenerStub(endpoint);
+      new ViewportParameterListenerStub.fromEndpoint(endpoint);
 
-  static const String name = ViewportParameterListener.name;
+  static const String name = ViewportParameterListenerName;
 
 
 

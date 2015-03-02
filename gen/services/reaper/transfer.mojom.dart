@@ -115,48 +115,30 @@ class TransferPingResponseParams extends bindings.Struct {
 const int kTransfer_complete_name = 0;
 const int kTransfer_ping_name = 1;
 
-abstract class Transfer implements core.Listener {
-  static const String name = 'reaper::Transfer';
-  TransferStub stub;
+const String TransferName =
+      'reaper::Transfer';
 
-  Transfer(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new TransferStub(endpoint);
-
-  Transfer.fromHandle(core.MojoHandle handle) :
-      stub = new TransferStub.fromHandle(handle);
-
-  Transfer.fromStub(this.stub);
-
-  Transfer.unbound() :
-      stub = new TransferStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  Transfer get delegate => stub.delegate;
-  set delegate(Transfer d) {
-    stub.delegate = d;
-  }
+abstract class Transfer {
   void complete(int applicationSecret, int node);
   Future<TransferPingResponseParams> ping([Function responseFactory = null]);
 
 }
 
-class TransferProxy extends bindings.Proxy implements Transfer {
-  TransferProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  TransferProxy.fromHandle(core.MojoHandle handle) :
+class TransferProxyImpl extends bindings.Proxy {
+  TransferProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  TransferProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  TransferProxy.unbound() : super.unbound();
+  TransferProxyImpl.unbound() : super.unbound();
 
-  String get name => Transfer.name;
-
-  static TransferProxy newFromEndpoint(
+  static TransferProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TransferProxy(endpoint);
+      new TransferProxyImpl.fromEndpoint(endpoint);
+
+  String get name => TransferName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -175,27 +157,69 @@ class TransferProxy extends bindings.Proxy implements Transfer {
         break;
     }
   }
-  void complete(int applicationSecret, int node) {
-    var params = new TransferCompleteParams();
-    params.applicationSecret = applicationSecret;
-    params.node = node;
-    sendMessage(params, kTransfer_complete_name);
+}
+
+
+class _TransferProxyCalls implements Transfer {
+  TransferProxyImpl _proxyImpl;
+
+  _TransferProxyCalls(this._proxyImpl);
+    void complete(int applicationSecret, int node) {
+      var params = new TransferCompleteParams();
+      params.applicationSecret = applicationSecret;
+      params.node = node;
+      _proxyImpl.sendMessage(params, kTransfer_complete_name);
+    }
+  
+    Future<TransferPingResponseParams> ping([Function responseFactory = null]) {
+      var params = new TransferPingParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kTransfer_ping_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class TransferProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  Transfer ptr;
+  final String name = TransferName;
+
+  TransferProxy(TransferProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _TransferProxyCalls(proxyImpl);
+
+  TransferProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new TransferProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _TransferProxyCalls(impl);
   }
 
-  Future<TransferPingResponseParams> ping([Function responseFactory = null]) {
-    var params = new TransferPingParams();
-    return sendMessageWithRequestId(
-        params,
-        kTransfer_ping_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
+  TransferProxy.fromHandle(core.MojoHandle handle) :
+      impl = new TransferProxyImpl.fromHandle(handle) {
+    ptr = new _TransferProxyCalls(impl);
   }
+
+  TransferProxy.unbound() :
+      impl = new TransferProxyImpl.unbound() {
+    ptr = new _TransferProxyCalls(impl);
+  }
+
+  static TransferProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new TransferProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class TransferStub extends bindings.Stub {
   Transfer _delegate = null;
 
-  TransferStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  TransferStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   TransferStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -204,9 +228,9 @@ class TransferStub extends bindings.Stub {
 
   static TransferStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TransferStub(endpoint);
+      new TransferStub.fromEndpoint(endpoint);
 
-  static const String name = Transfer.name;
+  static const String name = TransferName;
 
 
   TransferPingResponseParams _TransferPingResponseParamsFactory() {

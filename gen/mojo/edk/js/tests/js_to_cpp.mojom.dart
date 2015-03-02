@@ -627,30 +627,10 @@ const int kCppSide_echoResponse_name = 100000001;
 const int kCppSide_bitFlipResponse_name = 100000002;
 const int kCppSide_backPointerResponse_name = 100000003;
 
-abstract class CppSide implements core.Listener {
-  static const String name = 'js_to_cpp::CppSide';
-  CppSideStub stub;
+const String CppSideName =
+      'js_to_cpp::CppSide';
 
-  CppSide(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new CppSideStub(endpoint);
-
-  CppSide.fromHandle(core.MojoHandle handle) :
-      stub = new CppSideStub.fromHandle(handle);
-
-  CppSide.fromStub(this.stub);
-
-  CppSide.unbound() :
-      stub = new CppSideStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  CppSide get delegate => stub.delegate;
-  set delegate(CppSide d) {
-    stub.delegate = d;
-  }
+abstract class CppSide {
   void startTest();
   void testFinished();
   void pingResponse();
@@ -660,19 +640,21 @@ abstract class CppSide implements core.Listener {
 
 }
 
-class CppSideProxy extends bindings.Proxy implements CppSide {
-  CppSideProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  CppSideProxy.fromHandle(core.MojoHandle handle) :
+class CppSideProxyImpl extends bindings.Proxy {
+  CppSideProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  CppSideProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  CppSideProxy.unbound() : super.unbound();
+  CppSideProxyImpl.unbound() : super.unbound();
 
-  String get name => CppSide.name;
-
-  static CppSideProxy newFromEndpoint(
+  static CppSideProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new CppSideProxy(endpoint);
+      new CppSideProxyImpl.fromEndpoint(endpoint);
+
+  String get name => CppSideName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -681,45 +663,87 @@ class CppSideProxy extends bindings.Proxy implements CppSide {
         break;
     }
   }
-  void startTest() {
-    var params = new CppSideStartTestParams();
-    sendMessage(params, kCppSide_startTest_name);
-  }
-
-  void testFinished() {
-    var params = new CppSideTestFinishedParams();
-    sendMessage(params, kCppSide_testFinished_name);
-  }
-
-  void pingResponse() {
-    var params = new CppSidePingResponseParams();
-    sendMessage(params, kCppSide_pingResponse_name);
-  }
-
-  void echoResponse(EchoArgsList list) {
-    var params = new CppSideEchoResponseParams();
-    params.list = list;
-    sendMessage(params, kCppSide_echoResponse_name);
-  }
-
-  void bitFlipResponse(EchoArgsList arg) {
-    var params = new CppSideBitFlipResponseParams();
-    params.arg = arg;
-    sendMessage(params, kCppSide_bitFlipResponse_name);
-  }
-
-  void backPointerResponse(EchoArgsList arg) {
-    var params = new CppSideBackPointerResponseParams();
-    params.arg = arg;
-    sendMessage(params, kCppSide_backPointerResponse_name);
-  }
-
 }
+
+
+class _CppSideProxyCalls implements CppSide {
+  CppSideProxyImpl _proxyImpl;
+
+  _CppSideProxyCalls(this._proxyImpl);
+    void startTest() {
+      var params = new CppSideStartTestParams();
+      _proxyImpl.sendMessage(params, kCppSide_startTest_name);
+    }
+  
+    void testFinished() {
+      var params = new CppSideTestFinishedParams();
+      _proxyImpl.sendMessage(params, kCppSide_testFinished_name);
+    }
+  
+    void pingResponse() {
+      var params = new CppSidePingResponseParams();
+      _proxyImpl.sendMessage(params, kCppSide_pingResponse_name);
+    }
+  
+    void echoResponse(EchoArgsList list) {
+      var params = new CppSideEchoResponseParams();
+      params.list = list;
+      _proxyImpl.sendMessage(params, kCppSide_echoResponse_name);
+    }
+  
+    void bitFlipResponse(EchoArgsList arg) {
+      var params = new CppSideBitFlipResponseParams();
+      params.arg = arg;
+      _proxyImpl.sendMessage(params, kCppSide_bitFlipResponse_name);
+    }
+  
+    void backPointerResponse(EchoArgsList arg) {
+      var params = new CppSideBackPointerResponseParams();
+      params.arg = arg;
+      _proxyImpl.sendMessage(params, kCppSide_backPointerResponse_name);
+    }
+  
+}
+
+
+class CppSideProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  CppSide ptr;
+  final String name = CppSideName;
+
+  CppSideProxy(CppSideProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _CppSideProxyCalls(proxyImpl);
+
+  CppSideProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new CppSideProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _CppSideProxyCalls(impl);
+  }
+
+  CppSideProxy.fromHandle(core.MojoHandle handle) :
+      impl = new CppSideProxyImpl.fromHandle(handle) {
+    ptr = new _CppSideProxyCalls(impl);
+  }
+
+  CppSideProxy.unbound() :
+      impl = new CppSideProxyImpl.unbound() {
+    ptr = new _CppSideProxyCalls(impl);
+  }
+
+  static CppSideProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new CppSideProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class CppSideStub extends bindings.Stub {
   CppSide _delegate = null;
 
-  CppSideStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  CppSideStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   CppSideStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -728,9 +752,9 @@ class CppSideStub extends bindings.Stub {
 
   static CppSideStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new CppSideStub(endpoint);
+      new CppSideStub.fromEndpoint(endpoint);
 
-  static const String name = CppSide.name;
+  static const String name = CppSideName;
 
 
 
@@ -787,30 +811,10 @@ const int kJsSide_echo_name = 2;
 const int kJsSide_bitFlip_name = 3;
 const int kJsSide_backPointer_name = 4;
 
-abstract class JsSide implements core.Listener {
-  static const String name = 'js_to_cpp::JsSide';
-  JsSideStub stub;
+const String JsSideName =
+      'js_to_cpp::JsSide';
 
-  JsSide(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new JsSideStub(endpoint);
-
-  JsSide.fromHandle(core.MojoHandle handle) :
-      stub = new JsSideStub.fromHandle(handle);
-
-  JsSide.fromStub(this.stub);
-
-  JsSide.unbound() :
-      stub = new JsSideStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  JsSide get delegate => stub.delegate;
-  set delegate(JsSide d) {
-    stub.delegate = d;
-  }
+abstract class JsSide {
   void setCppSide(Object cpp);
   void ping();
   void echo(int numIterations, EchoArgs arg);
@@ -819,19 +823,21 @@ abstract class JsSide implements core.Listener {
 
 }
 
-class JsSideProxy extends bindings.Proxy implements JsSide {
-  JsSideProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  JsSideProxy.fromHandle(core.MojoHandle handle) :
+class JsSideProxyImpl extends bindings.Proxy {
+  JsSideProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  JsSideProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  JsSideProxy.unbound() : super.unbound();
+  JsSideProxyImpl.unbound() : super.unbound();
 
-  String get name => JsSide.name;
-
-  static JsSideProxy newFromEndpoint(
+  static JsSideProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new JsSideProxy(endpoint);
+      new JsSideProxyImpl.fromEndpoint(endpoint);
+
+  String get name => JsSideName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -840,42 +846,84 @@ class JsSideProxy extends bindings.Proxy implements JsSide {
         break;
     }
   }
-  void setCppSide(Object cpp) {
-    var params = new JsSideSetCppSideParams();
-    params.cpp = cpp;
-    sendMessage(params, kJsSide_setCppSide_name);
-  }
-
-  void ping() {
-    var params = new JsSidePingParams();
-    sendMessage(params, kJsSide_ping_name);
-  }
-
-  void echo(int numIterations, EchoArgs arg) {
-    var params = new JsSideEchoParams();
-    params.numIterations = numIterations;
-    params.arg = arg;
-    sendMessage(params, kJsSide_echo_name);
-  }
-
-  void bitFlip(EchoArgs arg) {
-    var params = new JsSideBitFlipParams();
-    params.arg = arg;
-    sendMessage(params, kJsSide_bitFlip_name);
-  }
-
-  void backPointer(EchoArgs arg) {
-    var params = new JsSideBackPointerParams();
-    params.arg = arg;
-    sendMessage(params, kJsSide_backPointer_name);
-  }
-
 }
+
+
+class _JsSideProxyCalls implements JsSide {
+  JsSideProxyImpl _proxyImpl;
+
+  _JsSideProxyCalls(this._proxyImpl);
+    void setCppSide(Object cpp) {
+      var params = new JsSideSetCppSideParams();
+      params.cpp = cpp;
+      _proxyImpl.sendMessage(params, kJsSide_setCppSide_name);
+    }
+  
+    void ping() {
+      var params = new JsSidePingParams();
+      _proxyImpl.sendMessage(params, kJsSide_ping_name);
+    }
+  
+    void echo(int numIterations, EchoArgs arg) {
+      var params = new JsSideEchoParams();
+      params.numIterations = numIterations;
+      params.arg = arg;
+      _proxyImpl.sendMessage(params, kJsSide_echo_name);
+    }
+  
+    void bitFlip(EchoArgs arg) {
+      var params = new JsSideBitFlipParams();
+      params.arg = arg;
+      _proxyImpl.sendMessage(params, kJsSide_bitFlip_name);
+    }
+  
+    void backPointer(EchoArgs arg) {
+      var params = new JsSideBackPointerParams();
+      params.arg = arg;
+      _proxyImpl.sendMessage(params, kJsSide_backPointer_name);
+    }
+  
+}
+
+
+class JsSideProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  JsSide ptr;
+  final String name = JsSideName;
+
+  JsSideProxy(JsSideProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _JsSideProxyCalls(proxyImpl);
+
+  JsSideProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new JsSideProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _JsSideProxyCalls(impl);
+  }
+
+  JsSideProxy.fromHandle(core.MojoHandle handle) :
+      impl = new JsSideProxyImpl.fromHandle(handle) {
+    ptr = new _JsSideProxyCalls(impl);
+  }
+
+  JsSideProxy.unbound() :
+      impl = new JsSideProxyImpl.unbound() {
+    ptr = new _JsSideProxyCalls(impl);
+  }
+
+  static JsSideProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new JsSideProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class JsSideStub extends bindings.Stub {
   JsSide _delegate = null;
 
-  JsSideStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  JsSideStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   JsSideStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -884,9 +932,9 @@ class JsSideStub extends bindings.Stub {
 
   static JsSideStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new JsSideStub(endpoint);
+      new JsSideStub.fromEndpoint(endpoint);
 
-  static const String name = JsSide.name;
+  static const String name = JsSideName;
 
 
 

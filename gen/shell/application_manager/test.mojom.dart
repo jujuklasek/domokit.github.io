@@ -317,47 +317,29 @@ class TestCCResponseParams extends bindings.Struct {
 }
 const int kTestService_test_name = 0;
 
-abstract class TestService implements core.Listener {
-  static const String name = 'mojo::TestService';
-  TestServiceStub stub;
+const String TestServiceName =
+      'mojo::TestService';
 
-  TestService(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new TestServiceStub(endpoint);
-
-  TestService.fromHandle(core.MojoHandle handle) :
-      stub = new TestServiceStub.fromHandle(handle);
-
-  TestService.fromStub(this.stub);
-
-  TestService.unbound() :
-      stub = new TestServiceStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  TestService get delegate => stub.delegate;
-  set delegate(TestService d) {
-    stub.delegate = d;
-  }
+abstract class TestService {
   Future<TestServiceTestResponseParams> test(String testString,[Function responseFactory = null]);
 
 }
 
-class TestServiceProxy extends bindings.Proxy implements TestService {
-  TestServiceProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  TestServiceProxy.fromHandle(core.MojoHandle handle) :
+class TestServiceProxyImpl extends bindings.Proxy {
+  TestServiceProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  TestServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  TestServiceProxy.unbound() : super.unbound();
+  TestServiceProxyImpl.unbound() : super.unbound();
 
-  String get name => TestService.name;
-
-  static TestServiceProxy newFromEndpoint(
+  static TestServiceProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TestServiceProxy(endpoint);
+      new TestServiceProxyImpl.fromEndpoint(endpoint);
+
+  String get name => TestServiceName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -376,21 +358,63 @@ class TestServiceProxy extends bindings.Proxy implements TestService {
         break;
     }
   }
-  Future<TestServiceTestResponseParams> test(String testString,[Function responseFactory = null]) {
-    var params = new TestServiceTestParams();
-    params.testString = testString;
-    return sendMessageWithRequestId(
-        params,
-        kTestService_test_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _TestServiceProxyCalls implements TestService {
+  TestServiceProxyImpl _proxyImpl;
+
+  _TestServiceProxyCalls(this._proxyImpl);
+    Future<TestServiceTestResponseParams> test(String testString,[Function responseFactory = null]) {
+      var params = new TestServiceTestParams();
+      params.testString = testString;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kTestService_test_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class TestServiceProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  TestService ptr;
+  final String name = TestServiceName;
+
+  TestServiceProxy(TestServiceProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _TestServiceProxyCalls(proxyImpl);
+
+  TestServiceProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new TestServiceProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _TestServiceProxyCalls(impl);
+  }
+
+  TestServiceProxy.fromHandle(core.MojoHandle handle) :
+      impl = new TestServiceProxyImpl.fromHandle(handle) {
+    ptr = new _TestServiceProxyCalls(impl);
+  }
+
+  TestServiceProxy.unbound() :
+      impl = new TestServiceProxyImpl.unbound() {
+    ptr = new _TestServiceProxyCalls(impl);
+  }
+
+  static TestServiceProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new TestServiceProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class TestServiceStub extends bindings.Stub {
   TestService _delegate = null;
 
-  TestServiceStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  TestServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   TestServiceStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -399,9 +423,9 @@ class TestServiceStub extends bindings.Stub {
 
   static TestServiceStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TestServiceStub(endpoint);
+      new TestServiceStub.fromEndpoint(endpoint);
 
-  static const String name = TestService.name;
+  static const String name = TestServiceName;
 
 
   TestServiceTestResponseParams _TestServiceTestResponseParamsFactory() {
@@ -442,48 +466,30 @@ class TestServiceStub extends bindings.Stub {
 const int kTestA_callB_name = 0;
 const int kTestA_callCFromB_name = 1;
 
-abstract class TestA implements core.Listener {
-  static const String name = 'mojo::TestA';
-  TestAStub stub;
+const String TestAName =
+      'mojo::TestA';
 
-  TestA(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new TestAStub(endpoint);
-
-  TestA.fromHandle(core.MojoHandle handle) :
-      stub = new TestAStub.fromHandle(handle);
-
-  TestA.fromStub(this.stub);
-
-  TestA.unbound() :
-      stub = new TestAStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  TestA get delegate => stub.delegate;
-  set delegate(TestA d) {
-    stub.delegate = d;
-  }
+abstract class TestA {
   void callB();
   void callCFromB();
 
 }
 
-class TestAProxy extends bindings.Proxy implements TestA {
-  TestAProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  TestAProxy.fromHandle(core.MojoHandle handle) :
+class TestAProxyImpl extends bindings.Proxy {
+  TestAProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  TestAProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  TestAProxy.unbound() : super.unbound();
+  TestAProxyImpl.unbound() : super.unbound();
 
-  String get name => TestA.name;
-
-  static TestAProxy newFromEndpoint(
+  static TestAProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TestAProxy(endpoint);
+      new TestAProxyImpl.fromEndpoint(endpoint);
+
+  String get name => TestAName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -492,22 +498,64 @@ class TestAProxy extends bindings.Proxy implements TestA {
         break;
     }
   }
-  void callB() {
-    var params = new TestACallBParams();
-    sendMessage(params, kTestA_callB_name);
-  }
-
-  void callCFromB() {
-    var params = new TestACallCFromBParams();
-    sendMessage(params, kTestA_callCFromB_name);
-  }
-
 }
+
+
+class _TestAProxyCalls implements TestA {
+  TestAProxyImpl _proxyImpl;
+
+  _TestAProxyCalls(this._proxyImpl);
+    void callB() {
+      var params = new TestACallBParams();
+      _proxyImpl.sendMessage(params, kTestA_callB_name);
+    }
+  
+    void callCFromB() {
+      var params = new TestACallCFromBParams();
+      _proxyImpl.sendMessage(params, kTestA_callCFromB_name);
+    }
+  
+}
+
+
+class TestAProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  TestA ptr;
+  final String name = TestAName;
+
+  TestAProxy(TestAProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _TestAProxyCalls(proxyImpl);
+
+  TestAProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new TestAProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _TestAProxyCalls(impl);
+  }
+
+  TestAProxy.fromHandle(core.MojoHandle handle) :
+      impl = new TestAProxyImpl.fromHandle(handle) {
+    ptr = new _TestAProxyCalls(impl);
+  }
+
+  TestAProxy.unbound() :
+      impl = new TestAProxyImpl.unbound() {
+    ptr = new _TestAProxyCalls(impl);
+  }
+
+  static TestAProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new TestAProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class TestAStub extends bindings.Stub {
   TestA _delegate = null;
 
-  TestAStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  TestAStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   TestAStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -516,9 +564,9 @@ class TestAStub extends bindings.Stub {
 
   static TestAStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TestAStub(endpoint);
+      new TestAStub.fromEndpoint(endpoint);
 
-  static const String name = TestA.name;
+  static const String name = TestAName;
 
 
 
@@ -552,48 +600,30 @@ class TestAStub extends bindings.Stub {
 const int kTestB_b_name = 0;
 const int kTestB_callC_name = 1;
 
-abstract class TestB implements core.Listener {
-  static const String name = 'mojo::TestB';
-  TestBStub stub;
+const String TestBName =
+      'mojo::TestB';
 
-  TestB(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new TestBStub(endpoint);
-
-  TestB.fromHandle(core.MojoHandle handle) :
-      stub = new TestBStub.fromHandle(handle);
-
-  TestB.fromStub(this.stub);
-
-  TestB.unbound() :
-      stub = new TestBStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  TestB get delegate => stub.delegate;
-  set delegate(TestB d) {
-    stub.delegate = d;
-  }
+abstract class TestB {
   Future<TestBBResponseParams> b([Function responseFactory = null]);
   Future<TestBCallCResponseParams> callC([Function responseFactory = null]);
 
 }
 
-class TestBProxy extends bindings.Proxy implements TestB {
-  TestBProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  TestBProxy.fromHandle(core.MojoHandle handle) :
+class TestBProxyImpl extends bindings.Proxy {
+  TestBProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  TestBProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  TestBProxy.unbound() : super.unbound();
+  TestBProxyImpl.unbound() : super.unbound();
 
-  String get name => TestB.name;
-
-  static TestBProxy newFromEndpoint(
+  static TestBProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TestBProxy(endpoint);
+      new TestBProxyImpl.fromEndpoint(endpoint);
+
+  String get name => TestBName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -622,28 +652,70 @@ class TestBProxy extends bindings.Proxy implements TestB {
         break;
     }
   }
-  Future<TestBBResponseParams> b([Function responseFactory = null]) {
-    var params = new TestBBParams();
-    return sendMessageWithRequestId(
-        params,
-        kTestB_b_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  Future<TestBCallCResponseParams> callC([Function responseFactory = null]) {
-    var params = new TestBCallCParams();
-    return sendMessageWithRequestId(
-        params,
-        kTestB_callC_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _TestBProxyCalls implements TestB {
+  TestBProxyImpl _proxyImpl;
+
+  _TestBProxyCalls(this._proxyImpl);
+    Future<TestBBResponseParams> b([Function responseFactory = null]) {
+      var params = new TestBBParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kTestB_b_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<TestBCallCResponseParams> callC([Function responseFactory = null]) {
+      var params = new TestBCallCParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kTestB_callC_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class TestBProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  TestB ptr;
+  final String name = TestBName;
+
+  TestBProxy(TestBProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _TestBProxyCalls(proxyImpl);
+
+  TestBProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new TestBProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _TestBProxyCalls(impl);
+  }
+
+  TestBProxy.fromHandle(core.MojoHandle handle) :
+      impl = new TestBProxyImpl.fromHandle(handle) {
+    ptr = new _TestBProxyCalls(impl);
+  }
+
+  TestBProxy.unbound() :
+      impl = new TestBProxyImpl.unbound() {
+    ptr = new _TestBProxyCalls(impl);
+  }
+
+  static TestBProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new TestBProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class TestBStub extends bindings.Stub {
   TestB _delegate = null;
 
-  TestBStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  TestBStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   TestBStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -652,9 +724,9 @@ class TestBStub extends bindings.Stub {
 
   static TestBStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TestBStub(endpoint);
+      new TestBStub.fromEndpoint(endpoint);
 
-  static const String name = TestB.name;
+  static const String name = TestBName;
 
 
   TestBBResponseParams _TestBBResponseParamsFactory() {
@@ -711,47 +783,29 @@ class TestBStub extends bindings.Stub {
 
 const int kTestC_c_name = 0;
 
-abstract class TestC implements core.Listener {
-  static const String name = 'mojo::TestC';
-  TestCStub stub;
+const String TestCName =
+      'mojo::TestC';
 
-  TestC(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new TestCStub(endpoint);
-
-  TestC.fromHandle(core.MojoHandle handle) :
-      stub = new TestCStub.fromHandle(handle);
-
-  TestC.fromStub(this.stub);
-
-  TestC.unbound() :
-      stub = new TestCStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  TestC get delegate => stub.delegate;
-  set delegate(TestC d) {
-    stub.delegate = d;
-  }
+abstract class TestC {
   Future<TestCCResponseParams> c([Function responseFactory = null]);
 
 }
 
-class TestCProxy extends bindings.Proxy implements TestC {
-  TestCProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  TestCProxy.fromHandle(core.MojoHandle handle) :
+class TestCProxyImpl extends bindings.Proxy {
+  TestCProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  TestCProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  TestCProxy.unbound() : super.unbound();
+  TestCProxyImpl.unbound() : super.unbound();
 
-  String get name => TestC.name;
-
-  static TestCProxy newFromEndpoint(
+  static TestCProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TestCProxy(endpoint);
+      new TestCProxyImpl.fromEndpoint(endpoint);
+
+  String get name => TestCName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -770,20 +824,62 @@ class TestCProxy extends bindings.Proxy implements TestC {
         break;
     }
   }
-  Future<TestCCResponseParams> c([Function responseFactory = null]) {
-    var params = new TestCCParams();
-    return sendMessageWithRequestId(
-        params,
-        kTestC_c_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _TestCProxyCalls implements TestC {
+  TestCProxyImpl _proxyImpl;
+
+  _TestCProxyCalls(this._proxyImpl);
+    Future<TestCCResponseParams> c([Function responseFactory = null]) {
+      var params = new TestCCParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kTestC_c_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class TestCProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  TestC ptr;
+  final String name = TestCName;
+
+  TestCProxy(TestCProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _TestCProxyCalls(proxyImpl);
+
+  TestCProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new TestCProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _TestCProxyCalls(impl);
+  }
+
+  TestCProxy.fromHandle(core.MojoHandle handle) :
+      impl = new TestCProxyImpl.fromHandle(handle) {
+    ptr = new _TestCProxyCalls(impl);
+  }
+
+  TestCProxy.unbound() :
+      impl = new TestCProxyImpl.unbound() {
+    ptr = new _TestCProxyCalls(impl);
+  }
+
+  static TestCProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new TestCProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class TestCStub extends bindings.Stub {
   TestC _delegate = null;
 
-  TestCStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  TestCStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   TestCStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -792,9 +888,9 @@ class TestCStub extends bindings.Stub {
 
   static TestCStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new TestCStub(endpoint);
+      new TestCStub.fromEndpoint(endpoint);
 
-  static const String name = TestC.name;
+  static const String name = TestCName;
 
 
   TestCCResponseParams _TestCCResponseParamsFactory() {

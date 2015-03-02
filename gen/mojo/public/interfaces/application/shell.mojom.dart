@@ -62,47 +62,29 @@ class ShellConnectToApplicationParams extends bindings.Struct {
 }
 const int kShell_connectToApplication_name = 0;
 
-abstract class Shell implements core.Listener {
-  static const String name = 'mojo::Shell';
-  ShellStub stub;
+const String ShellName =
+      'mojo::Shell';
 
-  Shell(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new ShellStub(endpoint);
-
-  Shell.fromHandle(core.MojoHandle handle) :
-      stub = new ShellStub.fromHandle(handle);
-
-  Shell.fromStub(this.stub);
-
-  Shell.unbound() :
-      stub = new ShellStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  Shell get delegate => stub.delegate;
-  set delegate(Shell d) {
-    stub.delegate = d;
-  }
+abstract class Shell {
   void connectToApplication(String applicationUrl, Object services, Object exposedServices);
 
 }
 
-class ShellProxy extends bindings.Proxy implements Shell {
-  ShellProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  ShellProxy.fromHandle(core.MojoHandle handle) :
+class ShellProxyImpl extends bindings.Proxy {
+  ShellProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  ShellProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  ShellProxy.unbound() : super.unbound();
+  ShellProxyImpl.unbound() : super.unbound();
 
-  String get name => Shell.name;
-
-  static ShellProxy newFromEndpoint(
+  static ShellProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ShellProxy(endpoint);
+      new ShellProxyImpl.fromEndpoint(endpoint);
+
+  String get name => ShellName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -111,20 +93,62 @@ class ShellProxy extends bindings.Proxy implements Shell {
         break;
     }
   }
-  void connectToApplication(String applicationUrl, Object services, Object exposedServices) {
-    var params = new ShellConnectToApplicationParams();
-    params.applicationUrl = applicationUrl;
-    params.services = services;
-    params.exposedServices = exposedServices;
-    sendMessage(params, kShell_connectToApplication_name);
+}
+
+
+class _ShellProxyCalls implements Shell {
+  ShellProxyImpl _proxyImpl;
+
+  _ShellProxyCalls(this._proxyImpl);
+    void connectToApplication(String applicationUrl, Object services, Object exposedServices) {
+      var params = new ShellConnectToApplicationParams();
+      params.applicationUrl = applicationUrl;
+      params.services = services;
+      params.exposedServices = exposedServices;
+      _proxyImpl.sendMessage(params, kShell_connectToApplication_name);
+    }
+  
+}
+
+
+class ShellProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  Shell ptr;
+  final String name = ShellName;
+
+  ShellProxy(ShellProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _ShellProxyCalls(proxyImpl);
+
+  ShellProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new ShellProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _ShellProxyCalls(impl);
   }
 
+  ShellProxy.fromHandle(core.MojoHandle handle) :
+      impl = new ShellProxyImpl.fromHandle(handle) {
+    ptr = new _ShellProxyCalls(impl);
+  }
+
+  ShellProxy.unbound() :
+      impl = new ShellProxyImpl.unbound() {
+    ptr = new _ShellProxyCalls(impl);
+  }
+
+  static ShellProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new ShellProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class ShellStub extends bindings.Stub {
   Shell _delegate = null;
 
-  ShellStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  ShellStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   ShellStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -133,9 +157,9 @@ class ShellStub extends bindings.Stub {
 
   static ShellStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ShellStub(endpoint);
+      new ShellStub.fromEndpoint(endpoint);
 
-  static const String name = Shell.name;
+  static const String name = ShellName;
 
 
 

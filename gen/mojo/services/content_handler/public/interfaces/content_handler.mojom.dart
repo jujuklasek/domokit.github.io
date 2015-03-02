@@ -57,47 +57,29 @@ class ContentHandlerStartApplicationParams extends bindings.Struct {
 }
 const int kContentHandler_startApplication_name = 0;
 
-abstract class ContentHandler implements core.Listener {
-  static const String name = 'mojo::ContentHandler';
-  ContentHandlerStub stub;
+const String ContentHandlerName =
+      'mojo::ContentHandler';
 
-  ContentHandler(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new ContentHandlerStub(endpoint);
-
-  ContentHandler.fromHandle(core.MojoHandle handle) :
-      stub = new ContentHandlerStub.fromHandle(handle);
-
-  ContentHandler.fromStub(this.stub);
-
-  ContentHandler.unbound() :
-      stub = new ContentHandlerStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  ContentHandler get delegate => stub.delegate;
-  set delegate(ContentHandler d) {
-    stub.delegate = d;
-  }
+abstract class ContentHandler {
   void startApplication(Object application, url_loader_mojom.UrlResponse response);
 
 }
 
-class ContentHandlerProxy extends bindings.Proxy implements ContentHandler {
-  ContentHandlerProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  ContentHandlerProxy.fromHandle(core.MojoHandle handle) :
+class ContentHandlerProxyImpl extends bindings.Proxy {
+  ContentHandlerProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  ContentHandlerProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  ContentHandlerProxy.unbound() : super.unbound();
+  ContentHandlerProxyImpl.unbound() : super.unbound();
 
-  String get name => ContentHandler.name;
-
-  static ContentHandlerProxy newFromEndpoint(
+  static ContentHandlerProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ContentHandlerProxy(endpoint);
+      new ContentHandlerProxyImpl.fromEndpoint(endpoint);
+
+  String get name => ContentHandlerName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -106,19 +88,61 @@ class ContentHandlerProxy extends bindings.Proxy implements ContentHandler {
         break;
     }
   }
-  void startApplication(Object application, url_loader_mojom.UrlResponse response) {
-    var params = new ContentHandlerStartApplicationParams();
-    params.application = application;
-    params.response = response;
-    sendMessage(params, kContentHandler_startApplication_name);
+}
+
+
+class _ContentHandlerProxyCalls implements ContentHandler {
+  ContentHandlerProxyImpl _proxyImpl;
+
+  _ContentHandlerProxyCalls(this._proxyImpl);
+    void startApplication(Object application, url_loader_mojom.UrlResponse response) {
+      var params = new ContentHandlerStartApplicationParams();
+      params.application = application;
+      params.response = response;
+      _proxyImpl.sendMessage(params, kContentHandler_startApplication_name);
+    }
+  
+}
+
+
+class ContentHandlerProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  ContentHandler ptr;
+  final String name = ContentHandlerName;
+
+  ContentHandlerProxy(ContentHandlerProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _ContentHandlerProxyCalls(proxyImpl);
+
+  ContentHandlerProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new ContentHandlerProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _ContentHandlerProxyCalls(impl);
   }
 
+  ContentHandlerProxy.fromHandle(core.MojoHandle handle) :
+      impl = new ContentHandlerProxyImpl.fromHandle(handle) {
+    ptr = new _ContentHandlerProxyCalls(impl);
+  }
+
+  ContentHandlerProxy.unbound() :
+      impl = new ContentHandlerProxyImpl.unbound() {
+    ptr = new _ContentHandlerProxyCalls(impl);
+  }
+
+  static ContentHandlerProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new ContentHandlerProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class ContentHandlerStub extends bindings.Stub {
   ContentHandler _delegate = null;
 
-  ContentHandlerStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  ContentHandlerStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   ContentHandlerStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -127,9 +151,9 @@ class ContentHandlerStub extends bindings.Stub {
 
   static ContentHandlerStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ContentHandlerStub(endpoint);
+      new ContentHandlerStub.fromEndpoint(endpoint);
 
-  static const String name = ContentHandler.name;
+  static const String name = ContentHandlerName;
 
 
 

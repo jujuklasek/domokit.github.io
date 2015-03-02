@@ -84,47 +84,29 @@ class IcuDataMapResponseParams extends bindings.Struct {
 }
 const int kIcuData_map_name = 0;
 
-abstract class IcuData implements core.Listener {
-  static const String name = 'icu_data::IcuData';
-  IcuDataStub stub;
+const String IcuDataName =
+      'icu_data::IcuData';
 
-  IcuData(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new IcuDataStub(endpoint);
-
-  IcuData.fromHandle(core.MojoHandle handle) :
-      stub = new IcuDataStub.fromHandle(handle);
-
-  IcuData.fromStub(this.stub);
-
-  IcuData.unbound() :
-      stub = new IcuDataStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  IcuData get delegate => stub.delegate;
-  set delegate(IcuData d) {
-    stub.delegate = d;
-  }
+abstract class IcuData {
   Future<IcuDataMapResponseParams> map(String sha1hash,[Function responseFactory = null]);
 
 }
 
-class IcuDataProxy extends bindings.Proxy implements IcuData {
-  IcuDataProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  IcuDataProxy.fromHandle(core.MojoHandle handle) :
+class IcuDataProxyImpl extends bindings.Proxy {
+  IcuDataProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  IcuDataProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  IcuDataProxy.unbound() : super.unbound();
+  IcuDataProxyImpl.unbound() : super.unbound();
 
-  String get name => IcuData.name;
-
-  static IcuDataProxy newFromEndpoint(
+  static IcuDataProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new IcuDataProxy(endpoint);
+      new IcuDataProxyImpl.fromEndpoint(endpoint);
+
+  String get name => IcuDataName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -143,21 +125,63 @@ class IcuDataProxy extends bindings.Proxy implements IcuData {
         break;
     }
   }
-  Future<IcuDataMapResponseParams> map(String sha1hash,[Function responseFactory = null]) {
-    var params = new IcuDataMapParams();
-    params.sha1hash = sha1hash;
-    return sendMessageWithRequestId(
-        params,
-        kIcuData_map_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _IcuDataProxyCalls implements IcuData {
+  IcuDataProxyImpl _proxyImpl;
+
+  _IcuDataProxyCalls(this._proxyImpl);
+    Future<IcuDataMapResponseParams> map(String sha1hash,[Function responseFactory = null]) {
+      var params = new IcuDataMapParams();
+      params.sha1hash = sha1hash;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kIcuData_map_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class IcuDataProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  IcuData ptr;
+  final String name = IcuDataName;
+
+  IcuDataProxy(IcuDataProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _IcuDataProxyCalls(proxyImpl);
+
+  IcuDataProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new IcuDataProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _IcuDataProxyCalls(impl);
+  }
+
+  IcuDataProxy.fromHandle(core.MojoHandle handle) :
+      impl = new IcuDataProxyImpl.fromHandle(handle) {
+    ptr = new _IcuDataProxyCalls(impl);
+  }
+
+  IcuDataProxy.unbound() :
+      impl = new IcuDataProxyImpl.unbound() {
+    ptr = new _IcuDataProxyCalls(impl);
+  }
+
+  static IcuDataProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new IcuDataProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class IcuDataStub extends bindings.Stub {
   IcuData _delegate = null;
 
-  IcuDataStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  IcuDataStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   IcuDataStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -166,9 +190,9 @@ class IcuDataStub extends bindings.Stub {
 
   static IcuDataStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new IcuDataStub(endpoint);
+      new IcuDataStub.fromEndpoint(endpoint);
 
-  static const String name = IcuData.name;
+  static const String name = IcuDataName;
 
 
   IcuDataMapResponseParams _IcuDataMapResponseParamsFactory(core.MojoSharedBuffer icuData) {

@@ -47,47 +47,29 @@ class BrowserHostNavigateToParams extends bindings.Struct {
 }
 const int kBrowserHost_navigateTo_name = 0;
 
-abstract class BrowserHost implements core.Listener {
-  static const String name = 'mojo::examples::BrowserHost';
-  BrowserHostStub stub;
+const String BrowserHostName =
+      'mojo::examples::BrowserHost';
 
-  BrowserHost(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new BrowserHostStub(endpoint);
-
-  BrowserHost.fromHandle(core.MojoHandle handle) :
-      stub = new BrowserHostStub.fromHandle(handle);
-
-  BrowserHost.fromStub(this.stub);
-
-  BrowserHost.unbound() :
-      stub = new BrowserHostStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  BrowserHost get delegate => stub.delegate;
-  set delegate(BrowserHost d) {
-    stub.delegate = d;
-  }
+abstract class BrowserHost {
   void navigateTo(String url);
 
 }
 
-class BrowserHostProxy extends bindings.Proxy implements BrowserHost {
-  BrowserHostProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  BrowserHostProxy.fromHandle(core.MojoHandle handle) :
+class BrowserHostProxyImpl extends bindings.Proxy {
+  BrowserHostProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  BrowserHostProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  BrowserHostProxy.unbound() : super.unbound();
+  BrowserHostProxyImpl.unbound() : super.unbound();
 
-  String get name => BrowserHost.name;
-
-  static BrowserHostProxy newFromEndpoint(
+  static BrowserHostProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new BrowserHostProxy(endpoint);
+      new BrowserHostProxyImpl.fromEndpoint(endpoint);
+
+  String get name => BrowserHostName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -96,18 +78,60 @@ class BrowserHostProxy extends bindings.Proxy implements BrowserHost {
         break;
     }
   }
-  void navigateTo(String url) {
-    var params = new BrowserHostNavigateToParams();
-    params.url = url;
-    sendMessage(params, kBrowserHost_navigateTo_name);
+}
+
+
+class _BrowserHostProxyCalls implements BrowserHost {
+  BrowserHostProxyImpl _proxyImpl;
+
+  _BrowserHostProxyCalls(this._proxyImpl);
+    void navigateTo(String url) {
+      var params = new BrowserHostNavigateToParams();
+      params.url = url;
+      _proxyImpl.sendMessage(params, kBrowserHost_navigateTo_name);
+    }
+  
+}
+
+
+class BrowserHostProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  BrowserHost ptr;
+  final String name = BrowserHostName;
+
+  BrowserHostProxy(BrowserHostProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _BrowserHostProxyCalls(proxyImpl);
+
+  BrowserHostProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new BrowserHostProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _BrowserHostProxyCalls(impl);
   }
 
+  BrowserHostProxy.fromHandle(core.MojoHandle handle) :
+      impl = new BrowserHostProxyImpl.fromHandle(handle) {
+    ptr = new _BrowserHostProxyCalls(impl);
+  }
+
+  BrowserHostProxy.unbound() :
+      impl = new BrowserHostProxyImpl.unbound() {
+    ptr = new _BrowserHostProxyCalls(impl);
+  }
+
+  static BrowserHostProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new BrowserHostProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class BrowserHostStub extends bindings.Stub {
   BrowserHost _delegate = null;
 
-  BrowserHostStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  BrowserHostStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   BrowserHostStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -116,9 +140,9 @@ class BrowserHostStub extends bindings.Stub {
 
   static BrowserHostStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new BrowserHostStub(endpoint);
+      new BrowserHostStub.fromEndpoint(endpoint);
 
-  static const String name = BrowserHost.name;
+  static const String name = BrowserHostName;
 
 
 

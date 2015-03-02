@@ -110,48 +110,30 @@ class GpuCreateOffscreenGleS2ContextParams extends bindings.Struct {
 const int kGpu_createOnscreenGleS2Context_name = 0;
 const int kGpu_createOffscreenGleS2Context_name = 1;
 
-abstract class Gpu implements core.Listener {
-  static const String name = 'mojo::Gpu';
-  GpuStub stub;
+const String GpuName =
+      'mojo::Gpu';
 
-  Gpu(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new GpuStub(endpoint);
-
-  Gpu.fromHandle(core.MojoHandle handle) :
-      stub = new GpuStub.fromHandle(handle);
-
-  Gpu.fromStub(this.stub);
-
-  Gpu.unbound() :
-      stub = new GpuStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  Gpu get delegate => stub.delegate;
-  set delegate(Gpu d) {
-    stub.delegate = d;
-  }
+abstract class Gpu {
   void createOnscreenGleS2Context(int nativeViewportId, geometry_mojom.Size size, Object gles2Client, Object listener);
   void createOffscreenGleS2Context(Object gles2Client);
 
 }
 
-class GpuProxy extends bindings.Proxy implements Gpu {
-  GpuProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  GpuProxy.fromHandle(core.MojoHandle handle) :
+class GpuProxyImpl extends bindings.Proxy {
+  GpuProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  GpuProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  GpuProxy.unbound() : super.unbound();
+  GpuProxyImpl.unbound() : super.unbound();
 
-  String get name => Gpu.name;
-
-  static GpuProxy newFromEndpoint(
+  static GpuProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new GpuProxy(endpoint);
+      new GpuProxyImpl.fromEndpoint(endpoint);
+
+  String get name => GpuName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -160,27 +142,69 @@ class GpuProxy extends bindings.Proxy implements Gpu {
         break;
     }
   }
-  void createOnscreenGleS2Context(int nativeViewportId, geometry_mojom.Size size, Object gles2Client, Object listener) {
-    var params = new GpuCreateOnscreenGleS2ContextParams();
-    params.nativeViewportId = nativeViewportId;
-    params.size = size;
-    params.gles2Client = gles2Client;
-    params.listener = listener;
-    sendMessage(params, kGpu_createOnscreenGleS2Context_name);
-  }
-
-  void createOffscreenGleS2Context(Object gles2Client) {
-    var params = new GpuCreateOffscreenGleS2ContextParams();
-    params.gles2Client = gles2Client;
-    sendMessage(params, kGpu_createOffscreenGleS2Context_name);
-  }
-
 }
+
+
+class _GpuProxyCalls implements Gpu {
+  GpuProxyImpl _proxyImpl;
+
+  _GpuProxyCalls(this._proxyImpl);
+    void createOnscreenGleS2Context(int nativeViewportId, geometry_mojom.Size size, Object gles2Client, Object listener) {
+      var params = new GpuCreateOnscreenGleS2ContextParams();
+      params.nativeViewportId = nativeViewportId;
+      params.size = size;
+      params.gles2Client = gles2Client;
+      params.listener = listener;
+      _proxyImpl.sendMessage(params, kGpu_createOnscreenGleS2Context_name);
+    }
+  
+    void createOffscreenGleS2Context(Object gles2Client) {
+      var params = new GpuCreateOffscreenGleS2ContextParams();
+      params.gles2Client = gles2Client;
+      _proxyImpl.sendMessage(params, kGpu_createOffscreenGleS2Context_name);
+    }
+  
+}
+
+
+class GpuProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  Gpu ptr;
+  final String name = GpuName;
+
+  GpuProxy(GpuProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _GpuProxyCalls(proxyImpl);
+
+  GpuProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new GpuProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _GpuProxyCalls(impl);
+  }
+
+  GpuProxy.fromHandle(core.MojoHandle handle) :
+      impl = new GpuProxyImpl.fromHandle(handle) {
+    ptr = new _GpuProxyCalls(impl);
+  }
+
+  GpuProxy.unbound() :
+      impl = new GpuProxyImpl.unbound() {
+    ptr = new _GpuProxyCalls(impl);
+  }
+
+  static GpuProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new GpuProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class GpuStub extends bindings.Stub {
   Gpu _delegate = null;
 
-  GpuStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  GpuStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   GpuStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -189,9 +213,9 @@ class GpuStub extends bindings.Stub {
 
   static GpuStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new GpuStub(endpoint);
+      new GpuStub.fromEndpoint(endpoint);
 
-  static const String name = Gpu.name;
+  static const String name = GpuName;
 
 
 

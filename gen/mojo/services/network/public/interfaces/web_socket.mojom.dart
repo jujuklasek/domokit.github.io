@@ -461,30 +461,10 @@ const int kWebSocket_send_name = 1;
 const int kWebSocket_flowControl_name = 2;
 const int kWebSocket_close_name = 3;
 
-abstract class WebSocket implements core.Listener {
-  static const String name = 'mojo::WebSocket';
-  WebSocketStub stub;
+const String WebSocketName =
+      'mojo::WebSocket';
 
-  WebSocket(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new WebSocketStub(endpoint);
-
-  WebSocket.fromHandle(core.MojoHandle handle) :
-      stub = new WebSocketStub.fromHandle(handle);
-
-  WebSocket.fromStub(this.stub);
-
-  WebSocket.unbound() :
-      stub = new WebSocketStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  WebSocket get delegate => stub.delegate;
-  set delegate(WebSocket d) {
-    stub.delegate = d;
-  }
+abstract class WebSocket {
   void connect(String url, List<String> protocols, String origin, core.MojoDataPipeConsumer sendStream, Object client);
   void send(bool fin, int type, int numBytes);
   void flowControl(int quota);
@@ -497,19 +477,21 @@ abstract class WebSocket implements core.Listener {
   static final int MessageType_BINARY = MessageType_TEXT + 1;
 }
 
-class WebSocketProxy extends bindings.Proxy implements WebSocket {
-  WebSocketProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  WebSocketProxy.fromHandle(core.MojoHandle handle) :
+class WebSocketProxyImpl extends bindings.Proxy {
+  WebSocketProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  WebSocketProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  WebSocketProxy.unbound() : super.unbound();
+  WebSocketProxyImpl.unbound() : super.unbound();
 
-  String get name => WebSocket.name;
-
-  static WebSocketProxy newFromEndpoint(
+  static WebSocketProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new WebSocketProxy(endpoint);
+      new WebSocketProxyImpl.fromEndpoint(endpoint);
+
+  String get name => WebSocketName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -518,43 +500,85 @@ class WebSocketProxy extends bindings.Proxy implements WebSocket {
         break;
     }
   }
-  void connect(String url, List<String> protocols, String origin, core.MojoDataPipeConsumer sendStream, Object client) {
-    var params = new WebSocketConnectParams();
-    params.url = url;
-    params.protocols = protocols;
-    params.origin = origin;
-    params.sendStream = sendStream;
-    params.client = client;
-    sendMessage(params, kWebSocket_connect_name);
-  }
-
-  void send(bool fin, int type, int numBytes) {
-    var params = new WebSocketSendParams();
-    params.fin = fin;
-    params.type = type;
-    params.numBytes = numBytes;
-    sendMessage(params, kWebSocket_send_name);
-  }
-
-  void flowControl(int quota) {
-    var params = new WebSocketFlowControlParams();
-    params.quota = quota;
-    sendMessage(params, kWebSocket_flowControl_name);
-  }
-
-  void close(int code, String reason) {
-    var params = new WebSocketCloseParams();
-    params.code = code;
-    params.reason = reason;
-    sendMessage(params, kWebSocket_close_name);
-  }
-
 }
+
+
+class _WebSocketProxyCalls implements WebSocket {
+  WebSocketProxyImpl _proxyImpl;
+
+  _WebSocketProxyCalls(this._proxyImpl);
+    void connect(String url, List<String> protocols, String origin, core.MojoDataPipeConsumer sendStream, Object client) {
+      var params = new WebSocketConnectParams();
+      params.url = url;
+      params.protocols = protocols;
+      params.origin = origin;
+      params.sendStream = sendStream;
+      params.client = client;
+      _proxyImpl.sendMessage(params, kWebSocket_connect_name);
+    }
+  
+    void send(bool fin, int type, int numBytes) {
+      var params = new WebSocketSendParams();
+      params.fin = fin;
+      params.type = type;
+      params.numBytes = numBytes;
+      _proxyImpl.sendMessage(params, kWebSocket_send_name);
+    }
+  
+    void flowControl(int quota) {
+      var params = new WebSocketFlowControlParams();
+      params.quota = quota;
+      _proxyImpl.sendMessage(params, kWebSocket_flowControl_name);
+    }
+  
+    void close(int code, String reason) {
+      var params = new WebSocketCloseParams();
+      params.code = code;
+      params.reason = reason;
+      _proxyImpl.sendMessage(params, kWebSocket_close_name);
+    }
+  
+}
+
+
+class WebSocketProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  WebSocket ptr;
+  final String name = WebSocketName;
+
+  WebSocketProxy(WebSocketProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _WebSocketProxyCalls(proxyImpl);
+
+  WebSocketProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new WebSocketProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _WebSocketProxyCalls(impl);
+  }
+
+  WebSocketProxy.fromHandle(core.MojoHandle handle) :
+      impl = new WebSocketProxyImpl.fromHandle(handle) {
+    ptr = new _WebSocketProxyCalls(impl);
+  }
+
+  WebSocketProxy.unbound() :
+      impl = new WebSocketProxyImpl.unbound() {
+    ptr = new _WebSocketProxyCalls(impl);
+  }
+
+  static WebSocketProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new WebSocketProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class WebSocketStub extends bindings.Stub {
   WebSocket _delegate = null;
 
-  WebSocketStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  WebSocketStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   WebSocketStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -563,9 +587,9 @@ class WebSocketStub extends bindings.Stub {
 
   static WebSocketStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new WebSocketStub(endpoint);
+      new WebSocketStub.fromEndpoint(endpoint);
 
-  static const String name = WebSocket.name;
+  static const String name = WebSocketName;
 
 
 
@@ -612,30 +636,10 @@ const int kWebSocketClient_didReceiveFlowControl_name = 2;
 const int kWebSocketClient_didFail_name = 3;
 const int kWebSocketClient_didClose_name = 4;
 
-abstract class WebSocketClient implements core.Listener {
-  static const String name = 'mojo::WebSocketClient';
-  WebSocketClientStub stub;
+const String WebSocketClientName =
+      'mojo::WebSocketClient';
 
-  WebSocketClient(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new WebSocketClientStub(endpoint);
-
-  WebSocketClient.fromHandle(core.MojoHandle handle) :
-      stub = new WebSocketClientStub.fromHandle(handle);
-
-  WebSocketClient.fromStub(this.stub);
-
-  WebSocketClient.unbound() :
-      stub = new WebSocketClientStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  WebSocketClient get delegate => stub.delegate;
-  set delegate(WebSocketClient d) {
-    stub.delegate = d;
-  }
+abstract class WebSocketClient {
   void didConnect(bool fail, String selectedSubprotocol, String extensions, core.MojoDataPipeConsumer receiveStream);
   void didReceiveData(bool fin, int type, int numBytes);
   void didReceiveFlowControl(int quota);
@@ -644,19 +648,21 @@ abstract class WebSocketClient implements core.Listener {
 
 }
 
-class WebSocketClientProxy extends bindings.Proxy implements WebSocketClient {
-  WebSocketClientProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  WebSocketClientProxy.fromHandle(core.MojoHandle handle) :
+class WebSocketClientProxyImpl extends bindings.Proxy {
+  WebSocketClientProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  WebSocketClientProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  WebSocketClientProxy.unbound() : super.unbound();
+  WebSocketClientProxyImpl.unbound() : super.unbound();
 
-  String get name => WebSocketClient.name;
-
-  static WebSocketClientProxy newFromEndpoint(
+  static WebSocketClientProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new WebSocketClientProxy(endpoint);
+      new WebSocketClientProxyImpl.fromEndpoint(endpoint);
+
+  String get name => WebSocketClientName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -665,49 +671,91 @@ class WebSocketClientProxy extends bindings.Proxy implements WebSocketClient {
         break;
     }
   }
-  void didConnect(bool fail, String selectedSubprotocol, String extensions, core.MojoDataPipeConsumer receiveStream) {
-    var params = new WebSocketClientDidConnectParams();
-    params.fail = fail;
-    params.selectedSubprotocol = selectedSubprotocol;
-    params.extensions = extensions;
-    params.receiveStream = receiveStream;
-    sendMessage(params, kWebSocketClient_didConnect_name);
-  }
-
-  void didReceiveData(bool fin, int type, int numBytes) {
-    var params = new WebSocketClientDidReceiveDataParams();
-    params.fin = fin;
-    params.type = type;
-    params.numBytes = numBytes;
-    sendMessage(params, kWebSocketClient_didReceiveData_name);
-  }
-
-  void didReceiveFlowControl(int quota) {
-    var params = new WebSocketClientDidReceiveFlowControlParams();
-    params.quota = quota;
-    sendMessage(params, kWebSocketClient_didReceiveFlowControl_name);
-  }
-
-  void didFail(String message) {
-    var params = new WebSocketClientDidFailParams();
-    params.message = message;
-    sendMessage(params, kWebSocketClient_didFail_name);
-  }
-
-  void didClose(bool wasClean, int code, String reason) {
-    var params = new WebSocketClientDidCloseParams();
-    params.wasClean = wasClean;
-    params.code = code;
-    params.reason = reason;
-    sendMessage(params, kWebSocketClient_didClose_name);
-  }
-
 }
+
+
+class _WebSocketClientProxyCalls implements WebSocketClient {
+  WebSocketClientProxyImpl _proxyImpl;
+
+  _WebSocketClientProxyCalls(this._proxyImpl);
+    void didConnect(bool fail, String selectedSubprotocol, String extensions, core.MojoDataPipeConsumer receiveStream) {
+      var params = new WebSocketClientDidConnectParams();
+      params.fail = fail;
+      params.selectedSubprotocol = selectedSubprotocol;
+      params.extensions = extensions;
+      params.receiveStream = receiveStream;
+      _proxyImpl.sendMessage(params, kWebSocketClient_didConnect_name);
+    }
+  
+    void didReceiveData(bool fin, int type, int numBytes) {
+      var params = new WebSocketClientDidReceiveDataParams();
+      params.fin = fin;
+      params.type = type;
+      params.numBytes = numBytes;
+      _proxyImpl.sendMessage(params, kWebSocketClient_didReceiveData_name);
+    }
+  
+    void didReceiveFlowControl(int quota) {
+      var params = new WebSocketClientDidReceiveFlowControlParams();
+      params.quota = quota;
+      _proxyImpl.sendMessage(params, kWebSocketClient_didReceiveFlowControl_name);
+    }
+  
+    void didFail(String message) {
+      var params = new WebSocketClientDidFailParams();
+      params.message = message;
+      _proxyImpl.sendMessage(params, kWebSocketClient_didFail_name);
+    }
+  
+    void didClose(bool wasClean, int code, String reason) {
+      var params = new WebSocketClientDidCloseParams();
+      params.wasClean = wasClean;
+      params.code = code;
+      params.reason = reason;
+      _proxyImpl.sendMessage(params, kWebSocketClient_didClose_name);
+    }
+  
+}
+
+
+class WebSocketClientProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  WebSocketClient ptr;
+  final String name = WebSocketClientName;
+
+  WebSocketClientProxy(WebSocketClientProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _WebSocketClientProxyCalls(proxyImpl);
+
+  WebSocketClientProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new WebSocketClientProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _WebSocketClientProxyCalls(impl);
+  }
+
+  WebSocketClientProxy.fromHandle(core.MojoHandle handle) :
+      impl = new WebSocketClientProxyImpl.fromHandle(handle) {
+    ptr = new _WebSocketClientProxyCalls(impl);
+  }
+
+  WebSocketClientProxy.unbound() :
+      impl = new WebSocketClientProxyImpl.unbound() {
+    ptr = new _WebSocketClientProxyCalls(impl);
+  }
+
+  static WebSocketClientProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new WebSocketClientProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class WebSocketClientStub extends bindings.Stub {
   WebSocketClient _delegate = null;
 
-  WebSocketClientStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  WebSocketClientStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   WebSocketClientStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -716,9 +764,9 @@ class WebSocketClientStub extends bindings.Stub {
 
   static WebSocketClientStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new WebSocketClientStub(endpoint);
+      new WebSocketClientStub.fromEndpoint(endpoint);
 
-  static const String name = WebSocketClient.name;
+  static const String name = WebSocketClientName;
 
 
 

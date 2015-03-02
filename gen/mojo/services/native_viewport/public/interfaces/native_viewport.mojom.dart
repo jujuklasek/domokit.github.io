@@ -488,30 +488,10 @@ const int kNativeViewport_submittedFrame_name = 5;
 const int kNativeViewport_setEventDispatcher_name = 6;
 const int kNativeViewport_requestMetrics_name = 7;
 
-abstract class NativeViewport implements core.Listener {
-  static const String name = 'mojo::NativeViewport';
-  NativeViewportStub stub;
+const String NativeViewportName =
+      'mojo::NativeViewport';
 
-  NativeViewport(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new NativeViewportStub(endpoint);
-
-  NativeViewport.fromHandle(core.MojoHandle handle) :
-      stub = new NativeViewportStub.fromHandle(handle);
-
-  NativeViewport.fromStub(this.stub);
-
-  NativeViewport.unbound() :
-      stub = new NativeViewportStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  NativeViewport get delegate => stub.delegate;
-  set delegate(NativeViewport d) {
-    stub.delegate = d;
-  }
+abstract class NativeViewport {
   Future<NativeViewportCreateResponseParams> create(geometry_mojom.Size size,[Function responseFactory = null]);
   void show();
   void hide();
@@ -523,19 +503,21 @@ abstract class NativeViewport implements core.Listener {
 
 }
 
-class NativeViewportProxy extends bindings.Proxy implements NativeViewport {
-  NativeViewportProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  NativeViewportProxy.fromHandle(core.MojoHandle handle) :
+class NativeViewportProxyImpl extends bindings.Proxy {
+  NativeViewportProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  NativeViewportProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  NativeViewportProxy.unbound() : super.unbound();
+  NativeViewportProxyImpl.unbound() : super.unbound();
 
-  String get name => NativeViewport.name;
-
-  static NativeViewportProxy newFromEndpoint(
+  static NativeViewportProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new NativeViewportProxy(endpoint);
+      new NativeViewportProxyImpl.fromEndpoint(endpoint);
+
+  String get name => NativeViewportName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -564,62 +546,104 @@ class NativeViewportProxy extends bindings.Proxy implements NativeViewport {
         break;
     }
   }
-  Future<NativeViewportCreateResponseParams> create(geometry_mojom.Size size,[Function responseFactory = null]) {
-    var params = new NativeViewportCreateParams();
-    params.size = size;
-    return sendMessageWithRequestId(
-        params,
-        kNativeViewport_create_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  void show() {
-    var params = new NativeViewportShowParams();
-    sendMessage(params, kNativeViewport_show_name);
-  }
-
-  void hide() {
-    var params = new NativeViewportHideParams();
-    sendMessage(params, kNativeViewport_hide_name);
-  }
-
-  void close() {
-    var params = new NativeViewportCloseParams();
-    sendMessage(params, kNativeViewport_close_name);
-  }
-
-  void setSize(geometry_mojom.Size size) {
-    var params = new NativeViewportSetSizeParams();
-    params.size = size;
-    sendMessage(params, kNativeViewport_setSize_name);
-  }
-
-  void submittedFrame(surface_id_mojom.SurfaceId surfaceId) {
-    var params = new NativeViewportSubmittedFrameParams();
-    params.surfaceId = surfaceId;
-    sendMessage(params, kNativeViewport_submittedFrame_name);
-  }
-
-  void setEventDispatcher(Object dispatcher) {
-    var params = new NativeViewportSetEventDispatcherParams();
-    params.dispatcher = dispatcher;
-    sendMessage(params, kNativeViewport_setEventDispatcher_name);
-  }
-
-  Future<NativeViewportRequestMetricsResponseParams> requestMetrics([Function responseFactory = null]) {
-    var params = new NativeViewportRequestMetricsParams();
-    return sendMessageWithRequestId(
-        params,
-        kNativeViewport_requestMetrics_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _NativeViewportProxyCalls implements NativeViewport {
+  NativeViewportProxyImpl _proxyImpl;
+
+  _NativeViewportProxyCalls(this._proxyImpl);
+    Future<NativeViewportCreateResponseParams> create(geometry_mojom.Size size,[Function responseFactory = null]) {
+      var params = new NativeViewportCreateParams();
+      params.size = size;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kNativeViewport_create_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    void show() {
+      var params = new NativeViewportShowParams();
+      _proxyImpl.sendMessage(params, kNativeViewport_show_name);
+    }
+  
+    void hide() {
+      var params = new NativeViewportHideParams();
+      _proxyImpl.sendMessage(params, kNativeViewport_hide_name);
+    }
+  
+    void close() {
+      var params = new NativeViewportCloseParams();
+      _proxyImpl.sendMessage(params, kNativeViewport_close_name);
+    }
+  
+    void setSize(geometry_mojom.Size size) {
+      var params = new NativeViewportSetSizeParams();
+      params.size = size;
+      _proxyImpl.sendMessage(params, kNativeViewport_setSize_name);
+    }
+  
+    void submittedFrame(surface_id_mojom.SurfaceId surfaceId) {
+      var params = new NativeViewportSubmittedFrameParams();
+      params.surfaceId = surfaceId;
+      _proxyImpl.sendMessage(params, kNativeViewport_submittedFrame_name);
+    }
+  
+    void setEventDispatcher(Object dispatcher) {
+      var params = new NativeViewportSetEventDispatcherParams();
+      params.dispatcher = dispatcher;
+      _proxyImpl.sendMessage(params, kNativeViewport_setEventDispatcher_name);
+    }
+  
+    Future<NativeViewportRequestMetricsResponseParams> requestMetrics([Function responseFactory = null]) {
+      var params = new NativeViewportRequestMetricsParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kNativeViewport_requestMetrics_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class NativeViewportProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  NativeViewport ptr;
+  final String name = NativeViewportName;
+
+  NativeViewportProxy(NativeViewportProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _NativeViewportProxyCalls(proxyImpl);
+
+  NativeViewportProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new NativeViewportProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _NativeViewportProxyCalls(impl);
+  }
+
+  NativeViewportProxy.fromHandle(core.MojoHandle handle) :
+      impl = new NativeViewportProxyImpl.fromHandle(handle) {
+    ptr = new _NativeViewportProxyCalls(impl);
+  }
+
+  NativeViewportProxy.unbound() :
+      impl = new NativeViewportProxyImpl.unbound() {
+    ptr = new _NativeViewportProxyCalls(impl);
+  }
+
+  static NativeViewportProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new NativeViewportProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class NativeViewportStub extends bindings.Stub {
   NativeViewport _delegate = null;
 
-  NativeViewportStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  NativeViewportStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   NativeViewportStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -628,9 +652,9 @@ class NativeViewportStub extends bindings.Stub {
 
   static NativeViewportStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new NativeViewportStub(endpoint);
+      new NativeViewportStub.fromEndpoint(endpoint);
 
-  static const String name = NativeViewport.name;
+  static const String name = NativeViewportName;
 
 
   NativeViewportCreateResponseParams _NativeViewportCreateResponseParamsFactory(int nativeViewportId, ViewportMetrics metrics) {
@@ -720,47 +744,29 @@ class NativeViewportStub extends bindings.Stub {
 
 const int kNativeViewportEventDispatcher_onEvent_name = 0;
 
-abstract class NativeViewportEventDispatcher implements core.Listener {
-  static const String name = 'mojo::NativeViewportEventDispatcher';
-  NativeViewportEventDispatcherStub stub;
+const String NativeViewportEventDispatcherName =
+      'mojo::NativeViewportEventDispatcher';
 
-  NativeViewportEventDispatcher(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new NativeViewportEventDispatcherStub(endpoint);
-
-  NativeViewportEventDispatcher.fromHandle(core.MojoHandle handle) :
-      stub = new NativeViewportEventDispatcherStub.fromHandle(handle);
-
-  NativeViewportEventDispatcher.fromStub(this.stub);
-
-  NativeViewportEventDispatcher.unbound() :
-      stub = new NativeViewportEventDispatcherStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  NativeViewportEventDispatcher get delegate => stub.delegate;
-  set delegate(NativeViewportEventDispatcher d) {
-    stub.delegate = d;
-  }
+abstract class NativeViewportEventDispatcher {
   Future<NativeViewportEventDispatcherOnEventResponseParams> onEvent(input_events_mojom.Event event,[Function responseFactory = null]);
 
 }
 
-class NativeViewportEventDispatcherProxy extends bindings.Proxy implements NativeViewportEventDispatcher {
-  NativeViewportEventDispatcherProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  NativeViewportEventDispatcherProxy.fromHandle(core.MojoHandle handle) :
+class NativeViewportEventDispatcherProxyImpl extends bindings.Proxy {
+  NativeViewportEventDispatcherProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  NativeViewportEventDispatcherProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  NativeViewportEventDispatcherProxy.unbound() : super.unbound();
+  NativeViewportEventDispatcherProxyImpl.unbound() : super.unbound();
 
-  String get name => NativeViewportEventDispatcher.name;
-
-  static NativeViewportEventDispatcherProxy newFromEndpoint(
+  static NativeViewportEventDispatcherProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new NativeViewportEventDispatcherProxy(endpoint);
+      new NativeViewportEventDispatcherProxyImpl.fromEndpoint(endpoint);
+
+  String get name => NativeViewportEventDispatcherName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -779,21 +785,63 @@ class NativeViewportEventDispatcherProxy extends bindings.Proxy implements Nativ
         break;
     }
   }
-  Future<NativeViewportEventDispatcherOnEventResponseParams> onEvent(input_events_mojom.Event event,[Function responseFactory = null]) {
-    var params = new NativeViewportEventDispatcherOnEventParams();
-    params.event = event;
-    return sendMessageWithRequestId(
-        params,
-        kNativeViewportEventDispatcher_onEvent_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _NativeViewportEventDispatcherProxyCalls implements NativeViewportEventDispatcher {
+  NativeViewportEventDispatcherProxyImpl _proxyImpl;
+
+  _NativeViewportEventDispatcherProxyCalls(this._proxyImpl);
+    Future<NativeViewportEventDispatcherOnEventResponseParams> onEvent(input_events_mojom.Event event,[Function responseFactory = null]) {
+      var params = new NativeViewportEventDispatcherOnEventParams();
+      params.event = event;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kNativeViewportEventDispatcher_onEvent_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class NativeViewportEventDispatcherProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  NativeViewportEventDispatcher ptr;
+  final String name = NativeViewportEventDispatcherName;
+
+  NativeViewportEventDispatcherProxy(NativeViewportEventDispatcherProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _NativeViewportEventDispatcherProxyCalls(proxyImpl);
+
+  NativeViewportEventDispatcherProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new NativeViewportEventDispatcherProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _NativeViewportEventDispatcherProxyCalls(impl);
+  }
+
+  NativeViewportEventDispatcherProxy.fromHandle(core.MojoHandle handle) :
+      impl = new NativeViewportEventDispatcherProxyImpl.fromHandle(handle) {
+    ptr = new _NativeViewportEventDispatcherProxyCalls(impl);
+  }
+
+  NativeViewportEventDispatcherProxy.unbound() :
+      impl = new NativeViewportEventDispatcherProxyImpl.unbound() {
+    ptr = new _NativeViewportEventDispatcherProxyCalls(impl);
+  }
+
+  static NativeViewportEventDispatcherProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new NativeViewportEventDispatcherProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class NativeViewportEventDispatcherStub extends bindings.Stub {
   NativeViewportEventDispatcher _delegate = null;
 
-  NativeViewportEventDispatcherStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  NativeViewportEventDispatcherStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   NativeViewportEventDispatcherStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -802,9 +850,9 @@ class NativeViewportEventDispatcherStub extends bindings.Stub {
 
   static NativeViewportEventDispatcherStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new NativeViewportEventDispatcherStub(endpoint);
+      new NativeViewportEventDispatcherStub.fromEndpoint(endpoint);
 
-  static const String name = NativeViewportEventDispatcher.name;
+  static const String name = NativeViewportEventDispatcherName;
 
 
   NativeViewportEventDispatcherOnEventResponseParams _NativeViewportEventDispatcherOnEventResponseParamsFactory() {

@@ -97,47 +97,29 @@ class ChildProduceFrameResponseParams extends bindings.Struct {
 }
 const int kChild_produceFrame_name = 0;
 
-abstract class Child implements core.Listener {
-  static const String name = '::Child';
-  ChildStub stub;
+const String ChildName =
+      '::Child';
 
-  Child(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new ChildStub(endpoint);
-
-  Child.fromHandle(core.MojoHandle handle) :
-      stub = new ChildStub.fromHandle(handle);
-
-  Child.fromStub(this.stub);
-
-  Child.unbound() :
-      stub = new ChildStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  Child get delegate => stub.delegate;
-  set delegate(Child d) {
-    stub.delegate = d;
-  }
+abstract class Child {
   Future<ChildProduceFrameResponseParams> produceFrame(quads_mojom.Color color,geometry_mojom.Size size,[Function responseFactory = null]);
 
 }
 
-class ChildProxy extends bindings.Proxy implements Child {
-  ChildProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  ChildProxy.fromHandle(core.MojoHandle handle) :
+class ChildProxyImpl extends bindings.Proxy {
+  ChildProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  ChildProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  ChildProxy.unbound() : super.unbound();
+  ChildProxyImpl.unbound() : super.unbound();
 
-  String get name => Child.name;
-
-  static ChildProxy newFromEndpoint(
+  static ChildProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ChildProxy(endpoint);
+      new ChildProxyImpl.fromEndpoint(endpoint);
+
+  String get name => ChildName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -156,22 +138,64 @@ class ChildProxy extends bindings.Proxy implements Child {
         break;
     }
   }
-  Future<ChildProduceFrameResponseParams> produceFrame(quads_mojom.Color color,geometry_mojom.Size size,[Function responseFactory = null]) {
-    var params = new ChildProduceFrameParams();
-    params.color = color;
-    params.size = size;
-    return sendMessageWithRequestId(
-        params,
-        kChild_produceFrame_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _ChildProxyCalls implements Child {
+  ChildProxyImpl _proxyImpl;
+
+  _ChildProxyCalls(this._proxyImpl);
+    Future<ChildProduceFrameResponseParams> produceFrame(quads_mojom.Color color,geometry_mojom.Size size,[Function responseFactory = null]) {
+      var params = new ChildProduceFrameParams();
+      params.color = color;
+      params.size = size;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kChild_produceFrame_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class ChildProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  Child ptr;
+  final String name = ChildName;
+
+  ChildProxy(ChildProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _ChildProxyCalls(proxyImpl);
+
+  ChildProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new ChildProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _ChildProxyCalls(impl);
+  }
+
+  ChildProxy.fromHandle(core.MojoHandle handle) :
+      impl = new ChildProxyImpl.fromHandle(handle) {
+    ptr = new _ChildProxyCalls(impl);
+  }
+
+  ChildProxy.unbound() :
+      impl = new ChildProxyImpl.unbound() {
+    ptr = new _ChildProxyCalls(impl);
+  }
+
+  static ChildProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new ChildProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class ChildStub extends bindings.Stub {
   Child _delegate = null;
 
-  ChildStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  ChildStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   ChildStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -180,9 +204,9 @@ class ChildStub extends bindings.Stub {
 
   static ChildStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ChildStub(endpoint);
+      new ChildStub.fromEndpoint(endpoint);
 
-  static const String name = Child.name;
+  static const String name = ChildName;
 
 
   ChildProduceFrameResponseParams _ChildProduceFrameResponseParamsFactory(surface_id_mojom.SurfaceId id) {

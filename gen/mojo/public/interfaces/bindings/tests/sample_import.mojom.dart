@@ -97,47 +97,29 @@ class ImportedInterfaceDoSomethingParams extends bindings.Struct {
 }
 const int kImportedInterface_doSomething_name = 0;
 
-abstract class ImportedInterface implements core.Listener {
-  static const String name = 'imported::ImportedInterface';
-  ImportedInterfaceStub stub;
+const String ImportedInterfaceName =
+      'imported::ImportedInterface';
 
-  ImportedInterface(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new ImportedInterfaceStub(endpoint);
-
-  ImportedInterface.fromHandle(core.MojoHandle handle) :
-      stub = new ImportedInterfaceStub.fromHandle(handle);
-
-  ImportedInterface.fromStub(this.stub);
-
-  ImportedInterface.unbound() :
-      stub = new ImportedInterfaceStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  ImportedInterface get delegate => stub.delegate;
-  set delegate(ImportedInterface d) {
-    stub.delegate = d;
-  }
+abstract class ImportedInterface {
   void doSomething();
 
 }
 
-class ImportedInterfaceProxy extends bindings.Proxy implements ImportedInterface {
-  ImportedInterfaceProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  ImportedInterfaceProxy.fromHandle(core.MojoHandle handle) :
+class ImportedInterfaceProxyImpl extends bindings.Proxy {
+  ImportedInterfaceProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  ImportedInterfaceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  ImportedInterfaceProxy.unbound() : super.unbound();
+  ImportedInterfaceProxyImpl.unbound() : super.unbound();
 
-  String get name => ImportedInterface.name;
-
-  static ImportedInterfaceProxy newFromEndpoint(
+  static ImportedInterfaceProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ImportedInterfaceProxy(endpoint);
+      new ImportedInterfaceProxyImpl.fromEndpoint(endpoint);
+
+  String get name => ImportedInterfaceName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -146,17 +128,59 @@ class ImportedInterfaceProxy extends bindings.Proxy implements ImportedInterface
         break;
     }
   }
-  void doSomething() {
-    var params = new ImportedInterfaceDoSomethingParams();
-    sendMessage(params, kImportedInterface_doSomething_name);
+}
+
+
+class _ImportedInterfaceProxyCalls implements ImportedInterface {
+  ImportedInterfaceProxyImpl _proxyImpl;
+
+  _ImportedInterfaceProxyCalls(this._proxyImpl);
+    void doSomething() {
+      var params = new ImportedInterfaceDoSomethingParams();
+      _proxyImpl.sendMessage(params, kImportedInterface_doSomething_name);
+    }
+  
+}
+
+
+class ImportedInterfaceProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  ImportedInterface ptr;
+  final String name = ImportedInterfaceName;
+
+  ImportedInterfaceProxy(ImportedInterfaceProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _ImportedInterfaceProxyCalls(proxyImpl);
+
+  ImportedInterfaceProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new ImportedInterfaceProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _ImportedInterfaceProxyCalls(impl);
   }
 
+  ImportedInterfaceProxy.fromHandle(core.MojoHandle handle) :
+      impl = new ImportedInterfaceProxyImpl.fromHandle(handle) {
+    ptr = new _ImportedInterfaceProxyCalls(impl);
+  }
+
+  ImportedInterfaceProxy.unbound() :
+      impl = new ImportedInterfaceProxyImpl.unbound() {
+    ptr = new _ImportedInterfaceProxyCalls(impl);
+  }
+
+  static ImportedInterfaceProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new ImportedInterfaceProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class ImportedInterfaceStub extends bindings.Stub {
   ImportedInterface _delegate = null;
 
-  ImportedInterfaceStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  ImportedInterfaceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   ImportedInterfaceStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -165,9 +189,9 @@ class ImportedInterfaceStub extends bindings.Stub {
 
   static ImportedInterfaceStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ImportedInterfaceStub(endpoint);
+      new ImportedInterfaceStub.fromEndpoint(endpoint);
 
-  static const String name = ImportedInterface.name;
+  static const String name = ImportedInterfaceName;
 
 
 

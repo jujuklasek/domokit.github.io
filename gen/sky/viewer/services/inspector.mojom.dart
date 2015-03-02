@@ -40,47 +40,29 @@ class InspectorServiceInjectParams extends bindings.Struct {
 }
 const int kInspectorService_inject_name = 0;
 
-abstract class InspectorService implements core.Listener {
-  static const String name = 'sky::InspectorService';
-  InspectorServiceStub stub;
+const String InspectorServiceName =
+      'sky::InspectorService';
 
-  InspectorService(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new InspectorServiceStub(endpoint);
-
-  InspectorService.fromHandle(core.MojoHandle handle) :
-      stub = new InspectorServiceStub.fromHandle(handle);
-
-  InspectorService.fromStub(this.stub);
-
-  InspectorService.unbound() :
-      stub = new InspectorServiceStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  InspectorService get delegate => stub.delegate;
-  set delegate(InspectorService d) {
-    stub.delegate = d;
-  }
+abstract class InspectorService {
   void inject();
 
 }
 
-class InspectorServiceProxy extends bindings.Proxy implements InspectorService {
-  InspectorServiceProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  InspectorServiceProxy.fromHandle(core.MojoHandle handle) :
+class InspectorServiceProxyImpl extends bindings.Proxy {
+  InspectorServiceProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  InspectorServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  InspectorServiceProxy.unbound() : super.unbound();
+  InspectorServiceProxyImpl.unbound() : super.unbound();
 
-  String get name => InspectorService.name;
-
-  static InspectorServiceProxy newFromEndpoint(
+  static InspectorServiceProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new InspectorServiceProxy(endpoint);
+      new InspectorServiceProxyImpl.fromEndpoint(endpoint);
+
+  String get name => InspectorServiceName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -89,17 +71,59 @@ class InspectorServiceProxy extends bindings.Proxy implements InspectorService {
         break;
     }
   }
-  void inject() {
-    var params = new InspectorServiceInjectParams();
-    sendMessage(params, kInspectorService_inject_name);
+}
+
+
+class _InspectorServiceProxyCalls implements InspectorService {
+  InspectorServiceProxyImpl _proxyImpl;
+
+  _InspectorServiceProxyCalls(this._proxyImpl);
+    void inject() {
+      var params = new InspectorServiceInjectParams();
+      _proxyImpl.sendMessage(params, kInspectorService_inject_name);
+    }
+  
+}
+
+
+class InspectorServiceProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  InspectorService ptr;
+  final String name = InspectorServiceName;
+
+  InspectorServiceProxy(InspectorServiceProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _InspectorServiceProxyCalls(proxyImpl);
+
+  InspectorServiceProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new InspectorServiceProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _InspectorServiceProxyCalls(impl);
   }
 
+  InspectorServiceProxy.fromHandle(core.MojoHandle handle) :
+      impl = new InspectorServiceProxyImpl.fromHandle(handle) {
+    ptr = new _InspectorServiceProxyCalls(impl);
+  }
+
+  InspectorServiceProxy.unbound() :
+      impl = new InspectorServiceProxyImpl.unbound() {
+    ptr = new _InspectorServiceProxyCalls(impl);
+  }
+
+  static InspectorServiceProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new InspectorServiceProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class InspectorServiceStub extends bindings.Stub {
   InspectorService _delegate = null;
 
-  InspectorServiceStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  InspectorServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   InspectorServiceStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -108,9 +132,9 @@ class InspectorServiceStub extends bindings.Stub {
 
   static InspectorServiceStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new InspectorServiceStub(endpoint);
+      new InspectorServiceStub.fromEndpoint(endpoint);
 
-  static const String name = InspectorService.name;
+  static const String name = InspectorServiceName;
 
 
 

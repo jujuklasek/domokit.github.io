@@ -829,30 +829,10 @@ class PortPostMessageParams extends bindings.Struct {
 const int kService_frobinate_name = 0;
 const int kService_getPort_name = 1;
 
-abstract class Service implements core.Listener {
-  static const String name = 'sample::Service';
-  ServiceStub stub;
+const String ServiceName =
+      'sample::Service';
 
-  Service(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new ServiceStub(endpoint);
-
-  Service.fromHandle(core.MojoHandle handle) :
-      stub = new ServiceStub.fromHandle(handle);
-
-  Service.fromStub(this.stub);
-
-  Service.unbound() :
-      stub = new ServiceStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  Service get delegate => stub.delegate;
-  set delegate(Service d) {
-    stub.delegate = d;
-  }
+abstract class Service {
   Future<ServiceFrobinateResponseParams> frobinate(Foo foo,int baz,Object port,[Function responseFactory = null]);
   void getPort(Object port);
 
@@ -862,19 +842,21 @@ abstract class Service implements core.Listener {
   static final int BazOptions_EXTRA = BazOptions_REGULAR + 1;
 }
 
-class ServiceProxy extends bindings.Proxy implements Service {
-  ServiceProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  ServiceProxy.fromHandle(core.MojoHandle handle) :
+class ServiceProxyImpl extends bindings.Proxy {
+  ServiceProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  ServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  ServiceProxy.unbound() : super.unbound();
+  ServiceProxyImpl.unbound() : super.unbound();
 
-  String get name => Service.name;
-
-  static ServiceProxy newFromEndpoint(
+  static ServiceProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ServiceProxy(endpoint);
+      new ServiceProxyImpl.fromEndpoint(endpoint);
+
+  String get name => ServiceName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -893,29 +875,71 @@ class ServiceProxy extends bindings.Proxy implements Service {
         break;
     }
   }
-  Future<ServiceFrobinateResponseParams> frobinate(Foo foo,int baz,Object port,[Function responseFactory = null]) {
-    var params = new ServiceFrobinateParams();
-    params.foo = foo;
-    params.baz = baz;
-    params.port = port;
-    return sendMessageWithRequestId(
-        params,
-        kService_frobinate_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
-  void getPort(Object port) {
-    var params = new ServiceGetPortParams();
-    params.port = port;
-    sendMessage(params, kService_getPort_name);
+}
+
+
+class _ServiceProxyCalls implements Service {
+  ServiceProxyImpl _proxyImpl;
+
+  _ServiceProxyCalls(this._proxyImpl);
+    Future<ServiceFrobinateResponseParams> frobinate(Foo foo,int baz,Object port,[Function responseFactory = null]) {
+      var params = new ServiceFrobinateParams();
+      params.foo = foo;
+      params.baz = baz;
+      params.port = port;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kService_frobinate_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    void getPort(Object port) {
+      var params = new ServiceGetPortParams();
+      params.port = port;
+      _proxyImpl.sendMessage(params, kService_getPort_name);
+    }
+  
+}
+
+
+class ServiceProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  Service ptr;
+  final String name = ServiceName;
+
+  ServiceProxy(ServiceProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _ServiceProxyCalls(proxyImpl);
+
+  ServiceProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new ServiceProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _ServiceProxyCalls(impl);
   }
 
+  ServiceProxy.fromHandle(core.MojoHandle handle) :
+      impl = new ServiceProxyImpl.fromHandle(handle) {
+    ptr = new _ServiceProxyCalls(impl);
+  }
+
+  ServiceProxy.unbound() :
+      impl = new ServiceProxyImpl.unbound() {
+    ptr = new _ServiceProxyCalls(impl);
+  }
+
+  static ServiceProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new ServiceProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class ServiceStub extends bindings.Stub {
   Service _delegate = null;
 
-  ServiceStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  ServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   ServiceStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -924,9 +948,9 @@ class ServiceStub extends bindings.Stub {
 
   static ServiceStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new ServiceStub(endpoint);
+      new ServiceStub.fromEndpoint(endpoint);
 
-  static const String name = Service.name;
+  static const String name = ServiceName;
 
 
   ServiceFrobinateResponseParams _ServiceFrobinateResponseParamsFactory(int result) {
@@ -972,47 +996,29 @@ class ServiceStub extends bindings.Stub {
 
 const int kPort_postMessage_name = 0;
 
-abstract class Port implements core.Listener {
-  static const String name = 'sample::Port';
-  PortStub stub;
+const String PortName =
+      'sample::Port';
 
-  Port(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new PortStub(endpoint);
-
-  Port.fromHandle(core.MojoHandle handle) :
-      stub = new PortStub.fromHandle(handle);
-
-  Port.fromStub(this.stub);
-
-  Port.unbound() :
-      stub = new PortStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  Port get delegate => stub.delegate;
-  set delegate(Port d) {
-    stub.delegate = d;
-  }
+abstract class Port {
   void postMessage(String messageText, Object port);
 
 }
 
-class PortProxy extends bindings.Proxy implements Port {
-  PortProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  PortProxy.fromHandle(core.MojoHandle handle) :
+class PortProxyImpl extends bindings.Proxy {
+  PortProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  PortProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  PortProxy.unbound() : super.unbound();
+  PortProxyImpl.unbound() : super.unbound();
 
-  String get name => Port.name;
-
-  static PortProxy newFromEndpoint(
+  static PortProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new PortProxy(endpoint);
+      new PortProxyImpl.fromEndpoint(endpoint);
+
+  String get name => PortName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -1021,19 +1027,61 @@ class PortProxy extends bindings.Proxy implements Port {
         break;
     }
   }
-  void postMessage(String messageText, Object port) {
-    var params = new PortPostMessageParams();
-    params.messageText = messageText;
-    params.port = port;
-    sendMessage(params, kPort_postMessage_name);
+}
+
+
+class _PortProxyCalls implements Port {
+  PortProxyImpl _proxyImpl;
+
+  _PortProxyCalls(this._proxyImpl);
+    void postMessage(String messageText, Object port) {
+      var params = new PortPostMessageParams();
+      params.messageText = messageText;
+      params.port = port;
+      _proxyImpl.sendMessage(params, kPort_postMessage_name);
+    }
+  
+}
+
+
+class PortProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  Port ptr;
+  final String name = PortName;
+
+  PortProxy(PortProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _PortProxyCalls(proxyImpl);
+
+  PortProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new PortProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _PortProxyCalls(impl);
   }
 
+  PortProxy.fromHandle(core.MojoHandle handle) :
+      impl = new PortProxyImpl.fromHandle(handle) {
+    ptr = new _PortProxyCalls(impl);
+  }
+
+  PortProxy.unbound() :
+      impl = new PortProxyImpl.unbound() {
+    ptr = new _PortProxyCalls(impl);
+  }
+
+  static PortProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new PortProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
 }
+
 
 class PortStub extends bindings.Stub {
   Port _delegate = null;
 
-  PortStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  PortStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   PortStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -1042,9 +1090,9 @@ class PortStub extends bindings.Stub {
 
   static PortStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new PortStub(endpoint);
+      new PortStub.fromEndpoint(endpoint);
 
-  static const String name = Port.name;
+  static const String name = PortName;
 
 
 

@@ -244,47 +244,29 @@ class AxProviderGetTreeResponseParams extends bindings.Struct {
 }
 const int kAxProvider_getTree_name = 0;
 
-abstract class AxProvider implements core.Listener {
-  static const String name = 'mojo::AxProvider';
-  AxProviderStub stub;
+const String AxProviderName =
+      'mojo::AxProvider';
 
-  AxProvider(core.MojoMessagePipeEndpoint endpoint) :
-      stub = new AxProviderStub(endpoint);
-
-  AxProvider.fromHandle(core.MojoHandle handle) :
-      stub = new AxProviderStub.fromHandle(handle);
-
-  AxProvider.fromStub(this.stub);
-
-  AxProvider.unbound() :
-      stub = new AxProviderStub.unbound();
-
-  void close({bool nodefer : false}) => stub.close(nodefer: nodefer);
-
-  StreamSubscription<int> listen({Function onClosed}) =>
-      stub.listen(onClosed: onClosed);
-
-  AxProvider get delegate => stub.delegate;
-  set delegate(AxProvider d) {
-    stub.delegate = d;
-  }
+abstract class AxProvider {
   Future<AxProviderGetTreeResponseParams> getTree([Function responseFactory = null]);
 
 }
 
-class AxProviderProxy extends bindings.Proxy implements AxProvider {
-  AxProviderProxy(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
 
-  AxProviderProxy.fromHandle(core.MojoHandle handle) :
+class AxProviderProxyImpl extends bindings.Proxy {
+  AxProviderProxyImpl.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+
+  AxProviderProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
 
-  AxProviderProxy.unbound() : super.unbound();
+  AxProviderProxyImpl.unbound() : super.unbound();
 
-  String get name => AxProvider.name;
-
-  static AxProviderProxy newFromEndpoint(
+  static AxProviderProxyImpl newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new AxProviderProxy(endpoint);
+      new AxProviderProxyImpl.fromEndpoint(endpoint);
+
+  String get name => AxProviderName;
 
   void handleResponse(bindings.ServiceMessage message) {
     switch (message.header.type) {
@@ -303,20 +285,62 @@ class AxProviderProxy extends bindings.Proxy implements AxProvider {
         break;
     }
   }
-  Future<AxProviderGetTreeResponseParams> getTree([Function responseFactory = null]) {
-    var params = new AxProviderGetTreeParams();
-    return sendMessageWithRequestId(
-        params,
-        kAxProvider_getTree_name,
-        -1,
-        bindings.MessageHeader.kMessageExpectsResponse);
-  }
 }
+
+
+class _AxProviderProxyCalls implements AxProvider {
+  AxProviderProxyImpl _proxyImpl;
+
+  _AxProviderProxyCalls(this._proxyImpl);
+    Future<AxProviderGetTreeResponseParams> getTree([Function responseFactory = null]) {
+      var params = new AxProviderGetTreeParams();
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kAxProvider_getTree_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+}
+
+
+class AxProviderProxy implements bindings.ProxyBase {
+  final bindings.Proxy impl;
+  AxProvider ptr;
+  final String name = AxProviderName;
+
+  AxProviderProxy(AxProviderProxyImpl proxyImpl) :
+      impl = proxyImpl,
+      ptr = new _AxProviderProxyCalls(proxyImpl);
+
+  AxProviderProxy.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) :
+      impl = new AxProviderProxyImpl.fromEndpoint(endpoint) {
+    ptr = new _AxProviderProxyCalls(impl);
+  }
+
+  AxProviderProxy.fromHandle(core.MojoHandle handle) :
+      impl = new AxProviderProxyImpl.fromHandle(handle) {
+    ptr = new _AxProviderProxyCalls(impl);
+  }
+
+  AxProviderProxy.unbound() :
+      impl = new AxProviderProxyImpl.unbound() {
+    ptr = new _AxProviderProxyCalls(impl);
+  }
+
+  static AxProviderProxy newFromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint) =>
+      new AxProviderProxy.fromEndpoint(endpoint);
+
+  void close() => impl.close();
+}
+
 
 class AxProviderStub extends bindings.Stub {
   AxProvider _delegate = null;
 
-  AxProviderStub(core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+  AxProviderStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
+      super(endpoint);
 
   AxProviderStub.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -325,9 +349,9 @@ class AxProviderStub extends bindings.Stub {
 
   static AxProviderStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new AxProviderStub(endpoint);
+      new AxProviderStub.fromEndpoint(endpoint);
 
-  static const String name = AxProvider.name;
+  static const String name = AxProviderName;
 
 
   AxProviderGetTreeResponseParams _AxProviderGetTreeResponseParamsFactory(List<AxNode> nodes) {
