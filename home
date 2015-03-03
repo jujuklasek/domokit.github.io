@@ -1,6 +1,7 @@
 #!mojo mojo:sky_viewer
 <sky>
 <style>
+ a { line-height: 120% }
  h1 { font-size: 2em; margin: 1em; }
  h2 { font-size: 1.2em; margin: 1em; }
  p { margin: 0.5em 1em; color: #bcd8f5; font-weight: 900; }
@@ -11,7 +12,8 @@
 <a href='/mojo/embedded_app.mojo'>embeded_app</a>
 <a href='/mojo/surfaces_app.mojo'>surfaces_app</a>
 <h2>Sky/Dart Apps</h2>
-<a href='/sky/examples/stocks/index.sky'>stocks app</a>
+<a href='/sky/examples/stocks/index.sky'>stocks app (custom elements)</a>
+<a href='/sky/examples/stocks-fn/stocks.sky'>stocks app (react-style)</a>
 <a href='/sky/examples/spinning-square.sky'>spinning square</a>
 <a href='/sky/examples/touch-demo.sky'>touch demo</a>
 <a href='/sky/examples/widgets/index.sky'>widgets</a>
