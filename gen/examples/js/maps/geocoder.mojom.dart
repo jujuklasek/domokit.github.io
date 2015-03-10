@@ -654,10 +654,13 @@ abstract class Geocoder {
 
 class GeocoderProxyImpl extends bindings.Proxy {
   GeocoderProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint,
+      {bool doListen: true, Function onClosed}) :
+      super.fromEndpoint(endpoint, doListen: doListen, onClosed: onClosed);
 
-  GeocoderProxyImpl.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  GeocoderProxyImpl.fromHandle(core.MojoHandle handle,
+      {bool doListen: true, Function onClosed}) :
+      super.fromHandle(handle, doListen: doListen, onClosed: onClosed);
 
   GeocoderProxyImpl.unbound() : super.unbound();
 
@@ -702,6 +705,7 @@ class _GeocoderProxyCalls implements Geocoder {
 
   _GeocoderProxyCalls(this._proxyImpl);
     Future<GeocoderAddressToLocationResponseParams> addressToLocation(String address,Options options,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new GeocoderAddressToLocationParams();
       params.address = address;
       params.options = options;
@@ -712,6 +716,7 @@ class _GeocoderProxyCalls implements Geocoder {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<GeocoderLocationToAddressResponseParams> locationToAddress(Location location,Options options,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new GeocoderLocationToAddressParams();
       params.location = location;
       params.options = options;
@@ -734,13 +739,17 @@ class GeocoderProxy implements bindings.ProxyBase {
       ptr = new _GeocoderProxyCalls(proxyImpl);
 
   GeocoderProxy.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) :
-      impl = new GeocoderProxyImpl.fromEndpoint(endpoint) {
+      core.MojoMessagePipeEndpoint endpoint,
+      {bool doListen: true, Function onClosed}) :
+      impl = new GeocoderProxyImpl.fromEndpoint(
+          endpoint, doListen: doListen, onClosed: onClosed) {
     ptr = new _GeocoderProxyCalls(impl);
   }
 
-  GeocoderProxy.fromHandle(core.MojoHandle handle) :
-      impl = new GeocoderProxyImpl.fromHandle(handle) {
+  GeocoderProxy.fromHandle(core.MojoHandle handle,
+      {bool doListen: true, Function onClosed}) :
+      impl = new GeocoderProxyImpl.fromHandle(
+          handle, doListen: doListen, onClosed: onClosed) {
     ptr = new _GeocoderProxyCalls(impl);
   }
 
@@ -758,19 +767,37 @@ class GeocoderProxy implements bindings.ProxyBase {
 
 
 class GeocoderStub extends bindings.Stub {
-  Geocoder _delegate = null;
+  Geocoder _impl = null;
 
-  GeocoderStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  GeocoderStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint,
+      { Geocoder impl, bool doListen: true, Function onClosed}) :
+      super.fromEndpoint(endpoint, doListen: false) {
+    assert(!doListen || (impl != null));
+    if (impl != null) {
+      this._impl = impl;
+    }
+    if (doListen) {
+      listen(onClosed: onClosed);
+    }
+  }
 
-  GeocoderStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  GeocoderStub.fromHandle(core.MojoHandle handle,
+      { Geocoder impl, bool doListen: true, Function onClosed}) :
+      super.fromHandle(handle, doListen: false) {
+    assert(!doListen || (impl != null));
+    if (impl != null) {
+      this._impl = impl;
+    }
+    if (doListen) {
+      listen(onClosed: onClosed);
+    }
+  }
 
   GeocoderStub.unbound() : super.unbound();
 
   static GeocoderStub newFromEndpoint(
       core.MojoMessagePipeEndpoint endpoint) =>
-      new GeocoderStub.fromEndpoint(endpoint);
+      new GeocoderStub.fromEndpoint(endpoint, doListen: false);
 
   static const String name = GeocoderName;
 
@@ -789,12 +816,12 @@ class GeocoderStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kGeocoder_addressToLocation_name:
         var params = GeocoderAddressToLocationParams.deserialize(
             message.payload);
-        return _delegate.addressToLocation(params.address,params.options,_GeocoderAddressToLocationResponseParamsFactory).then((response) {
+        return _impl.addressToLocation(params.address,params.options,_GeocoderAddressToLocationResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -807,7 +834,7 @@ class GeocoderStub extends bindings.Stub {
       case kGeocoder_locationToAddress_name:
         var params = GeocoderLocationToAddressParams.deserialize(
             message.payload);
-        return _delegate.locationToAddress(params.location,params.options,_GeocoderLocationToAddressResponseParamsFactory).then((response) {
+        return _impl.locationToAddress(params.location,params.options,_GeocoderLocationToAddressResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -824,10 +851,10 @@ class GeocoderStub extends bindings.Stub {
     return null;
   }
 
-  Geocoder get delegate => _delegate;
-      set delegate(Geocoder d) {
-    assert(_delegate == null);
-    _delegate = d;
+  Geocoder get impl => _impl;
+      set impl(Geocoder d) {
+    assert(_impl == null);
+    _impl = d;
   }
 }
 

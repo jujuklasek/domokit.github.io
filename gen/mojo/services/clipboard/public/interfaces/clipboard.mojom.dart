@@ -44,6 +44,11 @@ class ClipboardGetSequenceNumberParams extends bindings.Struct {
     
     encoder0.encodeInt32(clipboardType, 8);
   }
+
+  String toString() {
+    return "ClipboardGetSequenceNumberParams("
+           "clipboardType: $clipboardType" ")";
+  }
 }
 
 class ClipboardGetSequenceNumberResponseParams extends bindings.Struct {
@@ -81,6 +86,11 @@ class ClipboardGetSequenceNumberResponseParams extends bindings.Struct {
     
     encoder0.encodeUint64(sequence, 8);
   }
+
+  String toString() {
+    return "ClipboardGetSequenceNumberResponseParams("
+           "sequence: $sequence" ")";
+  }
 }
 
 class ClipboardGetAvailableMimeTypesParams extends bindings.Struct {
@@ -117,6 +127,11 @@ class ClipboardGetAvailableMimeTypesParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeInt32(clipboardTypes, 8);
+  }
+
+  String toString() {
+    return "ClipboardGetAvailableMimeTypesParams("
+           "clipboardTypes: $clipboardTypes" ")";
   }
 }
 
@@ -171,6 +186,11 @@ class ClipboardGetAvailableMimeTypesResponseParams extends bindings.Struct {
       }
     }
   }
+
+  String toString() {
+    return "ClipboardGetAvailableMimeTypesResponseParams("
+           "types: $types" ")";
+  }
 }
 
 class ClipboardReadMimeTypeParams extends bindings.Struct {
@@ -215,6 +235,12 @@ class ClipboardReadMimeTypeParams extends bindings.Struct {
     
     encoder0.encodeString(mimeType, 16, false);
   }
+
+  String toString() {
+    return "ClipboardReadMimeTypeParams("
+           "clipboardType: $clipboardType" ", "
+           "mimeType: $mimeType" ")";
+  }
 }
 
 class ClipboardReadMimeTypeResponseParams extends bindings.Struct {
@@ -251,6 +277,11 @@ class ClipboardReadMimeTypeResponseParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeUint8Array(data, 8, bindings.kArrayNullable, bindings.kUnspecifiedArrayLength);
+  }
+
+  String toString() {
+    return "ClipboardReadMimeTypeResponseParams("
+           "data: $data" ")";
   }
 }
 
@@ -352,6 +383,12 @@ class ClipboardWriteClipboardDataParams extends bindings.Struct {
       }
     }
   }
+
+  String toString() {
+    return "ClipboardWriteClipboardDataParams("
+           "clipboardType: $clipboardType" ", "
+           "data: $data" ")";
+  }
 }
 const int kClipboard_getSequenceNumber_name = 0;
 const int kClipboard_getAvailableMimeTypes_name = 1;
@@ -379,7 +416,7 @@ abstract class Clipboard {
 
 class ClipboardProxyImpl extends bindings.Proxy {
   ClipboardProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   ClipboardProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -429,6 +466,11 @@ class ClipboardProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "ClipboardProxyImpl($superString)";
+  }
 }
 
 
@@ -437,6 +479,7 @@ class _ClipboardProxyCalls implements Clipboard {
 
   _ClipboardProxyCalls(this._proxyImpl);
     Future<ClipboardGetSequenceNumberResponseParams> getSequenceNumber(int clipboardType,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ClipboardGetSequenceNumberParams();
       params.clipboardType = clipboardType;
       return _proxyImpl.sendMessageWithRequestId(
@@ -446,6 +489,7 @@ class _ClipboardProxyCalls implements Clipboard {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<ClipboardGetAvailableMimeTypesResponseParams> getAvailableMimeTypes(int clipboardTypes,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ClipboardGetAvailableMimeTypesParams();
       params.clipboardTypes = clipboardTypes;
       return _proxyImpl.sendMessageWithRequestId(
@@ -455,6 +499,7 @@ class _ClipboardProxyCalls implements Clipboard {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<ClipboardReadMimeTypeResponseParams> readMimeType(int clipboardType,String mimeType,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ClipboardReadMimeTypeParams();
       params.clipboardType = clipboardType;
       params.mimeType = mimeType;
@@ -465,6 +510,7 @@ class _ClipboardProxyCalls implements Clipboard {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     void writeClipboardData(int clipboardType, Map<String, List<int>> data) {
+      assert(_proxyImpl.isBound);
       var params = new ClipboardWriteClipboardDataParams();
       params.clipboardType = clipboardType;
       params.data = data;
@@ -504,17 +550,22 @@ class ClipboardProxy implements bindings.ProxyBase {
       new ClipboardProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "ClipboardProxy($impl)";
+  }
 }
 
 
 class ClipboardStub extends bindings.Stub {
-  Clipboard _delegate = null;
+  Clipboard _impl = null;
 
-  ClipboardStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  ClipboardStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  ClipboardStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  ClipboardStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   ClipboardStub.unbound() : super.unbound();
 
@@ -542,12 +593,12 @@ class ClipboardStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kClipboard_getSequenceNumber_name:
         var params = ClipboardGetSequenceNumberParams.deserialize(
             message.payload);
-        return _delegate.getSequenceNumber(params.clipboardType,_ClipboardGetSequenceNumberResponseParamsFactory).then((response) {
+        return _impl.getSequenceNumber(params.clipboardType,_ClipboardGetSequenceNumberResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -560,7 +611,7 @@ class ClipboardStub extends bindings.Stub {
       case kClipboard_getAvailableMimeTypes_name:
         var params = ClipboardGetAvailableMimeTypesParams.deserialize(
             message.payload);
-        return _delegate.getAvailableMimeTypes(params.clipboardTypes,_ClipboardGetAvailableMimeTypesResponseParamsFactory).then((response) {
+        return _impl.getAvailableMimeTypes(params.clipboardTypes,_ClipboardGetAvailableMimeTypesResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -573,7 +624,7 @@ class ClipboardStub extends bindings.Stub {
       case kClipboard_readMimeType_name:
         var params = ClipboardReadMimeTypeParams.deserialize(
             message.payload);
-        return _delegate.readMimeType(params.clipboardType,params.mimeType,_ClipboardReadMimeTypeResponseParamsFactory).then((response) {
+        return _impl.readMimeType(params.clipboardType,params.mimeType,_ClipboardReadMimeTypeResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -586,7 +637,7 @@ class ClipboardStub extends bindings.Stub {
       case kClipboard_writeClipboardData_name:
         var params = ClipboardWriteClipboardDataParams.deserialize(
             message.payload);
-        _delegate.writeClipboardData(params.clipboardType, params.data);
+        _impl.writeClipboardData(params.clipboardType, params.data);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -595,10 +646,15 @@ class ClipboardStub extends bindings.Stub {
     return null;
   }
 
-  Clipboard get delegate => _delegate;
-      set delegate(Clipboard d) {
-    assert(_delegate == null);
-    _delegate = d;
+  Clipboard get impl => _impl;
+      set impl(Clipboard d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "ClipboardStub($superString)";
   }
 }
 

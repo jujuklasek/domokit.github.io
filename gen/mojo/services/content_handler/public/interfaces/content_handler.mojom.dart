@@ -54,6 +54,12 @@ class ContentHandlerStartApplicationParams extends bindings.Struct {
     
     encoder0.encodeStruct(response, 16, false);
   }
+
+  String toString() {
+    return "ContentHandlerStartApplicationParams("
+           "application: $application" ", "
+           "response: $response" ")";
+  }
 }
 const int kContentHandler_startApplication_name = 0;
 
@@ -68,7 +74,7 @@ abstract class ContentHandler {
 
 class ContentHandlerProxyImpl extends bindings.Proxy {
   ContentHandlerProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   ContentHandlerProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -88,6 +94,11 @@ class ContentHandlerProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "ContentHandlerProxyImpl($superString)";
+  }
 }
 
 
@@ -96,6 +107,7 @@ class _ContentHandlerProxyCalls implements ContentHandler {
 
   _ContentHandlerProxyCalls(this._proxyImpl);
     void startApplication(Object application, url_loader_mojom.UrlResponse response) {
+      assert(_proxyImpl.isBound);
       var params = new ContentHandlerStartApplicationParams();
       params.application = application;
       params.response = response;
@@ -135,17 +147,22 @@ class ContentHandlerProxy implements bindings.ProxyBase {
       new ContentHandlerProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "ContentHandlerProxy($impl)";
+  }
 }
 
 
 class ContentHandlerStub extends bindings.Stub {
-  ContentHandler _delegate = null;
+  ContentHandler _impl = null;
 
-  ContentHandlerStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  ContentHandlerStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  ContentHandlerStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  ContentHandlerStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   ContentHandlerStub.unbound() : super.unbound();
 
@@ -158,12 +175,12 @@ class ContentHandlerStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kContentHandler_startApplication_name:
         var params = ContentHandlerStartApplicationParams.deserialize(
             message.payload);
-        _delegate.startApplication(params.application, params.response);
+        _impl.startApplication(params.application, params.response);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -172,10 +189,15 @@ class ContentHandlerStub extends bindings.Stub {
     return null;
   }
 
-  ContentHandler get delegate => _delegate;
-      set delegate(ContentHandler d) {
-    assert(_delegate == null);
-    _delegate = d;
+  ContentHandler get impl => _impl;
+      set impl(ContentHandler d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "ContentHandlerStub($superString)";
   }
 }
 

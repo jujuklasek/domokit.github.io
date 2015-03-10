@@ -55,6 +55,12 @@ class Size extends bindings.Struct {
     
     encoder0.encodeInt32(height, 12);
   }
+
+  String toString() {
+    return "Size("
+           "width: $width" ", "
+           "height: $height" ")";
+  }
 }
 
 class Thing extends bindings.Struct {
@@ -114,6 +120,14 @@ class Thing extends bindings.Struct {
     encoder0.encodeStruct(location, 16, false);
     
     encoder0.encodeStruct(size, 24, false);
+  }
+
+  String toString() {
+    return "Thing("
+           "shape: $shape" ", "
+           "color: $color" ", "
+           "location: $location" ", "
+           "size: $size" ")";
   }
 }
 

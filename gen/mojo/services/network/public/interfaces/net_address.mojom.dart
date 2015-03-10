@@ -55,6 +55,12 @@ class NetAddressIPv4 extends bindings.Struct {
     
     encoder0.encodeUint8Array(addr, 16, bindings.kNothingNullable, 4);
   }
+
+  String toString() {
+    return "NetAddressIPv4("
+           "port: $port" ", "
+           "addr: $addr" ")";
+  }
 }
 
 class NetAddressIPv6 extends bindings.Struct {
@@ -98,6 +104,12 @@ class NetAddressIPv6 extends bindings.Struct {
     encoder0.encodeUint16(port, 8);
     
     encoder0.encodeUint8Array(addr, 16, bindings.kNothingNullable, 16);
+  }
+
+  String toString() {
+    return "NetAddressIPv6("
+           "port: $port" ", "
+           "addr: $addr" ")";
   }
 }
 
@@ -151,6 +163,13 @@ class NetAddress extends bindings.Struct {
     encoder0.encodeStruct(ipv4, 16, true);
     
     encoder0.encodeStruct(ipv6, 24, true);
+  }
+
+  String toString() {
+    return "NetAddress("
+           "family: $family" ", "
+           "ipv4: $ipv4" ", "
+           "ipv6: $ipv6" ")";
   }
 }
 

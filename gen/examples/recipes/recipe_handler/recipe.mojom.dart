@@ -44,6 +44,11 @@ class Ingredient extends bindings.Struct {
     
     encoder0.encodeString(url, 8, false);
   }
+
+  String toString() {
+    return "Ingredient("
+           "url: $url" ")";
+  }
 }
 
 class RecipeGetIngredientsParams extends bindings.Struct {
@@ -73,6 +78,10 @@ class RecipeGetIngredientsParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "RecipeGetIngredientsParams("")";
   }
 }
 
@@ -128,6 +137,11 @@ class RecipeGetIngredientsResponseParams extends bindings.Struct {
       }
     }
   }
+
+  String toString() {
+    return "RecipeGetIngredientsResponseParams("
+           "ingredients: $ingredients" ")";
+  }
 }
 const int kRecipe_getIngredients_name = 0;
 
@@ -142,7 +156,7 @@ abstract class Recipe {
 
 class RecipeProxyImpl extends bindings.Proxy {
   RecipeProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   RecipeProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -172,6 +186,11 @@ class RecipeProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "RecipeProxyImpl($superString)";
+  }
 }
 
 
@@ -180,6 +199,7 @@ class _RecipeProxyCalls implements Recipe {
 
   _RecipeProxyCalls(this._proxyImpl);
     Future<RecipeGetIngredientsResponseParams> getIngredients([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new RecipeGetIngredientsParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -220,17 +240,22 @@ class RecipeProxy implements bindings.ProxyBase {
       new RecipeProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "RecipeProxy($impl)";
+  }
 }
 
 
 class RecipeStub extends bindings.Stub {
-  Recipe _delegate = null;
+  Recipe _impl = null;
 
-  RecipeStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  RecipeStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  RecipeStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  RecipeStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   RecipeStub.unbound() : super.unbound();
 
@@ -248,12 +273,12 @@ class RecipeStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kRecipe_getIngredients_name:
         var params = RecipeGetIngredientsParams.deserialize(
             message.payload);
-        return _delegate.getIngredients(_RecipeGetIngredientsResponseParamsFactory).then((response) {
+        return _impl.getIngredients(_RecipeGetIngredientsResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -270,10 +295,15 @@ class RecipeStub extends bindings.Stub {
     return null;
   }
 
-  Recipe get delegate => _delegate;
-      set delegate(Recipe d) {
-    assert(_delegate == null);
-    _delegate = d;
+  Recipe get impl => _impl;
+      set impl(Recipe d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "RecipeStub($superString)";
   }
 }
 

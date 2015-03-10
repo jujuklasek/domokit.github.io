@@ -128,5 +128,14 @@ class HttpResponse extends bindings.Struct {
       }
     }
   }
+
+  String toString() {
+    return "HttpResponse("
+           "statusCode: $statusCode" ", "
+           "body: $body" ", "
+           "contentLength: $contentLength" ", "
+           "contentType: $contentType" ", "
+           "customHeaders: $customHeaders" ")";
+  }
 }
 

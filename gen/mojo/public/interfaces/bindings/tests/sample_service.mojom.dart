@@ -80,6 +80,14 @@ class Bar extends bindings.Struct {
     
     encoder0.encodeInt32(type, 12);
   }
+
+  String toString() {
+    return "Bar("
+           "alpha: $alpha" ", "
+           "beta: $beta" ", "
+           "gamma: $gamma" ", "
+           "type: $type" ")";
+  }
 }
 
 class Foo extends bindings.Struct {
@@ -303,6 +311,25 @@ class Foo extends bindings.Struct {
     }
     
     encoder0.encodeBoolArray(arrayOfBools, 88, bindings.kArrayNullable, bindings.kUnspecifiedArrayLength);
+  }
+
+  String toString() {
+    return "Foo("
+           "x: $x" ", "
+           "y: $y" ", "
+           "a: $a" ", "
+           "b: $b" ", "
+           "c: $c" ", "
+           "source: $source" ", "
+           "bar: $bar" ", "
+           "data: $data" ", "
+           "extraBars: $extraBars" ", "
+           "name: $name" ", "
+           "inputStreams: $inputStreams" ", "
+           "outputStreams: $outputStreams" ", "
+           "arrayOfArrayOfBools: $arrayOfArrayOfBools" ", "
+           "multiArrayOfStrings: $multiArrayOfStrings" ", "
+           "arrayOfBools: $arrayOfBools" ")";
   }
 }
 
@@ -560,6 +587,42 @@ class DefaultsTest extends bindings.Struct {
     
     encoder0.encodeFloat(a31, 180);
   }
+
+  String toString() {
+    return "DefaultsTest("
+           "a0: $a0" ", "
+           "a1: $a1" ", "
+           "a2: $a2" ", "
+           "a3: $a3" ", "
+           "a11: $a11" ", "
+           "a12: $a12" ", "
+           "a4: $a4" ", "
+           "a5: $a5" ", "
+           "a6: $a6" ", "
+           "a7: $a7" ", "
+           "a8: $a8" ", "
+           "a9: $a9" ", "
+           "a10: $a10" ", "
+           "a13: $a13" ", "
+           "a14: $a14" ", "
+           "a15: $a15" ", "
+           "a16: $a16" ", "
+           "a17: $a17" ", "
+           "a18: $a18" ", "
+           "a19: $a19" ", "
+           "a20: $a20" ", "
+           "a29: $a29" ", "
+           "a21: $a21" ", "
+           "a22: $a22" ", "
+           "a23: $a23" ", "
+           "a24: $a24" ", "
+           "a25: $a25" ", "
+           "a26: $a26" ", "
+           "a27: $a27" ", "
+           "a28: $a28" ", "
+           "a30: $a30" ", "
+           "a31: $a31" ")";
+  }
 }
 
 class StructWithHoleV1 extends bindings.Struct {
@@ -603,6 +666,12 @@ class StructWithHoleV1 extends bindings.Struct {
     encoder0.encodeInt32(v1, 8);
     
     encoder0.encodeInt64(v2, 16);
+  }
+
+  String toString() {
+    return "StructWithHoleV1("
+           "v1: $v1" ", "
+           "v2: $v2" ")";
   }
 }
 
@@ -654,6 +723,13 @@ class StructWithHoleV2 extends bindings.Struct {
     encoder0.encodeInt32(v3, 12);
     
     encoder0.encodeInt64(v2, 16);
+  }
+
+  String toString() {
+    return "StructWithHoleV2("
+           "v1: $v1" ", "
+           "v3: $v3" ", "
+           "v2: $v2" ")";
   }
 }
 
@@ -707,6 +783,13 @@ class ServiceFrobinateParams extends bindings.Struct {
     
     encoder0.encodeInterface(port, 20, true);
   }
+
+  String toString() {
+    return "ServiceFrobinateParams("
+           "foo: $foo" ", "
+           "baz: $baz" ", "
+           "port: $port" ")";
+  }
 }
 
 class ServiceFrobinateResponseParams extends bindings.Struct {
@@ -744,6 +827,11 @@ class ServiceFrobinateResponseParams extends bindings.Struct {
     
     encoder0.encodeInt32(result, 8);
   }
+
+  String toString() {
+    return "ServiceFrobinateResponseParams("
+           "result: $result" ")";
+  }
 }
 
 class ServiceGetPortParams extends bindings.Struct {
@@ -780,6 +868,11 @@ class ServiceGetPortParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeInterfaceRequest(port, 8, false);
+  }
+
+  String toString() {
+    return "ServiceGetPortParams("
+           "port: $port" ")";
   }
 }
 
@@ -825,6 +918,12 @@ class PortPostMessageParams extends bindings.Struct {
     
     encoder0.encodeInterface(port, 16, false);
   }
+
+  String toString() {
+    return "PortPostMessageParams("
+           "messageText: $messageText" ", "
+           "port: $port" ")";
+  }
 }
 const int kService_frobinate_name = 0;
 const int kService_getPort_name = 1;
@@ -845,7 +944,7 @@ abstract class Service {
 
 class ServiceProxyImpl extends bindings.Proxy {
   ServiceProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   ServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -875,6 +974,11 @@ class ServiceProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "ServiceProxyImpl($superString)";
+  }
 }
 
 
@@ -883,6 +987,7 @@ class _ServiceProxyCalls implements Service {
 
   _ServiceProxyCalls(this._proxyImpl);
     Future<ServiceFrobinateResponseParams> frobinate(Foo foo,int baz,Object port,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ServiceFrobinateParams();
       params.foo = foo;
       params.baz = baz;
@@ -894,6 +999,7 @@ class _ServiceProxyCalls implements Service {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     void getPort(Object port) {
+      assert(_proxyImpl.isBound);
       var params = new ServiceGetPortParams();
       params.port = port;
       _proxyImpl.sendMessage(params, kService_getPort_name);
@@ -932,17 +1038,22 @@ class ServiceProxy implements bindings.ProxyBase {
       new ServiceProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "ServiceProxy($impl)";
+  }
 }
 
 
 class ServiceStub extends bindings.Stub {
-  Service _delegate = null;
+  Service _impl = null;
 
-  ServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  ServiceStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  ServiceStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  ServiceStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   ServiceStub.unbound() : super.unbound();
 
@@ -960,12 +1071,12 @@ class ServiceStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kService_frobinate_name:
         var params = ServiceFrobinateParams.deserialize(
             message.payload);
-        return _delegate.frobinate(params.foo,params.baz,params.port,_ServiceFrobinateResponseParamsFactory).then((response) {
+        return _impl.frobinate(params.foo,params.baz,params.port,_ServiceFrobinateResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -978,7 +1089,7 @@ class ServiceStub extends bindings.Stub {
       case kService_getPort_name:
         var params = ServiceGetPortParams.deserialize(
             message.payload);
-        _delegate.getPort(params.port);
+        _impl.getPort(params.port);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -987,10 +1098,15 @@ class ServiceStub extends bindings.Stub {
     return null;
   }
 
-  Service get delegate => _delegate;
-      set delegate(Service d) {
-    assert(_delegate == null);
-    _delegate = d;
+  Service get impl => _impl;
+      set impl(Service d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "ServiceStub($superString)";
   }
 }
 
@@ -1007,7 +1123,7 @@ abstract class Port {
 
 class PortProxyImpl extends bindings.Proxy {
   PortProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   PortProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -1027,6 +1143,11 @@ class PortProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "PortProxyImpl($superString)";
+  }
 }
 
 
@@ -1035,6 +1156,7 @@ class _PortProxyCalls implements Port {
 
   _PortProxyCalls(this._proxyImpl);
     void postMessage(String messageText, Object port) {
+      assert(_proxyImpl.isBound);
       var params = new PortPostMessageParams();
       params.messageText = messageText;
       params.port = port;
@@ -1074,17 +1196,22 @@ class PortProxy implements bindings.ProxyBase {
       new PortProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "PortProxy($impl)";
+  }
 }
 
 
 class PortStub extends bindings.Stub {
-  Port _delegate = null;
+  Port _impl = null;
 
-  PortStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  PortStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  PortStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  PortStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   PortStub.unbound() : super.unbound();
 
@@ -1097,12 +1224,12 @@ class PortStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kPort_postMessage_name:
         var params = PortPostMessageParams.deserialize(
             message.payload);
-        _delegate.postMessage(params.messageText, params.port);
+        _impl.postMessage(params.messageText, params.port);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -1111,10 +1238,15 @@ class PortStub extends bindings.Stub {
     return null;
   }
 
-  Port get delegate => _delegate;
-      set delegate(Port d) {
-    assert(_delegate == null);
-    _delegate = d;
+  Port get impl => _impl;
+      set impl(Port d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "PortStub($superString)";
   }
 }
 

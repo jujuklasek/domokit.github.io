@@ -51,6 +51,12 @@ class ServiceStats extends bindings.Struct {
     
     encoder0.encodeDouble(health, 16);
   }
+
+  String toString() {
+    return "ServiceStats("
+           "numNewRequests: $numNewRequests" ", "
+           "health: $health" ")";
+  }
 }
 
 class ServiceReport extends bindings.Struct {
@@ -102,6 +108,13 @@ class ServiceReport extends bindings.Struct {
     
     encoder0.encodeDouble(meanHealth, 24);
   }
+
+  String toString() {
+    return "ServiceReport("
+           "serviceName: $serviceName" ", "
+           "totalRequests: $totalRequests" ", "
+           "meanHealth: $meanHealth" ")";
+  }
 }
 
 class TestTrackedRequestServiceGetReportParams extends bindings.Struct {
@@ -131,6 +144,10 @@ class TestTrackedRequestServiceGetReportParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "TestTrackedRequestServiceGetReportParams("")";
   }
 }
 
@@ -188,6 +205,11 @@ class TestTrackedRequestServiceGetReportResponseParams extends bindings.Struct {
       }
     }
   }
+
+  String toString() {
+    return "TestTrackedRequestServiceGetReportResponseParams("
+           "report: $report" ")";
+  }
 }
 
 class TestRequestTrackerSetNameAndReturnIdParams extends bindings.Struct {
@@ -225,6 +247,11 @@ class TestRequestTrackerSetNameAndReturnIdParams extends bindings.Struct {
     
     encoder0.encodeString(serviceName, 8, false);
   }
+
+  String toString() {
+    return "TestRequestTrackerSetNameAndReturnIdParams("
+           "serviceName: $serviceName" ")";
+  }
 }
 
 class TestRequestTrackerSetNameAndReturnIdResponseParams extends bindings.Struct {
@@ -261,6 +288,11 @@ class TestRequestTrackerSetNameAndReturnIdResponseParams extends bindings.Struct
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeUint64(id, 8);
+  }
+
+  String toString() {
+    return "TestRequestTrackerSetNameAndReturnIdResponseParams("
+           "id: $id" ")";
   }
 }
 
@@ -307,6 +339,12 @@ class TestRequestTrackerRecordStatsParams extends bindings.Struct {
     
     encoder0.encodeStruct(stats, 16, true);
   }
+
+  String toString() {
+    return "TestRequestTrackerRecordStatsParams("
+           "clientId: $clientId" ", "
+           "stats: $stats" ")";
+  }
 }
 const int kTestTrackedRequestService_getReport_name = 0;
 
@@ -321,7 +359,7 @@ abstract class TestTrackedRequestService {
 
 class TestTrackedRequestServiceProxyImpl extends bindings.Proxy {
   TestTrackedRequestServiceProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   TestTrackedRequestServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -351,6 +389,11 @@ class TestTrackedRequestServiceProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "TestTrackedRequestServiceProxyImpl($superString)";
+  }
 }
 
 
@@ -359,6 +402,7 @@ class _TestTrackedRequestServiceProxyCalls implements TestTrackedRequestService 
 
   _TestTrackedRequestServiceProxyCalls(this._proxyImpl);
     Future<TestTrackedRequestServiceGetReportResponseParams> getReport([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new TestTrackedRequestServiceGetReportParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -399,17 +443,22 @@ class TestTrackedRequestServiceProxy implements bindings.ProxyBase {
       new TestTrackedRequestServiceProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "TestTrackedRequestServiceProxy($impl)";
+  }
 }
 
 
 class TestTrackedRequestServiceStub extends bindings.Stub {
-  TestTrackedRequestService _delegate = null;
+  TestTrackedRequestService _impl = null;
 
-  TestTrackedRequestServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  TestTrackedRequestServiceStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  TestTrackedRequestServiceStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  TestTrackedRequestServiceStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   TestTrackedRequestServiceStub.unbound() : super.unbound();
 
@@ -427,12 +476,12 @@ class TestTrackedRequestServiceStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kTestTrackedRequestService_getReport_name:
         var params = TestTrackedRequestServiceGetReportParams.deserialize(
             message.payload);
-        return _delegate.getReport(_TestTrackedRequestServiceGetReportResponseParamsFactory).then((response) {
+        return _impl.getReport(_TestTrackedRequestServiceGetReportResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -449,10 +498,15 @@ class TestTrackedRequestServiceStub extends bindings.Stub {
     return null;
   }
 
-  TestTrackedRequestService get delegate => _delegate;
-      set delegate(TestTrackedRequestService d) {
-    assert(_delegate == null);
-    _delegate = d;
+  TestTrackedRequestService get impl => _impl;
+      set impl(TestTrackedRequestService d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "TestTrackedRequestServiceStub($superString)";
   }
 }
 
@@ -471,7 +525,7 @@ abstract class TestRequestTracker {
 
 class TestRequestTrackerProxyImpl extends bindings.Proxy {
   TestRequestTrackerProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   TestRequestTrackerProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -501,6 +555,11 @@ class TestRequestTrackerProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "TestRequestTrackerProxyImpl($superString)";
+  }
 }
 
 
@@ -509,6 +568,7 @@ class _TestRequestTrackerProxyCalls implements TestRequestTracker {
 
   _TestRequestTrackerProxyCalls(this._proxyImpl);
     Future<TestRequestTrackerSetNameAndReturnIdResponseParams> setNameAndReturnId(String serviceName,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new TestRequestTrackerSetNameAndReturnIdParams();
       params.serviceName = serviceName;
       return _proxyImpl.sendMessageWithRequestId(
@@ -518,6 +578,7 @@ class _TestRequestTrackerProxyCalls implements TestRequestTracker {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     void recordStats(int clientId, ServiceStats stats) {
+      assert(_proxyImpl.isBound);
       var params = new TestRequestTrackerRecordStatsParams();
       params.clientId = clientId;
       params.stats = stats;
@@ -557,17 +618,22 @@ class TestRequestTrackerProxy implements bindings.ProxyBase {
       new TestRequestTrackerProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "TestRequestTrackerProxy($impl)";
+  }
 }
 
 
 class TestRequestTrackerStub extends bindings.Stub {
-  TestRequestTracker _delegate = null;
+  TestRequestTracker _impl = null;
 
-  TestRequestTrackerStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  TestRequestTrackerStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  TestRequestTrackerStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  TestRequestTrackerStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   TestRequestTrackerStub.unbound() : super.unbound();
 
@@ -585,12 +651,12 @@ class TestRequestTrackerStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kTestRequestTracker_setNameAndReturnId_name:
         var params = TestRequestTrackerSetNameAndReturnIdParams.deserialize(
             message.payload);
-        return _delegate.setNameAndReturnId(params.serviceName,_TestRequestTrackerSetNameAndReturnIdResponseParamsFactory).then((response) {
+        return _impl.setNameAndReturnId(params.serviceName,_TestRequestTrackerSetNameAndReturnIdResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -603,7 +669,7 @@ class TestRequestTrackerStub extends bindings.Stub {
       case kTestRequestTracker_recordStats_name:
         var params = TestRequestTrackerRecordStatsParams.deserialize(
             message.payload);
-        _delegate.recordStats(params.clientId, params.stats);
+        _impl.recordStats(params.clientId, params.stats);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -612,10 +678,15 @@ class TestRequestTrackerStub extends bindings.Stub {
     return null;
   }
 
-  TestRequestTracker get delegate => _delegate;
-      set delegate(TestRequestTracker d) {
-    assert(_delegate == null);
-    _delegate = d;
+  TestRequestTracker get impl => _impl;
+      set impl(TestRequestTracker d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "TestRequestTrackerStub($superString)";
   }
 }
 

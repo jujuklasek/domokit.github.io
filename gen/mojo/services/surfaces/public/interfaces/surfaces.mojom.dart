@@ -8,8 +8,6 @@ import 'dart:async';
 import 'mojo:bindings' as bindings;
 import 'mojo:core' as core;
 import 'package:mojo/services/geometry/public/interfaces/geometry.mojom.dart' as geometry_mojom;
-import 'package:mojo/services/gpu/public/interfaces/command_buffer.mojom.dart' as command_buffer_mojom;
-import 'package:mojo/services/gpu/public/interfaces/viewport_parameter_listener.mojom.dart' as viewport_parameter_listener_mojom;
 import 'package:mojo/services/surfaces/public/interfaces/quads.mojom.dart' as quads_mojom;
 import 'package:mojo/services/surfaces/public/interfaces/surface_id.mojom.dart' as surface_id_mojom;
 
@@ -56,6 +54,11 @@ class Mailbox extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeInt8Array(name, 8, bindings.kNothingNullable, 64);
+  }
+
+  String toString() {
+    return "Mailbox("
+           "name: $name" ")";
   }
 }
 
@@ -108,6 +111,13 @@ class MailboxHolder extends bindings.Struct {
     encoder0.encodeUint32(textureTarget, 16);
     
     encoder0.encodeUint32(syncPoint, 20);
+  }
+
+  String toString() {
+    return "MailboxHolder("
+           "mailbox: $mailbox" ", "
+           "textureTarget: $textureTarget" ", "
+           "syncPoint: $syncPoint" ")";
   }
 }
 
@@ -190,6 +200,17 @@ class TransferableResource extends bindings.Struct {
     
     encoder0.encodeStruct(mailboxHolder, 32, false);
   }
+
+  String toString() {
+    return "TransferableResource("
+           "id: $id" ", "
+           "format: $format" ", "
+           "filter: $filter" ", "
+           "isRepeated: $isRepeated" ", "
+           "isSoftware: $isSoftware" ", "
+           "size: $size" ", "
+           "mailboxHolder: $mailboxHolder" ")";
+  }
 }
 
 class ReturnedResource extends bindings.Struct {
@@ -247,6 +268,14 @@ class ReturnedResource extends bindings.Struct {
     encoder0.encodeInt32(count, 16);
     
     encoder0.encodeBool(lost, 20, 0);
+  }
+
+  String toString() {
+    return "ReturnedResource("
+           "id: $id" ", "
+           "syncPoint: $syncPoint" ", "
+           "count: $count" ", "
+           "lost: $lost" ")";
   }
 }
 
@@ -326,6 +355,12 @@ class Frame extends bindings.Struct {
       }
     }
   }
+
+  String toString() {
+    return "Frame("
+           "resources: $resources" ", "
+           "passes: $passes" ")";
+  }
 }
 
 class ResourceReturnerReturnResourcesParams extends bindings.Struct {
@@ -380,6 +415,11 @@ class ResourceReturnerReturnResourcesParams extends bindings.Struct {
       }
     }
   }
+
+  String toString() {
+    return "ResourceReturnerReturnResourcesParams("
+           "resources: $resources" ")";
+  }
 }
 
 class SurfaceGetIdNamespaceParams extends bindings.Struct {
@@ -409,6 +449,10 @@ class SurfaceGetIdNamespaceParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "SurfaceGetIdNamespaceParams("")";
   }
 }
 
@@ -447,6 +491,11 @@ class SurfaceGetIdNamespaceResponseParams extends bindings.Struct {
     
     encoder0.encodeUint32(idNamespace, 8);
   }
+
+  String toString() {
+    return "SurfaceGetIdNamespaceResponseParams("
+           "idNamespace: $idNamespace" ")";
+  }
 }
 
 class SurfaceSetResourceReturnerParams extends bindings.Struct {
@@ -484,6 +533,11 @@ class SurfaceSetResourceReturnerParams extends bindings.Struct {
     
     encoder0.encodeInterface(returner, 8, false);
   }
+
+  String toString() {
+    return "SurfaceSetResourceReturnerParams("
+           "returner: $returner" ")";
+  }
 }
 
 class SurfaceCreateSurfaceParams extends bindings.Struct {
@@ -520,6 +574,11 @@ class SurfaceCreateSurfaceParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeUint32(idLocal, 8);
+  }
+
+  String toString() {
+    return "SurfaceCreateSurfaceParams("
+           "idLocal: $idLocal" ")";
   }
 }
 
@@ -566,6 +625,12 @@ class SurfaceSubmitFrameParams extends bindings.Struct {
     
     encoder0.encodeStruct(frame, 16, false);
   }
+
+  String toString() {
+    return "SurfaceSubmitFrameParams("
+           "idLocal: $idLocal" ", "
+           "frame: $frame" ")";
+  }
 }
 
 class SurfaceSubmitFrameResponseParams extends bindings.Struct {
@@ -595,6 +660,10 @@ class SurfaceSubmitFrameResponseParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "SurfaceSubmitFrameResponseParams("")";
   }
 }
 
@@ -633,64 +702,10 @@ class SurfaceDestroySurfaceParams extends bindings.Struct {
     
     encoder0.encodeUint32(idLocal, 8);
   }
-}
 
-class SurfaceCreateGleS2BoundSurfaceParams extends bindings.Struct {
-  static const int kStructSize = 32;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 4);
-  Object gles2Client = null;
-  int idLocal = 0;
-  geometry_mojom.Size size = null;
-  Object listener = null;
-
-  SurfaceCreateGleS2BoundSurfaceParams() : super(kStructSize);
-
-  static SurfaceCreateGleS2BoundSurfaceParams deserialize(bindings.Message message) {
-    return decode(new bindings.Decoder(message));
-  }
-
-  static SurfaceCreateGleS2BoundSurfaceParams decode(bindings.Decoder decoder0) {
-    if (decoder0 == null) {
-      return null;
-    }
-    SurfaceCreateGleS2BoundSurfaceParams result = new SurfaceCreateGleS2BoundSurfaceParams();
-
-    var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 4)) {
-      throw new bindings.MojoCodecError('Malformed header');
-    }
-    {
-      
-      result.gles2Client = decoder0.decodeServiceInterface(8, false, command_buffer_mojom.CommandBufferProxy.newFromEndpoint);
-    }
-    {
-      
-      result.idLocal = decoder0.decodeUint32(12);
-    }
-    {
-      
-      var decoder1 = decoder0.decodePointer(16, false);
-      result.size = geometry_mojom.Size.decode(decoder1);
-    }
-    {
-      
-      result.listener = decoder0.decodeInterfaceRequest(24, false, viewport_parameter_listener_mojom.ViewportParameterListenerStub.newFromEndpoint);
-    }
-    return result;
-  }
-
-  void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
-    
-    encoder0.encodeInterface(gles2Client, 8, false);
-    
-    encoder0.encodeUint32(idLocal, 12);
-    
-    encoder0.encodeStruct(size, 16, false);
-    
-    encoder0.encodeInterfaceRequest(listener, 24, false);
+  String toString() {
+    return "SurfaceDestroySurfaceParams("
+           "idLocal: $idLocal" ")";
   }
 }
 const int kResourceReturner_returnResources_name = 0;
@@ -706,7 +721,7 @@ abstract class ResourceReturner {
 
 class ResourceReturnerProxyImpl extends bindings.Proxy {
   ResourceReturnerProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   ResourceReturnerProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -726,6 +741,11 @@ class ResourceReturnerProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "ResourceReturnerProxyImpl($superString)";
+  }
 }
 
 
@@ -734,6 +754,7 @@ class _ResourceReturnerProxyCalls implements ResourceReturner {
 
   _ResourceReturnerProxyCalls(this._proxyImpl);
     void returnResources(List<ReturnedResource> resources) {
+      assert(_proxyImpl.isBound);
       var params = new ResourceReturnerReturnResourcesParams();
       params.resources = resources;
       _proxyImpl.sendMessage(params, kResourceReturner_returnResources_name);
@@ -772,17 +793,22 @@ class ResourceReturnerProxy implements bindings.ProxyBase {
       new ResourceReturnerProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "ResourceReturnerProxy($impl)";
+  }
 }
 
 
 class ResourceReturnerStub extends bindings.Stub {
-  ResourceReturner _delegate = null;
+  ResourceReturner _impl = null;
 
-  ResourceReturnerStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  ResourceReturnerStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  ResourceReturnerStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  ResourceReturnerStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   ResourceReturnerStub.unbound() : super.unbound();
 
@@ -795,12 +821,12 @@ class ResourceReturnerStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kResourceReturner_returnResources_name:
         var params = ResourceReturnerReturnResourcesParams.deserialize(
             message.payload);
-        _delegate.returnResources(params.resources);
+        _impl.returnResources(params.resources);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -809,10 +835,15 @@ class ResourceReturnerStub extends bindings.Stub {
     return null;
   }
 
-  ResourceReturner get delegate => _delegate;
-      set delegate(ResourceReturner d) {
-    assert(_delegate == null);
-    _delegate = d;
+  ResourceReturner get impl => _impl;
+      set impl(ResourceReturner d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "ResourceReturnerStub($superString)";
   }
 }
 
@@ -821,7 +852,6 @@ const int kSurface_setResourceReturner_name = 1;
 const int kSurface_createSurface_name = 2;
 const int kSurface_submitFrame_name = 3;
 const int kSurface_destroySurface_name = 4;
-const int kSurface_createGleS2BoundSurface_name = 5;
 
 const String SurfaceName =
       'mojo::Surface';
@@ -832,14 +862,13 @@ abstract class Surface {
   void createSurface(int idLocal);
   Future<SurfaceSubmitFrameResponseParams> submitFrame(int idLocal,Frame frame,[Function responseFactory = null]);
   void destroySurface(int idLocal);
-  void createGleS2BoundSurface(Object gles2Client, int idLocal, geometry_mojom.Size size, Object listener);
 
 }
 
 
 class SurfaceProxyImpl extends bindings.Proxy {
   SurfaceProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   SurfaceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -879,6 +908,11 @@ class SurfaceProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "SurfaceProxyImpl($superString)";
+  }
 }
 
 
@@ -887,6 +921,7 @@ class _SurfaceProxyCalls implements Surface {
 
   _SurfaceProxyCalls(this._proxyImpl);
     Future<SurfaceGetIdNamespaceResponseParams> getIdNamespace([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new SurfaceGetIdNamespaceParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -895,18 +930,21 @@ class _SurfaceProxyCalls implements Surface {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     void setResourceReturner(Object returner) {
+      assert(_proxyImpl.isBound);
       var params = new SurfaceSetResourceReturnerParams();
       params.returner = returner;
       _proxyImpl.sendMessage(params, kSurface_setResourceReturner_name);
     }
   
     void createSurface(int idLocal) {
+      assert(_proxyImpl.isBound);
       var params = new SurfaceCreateSurfaceParams();
       params.idLocal = idLocal;
       _proxyImpl.sendMessage(params, kSurface_createSurface_name);
     }
   
     Future<SurfaceSubmitFrameResponseParams> submitFrame(int idLocal,Frame frame,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new SurfaceSubmitFrameParams();
       params.idLocal = idLocal;
       params.frame = frame;
@@ -917,18 +955,10 @@ class _SurfaceProxyCalls implements Surface {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     void destroySurface(int idLocal) {
+      assert(_proxyImpl.isBound);
       var params = new SurfaceDestroySurfaceParams();
       params.idLocal = idLocal;
       _proxyImpl.sendMessage(params, kSurface_destroySurface_name);
-    }
-  
-    void createGleS2BoundSurface(Object gles2Client, int idLocal, geometry_mojom.Size size, Object listener) {
-      var params = new SurfaceCreateGleS2BoundSurfaceParams();
-      params.gles2Client = gles2Client;
-      params.idLocal = idLocal;
-      params.size = size;
-      params.listener = listener;
-      _proxyImpl.sendMessage(params, kSurface_createGleS2BoundSurface_name);
     }
   
 }
@@ -964,17 +994,22 @@ class SurfaceProxy implements bindings.ProxyBase {
       new SurfaceProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "SurfaceProxy($impl)";
+  }
 }
 
 
 class SurfaceStub extends bindings.Stub {
-  Surface _delegate = null;
+  Surface _impl = null;
 
-  SurfaceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  SurfaceStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  SurfaceStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  SurfaceStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   SurfaceStub.unbound() : super.unbound();
 
@@ -996,12 +1031,12 @@ class SurfaceStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kSurface_getIdNamespace_name:
         var params = SurfaceGetIdNamespaceParams.deserialize(
             message.payload);
-        return _delegate.getIdNamespace(_SurfaceGetIdNamespaceResponseParamsFactory).then((response) {
+        return _impl.getIdNamespace(_SurfaceGetIdNamespaceResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -1014,17 +1049,17 @@ class SurfaceStub extends bindings.Stub {
       case kSurface_setResourceReturner_name:
         var params = SurfaceSetResourceReturnerParams.deserialize(
             message.payload);
-        _delegate.setResourceReturner(params.returner);
+        _impl.setResourceReturner(params.returner);
         break;
       case kSurface_createSurface_name:
         var params = SurfaceCreateSurfaceParams.deserialize(
             message.payload);
-        _delegate.createSurface(params.idLocal);
+        _impl.createSurface(params.idLocal);
         break;
       case kSurface_submitFrame_name:
         var params = SurfaceSubmitFrameParams.deserialize(
             message.payload);
-        return _delegate.submitFrame(params.idLocal,params.frame,_SurfaceSubmitFrameResponseParamsFactory).then((response) {
+        return _impl.submitFrame(params.idLocal,params.frame,_SurfaceSubmitFrameResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -1037,12 +1072,7 @@ class SurfaceStub extends bindings.Stub {
       case kSurface_destroySurface_name:
         var params = SurfaceDestroySurfaceParams.deserialize(
             message.payload);
-        _delegate.destroySurface(params.idLocal);
-        break;
-      case kSurface_createGleS2BoundSurface_name:
-        var params = SurfaceCreateGleS2BoundSurfaceParams.deserialize(
-            message.payload);
-        _delegate.createGleS2BoundSurface(params.gles2Client, params.idLocal, params.size, params.listener);
+        _impl.destroySurface(params.idLocal);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -1051,10 +1081,15 @@ class SurfaceStub extends bindings.Stub {
     return null;
   }
 
-  Surface get delegate => _delegate;
-      set delegate(Surface d) {
-    assert(_delegate == null);
-    _delegate = d;
+  Surface get impl => _impl;
+      set impl(Surface d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "SurfaceStub($superString)";
   }
 }
 

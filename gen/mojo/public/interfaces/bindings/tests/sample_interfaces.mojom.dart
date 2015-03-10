@@ -47,6 +47,11 @@ class ProviderEchoStringParams extends bindings.Struct {
     
     encoder0.encodeString(a, 8, false);
   }
+
+  String toString() {
+    return "ProviderEchoStringParams("
+           "a: $a" ")";
+  }
 }
 
 class ProviderEchoStringResponseParams extends bindings.Struct {
@@ -83,6 +88,11 @@ class ProviderEchoStringResponseParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeString(a, 8, false);
+  }
+
+  String toString() {
+    return "ProviderEchoStringResponseParams("
+           "a: $a" ")";
   }
 }
 
@@ -128,6 +138,12 @@ class ProviderEchoStringsParams extends bindings.Struct {
     
     encoder0.encodeString(b, 16, false);
   }
+
+  String toString() {
+    return "ProviderEchoStringsParams("
+           "a: $a" ", "
+           "b: $b" ")";
+  }
 }
 
 class ProviderEchoStringsResponseParams extends bindings.Struct {
@@ -172,6 +188,12 @@ class ProviderEchoStringsResponseParams extends bindings.Struct {
     
     encoder0.encodeString(b, 16, false);
   }
+
+  String toString() {
+    return "ProviderEchoStringsResponseParams("
+           "a: $a" ", "
+           "b: $b" ")";
+  }
 }
 
 class ProviderEchoMessagePipeHandleParams extends bindings.Struct {
@@ -208,6 +230,11 @@ class ProviderEchoMessagePipeHandleParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeMessagePipeHandle(a, 8, false);
+  }
+
+  String toString() {
+    return "ProviderEchoMessagePipeHandleParams("
+           "a: $a" ")";
   }
 }
 
@@ -246,6 +273,11 @@ class ProviderEchoMessagePipeHandleResponseParams extends bindings.Struct {
     
     encoder0.encodeMessagePipeHandle(a, 8, false);
   }
+
+  String toString() {
+    return "ProviderEchoMessagePipeHandleResponseParams("
+           "a: $a" ")";
+  }
 }
 
 class ProviderEchoEnumParams extends bindings.Struct {
@@ -282,6 +314,11 @@ class ProviderEchoEnumParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeInt32(a, 8);
+  }
+
+  String toString() {
+    return "ProviderEchoEnumParams("
+           "a: $a" ")";
   }
 }
 
@@ -320,6 +357,11 @@ class ProviderEchoEnumResponseParams extends bindings.Struct {
     
     encoder0.encodeInt32(a, 8);
   }
+
+  String toString() {
+    return "ProviderEchoEnumResponseParams("
+           "a: $a" ")";
+  }
 }
 const int kProvider_echoString_name = 0;
 const int kProvider_echoStrings_name = 1;
@@ -340,7 +382,7 @@ abstract class Provider {
 
 class ProviderProxyImpl extends bindings.Proxy {
   ProviderProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   ProviderProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -400,6 +442,11 @@ class ProviderProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "ProviderProxyImpl($superString)";
+  }
 }
 
 
@@ -408,6 +455,7 @@ class _ProviderProxyCalls implements Provider {
 
   _ProviderProxyCalls(this._proxyImpl);
     Future<ProviderEchoStringResponseParams> echoString(String a,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ProviderEchoStringParams();
       params.a = a;
       return _proxyImpl.sendMessageWithRequestId(
@@ -417,6 +465,7 @@ class _ProviderProxyCalls implements Provider {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<ProviderEchoStringsResponseParams> echoStrings(String a,String b,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ProviderEchoStringsParams();
       params.a = a;
       params.b = b;
@@ -427,6 +476,7 @@ class _ProviderProxyCalls implements Provider {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<ProviderEchoMessagePipeHandleResponseParams> echoMessagePipeHandle(core.MojoMessagePipeEndpoint a,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ProviderEchoMessagePipeHandleParams();
       params.a = a;
       return _proxyImpl.sendMessageWithRequestId(
@@ -436,6 +486,7 @@ class _ProviderProxyCalls implements Provider {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<ProviderEchoEnumResponseParams> echoEnum(int a,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ProviderEchoEnumParams();
       params.a = a;
       return _proxyImpl.sendMessageWithRequestId(
@@ -477,17 +528,22 @@ class ProviderProxy implements bindings.ProxyBase {
       new ProviderProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "ProviderProxy($impl)";
+  }
 }
 
 
 class ProviderStub extends bindings.Stub {
-  Provider _delegate = null;
+  Provider _impl = null;
 
-  ProviderStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  ProviderStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  ProviderStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  ProviderStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   ProviderStub.unbound() : super.unbound();
 
@@ -521,12 +577,12 @@ class ProviderStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kProvider_echoString_name:
         var params = ProviderEchoStringParams.deserialize(
             message.payload);
-        return _delegate.echoString(params.a,_ProviderEchoStringResponseParamsFactory).then((response) {
+        return _impl.echoString(params.a,_ProviderEchoStringResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -539,7 +595,7 @@ class ProviderStub extends bindings.Stub {
       case kProvider_echoStrings_name:
         var params = ProviderEchoStringsParams.deserialize(
             message.payload);
-        return _delegate.echoStrings(params.a,params.b,_ProviderEchoStringsResponseParamsFactory).then((response) {
+        return _impl.echoStrings(params.a,params.b,_ProviderEchoStringsResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -552,7 +608,7 @@ class ProviderStub extends bindings.Stub {
       case kProvider_echoMessagePipeHandle_name:
         var params = ProviderEchoMessagePipeHandleParams.deserialize(
             message.payload);
-        return _delegate.echoMessagePipeHandle(params.a,_ProviderEchoMessagePipeHandleResponseParamsFactory).then((response) {
+        return _impl.echoMessagePipeHandle(params.a,_ProviderEchoMessagePipeHandleResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -565,7 +621,7 @@ class ProviderStub extends bindings.Stub {
       case kProvider_echoEnum_name:
         var params = ProviderEchoEnumParams.deserialize(
             message.payload);
-        return _delegate.echoEnum(params.a,_ProviderEchoEnumResponseParamsFactory).then((response) {
+        return _impl.echoEnum(params.a,_ProviderEchoEnumResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -582,10 +638,15 @@ class ProviderStub extends bindings.Stub {
     return null;
   }
 
-  Provider get delegate => _delegate;
-      set delegate(Provider d) {
-    assert(_delegate == null);
-    _delegate = d;
+  Provider get impl => _impl;
+      set impl(Provider d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "ProviderStub($superString)";
   }
 }
 

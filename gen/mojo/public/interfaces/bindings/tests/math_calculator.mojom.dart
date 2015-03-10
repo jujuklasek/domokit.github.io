@@ -37,6 +37,10 @@ class CalculatorClearParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "CalculatorClearParams("")";
+  }
 }
 
 class CalculatorClearResponseParams extends bindings.Struct {
@@ -73,6 +77,11 @@ class CalculatorClearResponseParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeDouble(value, 8);
+  }
+
+  String toString() {
+    return "CalculatorClearResponseParams("
+           "value: $value" ")";
   }
 }
 
@@ -111,6 +120,11 @@ class CalculatorAddParams extends bindings.Struct {
     
     encoder0.encodeDouble(value, 8);
   }
+
+  String toString() {
+    return "CalculatorAddParams("
+           "value: $value" ")";
+  }
 }
 
 class CalculatorAddResponseParams extends bindings.Struct {
@@ -147,6 +161,11 @@ class CalculatorAddResponseParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeDouble(value, 8);
+  }
+
+  String toString() {
+    return "CalculatorAddResponseParams("
+           "value: $value" ")";
   }
 }
 
@@ -185,6 +204,11 @@ class CalculatorMultiplyParams extends bindings.Struct {
     
     encoder0.encodeDouble(value, 8);
   }
+
+  String toString() {
+    return "CalculatorMultiplyParams("
+           "value: $value" ")";
+  }
 }
 
 class CalculatorMultiplyResponseParams extends bindings.Struct {
@@ -222,6 +246,11 @@ class CalculatorMultiplyResponseParams extends bindings.Struct {
     
     encoder0.encodeDouble(value, 8);
   }
+
+  String toString() {
+    return "CalculatorMultiplyResponseParams("
+           "value: $value" ")";
+  }
 }
 const int kCalculator_clear_name = 0;
 const int kCalculator_add_name = 1;
@@ -240,7 +269,7 @@ abstract class Calculator {
 
 class CalculatorProxyImpl extends bindings.Proxy {
   CalculatorProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   CalculatorProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -290,6 +319,11 @@ class CalculatorProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "CalculatorProxyImpl($superString)";
+  }
 }
 
 
@@ -298,6 +332,7 @@ class _CalculatorProxyCalls implements Calculator {
 
   _CalculatorProxyCalls(this._proxyImpl);
     Future<CalculatorClearResponseParams> clear([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new CalculatorClearParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -306,6 +341,7 @@ class _CalculatorProxyCalls implements Calculator {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<CalculatorAddResponseParams> add(double value,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new CalculatorAddParams();
       params.value = value;
       return _proxyImpl.sendMessageWithRequestId(
@@ -315,6 +351,7 @@ class _CalculatorProxyCalls implements Calculator {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<CalculatorMultiplyResponseParams> multiply(double value,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new CalculatorMultiplyParams();
       params.value = value;
       return _proxyImpl.sendMessageWithRequestId(
@@ -356,17 +393,22 @@ class CalculatorProxy implements bindings.ProxyBase {
       new CalculatorProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "CalculatorProxy($impl)";
+  }
 }
 
 
 class CalculatorStub extends bindings.Stub {
-  Calculator _delegate = null;
+  Calculator _impl = null;
 
-  CalculatorStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  CalculatorStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  CalculatorStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  CalculatorStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   CalculatorStub.unbound() : super.unbound();
 
@@ -394,12 +436,12 @@ class CalculatorStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kCalculator_clear_name:
         var params = CalculatorClearParams.deserialize(
             message.payload);
-        return _delegate.clear(_CalculatorClearResponseParamsFactory).then((response) {
+        return _impl.clear(_CalculatorClearResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -412,7 +454,7 @@ class CalculatorStub extends bindings.Stub {
       case kCalculator_add_name:
         var params = CalculatorAddParams.deserialize(
             message.payload);
-        return _delegate.add(params.value,_CalculatorAddResponseParamsFactory).then((response) {
+        return _impl.add(params.value,_CalculatorAddResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -425,7 +467,7 @@ class CalculatorStub extends bindings.Stub {
       case kCalculator_multiply_name:
         var params = CalculatorMultiplyParams.deserialize(
             message.payload);
-        return _delegate.multiply(params.value,_CalculatorMultiplyResponseParamsFactory).then((response) {
+        return _impl.multiply(params.value,_CalculatorMultiplyResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -442,10 +484,15 @@ class CalculatorStub extends bindings.Stub {
     return null;
   }
 
-  Calculator get delegate => _delegate;
-      set delegate(Calculator d) {
-    assert(_delegate == null);
-    _delegate = d;
+  Calculator get impl => _impl;
+      set impl(Calculator d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "CalculatorStub($superString)";
   }
 }
 

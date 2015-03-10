@@ -181,6 +181,28 @@ class EchoArgs extends bindings.Struct {
     
     encoder0.encodeConsumerHandle(dataHandle, 96, true);
   }
+
+  String toString() {
+    return "EchoArgs("
+           "si64: $si64" ", "
+           "si32: $si32" ", "
+           "si16: $si16" ", "
+           "si8: $si8" ", "
+           "ui8: $ui8" ", "
+           "ui64: $ui64" ", "
+           "ui32: $ui32" ", "
+           "ui16: $ui16" ", "
+           "floatVal: $floatVal" ", "
+           "floatInf: $floatInf" ", "
+           "floatNan: $floatNan" ", "
+           "messageHandle: $messageHandle" ", "
+           "doubleVal: $doubleVal" ", "
+           "doubleInf: $doubleInf" ", "
+           "doubleNan: $doubleNan" ", "
+           "name: $name" ", "
+           "stringArray: $stringArray" ", "
+           "dataHandle: $dataHandle" ")";
+  }
 }
 
 class EchoArgsList extends bindings.Struct {
@@ -227,6 +249,12 @@ class EchoArgsList extends bindings.Struct {
     
     encoder0.encodeStruct(item, 16, true);
   }
+
+  String toString() {
+    return "EchoArgsList("
+           "next: $next" ", "
+           "item: $item" ")";
+  }
 }
 
 class CppSideStartTestParams extends bindings.Struct {
@@ -256,6 +284,10 @@ class CppSideStartTestParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "CppSideStartTestParams("")";
   }
 }
 
@@ -287,6 +319,10 @@ class CppSideTestFinishedParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "CppSideTestFinishedParams("")";
+  }
 }
 
 class CppSidePingResponseParams extends bindings.Struct {
@@ -316,6 +352,10 @@ class CppSidePingResponseParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "CppSidePingResponseParams("")";
   }
 }
 
@@ -355,6 +395,11 @@ class CppSideEchoResponseParams extends bindings.Struct {
     
     encoder0.encodeStruct(list, 8, false);
   }
+
+  String toString() {
+    return "CppSideEchoResponseParams("
+           "list: $list" ")";
+  }
 }
 
 class CppSideBitFlipResponseParams extends bindings.Struct {
@@ -392,6 +437,11 @@ class CppSideBitFlipResponseParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeStruct(arg, 8, false);
+  }
+
+  String toString() {
+    return "CppSideBitFlipResponseParams("
+           "arg: $arg" ")";
   }
 }
 
@@ -431,6 +481,11 @@ class CppSideBackPointerResponseParams extends bindings.Struct {
     
     encoder0.encodeStruct(arg, 8, false);
   }
+
+  String toString() {
+    return "CppSideBackPointerResponseParams("
+           "arg: $arg" ")";
+  }
 }
 
 class JsSideSetCppSideParams extends bindings.Struct {
@@ -468,6 +523,11 @@ class JsSideSetCppSideParams extends bindings.Struct {
     
     encoder0.encodeInterface(cpp, 8, false);
   }
+
+  String toString() {
+    return "JsSideSetCppSideParams("
+           "cpp: $cpp" ")";
+  }
 }
 
 class JsSidePingParams extends bindings.Struct {
@@ -497,6 +557,10 @@ class JsSidePingParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "JsSidePingParams("")";
   }
 }
 
@@ -543,6 +607,12 @@ class JsSideEchoParams extends bindings.Struct {
     
     encoder0.encodeStruct(arg, 16, false);
   }
+
+  String toString() {
+    return "JsSideEchoParams("
+           "numIterations: $numIterations" ", "
+           "arg: $arg" ")";
+  }
 }
 
 class JsSideBitFlipParams extends bindings.Struct {
@@ -580,6 +650,11 @@ class JsSideBitFlipParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeStruct(arg, 8, false);
+  }
+
+  String toString() {
+    return "JsSideBitFlipParams("
+           "arg: $arg" ")";
   }
 }
 
@@ -619,6 +694,11 @@ class JsSideBackPointerParams extends bindings.Struct {
     
     encoder0.encodeStruct(arg, 8, false);
   }
+
+  String toString() {
+    return "JsSideBackPointerParams("
+           "arg: $arg" ")";
+  }
 }
 const int kCppSide_startTest_name = 88888888;
 const int kCppSide_testFinished_name = 99999999;
@@ -643,7 +723,7 @@ abstract class CppSide {
 
 class CppSideProxyImpl extends bindings.Proxy {
   CppSideProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   CppSideProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -663,6 +743,11 @@ class CppSideProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "CppSideProxyImpl($superString)";
+  }
 }
 
 
@@ -671,33 +756,39 @@ class _CppSideProxyCalls implements CppSide {
 
   _CppSideProxyCalls(this._proxyImpl);
     void startTest() {
+      assert(_proxyImpl.isBound);
       var params = new CppSideStartTestParams();
       _proxyImpl.sendMessage(params, kCppSide_startTest_name);
     }
   
     void testFinished() {
+      assert(_proxyImpl.isBound);
       var params = new CppSideTestFinishedParams();
       _proxyImpl.sendMessage(params, kCppSide_testFinished_name);
     }
   
     void pingResponse() {
+      assert(_proxyImpl.isBound);
       var params = new CppSidePingResponseParams();
       _proxyImpl.sendMessage(params, kCppSide_pingResponse_name);
     }
   
     void echoResponse(EchoArgsList list) {
+      assert(_proxyImpl.isBound);
       var params = new CppSideEchoResponseParams();
       params.list = list;
       _proxyImpl.sendMessage(params, kCppSide_echoResponse_name);
     }
   
     void bitFlipResponse(EchoArgsList arg) {
+      assert(_proxyImpl.isBound);
       var params = new CppSideBitFlipResponseParams();
       params.arg = arg;
       _proxyImpl.sendMessage(params, kCppSide_bitFlipResponse_name);
     }
   
     void backPointerResponse(EchoArgsList arg) {
+      assert(_proxyImpl.isBound);
       var params = new CppSideBackPointerResponseParams();
       params.arg = arg;
       _proxyImpl.sendMessage(params, kCppSide_backPointerResponse_name);
@@ -736,17 +827,22 @@ class CppSideProxy implements bindings.ProxyBase {
       new CppSideProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "CppSideProxy($impl)";
+  }
 }
 
 
 class CppSideStub extends bindings.Stub {
-  CppSide _delegate = null;
+  CppSide _impl = null;
 
-  CppSideStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  CppSideStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  CppSideStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  CppSideStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   CppSideStub.unbound() : super.unbound();
 
@@ -759,37 +855,37 @@ class CppSideStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kCppSide_startTest_name:
         var params = CppSideStartTestParams.deserialize(
             message.payload);
-        _delegate.startTest();
+        _impl.startTest();
         break;
       case kCppSide_testFinished_name:
         var params = CppSideTestFinishedParams.deserialize(
             message.payload);
-        _delegate.testFinished();
+        _impl.testFinished();
         break;
       case kCppSide_pingResponse_name:
         var params = CppSidePingResponseParams.deserialize(
             message.payload);
-        _delegate.pingResponse();
+        _impl.pingResponse();
         break;
       case kCppSide_echoResponse_name:
         var params = CppSideEchoResponseParams.deserialize(
             message.payload);
-        _delegate.echoResponse(params.list);
+        _impl.echoResponse(params.list);
         break;
       case kCppSide_bitFlipResponse_name:
         var params = CppSideBitFlipResponseParams.deserialize(
             message.payload);
-        _delegate.bitFlipResponse(params.arg);
+        _impl.bitFlipResponse(params.arg);
         break;
       case kCppSide_backPointerResponse_name:
         var params = CppSideBackPointerResponseParams.deserialize(
             message.payload);
-        _delegate.backPointerResponse(params.arg);
+        _impl.backPointerResponse(params.arg);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -798,10 +894,15 @@ class CppSideStub extends bindings.Stub {
     return null;
   }
 
-  CppSide get delegate => _delegate;
-      set delegate(CppSide d) {
-    assert(_delegate == null);
-    _delegate = d;
+  CppSide get impl => _impl;
+      set impl(CppSide d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "CppSideStub($superString)";
   }
 }
 
@@ -826,7 +927,7 @@ abstract class JsSide {
 
 class JsSideProxyImpl extends bindings.Proxy {
   JsSideProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   JsSideProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -846,6 +947,11 @@ class JsSideProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "JsSideProxyImpl($superString)";
+  }
 }
 
 
@@ -854,17 +960,20 @@ class _JsSideProxyCalls implements JsSide {
 
   _JsSideProxyCalls(this._proxyImpl);
     void setCppSide(Object cpp) {
+      assert(_proxyImpl.isBound);
       var params = new JsSideSetCppSideParams();
       params.cpp = cpp;
       _proxyImpl.sendMessage(params, kJsSide_setCppSide_name);
     }
   
     void ping() {
+      assert(_proxyImpl.isBound);
       var params = new JsSidePingParams();
       _proxyImpl.sendMessage(params, kJsSide_ping_name);
     }
   
     void echo(int numIterations, EchoArgs arg) {
+      assert(_proxyImpl.isBound);
       var params = new JsSideEchoParams();
       params.numIterations = numIterations;
       params.arg = arg;
@@ -872,12 +981,14 @@ class _JsSideProxyCalls implements JsSide {
     }
   
     void bitFlip(EchoArgs arg) {
+      assert(_proxyImpl.isBound);
       var params = new JsSideBitFlipParams();
       params.arg = arg;
       _proxyImpl.sendMessage(params, kJsSide_bitFlip_name);
     }
   
     void backPointer(EchoArgs arg) {
+      assert(_proxyImpl.isBound);
       var params = new JsSideBackPointerParams();
       params.arg = arg;
       _proxyImpl.sendMessage(params, kJsSide_backPointer_name);
@@ -916,17 +1027,22 @@ class JsSideProxy implements bindings.ProxyBase {
       new JsSideProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "JsSideProxy($impl)";
+  }
 }
 
 
 class JsSideStub extends bindings.Stub {
-  JsSide _delegate = null;
+  JsSide _impl = null;
 
-  JsSideStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  JsSideStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  JsSideStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  JsSideStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   JsSideStub.unbound() : super.unbound();
 
@@ -939,32 +1055,32 @@ class JsSideStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kJsSide_setCppSide_name:
         var params = JsSideSetCppSideParams.deserialize(
             message.payload);
-        _delegate.setCppSide(params.cpp);
+        _impl.setCppSide(params.cpp);
         break;
       case kJsSide_ping_name:
         var params = JsSidePingParams.deserialize(
             message.payload);
-        _delegate.ping();
+        _impl.ping();
         break;
       case kJsSide_echo_name:
         var params = JsSideEchoParams.deserialize(
             message.payload);
-        _delegate.echo(params.numIterations, params.arg);
+        _impl.echo(params.numIterations, params.arg);
         break;
       case kJsSide_bitFlip_name:
         var params = JsSideBitFlipParams.deserialize(
             message.payload);
-        _delegate.bitFlip(params.arg);
+        _impl.bitFlip(params.arg);
         break;
       case kJsSide_backPointer_name:
         var params = JsSideBackPointerParams.deserialize(
             message.payload);
-        _delegate.backPointer(params.arg);
+        _impl.backPointer(params.arg);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -973,10 +1089,15 @@ class JsSideStub extends bindings.Stub {
     return null;
   }
 
-  JsSide get delegate => _delegate;
-      set delegate(JsSide d) {
-    assert(_delegate == null);
-    _delegate = d;
+  JsSide get impl => _impl;
+      set impl(JsSide d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "JsSideStub($superString)";
   }
 }
 

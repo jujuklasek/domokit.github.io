@@ -53,6 +53,12 @@ class WindowManagerInternalCreateWindowManagerForViewManagerClientParams extends
     
     encoder0.encodeMessagePipeHandle(windowManagerPipe, 12, false);
   }
+
+  String toString() {
+    return "WindowManagerInternalCreateWindowManagerForViewManagerClientParams("
+           "connectionId: $connectionId" ", "
+           "windowManagerPipe: $windowManagerPipe" ")";
+  }
 }
 
 class WindowManagerInternalSetViewManagerClientParams extends bindings.Struct {
@@ -89,6 +95,11 @@ class WindowManagerInternalSetViewManagerClientParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeMessagePipeHandle(viewManagerClientRequest, 8, false);
+  }
+
+  String toString() {
+    return "WindowManagerInternalSetViewManagerClientParams("
+           "viewManagerClientRequest: $viewManagerClientRequest" ")";
   }
 }
 
@@ -135,6 +146,12 @@ class WindowManagerInternalClientDispatchInputEventToViewParams extends bindings
     
     encoder0.encodeStruct(event, 16, false);
   }
+
+  String toString() {
+    return "WindowManagerInternalClientDispatchInputEventToViewParams("
+           "viewId: $viewId" ", "
+           "event: $event" ")";
+  }
 }
 
 class WindowManagerInternalClientSetViewportSizeParams extends bindings.Struct {
@@ -173,6 +190,11 @@ class WindowManagerInternalClientSetViewportSizeParams extends bindings.Struct {
     
     encoder0.encodeStruct(size, 8, false);
   }
+
+  String toString() {
+    return "WindowManagerInternalClientSetViewportSizeParams("
+           "size: $size" ")";
+  }
 }
 
 class WindowManagerInternalClientCloneAndAnimateParams extends bindings.Struct {
@@ -210,6 +232,11 @@ class WindowManagerInternalClientCloneAndAnimateParams extends bindings.Struct {
     
     encoder0.encodeUint32(viewId, 8);
   }
+
+  String toString() {
+    return "WindowManagerInternalClientCloneAndAnimateParams("
+           "viewId: $viewId" ")";
+  }
 }
 const int kWindowManagerInternal_createWindowManagerForViewManagerClient_name = 0;
 const int kWindowManagerInternal_setViewManagerClient_name = 1;
@@ -226,7 +253,7 @@ abstract class WindowManagerInternal {
 
 class WindowManagerInternalProxyImpl extends bindings.Proxy {
   WindowManagerInternalProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   WindowManagerInternalProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -246,6 +273,11 @@ class WindowManagerInternalProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "WindowManagerInternalProxyImpl($superString)";
+  }
 }
 
 
@@ -254,6 +286,7 @@ class _WindowManagerInternalProxyCalls implements WindowManagerInternal {
 
   _WindowManagerInternalProxyCalls(this._proxyImpl);
     void createWindowManagerForViewManagerClient(int connectionId, core.MojoMessagePipeEndpoint windowManagerPipe) {
+      assert(_proxyImpl.isBound);
       var params = new WindowManagerInternalCreateWindowManagerForViewManagerClientParams();
       params.connectionId = connectionId;
       params.windowManagerPipe = windowManagerPipe;
@@ -261,6 +294,7 @@ class _WindowManagerInternalProxyCalls implements WindowManagerInternal {
     }
   
     void setViewManagerClient(core.MojoMessagePipeEndpoint viewManagerClientRequest) {
+      assert(_proxyImpl.isBound);
       var params = new WindowManagerInternalSetViewManagerClientParams();
       params.viewManagerClientRequest = viewManagerClientRequest;
       _proxyImpl.sendMessage(params, kWindowManagerInternal_setViewManagerClient_name);
@@ -299,17 +333,22 @@ class WindowManagerInternalProxy implements bindings.ProxyBase {
       new WindowManagerInternalProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "WindowManagerInternalProxy($impl)";
+  }
 }
 
 
 class WindowManagerInternalStub extends bindings.Stub {
-  WindowManagerInternal _delegate = null;
+  WindowManagerInternal _impl = null;
 
-  WindowManagerInternalStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  WindowManagerInternalStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  WindowManagerInternalStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  WindowManagerInternalStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   WindowManagerInternalStub.unbound() : super.unbound();
 
@@ -322,17 +361,17 @@ class WindowManagerInternalStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kWindowManagerInternal_createWindowManagerForViewManagerClient_name:
         var params = WindowManagerInternalCreateWindowManagerForViewManagerClientParams.deserialize(
             message.payload);
-        _delegate.createWindowManagerForViewManagerClient(params.connectionId, params.windowManagerPipe);
+        _impl.createWindowManagerForViewManagerClient(params.connectionId, params.windowManagerPipe);
         break;
       case kWindowManagerInternal_setViewManagerClient_name:
         var params = WindowManagerInternalSetViewManagerClientParams.deserialize(
             message.payload);
-        _delegate.setViewManagerClient(params.viewManagerClientRequest);
+        _impl.setViewManagerClient(params.viewManagerClientRequest);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -341,10 +380,15 @@ class WindowManagerInternalStub extends bindings.Stub {
     return null;
   }
 
-  WindowManagerInternal get delegate => _delegate;
-      set delegate(WindowManagerInternal d) {
-    assert(_delegate == null);
-    _delegate = d;
+  WindowManagerInternal get impl => _impl;
+      set impl(WindowManagerInternal d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "WindowManagerInternalStub($superString)";
   }
 }
 
@@ -365,7 +409,7 @@ abstract class WindowManagerInternalClient {
 
 class WindowManagerInternalClientProxyImpl extends bindings.Proxy {
   WindowManagerInternalClientProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   WindowManagerInternalClientProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -385,6 +429,11 @@ class WindowManagerInternalClientProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "WindowManagerInternalClientProxyImpl($superString)";
+  }
 }
 
 
@@ -393,6 +442,7 @@ class _WindowManagerInternalClientProxyCalls implements WindowManagerInternalCli
 
   _WindowManagerInternalClientProxyCalls(this._proxyImpl);
     void dispatchInputEventToView(int viewId, input_events_mojom.Event event) {
+      assert(_proxyImpl.isBound);
       var params = new WindowManagerInternalClientDispatchInputEventToViewParams();
       params.viewId = viewId;
       params.event = event;
@@ -400,12 +450,14 @@ class _WindowManagerInternalClientProxyCalls implements WindowManagerInternalCli
     }
   
     void setViewportSize(geometry_mojom.Size size) {
+      assert(_proxyImpl.isBound);
       var params = new WindowManagerInternalClientSetViewportSizeParams();
       params.size = size;
       _proxyImpl.sendMessage(params, kWindowManagerInternalClient_setViewportSize_name);
     }
   
     void cloneAndAnimate(int viewId) {
+      assert(_proxyImpl.isBound);
       var params = new WindowManagerInternalClientCloneAndAnimateParams();
       params.viewId = viewId;
       _proxyImpl.sendMessage(params, kWindowManagerInternalClient_cloneAndAnimate_name);
@@ -444,17 +496,22 @@ class WindowManagerInternalClientProxy implements bindings.ProxyBase {
       new WindowManagerInternalClientProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "WindowManagerInternalClientProxy($impl)";
+  }
 }
 
 
 class WindowManagerInternalClientStub extends bindings.Stub {
-  WindowManagerInternalClient _delegate = null;
+  WindowManagerInternalClient _impl = null;
 
-  WindowManagerInternalClientStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  WindowManagerInternalClientStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  WindowManagerInternalClientStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  WindowManagerInternalClientStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   WindowManagerInternalClientStub.unbound() : super.unbound();
 
@@ -467,22 +524,22 @@ class WindowManagerInternalClientStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kWindowManagerInternalClient_dispatchInputEventToView_name:
         var params = WindowManagerInternalClientDispatchInputEventToViewParams.deserialize(
             message.payload);
-        _delegate.dispatchInputEventToView(params.viewId, params.event);
+        _impl.dispatchInputEventToView(params.viewId, params.event);
         break;
       case kWindowManagerInternalClient_setViewportSize_name:
         var params = WindowManagerInternalClientSetViewportSizeParams.deserialize(
             message.payload);
-        _delegate.setViewportSize(params.size);
+        _impl.setViewportSize(params.size);
         break;
       case kWindowManagerInternalClient_cloneAndAnimate_name:
         var params = WindowManagerInternalClientCloneAndAnimateParams.deserialize(
             message.payload);
-        _delegate.cloneAndAnimate(params.viewId);
+        _impl.cloneAndAnimate(params.viewId);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -491,10 +548,15 @@ class WindowManagerInternalClientStub extends bindings.Stub {
     return null;
   }
 
-  WindowManagerInternalClient get delegate => _delegate;
-      set delegate(WindowManagerInternalClient d) {
-    assert(_delegate == null);
-    _delegate = d;
+  WindowManagerInternalClient get impl => _impl;
+      set impl(WindowManagerInternalClient d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "WindowManagerInternalClientStub($superString)";
   }
 }
 

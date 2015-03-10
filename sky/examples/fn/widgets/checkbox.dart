@@ -6,6 +6,7 @@ class Checkbox extends ButtonBase {
   ValueChanged onChanged;
 
   static Style _style = new Style('''
+    transform: translateX(0);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -53,14 +54,11 @@ class Checkbox extends ButtonBase {
 
   Checkbox({ Object key, this.onChanged, this.checked }) : super(key: key);
 
-  Node render() {
+  Node build() {
     return new Container(
       style: _style,
-      onClick: _handleClick,
-      onPointerDown: _handlePointerDown,
-      onPointerUp: _handlePointerUp,
-      onPointerCancel: _handlePointerCancel,
       children: [
+        super.build(),
         new Container(
           style: _highlight ? _containerHighlightStyle : _containerStyle,
           children: [
@@ -70,7 +68,7 @@ class Checkbox extends ButtonBase {
           ]
         )
       ]
-    );
+    )..events.listen('click', _handleClick);
   }
 
   void _handleClick(sky.Event e) {

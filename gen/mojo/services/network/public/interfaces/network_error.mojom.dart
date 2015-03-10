@@ -51,5 +51,11 @@ class NetworkError extends bindings.Struct {
     
     encoder0.encodeString(description, 16, true);
   }
+
+  String toString() {
+    return "NetworkError("
+           "code: $code" ", "
+           "description: $description" ")";
+  }
 }
 

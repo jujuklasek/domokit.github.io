@@ -37,6 +37,10 @@ class EmbedderHelloWorldParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "EmbedderHelloWorldParams("")";
+  }
 }
 
 class EmbedderHelloWorldResponseParams extends bindings.Struct {
@@ -67,6 +71,10 @@ class EmbedderHelloWorldResponseParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "EmbedderHelloWorldResponseParams("")";
+  }
 }
 const int kEmbedder_helloWorld_name = 0;
 
@@ -81,7 +89,7 @@ abstract class Embedder {
 
 class EmbedderProxyImpl extends bindings.Proxy {
   EmbedderProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   EmbedderProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -111,6 +119,11 @@ class EmbedderProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "EmbedderProxyImpl($superString)";
+  }
 }
 
 
@@ -119,6 +132,7 @@ class _EmbedderProxyCalls implements Embedder {
 
   _EmbedderProxyCalls(this._proxyImpl);
     Future<EmbedderHelloWorldResponseParams> helloWorld([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new EmbedderHelloWorldParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -159,17 +173,22 @@ class EmbedderProxy implements bindings.ProxyBase {
       new EmbedderProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "EmbedderProxy($impl)";
+  }
 }
 
 
 class EmbedderStub extends bindings.Stub {
-  Embedder _delegate = null;
+  Embedder _impl = null;
 
-  EmbedderStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  EmbedderStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  EmbedderStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  EmbedderStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   EmbedderStub.unbound() : super.unbound();
 
@@ -186,12 +205,12 @@ class EmbedderStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kEmbedder_helloWorld_name:
         var params = EmbedderHelloWorldParams.deserialize(
             message.payload);
-        return _delegate.helloWorld(_EmbedderHelloWorldResponseParamsFactory).then((response) {
+        return _impl.helloWorld(_EmbedderHelloWorldResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -208,10 +227,15 @@ class EmbedderStub extends bindings.Stub {
     return null;
   }
 
-  Embedder get delegate => _delegate;
-      set delegate(Embedder d) {
-    assert(_delegate == null);
-    _delegate = d;
+  Embedder get impl => _impl;
+      set impl(Embedder d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "EmbedderStub($superString)";
   }
 }
 

@@ -45,6 +45,11 @@ class IWindowManagerCloseWindowParams extends bindings.Struct {
     
     encoder0.encodeUint32(nodeId, 8);
   }
+
+  String toString() {
+    return "IWindowManagerCloseWindowParams("
+           "nodeId: $nodeId" ")";
+  }
 }
 const int kIWindowManager_closeWindow_name = 0;
 
@@ -59,7 +64,7 @@ abstract class IWindowManager {
 
 class IWindowManagerProxyImpl extends bindings.Proxy {
   IWindowManagerProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   IWindowManagerProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -79,6 +84,11 @@ class IWindowManagerProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "IWindowManagerProxyImpl($superString)";
+  }
 }
 
 
@@ -87,6 +97,7 @@ class _IWindowManagerProxyCalls implements IWindowManager {
 
   _IWindowManagerProxyCalls(this._proxyImpl);
     void closeWindow(int nodeId) {
+      assert(_proxyImpl.isBound);
       var params = new IWindowManagerCloseWindowParams();
       params.nodeId = nodeId;
       _proxyImpl.sendMessage(params, kIWindowManager_closeWindow_name);
@@ -125,17 +136,22 @@ class IWindowManagerProxy implements bindings.ProxyBase {
       new IWindowManagerProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "IWindowManagerProxy($impl)";
+  }
 }
 
 
 class IWindowManagerStub extends bindings.Stub {
-  IWindowManager _delegate = null;
+  IWindowManager _impl = null;
 
-  IWindowManagerStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  IWindowManagerStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  IWindowManagerStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  IWindowManagerStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   IWindowManagerStub.unbound() : super.unbound();
 
@@ -148,12 +164,12 @@ class IWindowManagerStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kIWindowManager_closeWindow_name:
         var params = IWindowManagerCloseWindowParams.deserialize(
             message.payload);
-        _delegate.closeWindow(params.nodeId);
+        _impl.closeWindow(params.nodeId);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -162,10 +178,15 @@ class IWindowManagerStub extends bindings.Stub {
     return null;
   }
 
-  IWindowManager get delegate => _delegate;
-      set delegate(IWindowManager d) {
-    assert(_delegate == null);
-    _delegate = d;
+  IWindowManager get impl => _impl;
+      set impl(IWindowManager d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "IWindowManagerStub($superString)";
   }
 }
 

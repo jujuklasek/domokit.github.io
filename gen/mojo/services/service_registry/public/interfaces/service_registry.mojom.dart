@@ -68,11 +68,17 @@ class ServiceRegistryAddServicesParams extends bindings.Struct {
     
     encoder0.encodeInterface(serviceProvider, 16, false);
   }
+
+  String toString() {
+    return "ServiceRegistryAddServicesParams("
+           "interfaceNames: $interfaceNames" ", "
+           "serviceProvider: $serviceProvider" ")";
+  }
 }
 const int kServiceRegistry_addServices_name = 0;
 
 const String ServiceRegistryName =
-      'service_registry::ServiceRegistry';
+      'mojo::ServiceRegistry';
 
 abstract class ServiceRegistry {
   void addServices(List<String> interfaceNames, Object serviceProvider);
@@ -82,7 +88,7 @@ abstract class ServiceRegistry {
 
 class ServiceRegistryProxyImpl extends bindings.Proxy {
   ServiceRegistryProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   ServiceRegistryProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -102,6 +108,11 @@ class ServiceRegistryProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "ServiceRegistryProxyImpl($superString)";
+  }
 }
 
 
@@ -110,6 +121,7 @@ class _ServiceRegistryProxyCalls implements ServiceRegistry {
 
   _ServiceRegistryProxyCalls(this._proxyImpl);
     void addServices(List<String> interfaceNames, Object serviceProvider) {
+      assert(_proxyImpl.isBound);
       var params = new ServiceRegistryAddServicesParams();
       params.interfaceNames = interfaceNames;
       params.serviceProvider = serviceProvider;
@@ -149,17 +161,22 @@ class ServiceRegistryProxy implements bindings.ProxyBase {
       new ServiceRegistryProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "ServiceRegistryProxy($impl)";
+  }
 }
 
 
 class ServiceRegistryStub extends bindings.Stub {
-  ServiceRegistry _delegate = null;
+  ServiceRegistry _impl = null;
 
-  ServiceRegistryStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  ServiceRegistryStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  ServiceRegistryStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  ServiceRegistryStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   ServiceRegistryStub.unbound() : super.unbound();
 
@@ -172,12 +189,12 @@ class ServiceRegistryStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kServiceRegistry_addServices_name:
         var params = ServiceRegistryAddServicesParams.deserialize(
             message.payload);
-        _delegate.addServices(params.interfaceNames, params.serviceProvider);
+        _impl.addServices(params.interfaceNames, params.serviceProvider);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -186,10 +203,15 @@ class ServiceRegistryStub extends bindings.Stub {
     return null;
   }
 
-  ServiceRegistry get delegate => _delegate;
-      set delegate(ServiceRegistry d) {
-    assert(_delegate == null);
-    _delegate = d;
+  ServiceRegistry get impl => _impl;
+      set impl(ServiceRegistry d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "ServiceRegistryStub($superString)";
   }
 }
 

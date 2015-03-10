@@ -44,6 +44,11 @@ class TestServiceTestParams extends bindings.Struct {
     
     encoder0.encodeString(testString, 8, false);
   }
+
+  String toString() {
+    return "TestServiceTestParams("
+           "testString: $testString" ")";
+  }
 }
 
 class TestServiceTestResponseParams extends bindings.Struct {
@@ -73,6 +78,10 @@ class TestServiceTestResponseParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "TestServiceTestResponseParams("")";
   }
 }
 
@@ -104,6 +113,10 @@ class TestACallBParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "TestACallBParams("")";
+  }
 }
 
 class TestACallCFromBParams extends bindings.Struct {
@@ -133,6 +146,10 @@ class TestACallCFromBParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "TestACallCFromBParams("")";
   }
 }
 
@@ -164,6 +181,10 @@ class TestBBParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "TestBBParams("")";
+  }
 }
 
 class TestBBResponseParams extends bindings.Struct {
@@ -193,6 +214,10 @@ class TestBBResponseParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "TestBBResponseParams("")";
   }
 }
 
@@ -224,6 +249,10 @@ class TestBCallCParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "TestBCallCParams("")";
+  }
 }
 
 class TestBCallCResponseParams extends bindings.Struct {
@@ -253,6 +282,10 @@ class TestBCallCResponseParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "TestBCallCResponseParams("")";
   }
 }
 
@@ -284,6 +317,10 @@ class TestCCParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "TestCCParams("")";
+  }
 }
 
 class TestCCResponseParams extends bindings.Struct {
@@ -314,11 +351,15 @@ class TestCCResponseParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "TestCCResponseParams("")";
+  }
 }
 const int kTestService_test_name = 0;
 
 const String TestServiceName =
-      'mojo::TestService';
+      'mojo::shell::TestService';
 
 abstract class TestService {
   Future<TestServiceTestResponseParams> test(String testString,[Function responseFactory = null]);
@@ -328,7 +369,7 @@ abstract class TestService {
 
 class TestServiceProxyImpl extends bindings.Proxy {
   TestServiceProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   TestServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -358,6 +399,11 @@ class TestServiceProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "TestServiceProxyImpl($superString)";
+  }
 }
 
 
@@ -366,6 +412,7 @@ class _TestServiceProxyCalls implements TestService {
 
   _TestServiceProxyCalls(this._proxyImpl);
     Future<TestServiceTestResponseParams> test(String testString,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new TestServiceTestParams();
       params.testString = testString;
       return _proxyImpl.sendMessageWithRequestId(
@@ -407,17 +454,22 @@ class TestServiceProxy implements bindings.ProxyBase {
       new TestServiceProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "TestServiceProxy($impl)";
+  }
 }
 
 
 class TestServiceStub extends bindings.Stub {
-  TestService _delegate = null;
+  TestService _impl = null;
 
-  TestServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  TestServiceStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  TestServiceStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  TestServiceStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   TestServiceStub.unbound() : super.unbound();
 
@@ -434,12 +486,12 @@ class TestServiceStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kTestService_test_name:
         var params = TestServiceTestParams.deserialize(
             message.payload);
-        return _delegate.test(params.testString,_TestServiceTestResponseParamsFactory).then((response) {
+        return _impl.test(params.testString,_TestServiceTestResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -456,10 +508,15 @@ class TestServiceStub extends bindings.Stub {
     return null;
   }
 
-  TestService get delegate => _delegate;
-      set delegate(TestService d) {
-    assert(_delegate == null);
-    _delegate = d;
+  TestService get impl => _impl;
+      set impl(TestService d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "TestServiceStub($superString)";
   }
 }
 
@@ -467,7 +524,7 @@ const int kTestA_callB_name = 0;
 const int kTestA_callCFromB_name = 1;
 
 const String TestAName =
-      'mojo::TestA';
+      'mojo::shell::TestA';
 
 abstract class TestA {
   void callB();
@@ -478,7 +535,7 @@ abstract class TestA {
 
 class TestAProxyImpl extends bindings.Proxy {
   TestAProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   TestAProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -498,6 +555,11 @@ class TestAProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "TestAProxyImpl($superString)";
+  }
 }
 
 
@@ -506,11 +568,13 @@ class _TestAProxyCalls implements TestA {
 
   _TestAProxyCalls(this._proxyImpl);
     void callB() {
+      assert(_proxyImpl.isBound);
       var params = new TestACallBParams();
       _proxyImpl.sendMessage(params, kTestA_callB_name);
     }
   
     void callCFromB() {
+      assert(_proxyImpl.isBound);
       var params = new TestACallCFromBParams();
       _proxyImpl.sendMessage(params, kTestA_callCFromB_name);
     }
@@ -548,17 +612,22 @@ class TestAProxy implements bindings.ProxyBase {
       new TestAProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "TestAProxy($impl)";
+  }
 }
 
 
 class TestAStub extends bindings.Stub {
-  TestA _delegate = null;
+  TestA _impl = null;
 
-  TestAStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  TestAStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  TestAStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  TestAStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   TestAStub.unbound() : super.unbound();
 
@@ -571,17 +640,17 @@ class TestAStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kTestA_callB_name:
         var params = TestACallBParams.deserialize(
             message.payload);
-        _delegate.callB();
+        _impl.callB();
         break;
       case kTestA_callCFromB_name:
         var params = TestACallCFromBParams.deserialize(
             message.payload);
-        _delegate.callCFromB();
+        _impl.callCFromB();
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -590,10 +659,15 @@ class TestAStub extends bindings.Stub {
     return null;
   }
 
-  TestA get delegate => _delegate;
-      set delegate(TestA d) {
-    assert(_delegate == null);
-    _delegate = d;
+  TestA get impl => _impl;
+      set impl(TestA d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "TestAStub($superString)";
   }
 }
 
@@ -601,7 +675,7 @@ const int kTestB_b_name = 0;
 const int kTestB_callC_name = 1;
 
 const String TestBName =
-      'mojo::TestB';
+      'mojo::shell::TestB';
 
 abstract class TestB {
   Future<TestBBResponseParams> b([Function responseFactory = null]);
@@ -612,7 +686,7 @@ abstract class TestB {
 
 class TestBProxyImpl extends bindings.Proxy {
   TestBProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   TestBProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -652,6 +726,11 @@ class TestBProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "TestBProxyImpl($superString)";
+  }
 }
 
 
@@ -660,6 +739,7 @@ class _TestBProxyCalls implements TestB {
 
   _TestBProxyCalls(this._proxyImpl);
     Future<TestBBResponseParams> b([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new TestBBParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -668,6 +748,7 @@ class _TestBProxyCalls implements TestB {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<TestBCallCResponseParams> callC([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new TestBCallCParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -708,17 +789,22 @@ class TestBProxy implements bindings.ProxyBase {
       new TestBProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "TestBProxy($impl)";
+  }
 }
 
 
 class TestBStub extends bindings.Stub {
-  TestB _delegate = null;
+  TestB _impl = null;
 
-  TestBStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  TestBStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  TestBStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  TestBStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   TestBStub.unbound() : super.unbound();
 
@@ -739,12 +825,12 @@ class TestBStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kTestB_b_name:
         var params = TestBBParams.deserialize(
             message.payload);
-        return _delegate.b(_TestBBResponseParamsFactory).then((response) {
+        return _impl.b(_TestBBResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -757,7 +843,7 @@ class TestBStub extends bindings.Stub {
       case kTestB_callC_name:
         var params = TestBCallCParams.deserialize(
             message.payload);
-        return _delegate.callC(_TestBCallCResponseParamsFactory).then((response) {
+        return _impl.callC(_TestBCallCResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -774,17 +860,22 @@ class TestBStub extends bindings.Stub {
     return null;
   }
 
-  TestB get delegate => _delegate;
-      set delegate(TestB d) {
-    assert(_delegate == null);
-    _delegate = d;
+  TestB get impl => _impl;
+      set impl(TestB d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "TestBStub($superString)";
   }
 }
 
 const int kTestC_c_name = 0;
 
 const String TestCName =
-      'mojo::TestC';
+      'mojo::shell::TestC';
 
 abstract class TestC {
   Future<TestCCResponseParams> c([Function responseFactory = null]);
@@ -794,7 +885,7 @@ abstract class TestC {
 
 class TestCProxyImpl extends bindings.Proxy {
   TestCProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   TestCProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -824,6 +915,11 @@ class TestCProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "TestCProxyImpl($superString)";
+  }
 }
 
 
@@ -832,6 +928,7 @@ class _TestCProxyCalls implements TestC {
 
   _TestCProxyCalls(this._proxyImpl);
     Future<TestCCResponseParams> c([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new TestCCParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -872,17 +969,22 @@ class TestCProxy implements bindings.ProxyBase {
       new TestCProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "TestCProxy($impl)";
+  }
 }
 
 
 class TestCStub extends bindings.Stub {
-  TestC _delegate = null;
+  TestC _impl = null;
 
-  TestCStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  TestCStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  TestCStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  TestCStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   TestCStub.unbound() : super.unbound();
 
@@ -899,12 +1001,12 @@ class TestCStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kTestC_c_name:
         var params = TestCCParams.deserialize(
             message.payload);
-        return _delegate.c(_TestCCResponseParamsFactory).then((response) {
+        return _impl.c(_TestCCResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -921,10 +1023,15 @@ class TestCStub extends bindings.Stub {
     return null;
   }
 
-  TestC get delegate => _delegate;
-      set delegate(TestC d) {
-    assert(_delegate == null);
-    _delegate = d;
+  TestC get impl => _impl;
+      set impl(TestC d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "TestCStub($superString)";
   }
 }
 

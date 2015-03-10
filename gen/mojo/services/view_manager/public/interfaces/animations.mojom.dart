@@ -62,6 +62,12 @@ class AnimationValue extends bindings.Struct {
     
     encoder0.encodeStruct(transform, 16, false);
   }
+
+  String toString() {
+    return "AnimationValue("
+           "floatValue: $floatValue" ", "
+           "transform: $transform" ")";
+  }
 }
 
 class AnimationElement extends bindings.Struct {
@@ -129,6 +135,15 @@ class AnimationElement extends bindings.Struct {
     
     encoder0.encodeStruct(targetValue, 32, true);
   }
+
+  String toString() {
+    return "AnimationElement("
+           "property: $property" ", "
+           "tweenType: $tweenType" ", "
+           "duration: $duration" ", "
+           "startValue: $startValue" ", "
+           "targetValue: $targetValue" ")";
+  }
 }
 
 class AnimationSequence extends bindings.Struct {
@@ -190,6 +205,12 @@ class AnimationSequence extends bindings.Struct {
       }
     }
   }
+
+  String toString() {
+    return "AnimationSequence("
+           "cycleCount: $cycleCount" ", "
+           "elements: $elements" ")";
+  }
 }
 
 class AnimationGroup extends bindings.Struct {
@@ -250,6 +271,12 @@ class AnimationGroup extends bindings.Struct {
         encoder1.encodeStruct(sequences[i0], bindings.ArrayDataHeader.kHeaderSize + bindings.kPointerSize * i0, false);
       }
     }
+  }
+
+  String toString() {
+    return "AnimationGroup("
+           "viewId: $viewId" ", "
+           "sequences: $sequences" ")";
   }
 }
 

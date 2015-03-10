@@ -78,6 +78,13 @@ class ApplicationInitializeParams extends bindings.Struct {
     
     encoder0.encodeString(url, 24, false);
   }
+
+  String toString() {
+    return "ApplicationInitializeParams("
+           "shell: $shell" ", "
+           "args: $args" ", "
+           "url: $url" ")";
+  }
 }
 
 class ApplicationAcceptConnectionParams extends bindings.Struct {
@@ -136,6 +143,14 @@ class ApplicationAcceptConnectionParams extends bindings.Struct {
     
     encoder0.encodeString(resolvedUrl, 24, false);
   }
+
+  String toString() {
+    return "ApplicationAcceptConnectionParams("
+           "requestorUrl: $requestorUrl" ", "
+           "services: $services" ", "
+           "exposedServices: $exposedServices" ", "
+           "resolvedUrl: $resolvedUrl" ")";
+  }
 }
 
 class ApplicationRequestQuitParams extends bindings.Struct {
@@ -166,6 +181,10 @@ class ApplicationRequestQuitParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "ApplicationRequestQuitParams("")";
+  }
 }
 const int kApplication_initialize_name = 0;
 const int kApplication_acceptConnection_name = 1;
@@ -184,7 +203,7 @@ abstract class Application {
 
 class ApplicationProxyImpl extends bindings.Proxy {
   ApplicationProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   ApplicationProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -204,6 +223,11 @@ class ApplicationProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "ApplicationProxyImpl($superString)";
+  }
 }
 
 
@@ -212,6 +236,7 @@ class _ApplicationProxyCalls implements Application {
 
   _ApplicationProxyCalls(this._proxyImpl);
     void initialize(Object shell, List<String> args, String url) {
+      assert(_proxyImpl.isBound);
       var params = new ApplicationInitializeParams();
       params.shell = shell;
       params.args = args;
@@ -220,6 +245,7 @@ class _ApplicationProxyCalls implements Application {
     }
   
     void acceptConnection(String requestorUrl, Object services, Object exposedServices, String resolvedUrl) {
+      assert(_proxyImpl.isBound);
       var params = new ApplicationAcceptConnectionParams();
       params.requestorUrl = requestorUrl;
       params.services = services;
@@ -229,6 +255,7 @@ class _ApplicationProxyCalls implements Application {
     }
   
     void requestQuit() {
+      assert(_proxyImpl.isBound);
       var params = new ApplicationRequestQuitParams();
       _proxyImpl.sendMessage(params, kApplication_requestQuit_name);
     }
@@ -266,17 +293,22 @@ class ApplicationProxy implements bindings.ProxyBase {
       new ApplicationProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "ApplicationProxy($impl)";
+  }
 }
 
 
 class ApplicationStub extends bindings.Stub {
-  Application _delegate = null;
+  Application _impl = null;
 
-  ApplicationStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  ApplicationStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  ApplicationStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  ApplicationStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   ApplicationStub.unbound() : super.unbound();
 
@@ -289,22 +321,22 @@ class ApplicationStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kApplication_initialize_name:
         var params = ApplicationInitializeParams.deserialize(
             message.payload);
-        _delegate.initialize(params.shell, params.args, params.url);
+        _impl.initialize(params.shell, params.args, params.url);
         break;
       case kApplication_acceptConnection_name:
         var params = ApplicationAcceptConnectionParams.deserialize(
             message.payload);
-        _delegate.acceptConnection(params.requestorUrl, params.services, params.exposedServices, params.resolvedUrl);
+        _impl.acceptConnection(params.requestorUrl, params.services, params.exposedServices, params.resolvedUrl);
         break;
       case kApplication_requestQuit_name:
         var params = ApplicationRequestQuitParams.deserialize(
             message.payload);
-        _delegate.requestQuit();
+        _impl.requestQuit();
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -313,10 +345,15 @@ class ApplicationStub extends bindings.Stub {
     return null;
   }
 
-  Application get delegate => _delegate;
-      set delegate(Application d) {
-    assert(_delegate == null);
-    _delegate = d;
+  Application get impl => _impl;
+      set impl(Application d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "ApplicationStub($superString)";
   }
 }
 

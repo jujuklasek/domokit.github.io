@@ -37,6 +37,10 @@ class KeyboardShowParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "KeyboardShowParams("")";
+  }
 }
 
 class KeyboardHideParams extends bindings.Struct {
@@ -67,6 +71,10 @@ class KeyboardHideParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "KeyboardHideParams("")";
+  }
 }
 const int kKeyboard_show_name = 0;
 const int kKeyboard_hide_name = 1;
@@ -83,7 +91,7 @@ abstract class Keyboard {
 
 class KeyboardProxyImpl extends bindings.Proxy {
   KeyboardProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   KeyboardProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -103,6 +111,11 @@ class KeyboardProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "KeyboardProxyImpl($superString)";
+  }
 }
 
 
@@ -111,11 +124,13 @@ class _KeyboardProxyCalls implements Keyboard {
 
   _KeyboardProxyCalls(this._proxyImpl);
     void show() {
+      assert(_proxyImpl.isBound);
       var params = new KeyboardShowParams();
       _proxyImpl.sendMessage(params, kKeyboard_show_name);
     }
   
     void hide() {
+      assert(_proxyImpl.isBound);
       var params = new KeyboardHideParams();
       _proxyImpl.sendMessage(params, kKeyboard_hide_name);
     }
@@ -153,17 +168,22 @@ class KeyboardProxy implements bindings.ProxyBase {
       new KeyboardProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "KeyboardProxy($impl)";
+  }
 }
 
 
 class KeyboardStub extends bindings.Stub {
-  Keyboard _delegate = null;
+  Keyboard _impl = null;
 
-  KeyboardStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  KeyboardStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  KeyboardStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  KeyboardStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   KeyboardStub.unbound() : super.unbound();
 
@@ -176,17 +196,17 @@ class KeyboardStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kKeyboard_show_name:
         var params = KeyboardShowParams.deserialize(
             message.payload);
-        _delegate.show();
+        _impl.show();
         break;
       case kKeyboard_hide_name:
         var params = KeyboardHideParams.deserialize(
             message.payload);
-        _delegate.hide();
+        _impl.hide();
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -195,10 +215,15 @@ class KeyboardStub extends bindings.Stub {
     return null;
   }
 
-  Keyboard get delegate => _delegate;
-      set delegate(Keyboard d) {
-    assert(_delegate == null);
-    _delegate = d;
+  Keyboard get impl => _impl;
+      set impl(Keyboard d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "KeyboardStub($superString)";
   }
 }
 

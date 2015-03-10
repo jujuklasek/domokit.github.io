@@ -152,6 +152,17 @@ class ViewData extends bindings.Struct {
     
     encoder0.encodeStruct(viewportMetrics, 40, false);
   }
+
+  String toString() {
+    return "ViewData("
+           "parentId: $parentId" ", "
+           "viewId: $viewId" ", "
+           "bounds: $bounds" ", "
+           "properties: $properties" ", "
+           "visible: $visible" ", "
+           "drawn: $drawn" ", "
+           "viewportMetrics: $viewportMetrics" ")";
+  }
 }
 
 class ViewManagerServiceCreateViewParams extends bindings.Struct {
@@ -188,6 +199,11 @@ class ViewManagerServiceCreateViewParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeUint32(viewId, 8);
+  }
+
+  String toString() {
+    return "ViewManagerServiceCreateViewParams("
+           "viewId: $viewId" ")";
   }
 }
 
@@ -226,6 +242,11 @@ class ViewManagerServiceCreateViewResponseParams extends bindings.Struct {
     
     encoder0.encodeInt32(errorCode, 8);
   }
+
+  String toString() {
+    return "ViewManagerServiceCreateViewResponseParams("
+           "errorCode: $errorCode" ")";
+  }
 }
 
 class ViewManagerServiceDeleteViewParams extends bindings.Struct {
@@ -263,6 +284,11 @@ class ViewManagerServiceDeleteViewParams extends bindings.Struct {
     
     encoder0.encodeUint32(viewId, 8);
   }
+
+  String toString() {
+    return "ViewManagerServiceDeleteViewParams("
+           "viewId: $viewId" ")";
+  }
 }
 
 class ViewManagerServiceDeleteViewResponseParams extends bindings.Struct {
@@ -299,6 +325,11 @@ class ViewManagerServiceDeleteViewResponseParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeBool(success, 8, 0);
+  }
+
+  String toString() {
+    return "ViewManagerServiceDeleteViewResponseParams("
+           "success: $success" ")";
   }
 }
 
@@ -345,6 +376,12 @@ class ViewManagerServiceSetViewBoundsParams extends bindings.Struct {
     
     encoder0.encodeStruct(bounds, 16, false);
   }
+
+  String toString() {
+    return "ViewManagerServiceSetViewBoundsParams("
+           "viewId: $viewId" ", "
+           "bounds: $bounds" ")";
+  }
 }
 
 class ViewManagerServiceSetViewBoundsResponseParams extends bindings.Struct {
@@ -381,6 +418,11 @@ class ViewManagerServiceSetViewBoundsResponseParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeBool(success, 8, 0);
+  }
+
+  String toString() {
+    return "ViewManagerServiceSetViewBoundsResponseParams("
+           "success: $success" ")";
   }
 }
 
@@ -426,6 +468,12 @@ class ViewManagerServiceSetViewVisibilityParams extends bindings.Struct {
     
     encoder0.encodeBool(visible, 12, 0);
   }
+
+  String toString() {
+    return "ViewManagerServiceSetViewVisibilityParams("
+           "viewId: $viewId" ", "
+           "visible: $visible" ")";
+  }
 }
 
 class ViewManagerServiceSetViewVisibilityResponseParams extends bindings.Struct {
@@ -462,6 +510,11 @@ class ViewManagerServiceSetViewVisibilityResponseParams extends bindings.Struct 
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeBool(success, 8, 0);
+  }
+
+  String toString() {
+    return "ViewManagerServiceSetViewVisibilityResponseParams("
+           "success: $success" ")";
   }
 }
 
@@ -514,6 +567,13 @@ class ViewManagerServiceSetViewPropertyParams extends bindings.Struct {
     
     encoder0.encodeUint8Array(value, 24, bindings.kArrayNullable, bindings.kUnspecifiedArrayLength);
   }
+
+  String toString() {
+    return "ViewManagerServiceSetViewPropertyParams("
+           "viewId: $viewId" ", "
+           "name: $name" ", "
+           "value: $value" ")";
+  }
 }
 
 class ViewManagerServiceSetViewPropertyResponseParams extends bindings.Struct {
@@ -550,6 +610,11 @@ class ViewManagerServiceSetViewPropertyResponseParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeBool(success, 8, 0);
+  }
+
+  String toString() {
+    return "ViewManagerServiceSetViewPropertyResponseParams("
+           "success: $success" ")";
   }
 }
 
@@ -595,6 +660,12 @@ class ViewManagerServiceAddViewParams extends bindings.Struct {
     
     encoder0.encodeUint32(child, 12);
   }
+
+  String toString() {
+    return "ViewManagerServiceAddViewParams("
+           "parent: $parent" ", "
+           "child: $child" ")";
+  }
 }
 
 class ViewManagerServiceAddViewResponseParams extends bindings.Struct {
@@ -631,6 +702,11 @@ class ViewManagerServiceAddViewResponseParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeBool(success, 8, 0);
+  }
+
+  String toString() {
+    return "ViewManagerServiceAddViewResponseParams("
+           "success: $success" ")";
   }
 }
 
@@ -669,6 +745,11 @@ class ViewManagerServiceRemoveViewFromParentParams extends bindings.Struct {
     
     encoder0.encodeUint32(viewId, 8);
   }
+
+  String toString() {
+    return "ViewManagerServiceRemoveViewFromParentParams("
+           "viewId: $viewId" ")";
+  }
 }
 
 class ViewManagerServiceRemoveViewFromParentResponseParams extends bindings.Struct {
@@ -705,6 +786,11 @@ class ViewManagerServiceRemoveViewFromParentResponseParams extends bindings.Stru
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeBool(success, 8, 0);
+  }
+
+  String toString() {
+    return "ViewManagerServiceRemoveViewFromParentResponseParams("
+           "success: $success" ")";
   }
 }
 
@@ -757,6 +843,13 @@ class ViewManagerServiceReorderViewParams extends bindings.Struct {
     
     encoder0.encodeInt32(direction, 16);
   }
+
+  String toString() {
+    return "ViewManagerServiceReorderViewParams("
+           "viewId: $viewId" ", "
+           "relativeViewId: $relativeViewId" ", "
+           "direction: $direction" ")";
+  }
 }
 
 class ViewManagerServiceReorderViewResponseParams extends bindings.Struct {
@@ -794,6 +887,11 @@ class ViewManagerServiceReorderViewResponseParams extends bindings.Struct {
     
     encoder0.encodeBool(success, 8, 0);
   }
+
+  String toString() {
+    return "ViewManagerServiceReorderViewResponseParams("
+           "success: $success" ")";
+  }
 }
 
 class ViewManagerServiceGetViewTreeParams extends bindings.Struct {
@@ -830,6 +928,11 @@ class ViewManagerServiceGetViewTreeParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeUint32(viewId, 8);
+  }
+
+  String toString() {
+    return "ViewManagerServiceGetViewTreeParams("
+           "viewId: $viewId" ")";
   }
 }
 
@@ -885,6 +988,11 @@ class ViewManagerServiceGetViewTreeResponseParams extends bindings.Struct {
       }
     }
   }
+
+  String toString() {
+    return "ViewManagerServiceGetViewTreeResponseParams("
+           "views: $views" ")";
+  }
 }
 
 class ViewManagerServiceSetViewSurfaceIdParams extends bindings.Struct {
@@ -930,6 +1038,12 @@ class ViewManagerServiceSetViewSurfaceIdParams extends bindings.Struct {
     
     encoder0.encodeStruct(surfaceId, 16, false);
   }
+
+  String toString() {
+    return "ViewManagerServiceSetViewSurfaceIdParams("
+           "viewId: $viewId" ", "
+           "surfaceId: $surfaceId" ")";
+  }
 }
 
 class ViewManagerServiceSetViewSurfaceIdResponseParams extends bindings.Struct {
@@ -966,6 +1080,11 @@ class ViewManagerServiceSetViewSurfaceIdResponseParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeBool(success, 8, 0);
+  }
+
+  String toString() {
+    return "ViewManagerServiceSetViewSurfaceIdResponseParams("
+           "success: $success" ")";
   }
 }
 
@@ -1025,6 +1144,14 @@ class ViewManagerServiceEmbedUrlParams extends bindings.Struct {
     
     encoder0.encodeInterface(exposedServices, 24, true);
   }
+
+  String toString() {
+    return "ViewManagerServiceEmbedUrlParams("
+           "url: $url" ", "
+           "viewId: $viewId" ", "
+           "services: $services" ", "
+           "exposedServices: $exposedServices" ")";
+  }
 }
 
 class ViewManagerServiceEmbedUrlResponseParams extends bindings.Struct {
@@ -1061,6 +1188,11 @@ class ViewManagerServiceEmbedUrlResponseParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeBool(success, 8, 0);
+  }
+
+  String toString() {
+    return "ViewManagerServiceEmbedUrlResponseParams("
+           "success: $success" ")";
   }
 }
 
@@ -1106,6 +1238,12 @@ class ViewManagerServiceEmbedParams extends bindings.Struct {
     
     encoder0.encodeInterface(client, 12, false);
   }
+
+  String toString() {
+    return "ViewManagerServiceEmbedParams("
+           "viewId: $viewId" ", "
+           "client: $client" ")";
+  }
 }
 
 class ViewManagerServiceEmbedResponseParams extends bindings.Struct {
@@ -1142,6 +1280,11 @@ class ViewManagerServiceEmbedResponseParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeBool(success, 8, 0);
+  }
+
+  String toString() {
+    return "ViewManagerServiceEmbedResponseParams("
+           "success: $success" ")";
   }
 }
 
@@ -1187,6 +1330,12 @@ class ViewManagerServicePerformActionParams extends bindings.Struct {
     
     encoder0.encodeString(action, 16, false);
   }
+
+  String toString() {
+    return "ViewManagerServicePerformActionParams("
+           "viewId: $viewId" ", "
+           "action: $action" ")";
+  }
 }
 
 class ViewManagerServicePerformActionResponseParams extends bindings.Struct {
@@ -1223,6 +1372,11 @@ class ViewManagerServicePerformActionResponseParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeBool(success, 8, 0);
+  }
+
+  String toString() {
+    return "ViewManagerServicePerformActionResponseParams("
+           "success: $success" ")";
   }
 }
 
@@ -1304,6 +1458,17 @@ class ViewManagerClientOnEmbedParams extends bindings.Struct {
     
     encoder0.encodeMessagePipeHandle(windowManagerPipe, 40, false);
   }
+
+  String toString() {
+    return "ViewManagerClientOnEmbedParams("
+           "connectionId: $connectionId" ", "
+           "viewManagerService: $viewManagerService" ", "
+           "embedderUrl: $embedderUrl" ", "
+           "root: $root" ", "
+           "services: $services" ", "
+           "exposedServices: $exposedServices" ", "
+           "windowManagerPipe: $windowManagerPipe" ")";
+  }
 }
 
 class ViewManagerClientOnEmbeddedAppDisconnectedParams extends bindings.Struct {
@@ -1340,6 +1505,11 @@ class ViewManagerClientOnEmbeddedAppDisconnectedParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeUint32(view, 8);
+  }
+
+  String toString() {
+    return "ViewManagerClientOnEmbeddedAppDisconnectedParams("
+           "view: $view" ")";
   }
 }
 
@@ -1394,6 +1564,13 @@ class ViewManagerClientOnViewBoundsChangedParams extends bindings.Struct {
     
     encoder0.encodeStruct(newBounds, 24, false);
   }
+
+  String toString() {
+    return "ViewManagerClientOnViewBoundsChangedParams("
+           "view: $view" ", "
+           "oldBounds: $oldBounds" ", "
+           "newBounds: $newBounds" ")";
+  }
 }
 
 class ViewManagerClientOnViewViewportMetricsChangedParams extends bindings.Struct {
@@ -1439,6 +1616,12 @@ class ViewManagerClientOnViewViewportMetricsChangedParams extends bindings.Struc
     encoder0.encodeStruct(oldMetrics, 8, false);
     
     encoder0.encodeStruct(newMetrics, 16, false);
+  }
+
+  String toString() {
+    return "ViewManagerClientOnViewViewportMetricsChangedParams("
+           "oldMetrics: $oldMetrics" ", "
+           "newMetrics: $newMetrics" ")";
   }
 }
 
@@ -1515,6 +1698,14 @@ class ViewManagerClientOnViewHierarchyChangedParams extends bindings.Struct {
       }
     }
   }
+
+  String toString() {
+    return "ViewManagerClientOnViewHierarchyChangedParams("
+           "view: $view" ", "
+           "newParent: $newParent" ", "
+           "oldParent: $oldParent" ", "
+           "views: $views" ")";
+  }
 }
 
 class ViewManagerClientOnViewReorderedParams extends bindings.Struct {
@@ -1566,6 +1757,13 @@ class ViewManagerClientOnViewReorderedParams extends bindings.Struct {
     
     encoder0.encodeInt32(direction, 16);
   }
+
+  String toString() {
+    return "ViewManagerClientOnViewReorderedParams("
+           "viewId: $viewId" ", "
+           "relativeViewId: $relativeViewId" ", "
+           "direction: $direction" ")";
+  }
 }
 
 class ViewManagerClientOnViewDeletedParams extends bindings.Struct {
@@ -1602,6 +1800,11 @@ class ViewManagerClientOnViewDeletedParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeUint32(view, 8);
+  }
+
+  String toString() {
+    return "ViewManagerClientOnViewDeletedParams("
+           "view: $view" ")";
   }
 }
 
@@ -1647,6 +1850,12 @@ class ViewManagerClientOnViewVisibilityChangedParams extends bindings.Struct {
     
     encoder0.encodeBool(visible, 12, 0);
   }
+
+  String toString() {
+    return "ViewManagerClientOnViewVisibilityChangedParams("
+           "view: $view" ", "
+           "visible: $visible" ")";
+  }
 }
 
 class ViewManagerClientOnViewDrawnStateChangedParams extends bindings.Struct {
@@ -1690,6 +1899,12 @@ class ViewManagerClientOnViewDrawnStateChangedParams extends bindings.Struct {
     encoder0.encodeUint32(view, 8);
     
     encoder0.encodeBool(drawn, 12, 0);
+  }
+
+  String toString() {
+    return "ViewManagerClientOnViewDrawnStateChangedParams("
+           "view: $view" ", "
+           "drawn: $drawn" ")";
   }
 }
 
@@ -1742,6 +1957,13 @@ class ViewManagerClientOnViewSharedPropertyChangedParams extends bindings.Struct
     
     encoder0.encodeUint8Array(newData, 24, bindings.kArrayNullable, bindings.kUnspecifiedArrayLength);
   }
+
+  String toString() {
+    return "ViewManagerClientOnViewSharedPropertyChangedParams("
+           "view: $view" ", "
+           "name: $name" ", "
+           "newData: $newData" ")";
+  }
 }
 
 class ViewManagerClientOnViewInputEventParams extends bindings.Struct {
@@ -1787,6 +2009,12 @@ class ViewManagerClientOnViewInputEventParams extends bindings.Struct {
     
     encoder0.encodeStruct(event, 16, false);
   }
+
+  String toString() {
+    return "ViewManagerClientOnViewInputEventParams("
+           "view: $view" ", "
+           "event: $event" ")";
+  }
 }
 
 class ViewManagerClientOnViewInputEventResponseParams extends bindings.Struct {
@@ -1816,6 +2044,10 @@ class ViewManagerClientOnViewInputEventResponseParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "ViewManagerClientOnViewInputEventResponseParams("")";
   }
 }
 
@@ -1861,6 +2093,12 @@ class ViewManagerClientOnPerformActionParams extends bindings.Struct {
     
     encoder0.encodeString(action, 16, false);
   }
+
+  String toString() {
+    return "ViewManagerClientOnPerformActionParams("
+           "viewId: $viewId" ", "
+           "action: $action" ")";
+  }
 }
 
 class ViewManagerClientOnPerformActionResponseParams extends bindings.Struct {
@@ -1897,6 +2135,11 @@ class ViewManagerClientOnPerformActionResponseParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeBool(success, 8, 0);
+  }
+
+  String toString() {
+    return "ViewManagerClientOnPerformActionResponseParams("
+           "success: $success" ")";
   }
 }
 const int kViewManagerService_createView_name = 0;
@@ -1936,7 +2179,7 @@ abstract class ViewManagerService {
 
 class ViewManagerServiceProxyImpl extends bindings.Proxy {
   ViewManagerServiceProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   ViewManagerServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -2086,6 +2329,11 @@ class ViewManagerServiceProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "ViewManagerServiceProxyImpl($superString)";
+  }
 }
 
 
@@ -2094,6 +2342,7 @@ class _ViewManagerServiceProxyCalls implements ViewManagerService {
 
   _ViewManagerServiceProxyCalls(this._proxyImpl);
     Future<ViewManagerServiceCreateViewResponseParams> createView(int viewId,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerServiceCreateViewParams();
       params.viewId = viewId;
       return _proxyImpl.sendMessageWithRequestId(
@@ -2103,6 +2352,7 @@ class _ViewManagerServiceProxyCalls implements ViewManagerService {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<ViewManagerServiceDeleteViewResponseParams> deleteView(int viewId,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerServiceDeleteViewParams();
       params.viewId = viewId;
       return _proxyImpl.sendMessageWithRequestId(
@@ -2112,6 +2362,7 @@ class _ViewManagerServiceProxyCalls implements ViewManagerService {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<ViewManagerServiceSetViewBoundsResponseParams> setViewBounds(int viewId,geometry_mojom.Rect bounds,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerServiceSetViewBoundsParams();
       params.viewId = viewId;
       params.bounds = bounds;
@@ -2122,6 +2373,7 @@ class _ViewManagerServiceProxyCalls implements ViewManagerService {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<ViewManagerServiceSetViewVisibilityResponseParams> setViewVisibility(int viewId,bool visible,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerServiceSetViewVisibilityParams();
       params.viewId = viewId;
       params.visible = visible;
@@ -2132,6 +2384,7 @@ class _ViewManagerServiceProxyCalls implements ViewManagerService {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<ViewManagerServiceSetViewPropertyResponseParams> setViewProperty(int viewId,String name,List<int> value,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerServiceSetViewPropertyParams();
       params.viewId = viewId;
       params.name = name;
@@ -2143,6 +2396,7 @@ class _ViewManagerServiceProxyCalls implements ViewManagerService {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<ViewManagerServiceAddViewResponseParams> addView(int parent,int child,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerServiceAddViewParams();
       params.parent = parent;
       params.child = child;
@@ -2153,6 +2407,7 @@ class _ViewManagerServiceProxyCalls implements ViewManagerService {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<ViewManagerServiceRemoveViewFromParentResponseParams> removeViewFromParent(int viewId,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerServiceRemoveViewFromParentParams();
       params.viewId = viewId;
       return _proxyImpl.sendMessageWithRequestId(
@@ -2162,6 +2417,7 @@ class _ViewManagerServiceProxyCalls implements ViewManagerService {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<ViewManagerServiceReorderViewResponseParams> reorderView(int viewId,int relativeViewId,int direction,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerServiceReorderViewParams();
       params.viewId = viewId;
       params.relativeViewId = relativeViewId;
@@ -2173,6 +2429,7 @@ class _ViewManagerServiceProxyCalls implements ViewManagerService {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<ViewManagerServiceGetViewTreeResponseParams> getViewTree(int viewId,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerServiceGetViewTreeParams();
       params.viewId = viewId;
       return _proxyImpl.sendMessageWithRequestId(
@@ -2182,6 +2439,7 @@ class _ViewManagerServiceProxyCalls implements ViewManagerService {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<ViewManagerServiceSetViewSurfaceIdResponseParams> setViewSurfaceId(int viewId,surface_id_mojom.SurfaceId surfaceId,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerServiceSetViewSurfaceIdParams();
       params.viewId = viewId;
       params.surfaceId = surfaceId;
@@ -2192,6 +2450,7 @@ class _ViewManagerServiceProxyCalls implements ViewManagerService {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<ViewManagerServiceEmbedUrlResponseParams> embedUrl(String url,int viewId,Object services,Object exposedServices,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerServiceEmbedUrlParams();
       params.url = url;
       params.viewId = viewId;
@@ -2204,6 +2463,7 @@ class _ViewManagerServiceProxyCalls implements ViewManagerService {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<ViewManagerServiceEmbedResponseParams> embed(int viewId,Object client,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerServiceEmbedParams();
       params.viewId = viewId;
       params.client = client;
@@ -2214,6 +2474,7 @@ class _ViewManagerServiceProxyCalls implements ViewManagerService {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<ViewManagerServicePerformActionResponseParams> performAction(int viewId,String action,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerServicePerformActionParams();
       params.viewId = viewId;
       params.action = action;
@@ -2256,17 +2517,22 @@ class ViewManagerServiceProxy implements bindings.ProxyBase {
       new ViewManagerServiceProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "ViewManagerServiceProxy($impl)";
+  }
 }
 
 
 class ViewManagerServiceStub extends bindings.Stub {
-  ViewManagerService _delegate = null;
+  ViewManagerService _impl = null;
 
-  ViewManagerServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  ViewManagerServiceStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  ViewManagerServiceStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  ViewManagerServiceStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   ViewManagerServiceStub.unbound() : super.unbound();
 
@@ -2344,12 +2610,12 @@ class ViewManagerServiceStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kViewManagerService_createView_name:
         var params = ViewManagerServiceCreateViewParams.deserialize(
             message.payload);
-        return _delegate.createView(params.viewId,_ViewManagerServiceCreateViewResponseParamsFactory).then((response) {
+        return _impl.createView(params.viewId,_ViewManagerServiceCreateViewResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -2362,7 +2628,7 @@ class ViewManagerServiceStub extends bindings.Stub {
       case kViewManagerService_deleteView_name:
         var params = ViewManagerServiceDeleteViewParams.deserialize(
             message.payload);
-        return _delegate.deleteView(params.viewId,_ViewManagerServiceDeleteViewResponseParamsFactory).then((response) {
+        return _impl.deleteView(params.viewId,_ViewManagerServiceDeleteViewResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -2375,7 +2641,7 @@ class ViewManagerServiceStub extends bindings.Stub {
       case kViewManagerService_setViewBounds_name:
         var params = ViewManagerServiceSetViewBoundsParams.deserialize(
             message.payload);
-        return _delegate.setViewBounds(params.viewId,params.bounds,_ViewManagerServiceSetViewBoundsResponseParamsFactory).then((response) {
+        return _impl.setViewBounds(params.viewId,params.bounds,_ViewManagerServiceSetViewBoundsResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -2388,7 +2654,7 @@ class ViewManagerServiceStub extends bindings.Stub {
       case kViewManagerService_setViewVisibility_name:
         var params = ViewManagerServiceSetViewVisibilityParams.deserialize(
             message.payload);
-        return _delegate.setViewVisibility(params.viewId,params.visible,_ViewManagerServiceSetViewVisibilityResponseParamsFactory).then((response) {
+        return _impl.setViewVisibility(params.viewId,params.visible,_ViewManagerServiceSetViewVisibilityResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -2401,7 +2667,7 @@ class ViewManagerServiceStub extends bindings.Stub {
       case kViewManagerService_setViewProperty_name:
         var params = ViewManagerServiceSetViewPropertyParams.deserialize(
             message.payload);
-        return _delegate.setViewProperty(params.viewId,params.name,params.value,_ViewManagerServiceSetViewPropertyResponseParamsFactory).then((response) {
+        return _impl.setViewProperty(params.viewId,params.name,params.value,_ViewManagerServiceSetViewPropertyResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -2414,7 +2680,7 @@ class ViewManagerServiceStub extends bindings.Stub {
       case kViewManagerService_addView_name:
         var params = ViewManagerServiceAddViewParams.deserialize(
             message.payload);
-        return _delegate.addView(params.parent,params.child,_ViewManagerServiceAddViewResponseParamsFactory).then((response) {
+        return _impl.addView(params.parent,params.child,_ViewManagerServiceAddViewResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -2427,7 +2693,7 @@ class ViewManagerServiceStub extends bindings.Stub {
       case kViewManagerService_removeViewFromParent_name:
         var params = ViewManagerServiceRemoveViewFromParentParams.deserialize(
             message.payload);
-        return _delegate.removeViewFromParent(params.viewId,_ViewManagerServiceRemoveViewFromParentResponseParamsFactory).then((response) {
+        return _impl.removeViewFromParent(params.viewId,_ViewManagerServiceRemoveViewFromParentResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -2440,7 +2706,7 @@ class ViewManagerServiceStub extends bindings.Stub {
       case kViewManagerService_reorderView_name:
         var params = ViewManagerServiceReorderViewParams.deserialize(
             message.payload);
-        return _delegate.reorderView(params.viewId,params.relativeViewId,params.direction,_ViewManagerServiceReorderViewResponseParamsFactory).then((response) {
+        return _impl.reorderView(params.viewId,params.relativeViewId,params.direction,_ViewManagerServiceReorderViewResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -2453,7 +2719,7 @@ class ViewManagerServiceStub extends bindings.Stub {
       case kViewManagerService_getViewTree_name:
         var params = ViewManagerServiceGetViewTreeParams.deserialize(
             message.payload);
-        return _delegate.getViewTree(params.viewId,_ViewManagerServiceGetViewTreeResponseParamsFactory).then((response) {
+        return _impl.getViewTree(params.viewId,_ViewManagerServiceGetViewTreeResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -2466,7 +2732,7 @@ class ViewManagerServiceStub extends bindings.Stub {
       case kViewManagerService_setViewSurfaceId_name:
         var params = ViewManagerServiceSetViewSurfaceIdParams.deserialize(
             message.payload);
-        return _delegate.setViewSurfaceId(params.viewId,params.surfaceId,_ViewManagerServiceSetViewSurfaceIdResponseParamsFactory).then((response) {
+        return _impl.setViewSurfaceId(params.viewId,params.surfaceId,_ViewManagerServiceSetViewSurfaceIdResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -2479,7 +2745,7 @@ class ViewManagerServiceStub extends bindings.Stub {
       case kViewManagerService_embedUrl_name:
         var params = ViewManagerServiceEmbedUrlParams.deserialize(
             message.payload);
-        return _delegate.embedUrl(params.url,params.viewId,params.services,params.exposedServices,_ViewManagerServiceEmbedUrlResponseParamsFactory).then((response) {
+        return _impl.embedUrl(params.url,params.viewId,params.services,params.exposedServices,_ViewManagerServiceEmbedUrlResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -2492,7 +2758,7 @@ class ViewManagerServiceStub extends bindings.Stub {
       case kViewManagerService_embed_name:
         var params = ViewManagerServiceEmbedParams.deserialize(
             message.payload);
-        return _delegate.embed(params.viewId,params.client,_ViewManagerServiceEmbedResponseParamsFactory).then((response) {
+        return _impl.embed(params.viewId,params.client,_ViewManagerServiceEmbedResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -2505,7 +2771,7 @@ class ViewManagerServiceStub extends bindings.Stub {
       case kViewManagerService_performAction_name:
         var params = ViewManagerServicePerformActionParams.deserialize(
             message.payload);
-        return _delegate.performAction(params.viewId,params.action,_ViewManagerServicePerformActionResponseParamsFactory).then((response) {
+        return _impl.performAction(params.viewId,params.action,_ViewManagerServicePerformActionResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -2522,10 +2788,15 @@ class ViewManagerServiceStub extends bindings.Stub {
     return null;
   }
 
-  ViewManagerService get delegate => _delegate;
-      set delegate(ViewManagerService d) {
-    assert(_delegate == null);
-    _delegate = d;
+  ViewManagerService get impl => _impl;
+      set impl(ViewManagerService d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "ViewManagerServiceStub($superString)";
   }
 }
 
@@ -2564,7 +2835,7 @@ abstract class ViewManagerClient {
 
 class ViewManagerClientProxyImpl extends bindings.Proxy {
   ViewManagerClientProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   ViewManagerClientProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -2604,6 +2875,11 @@ class ViewManagerClientProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "ViewManagerClientProxyImpl($superString)";
+  }
 }
 
 
@@ -2612,6 +2888,7 @@ class _ViewManagerClientProxyCalls implements ViewManagerClient {
 
   _ViewManagerClientProxyCalls(this._proxyImpl);
     void onEmbed(int connectionId, String embedderUrl, ViewData root, Object viewManagerService, Object services, Object exposedServices, core.MojoMessagePipeEndpoint windowManagerPipe) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerClientOnEmbedParams();
       params.connectionId = connectionId;
       params.embedderUrl = embedderUrl;
@@ -2624,12 +2901,14 @@ class _ViewManagerClientProxyCalls implements ViewManagerClient {
     }
   
     void onEmbeddedAppDisconnected(int view) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerClientOnEmbeddedAppDisconnectedParams();
       params.view = view;
       _proxyImpl.sendMessage(params, kViewManagerClient_onEmbeddedAppDisconnected_name);
     }
   
     void onViewBoundsChanged(int view, geometry_mojom.Rect oldBounds, geometry_mojom.Rect newBounds) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerClientOnViewBoundsChangedParams();
       params.view = view;
       params.oldBounds = oldBounds;
@@ -2638,6 +2917,7 @@ class _ViewManagerClientProxyCalls implements ViewManagerClient {
     }
   
     void onViewViewportMetricsChanged(native_viewport_mojom.ViewportMetrics oldMetrics, native_viewport_mojom.ViewportMetrics newMetrics) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerClientOnViewViewportMetricsChangedParams();
       params.oldMetrics = oldMetrics;
       params.newMetrics = newMetrics;
@@ -2645,6 +2925,7 @@ class _ViewManagerClientProxyCalls implements ViewManagerClient {
     }
   
     void onViewHierarchyChanged(int view, int newParent, int oldParent, List<ViewData> views) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerClientOnViewHierarchyChangedParams();
       params.view = view;
       params.newParent = newParent;
@@ -2654,6 +2935,7 @@ class _ViewManagerClientProxyCalls implements ViewManagerClient {
     }
   
     void onViewReordered(int viewId, int relativeViewId, int direction) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerClientOnViewReorderedParams();
       params.viewId = viewId;
       params.relativeViewId = relativeViewId;
@@ -2662,12 +2944,14 @@ class _ViewManagerClientProxyCalls implements ViewManagerClient {
     }
   
     void onViewDeleted(int view) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerClientOnViewDeletedParams();
       params.view = view;
       _proxyImpl.sendMessage(params, kViewManagerClient_onViewDeleted_name);
     }
   
     void onViewVisibilityChanged(int view, bool visible) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerClientOnViewVisibilityChangedParams();
       params.view = view;
       params.visible = visible;
@@ -2675,6 +2959,7 @@ class _ViewManagerClientProxyCalls implements ViewManagerClient {
     }
   
     void onViewDrawnStateChanged(int view, bool drawn) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerClientOnViewDrawnStateChangedParams();
       params.view = view;
       params.drawn = drawn;
@@ -2682,6 +2967,7 @@ class _ViewManagerClientProxyCalls implements ViewManagerClient {
     }
   
     void onViewSharedPropertyChanged(int view, String name, List<int> newData) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerClientOnViewSharedPropertyChangedParams();
       params.view = view;
       params.name = name;
@@ -2690,6 +2976,7 @@ class _ViewManagerClientProxyCalls implements ViewManagerClient {
     }
   
     Future<ViewManagerClientOnViewInputEventResponseParams> onViewInputEvent(int view,input_events_mojom.Event event,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerClientOnViewInputEventParams();
       params.view = view;
       params.event = event;
@@ -2700,6 +2987,7 @@ class _ViewManagerClientProxyCalls implements ViewManagerClient {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<ViewManagerClientOnPerformActionResponseParams> onPerformAction(int viewId,String action,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ViewManagerClientOnPerformActionParams();
       params.viewId = viewId;
       params.action = action;
@@ -2742,17 +3030,22 @@ class ViewManagerClientProxy implements bindings.ProxyBase {
       new ViewManagerClientProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "ViewManagerClientProxy($impl)";
+  }
 }
 
 
 class ViewManagerClientStub extends bindings.Stub {
-  ViewManagerClient _delegate = null;
+  ViewManagerClient _impl = null;
 
-  ViewManagerClientStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  ViewManagerClientStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  ViewManagerClientStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  ViewManagerClientStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   ViewManagerClientStub.unbound() : super.unbound();
 
@@ -2774,62 +3067,62 @@ class ViewManagerClientStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kViewManagerClient_onEmbed_name:
         var params = ViewManagerClientOnEmbedParams.deserialize(
             message.payload);
-        _delegate.onEmbed(params.connectionId, params.embedderUrl, params.root, params.viewManagerService, params.services, params.exposedServices, params.windowManagerPipe);
+        _impl.onEmbed(params.connectionId, params.embedderUrl, params.root, params.viewManagerService, params.services, params.exposedServices, params.windowManagerPipe);
         break;
       case kViewManagerClient_onEmbeddedAppDisconnected_name:
         var params = ViewManagerClientOnEmbeddedAppDisconnectedParams.deserialize(
             message.payload);
-        _delegate.onEmbeddedAppDisconnected(params.view);
+        _impl.onEmbeddedAppDisconnected(params.view);
         break;
       case kViewManagerClient_onViewBoundsChanged_name:
         var params = ViewManagerClientOnViewBoundsChangedParams.deserialize(
             message.payload);
-        _delegate.onViewBoundsChanged(params.view, params.oldBounds, params.newBounds);
+        _impl.onViewBoundsChanged(params.view, params.oldBounds, params.newBounds);
         break;
       case kViewManagerClient_onViewViewportMetricsChanged_name:
         var params = ViewManagerClientOnViewViewportMetricsChangedParams.deserialize(
             message.payload);
-        _delegate.onViewViewportMetricsChanged(params.oldMetrics, params.newMetrics);
+        _impl.onViewViewportMetricsChanged(params.oldMetrics, params.newMetrics);
         break;
       case kViewManagerClient_onViewHierarchyChanged_name:
         var params = ViewManagerClientOnViewHierarchyChangedParams.deserialize(
             message.payload);
-        _delegate.onViewHierarchyChanged(params.view, params.newParent, params.oldParent, params.views);
+        _impl.onViewHierarchyChanged(params.view, params.newParent, params.oldParent, params.views);
         break;
       case kViewManagerClient_onViewReordered_name:
         var params = ViewManagerClientOnViewReorderedParams.deserialize(
             message.payload);
-        _delegate.onViewReordered(params.viewId, params.relativeViewId, params.direction);
+        _impl.onViewReordered(params.viewId, params.relativeViewId, params.direction);
         break;
       case kViewManagerClient_onViewDeleted_name:
         var params = ViewManagerClientOnViewDeletedParams.deserialize(
             message.payload);
-        _delegate.onViewDeleted(params.view);
+        _impl.onViewDeleted(params.view);
         break;
       case kViewManagerClient_onViewVisibilityChanged_name:
         var params = ViewManagerClientOnViewVisibilityChangedParams.deserialize(
             message.payload);
-        _delegate.onViewVisibilityChanged(params.view, params.visible);
+        _impl.onViewVisibilityChanged(params.view, params.visible);
         break;
       case kViewManagerClient_onViewDrawnStateChanged_name:
         var params = ViewManagerClientOnViewDrawnStateChangedParams.deserialize(
             message.payload);
-        _delegate.onViewDrawnStateChanged(params.view, params.drawn);
+        _impl.onViewDrawnStateChanged(params.view, params.drawn);
         break;
       case kViewManagerClient_onViewSharedPropertyChanged_name:
         var params = ViewManagerClientOnViewSharedPropertyChangedParams.deserialize(
             message.payload);
-        _delegate.onViewSharedPropertyChanged(params.view, params.name, params.newData);
+        _impl.onViewSharedPropertyChanged(params.view, params.name, params.newData);
         break;
       case kViewManagerClient_onViewInputEvent_name:
         var params = ViewManagerClientOnViewInputEventParams.deserialize(
             message.payload);
-        return _delegate.onViewInputEvent(params.view,params.event,_ViewManagerClientOnViewInputEventResponseParamsFactory).then((response) {
+        return _impl.onViewInputEvent(params.view,params.event,_ViewManagerClientOnViewInputEventResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -2842,7 +3135,7 @@ class ViewManagerClientStub extends bindings.Stub {
       case kViewManagerClient_onPerformAction_name:
         var params = ViewManagerClientOnPerformActionParams.deserialize(
             message.payload);
-        return _delegate.onPerformAction(params.viewId,params.action,_ViewManagerClientOnPerformActionResponseParamsFactory).then((response) {
+        return _impl.onPerformAction(params.viewId,params.action,_ViewManagerClientOnPerformActionResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -2859,10 +3152,15 @@ class ViewManagerClientStub extends bindings.Stub {
     return null;
   }
 
-  ViewManagerClient get delegate => _delegate;
-      set delegate(ViewManagerClient d) {
-    assert(_delegate == null);
-    _delegate = d;
+  ViewManagerClient get impl => _impl;
+      set impl(ViewManagerClient d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "ViewManagerClientStub($superString)";
   }
 }
 

@@ -37,6 +37,10 @@ class WindowFrameHostActivateWindowParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "WindowFrameHostActivateWindowParams("")";
+  }
 }
 
 class WindowFrameHostCloseWindowParams extends bindings.Struct {
@@ -66,6 +70,10 @@ class WindowFrameHostCloseWindowParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "WindowFrameHostCloseWindowParams("")";
   }
 }
 
@@ -104,6 +112,11 @@ class WindowFrameHostSetCaptureParams extends bindings.Struct {
     
     encoder0.encodeBool(frameHasCapture, 8, 0);
   }
+
+  String toString() {
+    return "WindowFrameHostSetCaptureParams("
+           "frameHasCapture: $frameHasCapture" ")";
+  }
 }
 
 class WindowFrameHostToggleMaximizeParams extends bindings.Struct {
@@ -134,6 +147,10 @@ class WindowFrameHostToggleMaximizeParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "WindowFrameHostToggleMaximizeParams("")";
+  }
 }
 const int kWindowFrameHost_activateWindow_name = 0;
 const int kWindowFrameHost_closeWindow_name = 1;
@@ -154,7 +171,7 @@ abstract class WindowFrameHost {
 
 class WindowFrameHostProxyImpl extends bindings.Proxy {
   WindowFrameHostProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   WindowFrameHostProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -174,6 +191,11 @@ class WindowFrameHostProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "WindowFrameHostProxyImpl($superString)";
+  }
 }
 
 
@@ -182,22 +204,26 @@ class _WindowFrameHostProxyCalls implements WindowFrameHost {
 
   _WindowFrameHostProxyCalls(this._proxyImpl);
     void activateWindow() {
+      assert(_proxyImpl.isBound);
       var params = new WindowFrameHostActivateWindowParams();
       _proxyImpl.sendMessage(params, kWindowFrameHost_activateWindow_name);
     }
   
     void closeWindow() {
+      assert(_proxyImpl.isBound);
       var params = new WindowFrameHostCloseWindowParams();
       _proxyImpl.sendMessage(params, kWindowFrameHost_closeWindow_name);
     }
   
     void setCapture(bool frameHasCapture) {
+      assert(_proxyImpl.isBound);
       var params = new WindowFrameHostSetCaptureParams();
       params.frameHasCapture = frameHasCapture;
       _proxyImpl.sendMessage(params, kWindowFrameHost_setCapture_name);
     }
   
     void toggleMaximize() {
+      assert(_proxyImpl.isBound);
       var params = new WindowFrameHostToggleMaximizeParams();
       _proxyImpl.sendMessage(params, kWindowFrameHost_toggleMaximize_name);
     }
@@ -235,17 +261,22 @@ class WindowFrameHostProxy implements bindings.ProxyBase {
       new WindowFrameHostProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "WindowFrameHostProxy($impl)";
+  }
 }
 
 
 class WindowFrameHostStub extends bindings.Stub {
-  WindowFrameHost _delegate = null;
+  WindowFrameHost _impl = null;
 
-  WindowFrameHostStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  WindowFrameHostStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  WindowFrameHostStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  WindowFrameHostStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   WindowFrameHostStub.unbound() : super.unbound();
 
@@ -258,27 +289,27 @@ class WindowFrameHostStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kWindowFrameHost_activateWindow_name:
         var params = WindowFrameHostActivateWindowParams.deserialize(
             message.payload);
-        _delegate.activateWindow();
+        _impl.activateWindow();
         break;
       case kWindowFrameHost_closeWindow_name:
         var params = WindowFrameHostCloseWindowParams.deserialize(
             message.payload);
-        _delegate.closeWindow();
+        _impl.closeWindow();
         break;
       case kWindowFrameHost_setCapture_name:
         var params = WindowFrameHostSetCaptureParams.deserialize(
             message.payload);
-        _delegate.setCapture(params.frameHasCapture);
+        _impl.setCapture(params.frameHasCapture);
         break;
       case kWindowFrameHost_toggleMaximize_name:
         var params = WindowFrameHostToggleMaximizeParams.deserialize(
             message.payload);
-        _delegate.toggleMaximize();
+        _impl.toggleMaximize();
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -287,10 +318,15 @@ class WindowFrameHostStub extends bindings.Stub {
     return null;
   }
 
-  WindowFrameHost get delegate => _delegate;
-      set delegate(WindowFrameHost d) {
-    assert(_delegate == null);
-    _delegate = d;
+  WindowFrameHost get impl => _impl;
+      set impl(WindowFrameHost d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "WindowFrameHostStub($superString)";
   }
 }
 

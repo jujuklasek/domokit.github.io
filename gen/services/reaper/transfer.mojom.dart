@@ -51,6 +51,12 @@ class TransferCompleteParams extends bindings.Struct {
     
     encoder0.encodeUint32(node, 16);
   }
+
+  String toString() {
+    return "TransferCompleteParams("
+           "applicationSecret: $applicationSecret" ", "
+           "node: $node" ")";
+  }
 }
 
 class TransferPingParams extends bindings.Struct {
@@ -80,6 +86,10 @@ class TransferPingParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "TransferPingParams("")";
   }
 }
 
@@ -111,6 +121,10 @@ class TransferPingResponseParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "TransferPingResponseParams("")";
+  }
 }
 const int kTransfer_complete_name = 0;
 const int kTransfer_ping_name = 1;
@@ -127,7 +141,7 @@ abstract class Transfer {
 
 class TransferProxyImpl extends bindings.Proxy {
   TransferProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   TransferProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -157,6 +171,11 @@ class TransferProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "TransferProxyImpl($superString)";
+  }
 }
 
 
@@ -165,6 +184,7 @@ class _TransferProxyCalls implements Transfer {
 
   _TransferProxyCalls(this._proxyImpl);
     void complete(int applicationSecret, int node) {
+      assert(_proxyImpl.isBound);
       var params = new TransferCompleteParams();
       params.applicationSecret = applicationSecret;
       params.node = node;
@@ -172,6 +192,7 @@ class _TransferProxyCalls implements Transfer {
     }
   
     Future<TransferPingResponseParams> ping([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new TransferPingParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -212,17 +233,22 @@ class TransferProxy implements bindings.ProxyBase {
       new TransferProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "TransferProxy($impl)";
+  }
 }
 
 
 class TransferStub extends bindings.Stub {
-  Transfer _delegate = null;
+  Transfer _impl = null;
 
-  TransferStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  TransferStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  TransferStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  TransferStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   TransferStub.unbound() : super.unbound();
 
@@ -239,17 +265,17 @@ class TransferStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kTransfer_complete_name:
         var params = TransferCompleteParams.deserialize(
             message.payload);
-        _delegate.complete(params.applicationSecret, params.node);
+        _impl.complete(params.applicationSecret, params.node);
         break;
       case kTransfer_ping_name:
         var params = TransferPingParams.deserialize(
             message.payload);
-        return _delegate.ping(_TransferPingResponseParamsFactory).then((response) {
+        return _impl.ping(_TransferPingResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -266,10 +292,15 @@ class TransferStub extends bindings.Stub {
     return null;
   }
 
-  Transfer get delegate => _delegate;
-      set delegate(Transfer d) {
-    assert(_delegate == null);
-    _delegate = d;
+  Transfer get impl => _impl;
+      set impl(Transfer d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "TransferStub($superString)";
   }
 }
 

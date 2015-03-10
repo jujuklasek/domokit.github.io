@@ -59,6 +59,13 @@ class AppChildControllerStartAppParams extends bindings.Struct {
     
     encoder0.encodeInterfaceRequest(applicationRequest, 20, false);
   }
+
+  String toString() {
+    return "AppChildControllerStartAppParams("
+           "appPath: $appPath" ", "
+           "cleanAppPath: $cleanAppPath" ", "
+           "applicationRequest: $applicationRequest" ")";
+  }
 }
 
 class AppChildControllerStartAppResponseParams extends bindings.Struct {
@@ -96,6 +103,11 @@ class AppChildControllerStartAppResponseParams extends bindings.Struct {
     
     encoder0.encodeInt32(result, 8);
   }
+
+  String toString() {
+    return "AppChildControllerStartAppResponseParams("
+           "result: $result" ")";
+  }
 }
 const int kAppChildController_startApp_name = 0;
 
@@ -110,7 +122,7 @@ abstract class AppChildController {
 
 class AppChildControllerProxyImpl extends bindings.Proxy {
   AppChildControllerProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   AppChildControllerProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -140,6 +152,11 @@ class AppChildControllerProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "AppChildControllerProxyImpl($superString)";
+  }
 }
 
 
@@ -148,6 +165,7 @@ class _AppChildControllerProxyCalls implements AppChildController {
 
   _AppChildControllerProxyCalls(this._proxyImpl);
     Future<AppChildControllerStartAppResponseParams> startApp(String appPath,bool cleanAppPath,Object applicationRequest,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new AppChildControllerStartAppParams();
       params.appPath = appPath;
       params.cleanAppPath = cleanAppPath;
@@ -191,17 +209,22 @@ class AppChildControllerProxy implements bindings.ProxyBase {
       new AppChildControllerProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "AppChildControllerProxy($impl)";
+  }
 }
 
 
 class AppChildControllerStub extends bindings.Stub {
-  AppChildController _delegate = null;
+  AppChildController _impl = null;
 
-  AppChildControllerStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  AppChildControllerStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  AppChildControllerStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  AppChildControllerStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   AppChildControllerStub.unbound() : super.unbound();
 
@@ -219,12 +242,12 @@ class AppChildControllerStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kAppChildController_startApp_name:
         var params = AppChildControllerStartAppParams.deserialize(
             message.payload);
-        return _delegate.startApp(params.appPath,params.cleanAppPath,params.applicationRequest,_AppChildControllerStartAppResponseParamsFactory).then((response) {
+        return _impl.startApp(params.appPath,params.cleanAppPath,params.applicationRequest,_AppChildControllerStartAppResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -241,10 +264,15 @@ class AppChildControllerStub extends bindings.Stub {
     return null;
   }
 
-  AppChildController get delegate => _delegate;
-      set delegate(AppChildController d) {
-    assert(_delegate == null);
-    _delegate = d;
+  AppChildController get impl => _impl;
+      set impl(AppChildController d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "AppChildControllerStub($superString)";
   }
 }
 

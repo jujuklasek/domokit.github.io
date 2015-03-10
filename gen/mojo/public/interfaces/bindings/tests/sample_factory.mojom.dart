@@ -66,6 +66,14 @@ class Request extends bindings.Struct {
     
     encoder0.encodeInterface(obj, 24, true);
   }
+
+  String toString() {
+    return "Request("
+           "x: $x" ", "
+           "pipe: $pipe" ", "
+           "morePipes: $morePipes" ", "
+           "obj: $obj" ")";
+  }
 }
 
 class Response extends bindings.Struct {
@@ -110,6 +118,12 @@ class Response extends bindings.Struct {
     
     encoder0.encodeMessagePipeHandle(pipe, 12, true);
   }
+
+  String toString() {
+    return "Response("
+           "x: $x" ", "
+           "pipe: $pipe" ")";
+  }
 }
 
 class NamedObjectSetNameParams extends bindings.Struct {
@@ -147,6 +161,11 @@ class NamedObjectSetNameParams extends bindings.Struct {
     
     encoder0.encodeString(name, 8, false);
   }
+
+  String toString() {
+    return "NamedObjectSetNameParams("
+           "name: $name" ")";
+  }
 }
 
 class NamedObjectGetNameParams extends bindings.Struct {
@@ -176,6 +195,10 @@ class NamedObjectGetNameParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "NamedObjectGetNameParams("")";
   }
 }
 
@@ -213,6 +236,11 @@ class NamedObjectGetNameResponseParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeString(name, 8, false);
+  }
+
+  String toString() {
+    return "NamedObjectGetNameResponseParams("
+           "name: $name" ")";
   }
 }
 
@@ -259,6 +287,12 @@ class FactoryDoStuffParams extends bindings.Struct {
     
     encoder0.encodeMessagePipeHandle(pipe, 16, true);
   }
+
+  String toString() {
+    return "FactoryDoStuffParams("
+           "request: $request" ", "
+           "pipe: $pipe" ")";
+  }
 }
 
 class FactoryDoStuffResponseParams extends bindings.Struct {
@@ -304,6 +338,12 @@ class FactoryDoStuffResponseParams extends bindings.Struct {
     
     encoder0.encodeString(text, 16, false);
   }
+
+  String toString() {
+    return "FactoryDoStuffResponseParams("
+           "response: $response" ", "
+           "text: $text" ")";
+  }
 }
 
 class FactoryDoStuff2Params extends bindings.Struct {
@@ -340,6 +380,11 @@ class FactoryDoStuff2Params extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeConsumerHandle(pipe, 8, false);
+  }
+
+  String toString() {
+    return "FactoryDoStuff2Params("
+           "pipe: $pipe" ")";
   }
 }
 
@@ -378,6 +423,11 @@ class FactoryDoStuff2ResponseParams extends bindings.Struct {
     
     encoder0.encodeString(text, 8, false);
   }
+
+  String toString() {
+    return "FactoryDoStuff2ResponseParams("
+           "text: $text" ")";
+  }
 }
 
 class FactoryCreateNamedObjectParams extends bindings.Struct {
@@ -414,6 +464,11 @@ class FactoryCreateNamedObjectParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeInterfaceRequest(obj, 8, false);
+  }
+
+  String toString() {
+    return "FactoryCreateNamedObjectParams("
+           "obj: $obj" ")";
   }
 }
 
@@ -452,6 +507,11 @@ class FactoryRequestImportedInterfaceParams extends bindings.Struct {
     
     encoder0.encodeInterfaceRequest(obj, 8, false);
   }
+
+  String toString() {
+    return "FactoryRequestImportedInterfaceParams("
+           "obj: $obj" ")";
+  }
 }
 
 class FactoryRequestImportedInterfaceResponseParams extends bindings.Struct {
@@ -488,6 +548,11 @@ class FactoryRequestImportedInterfaceResponseParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeInterfaceRequest(obj, 8, false);
+  }
+
+  String toString() {
+    return "FactoryRequestImportedInterfaceResponseParams("
+           "obj: $obj" ")";
   }
 }
 
@@ -526,6 +591,11 @@ class FactoryTakeImportedInterfaceParams extends bindings.Struct {
     
     encoder0.encodeInterface(obj, 8, false);
   }
+
+  String toString() {
+    return "FactoryTakeImportedInterfaceParams("
+           "obj: $obj" ")";
+  }
 }
 
 class FactoryTakeImportedInterfaceResponseParams extends bindings.Struct {
@@ -563,6 +633,11 @@ class FactoryTakeImportedInterfaceResponseParams extends bindings.Struct {
     
     encoder0.encodeInterface(obj, 8, false);
   }
+
+  String toString() {
+    return "FactoryTakeImportedInterfaceResponseParams("
+           "obj: $obj" ")";
+  }
 }
 const int kNamedObject_setName_name = 0;
 const int kNamedObject_getName_name = 1;
@@ -579,7 +654,7 @@ abstract class NamedObject {
 
 class NamedObjectProxyImpl extends bindings.Proxy {
   NamedObjectProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   NamedObjectProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -609,6 +684,11 @@ class NamedObjectProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "NamedObjectProxyImpl($superString)";
+  }
 }
 
 
@@ -617,12 +697,14 @@ class _NamedObjectProxyCalls implements NamedObject {
 
   _NamedObjectProxyCalls(this._proxyImpl);
     void setName(String name) {
+      assert(_proxyImpl.isBound);
       var params = new NamedObjectSetNameParams();
       params.name = name;
       _proxyImpl.sendMessage(params, kNamedObject_setName_name);
     }
   
     Future<NamedObjectGetNameResponseParams> getName([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new NamedObjectGetNameParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -663,17 +745,22 @@ class NamedObjectProxy implements bindings.ProxyBase {
       new NamedObjectProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "NamedObjectProxy($impl)";
+  }
 }
 
 
 class NamedObjectStub extends bindings.Stub {
-  NamedObject _delegate = null;
+  NamedObject _impl = null;
 
-  NamedObjectStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  NamedObjectStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  NamedObjectStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  NamedObjectStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   NamedObjectStub.unbound() : super.unbound();
 
@@ -691,17 +778,17 @@ class NamedObjectStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kNamedObject_setName_name:
         var params = NamedObjectSetNameParams.deserialize(
             message.payload);
-        _delegate.setName(params.name);
+        _impl.setName(params.name);
         break;
       case kNamedObject_getName_name:
         var params = NamedObjectGetNameParams.deserialize(
             message.payload);
-        return _delegate.getName(_NamedObjectGetNameResponseParamsFactory).then((response) {
+        return _impl.getName(_NamedObjectGetNameResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -718,10 +805,15 @@ class NamedObjectStub extends bindings.Stub {
     return null;
   }
 
-  NamedObject get delegate => _delegate;
-      set delegate(NamedObject d) {
-    assert(_delegate == null);
-    _delegate = d;
+  NamedObject get impl => _impl;
+      set impl(NamedObject d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "NamedObjectStub($superString)";
   }
 }
 
@@ -746,7 +838,7 @@ abstract class Factory {
 
 class FactoryProxyImpl extends bindings.Proxy {
   FactoryProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   FactoryProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -806,6 +898,11 @@ class FactoryProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "FactoryProxyImpl($superString)";
+  }
 }
 
 
@@ -814,6 +911,7 @@ class _FactoryProxyCalls implements Factory {
 
   _FactoryProxyCalls(this._proxyImpl);
     Future<FactoryDoStuffResponseParams> doStuff(Request request,core.MojoMessagePipeEndpoint pipe,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new FactoryDoStuffParams();
       params.request = request;
       params.pipe = pipe;
@@ -824,6 +922,7 @@ class _FactoryProxyCalls implements Factory {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<FactoryDoStuff2ResponseParams> doStuff2(core.MojoDataPipeConsumer pipe,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new FactoryDoStuff2Params();
       params.pipe = pipe;
       return _proxyImpl.sendMessageWithRequestId(
@@ -833,12 +932,14 @@ class _FactoryProxyCalls implements Factory {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     void createNamedObject(Object obj) {
+      assert(_proxyImpl.isBound);
       var params = new FactoryCreateNamedObjectParams();
       params.obj = obj;
       _proxyImpl.sendMessage(params, kFactory_createNamedObject_name);
     }
   
     Future<FactoryRequestImportedInterfaceResponseParams> requestImportedInterface(Object obj,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new FactoryRequestImportedInterfaceParams();
       params.obj = obj;
       return _proxyImpl.sendMessageWithRequestId(
@@ -848,6 +949,7 @@ class _FactoryProxyCalls implements Factory {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<FactoryTakeImportedInterfaceResponseParams> takeImportedInterface(Object obj,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new FactoryTakeImportedInterfaceParams();
       params.obj = obj;
       return _proxyImpl.sendMessageWithRequestId(
@@ -889,17 +991,22 @@ class FactoryProxy implements bindings.ProxyBase {
       new FactoryProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "FactoryProxy($impl)";
+  }
 }
 
 
 class FactoryStub extends bindings.Stub {
-  Factory _delegate = null;
+  Factory _impl = null;
 
-  FactoryStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  FactoryStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  FactoryStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  FactoryStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   FactoryStub.unbound() : super.unbound();
 
@@ -933,12 +1040,12 @@ class FactoryStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kFactory_doStuff_name:
         var params = FactoryDoStuffParams.deserialize(
             message.payload);
-        return _delegate.doStuff(params.request,params.pipe,_FactoryDoStuffResponseParamsFactory).then((response) {
+        return _impl.doStuff(params.request,params.pipe,_FactoryDoStuffResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -951,7 +1058,7 @@ class FactoryStub extends bindings.Stub {
       case kFactory_doStuff2_name:
         var params = FactoryDoStuff2Params.deserialize(
             message.payload);
-        return _delegate.doStuff2(params.pipe,_FactoryDoStuff2ResponseParamsFactory).then((response) {
+        return _impl.doStuff2(params.pipe,_FactoryDoStuff2ResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -964,12 +1071,12 @@ class FactoryStub extends bindings.Stub {
       case kFactory_createNamedObject_name:
         var params = FactoryCreateNamedObjectParams.deserialize(
             message.payload);
-        _delegate.createNamedObject(params.obj);
+        _impl.createNamedObject(params.obj);
         break;
       case kFactory_requestImportedInterface_name:
         var params = FactoryRequestImportedInterfaceParams.deserialize(
             message.payload);
-        return _delegate.requestImportedInterface(params.obj,_FactoryRequestImportedInterfaceResponseParamsFactory).then((response) {
+        return _impl.requestImportedInterface(params.obj,_FactoryRequestImportedInterfaceResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -982,7 +1089,7 @@ class FactoryStub extends bindings.Stub {
       case kFactory_takeImportedInterface_name:
         var params = FactoryTakeImportedInterfaceParams.deserialize(
             message.payload);
-        return _delegate.takeImportedInterface(params.obj,_FactoryTakeImportedInterfaceResponseParamsFactory).then((response) {
+        return _impl.takeImportedInterface(params.obj,_FactoryTakeImportedInterfaceResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -999,10 +1106,15 @@ class FactoryStub extends bindings.Stub {
     return null;
   }
 
-  Factory get delegate => _delegate;
-      set delegate(Factory d) {
-    assert(_delegate == null);
-    _delegate = d;
+  Factory get impl => _impl;
+      set impl(Factory d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "FactoryStub($superString)";
   }
 }
 

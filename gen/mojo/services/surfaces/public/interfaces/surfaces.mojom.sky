@@ -8,8 +8,6 @@
 <import src="/gen/mojo/public/sky/core.sky" as="core" />
 <import src="/gen/mojo/public/sky/validator.sky" as="validator" />
 <import src="/gen/mojo/services/geometry/public/interfaces/geometry.mojom.sky" as="geometry$" />
-<import src="/gen/mojo/services/gpu/public/interfaces/command_buffer.mojom.sky" as="command_buffer$" />
-<import src="/gen/mojo/services/gpu/public/interfaces/viewport_parameter_listener.mojom.sky" as="viewport_parameter_listener$" />
 <import src="/gen/mojo/services/surfaces/public/interfaces/quads.mojom.sky" as="quads$" />
 <import src="/gen/mojo/services/surfaces/public/interfaces/surface_id.mojom.sky" as="surface_id$" />
 <script>
@@ -718,79 +716,6 @@
     encoder.skip(1);
   };
 
-  function Surface_CreateGLES2BoundSurface_Params(values) {
-    this.initDefaults_();
-    this.initFields_(values);
-  }
-
-
-  Surface_CreateGLES2BoundSurface_Params.prototype.initDefaults_ = function() {
-    this.gles2_client = null;
-    this.id_local = 0;
-    this.size = null;
-    this.listener = null;
-  };
-  Surface_CreateGLES2BoundSurface_Params.prototype.initFields_ = function(fields) {
-    for(var field in fields) {
-        if (this.hasOwnProperty(field))
-          this[field] = fields[field];
-    }
-  };
-
-  Surface_CreateGLES2BoundSurface_Params.validate = function(messageValidator, offset) {
-    var err;
-
-    err = messageValidator.validateStructHeader(offset, Surface_CreateGLES2BoundSurface_Params.encodedSize, 4);
-    if (err !== validator.validationError.NONE)
-        return err;
-    // validate Surface_CreateGLES2BoundSurface_Params.gles2_client
-    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 0, false)
-    if (err !== validator.validationError.NONE)
-        return err;
-    // validate Surface_CreateGLES2BoundSurface_Params.size
-    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 8, geometry$.Size, false);
-    if (err !== validator.validationError.NONE)
-        return err;
-    // validate Surface_CreateGLES2BoundSurface_Params.listener
-    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 16, false)
-    if (err !== validator.validationError.NONE)
-        return err;
-
-    return validator.validationError.NONE;
-  };
-
-  Surface_CreateGLES2BoundSurface_Params.encodedSize = codec.kStructHeaderSize + 24;
-
-  Surface_CreateGLES2BoundSurface_Params.decode = function(decoder) {
-    var packed;
-    var val = new Surface_CreateGLES2BoundSurface_Params();
-    var numberOfBytes = decoder.readUint32();
-    var version = decoder.readUint32();
-    val.gles2_client = decoder.decodeStruct(codec.Handle);
-    val.id_local = decoder.decodeStruct(codec.Uint32);
-    val.size = decoder.decodeStructPointer(geometry$.Size);
-    val.listener = decoder.decodeStruct(codec.Handle);
-    decoder.skip(1);
-    decoder.skip(1);
-    decoder.skip(1);
-    decoder.skip(1);
-    return val;
-  };
-
-  Surface_CreateGLES2BoundSurface_Params.encode = function(encoder, val) {
-    var packed;
-    encoder.writeUint32(Surface_CreateGLES2BoundSurface_Params.encodedSize);
-    encoder.writeUint32(4);
-    encoder.encodeStruct(codec.Handle, val.gles2_client);
-    encoder.encodeStruct(codec.Uint32, val.id_local);
-    encoder.encodeStructPointer(geometry$.Size, val.size);
-    encoder.encodeStruct(codec.Handle, val.listener);
-    encoder.skip(1);
-    encoder.skip(1);
-    encoder.skip(1);
-    encoder.skip(1);
-  };
-
   var kResourceReturner_ReturnResources_Name = 0;
 
   function ResourceReturnerProxy(receiver) {
@@ -870,7 +795,6 @@
   var kSurface_CreateSurface_Name = 2;
   var kSurface_SubmitFrame_Name = 3;
   var kSurface_DestroySurface_Name = 4;
-  var kSurface_CreateGLES2BoundSurface_Name = 5;
 
   function SurfaceProxy(receiver) {
     bindings.ProxyBase.call(this, receiver);
@@ -946,19 +870,6 @@
     var message = builder.finish();
     this.receiver_.accept(message);
   };
-  SurfaceProxy.prototype.createGLES2BoundSurface = function(gles2_client, id_local, size, listener) {
-    var params = new Surface_CreateGLES2BoundSurface_Params();
-    params.gles2_client = core.isHandle(gles2_client) ? gles2_client : connection.bindImpl(gles2_client, command_buffer$.CommandBuffer);
-    params.id_local = id_local;
-    params.size = size;
-    params.listener = core.isHandle(listener) ? listener : connection.bindProxy(listener, viewport_parameter_listener$.ViewportParameterListener);
-    var builder = new codec.MessageBuilder(
-        kSurface_CreateGLES2BoundSurface_Name,
-        codec.align(Surface_CreateGLES2BoundSurface_Params.encodedSize));
-    builder.encodeStruct(Surface_CreateGLES2BoundSurface_Params, params);
-    var message = builder.finish();
-    this.receiver_.accept(message);
-  };
 
   function SurfaceStub(delegate) {
     bindings.StubBase.call(this, delegate);
@@ -979,9 +890,6 @@
   SurfaceStub.prototype.destroySurface = function(id_local) {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.destroySurface && bindings.StubBindings(this).delegate.destroySurface(id_local);
   }
-  SurfaceStub.prototype.createGLES2BoundSurface = function(gles2_client, id_local, size, listener) {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.createGLES2BoundSurface && bindings.StubBindings(this).delegate.createGLES2BoundSurface(connection.bindHandleToProxy(gles2_client, command_buffer$.CommandBuffer), id_local, size, connection.bindHandleToStub(listener, viewport_parameter_listener$.ViewportParameterListener));
-  }
 
   SurfaceStub.prototype.accept = function(message) {
     var reader = new codec.MessageReader(message);
@@ -997,10 +905,6 @@
     case kSurface_DestroySurface_Name:
       var params = reader.decodeStruct(Surface_DestroySurface_Params);
       this.destroySurface(params.id_local);
-      return true;
-    case kSurface_CreateGLES2BoundSurface_Name:
-      var params = reader.decodeStruct(Surface_CreateGLES2BoundSurface_Params);
-      this.createGLES2BoundSurface(params.gles2_client, params.id_local, params.size, params.listener);
       return true;
     default:
       return false;
@@ -1068,10 +972,6 @@
       case kSurface_DestroySurface_Name:
         if (!message.expectsResponse() && !message.isResponse())
           paramsClass = Surface_DestroySurface_Params;
-      break;
-      case kSurface_CreateGLES2BoundSurface_Name:
-        if (!message.expectsResponse() && !message.isResponse())
-          paramsClass = Surface_CreateGLES2BoundSurface_Params;
       break;
     }
     if (paramsClass === null)

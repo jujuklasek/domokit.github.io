@@ -55,6 +55,11 @@ class Edge extends bindings.Struct {
     
     encoder0.encodeStruct(v, 8, true);
   }
+
+  String toString() {
+    return "Edge("
+           "v: $v" ")";
+  }
 }
 
 class Vertex extends bindings.Struct {
@@ -93,6 +98,11 @@ class Vertex extends bindings.Struct {
     
     encoder0.encodeStruct(e, 8, true);
   }
+
+  String toString() {
+    return "Vertex("
+           "e: $e" ")";
+  }
 }
 
 class EmptyStruct extends bindings.Struct {
@@ -122,6 +132,10 @@ class EmptyStruct extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "EmptyStruct("")";
   }
 }
 
@@ -161,6 +175,11 @@ class A extends bindings.Struct {
     
     encoder0.encodeStruct(b, 8, true);
   }
+
+  String toString() {
+    return "A("
+           "b: $b" ")";
+  }
 }
 
 class B extends bindings.Struct {
@@ -199,6 +218,11 @@ class B extends bindings.Struct {
     
     encoder0.encodeStruct(a, 8, true);
   }
+
+  String toString() {
+    return "B("
+           "a: $a" ")";
+  }
 }
 
 class CheckMethodWithEmptyResponseWithouParameterAndEmptyResponseParams extends bindings.Struct {
@@ -229,6 +253,10 @@ class CheckMethodWithEmptyResponseWithouParameterAndEmptyResponseParams extends 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "CheckMethodWithEmptyResponseWithouParameterAndEmptyResponseParams("")";
+  }
 }
 
 class CheckMethodWithEmptyResponseWithouParameterAndEmptyResponseResponseParams extends bindings.Struct {
@@ -258,6 +286,10 @@ class CheckMethodWithEmptyResponseWithouParameterAndEmptyResponseResponseParams 
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "CheckMethodWithEmptyResponseWithouParameterAndEmptyResponseResponseParams("")";
   }
 }
 
@@ -296,6 +328,11 @@ class CheckMethodWithEmptyResponseWithParameterAndEmptyResponseParams extends bi
     
     encoder0.encodeBool(b, 8, 0);
   }
+
+  String toString() {
+    return "CheckMethodWithEmptyResponseWithParameterAndEmptyResponseParams("
+           "b: $b" ")";
+  }
 }
 
 class CheckMethodWithEmptyResponseWithParameterAndEmptyResponseResponseParams extends bindings.Struct {
@@ -325,6 +362,10 @@ class CheckMethodWithEmptyResponseWithParameterAndEmptyResponseResponseParams ex
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "CheckMethodWithEmptyResponseWithParameterAndEmptyResponseResponseParams("")";
   }
 }
 
@@ -370,6 +411,12 @@ class CheckNameCollisionWithNameCollisionParams extends bindings.Struct {
     
     encoder0.encodeBool(response, 8, 1);
   }
+
+  String toString() {
+    return "CheckNameCollisionWithNameCollisionParams("
+           "message: $message" ", "
+           "response: $response" ")";
+  }
 }
 
 class CheckNameCollisionWithNameCollisionResponseParams extends bindings.Struct {
@@ -414,6 +461,12 @@ class CheckNameCollisionWithNameCollisionResponseParams extends bindings.Struct 
     
     encoder0.encodeBool(response, 8, 1);
   }
+
+  String toString() {
+    return "CheckNameCollisionWithNameCollisionResponseParams("
+           "message: $message" ", "
+           "response: $response" ")";
+  }
 }
 const int kCheckMethodWithEmptyResponse_withouParameterAndEmptyResponse_name = 0;
 const int kCheckMethodWithEmptyResponse_withParameterAndEmptyResponse_name = 1;
@@ -430,7 +483,7 @@ abstract class CheckMethodWithEmptyResponse {
 
 class CheckMethodWithEmptyResponseProxyImpl extends bindings.Proxy {
   CheckMethodWithEmptyResponseProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   CheckMethodWithEmptyResponseProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -470,6 +523,11 @@ class CheckMethodWithEmptyResponseProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "CheckMethodWithEmptyResponseProxyImpl($superString)";
+  }
 }
 
 
@@ -478,6 +536,7 @@ class _CheckMethodWithEmptyResponseProxyCalls implements CheckMethodWithEmptyRes
 
   _CheckMethodWithEmptyResponseProxyCalls(this._proxyImpl);
     Future<CheckMethodWithEmptyResponseWithouParameterAndEmptyResponseResponseParams> withouParameterAndEmptyResponse([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new CheckMethodWithEmptyResponseWithouParameterAndEmptyResponseParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -486,6 +545,7 @@ class _CheckMethodWithEmptyResponseProxyCalls implements CheckMethodWithEmptyRes
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<CheckMethodWithEmptyResponseWithParameterAndEmptyResponseResponseParams> withParameterAndEmptyResponse(bool b,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new CheckMethodWithEmptyResponseWithParameterAndEmptyResponseParams();
       params.b = b;
       return _proxyImpl.sendMessageWithRequestId(
@@ -527,17 +587,22 @@ class CheckMethodWithEmptyResponseProxy implements bindings.ProxyBase {
       new CheckMethodWithEmptyResponseProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "CheckMethodWithEmptyResponseProxy($impl)";
+  }
 }
 
 
 class CheckMethodWithEmptyResponseStub extends bindings.Stub {
-  CheckMethodWithEmptyResponse _delegate = null;
+  CheckMethodWithEmptyResponse _impl = null;
 
-  CheckMethodWithEmptyResponseStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  CheckMethodWithEmptyResponseStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  CheckMethodWithEmptyResponseStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  CheckMethodWithEmptyResponseStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   CheckMethodWithEmptyResponseStub.unbound() : super.unbound();
 
@@ -558,12 +623,12 @@ class CheckMethodWithEmptyResponseStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kCheckMethodWithEmptyResponse_withouParameterAndEmptyResponse_name:
         var params = CheckMethodWithEmptyResponseWithouParameterAndEmptyResponseParams.deserialize(
             message.payload);
-        return _delegate.withouParameterAndEmptyResponse(_CheckMethodWithEmptyResponseWithouParameterAndEmptyResponseResponseParamsFactory).then((response) {
+        return _impl.withouParameterAndEmptyResponse(_CheckMethodWithEmptyResponseWithouParameterAndEmptyResponseResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -576,7 +641,7 @@ class CheckMethodWithEmptyResponseStub extends bindings.Stub {
       case kCheckMethodWithEmptyResponse_withParameterAndEmptyResponse_name:
         var params = CheckMethodWithEmptyResponseWithParameterAndEmptyResponseParams.deserialize(
             message.payload);
-        return _delegate.withParameterAndEmptyResponse(params.b,_CheckMethodWithEmptyResponseWithParameterAndEmptyResponseResponseParamsFactory).then((response) {
+        return _impl.withParameterAndEmptyResponse(params.b,_CheckMethodWithEmptyResponseWithParameterAndEmptyResponseResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -593,10 +658,15 @@ class CheckMethodWithEmptyResponseStub extends bindings.Stub {
     return null;
   }
 
-  CheckMethodWithEmptyResponse get delegate => _delegate;
-      set delegate(CheckMethodWithEmptyResponse d) {
-    assert(_delegate == null);
-    _delegate = d;
+  CheckMethodWithEmptyResponse get impl => _impl;
+      set impl(CheckMethodWithEmptyResponse d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "CheckMethodWithEmptyResponseStub($superString)";
   }
 }
 
@@ -613,7 +683,7 @@ abstract class CheckNameCollision {
 
 class CheckNameCollisionProxyImpl extends bindings.Proxy {
   CheckNameCollisionProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   CheckNameCollisionProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -643,6 +713,11 @@ class CheckNameCollisionProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "CheckNameCollisionProxyImpl($superString)";
+  }
 }
 
 
@@ -651,6 +726,7 @@ class _CheckNameCollisionProxyCalls implements CheckNameCollision {
 
   _CheckNameCollisionProxyCalls(this._proxyImpl);
     Future<CheckNameCollisionWithNameCollisionResponseParams> withNameCollision(bool message,bool response,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new CheckNameCollisionWithNameCollisionParams();
       params.message = message;
       params.response = response;
@@ -693,17 +769,22 @@ class CheckNameCollisionProxy implements bindings.ProxyBase {
       new CheckNameCollisionProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "CheckNameCollisionProxy($impl)";
+  }
 }
 
 
 class CheckNameCollisionStub extends bindings.Stub {
-  CheckNameCollision _delegate = null;
+  CheckNameCollision _impl = null;
 
-  CheckNameCollisionStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  CheckNameCollisionStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  CheckNameCollisionStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  CheckNameCollisionStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   CheckNameCollisionStub.unbound() : super.unbound();
 
@@ -722,12 +803,12 @@ class CheckNameCollisionStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kCheckNameCollision_withNameCollision_name:
         var params = CheckNameCollisionWithNameCollisionParams.deserialize(
             message.payload);
-        return _delegate.withNameCollision(params.message,params.response,_CheckNameCollisionWithNameCollisionResponseParamsFactory).then((response) {
+        return _impl.withNameCollision(params.message,params.response,_CheckNameCollisionWithNameCollisionResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -744,10 +825,15 @@ class CheckNameCollisionStub extends bindings.Stub {
     return null;
   }
 
-  CheckNameCollision get delegate => _delegate;
-      set delegate(CheckNameCollision d) {
-    assert(_delegate == null);
-    _delegate = d;
+  CheckNameCollision get impl => _impl;
+      set impl(CheckNameCollision d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "CheckNameCollisionStub($superString)";
   }
 }
 

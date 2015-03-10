@@ -70,6 +70,12 @@ class ExternalApplicationRegistrarRegisterParams extends bindings.Struct {
       }
     }
   }
+
+  String toString() {
+    return "ExternalApplicationRegistrarRegisterParams("
+           "applicationUrl: $applicationUrl" ", "
+           "args: $args" ")";
+  }
 }
 
 class ExternalApplicationRegistrarRegisterResponseParams extends bindings.Struct {
@@ -107,6 +113,11 @@ class ExternalApplicationRegistrarRegisterResponseParams extends bindings.Struct
     
     encoder0.encodeInterfaceRequest(applicationRequest, 8, false);
   }
+
+  String toString() {
+    return "ExternalApplicationRegistrarRegisterResponseParams("
+           "applicationRequest: $applicationRequest" ")";
+  }
 }
 const int kExternalApplicationRegistrar_register_name = 0;
 
@@ -121,7 +132,7 @@ abstract class ExternalApplicationRegistrar {
 
 class ExternalApplicationRegistrarProxyImpl extends bindings.Proxy {
   ExternalApplicationRegistrarProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   ExternalApplicationRegistrarProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -151,6 +162,11 @@ class ExternalApplicationRegistrarProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "ExternalApplicationRegistrarProxyImpl($superString)";
+  }
 }
 
 
@@ -159,6 +175,7 @@ class _ExternalApplicationRegistrarProxyCalls implements ExternalApplicationRegi
 
   _ExternalApplicationRegistrarProxyCalls(this._proxyImpl);
     Future<ExternalApplicationRegistrarRegisterResponseParams> register(String applicationUrl,List<String> args,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ExternalApplicationRegistrarRegisterParams();
       params.applicationUrl = applicationUrl;
       params.args = args;
@@ -201,17 +218,22 @@ class ExternalApplicationRegistrarProxy implements bindings.ProxyBase {
       new ExternalApplicationRegistrarProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "ExternalApplicationRegistrarProxy($impl)";
+  }
 }
 
 
 class ExternalApplicationRegistrarStub extends bindings.Stub {
-  ExternalApplicationRegistrar _delegate = null;
+  ExternalApplicationRegistrar _impl = null;
 
-  ExternalApplicationRegistrarStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  ExternalApplicationRegistrarStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  ExternalApplicationRegistrarStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  ExternalApplicationRegistrarStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   ExternalApplicationRegistrarStub.unbound() : super.unbound();
 
@@ -229,12 +251,12 @@ class ExternalApplicationRegistrarStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kExternalApplicationRegistrar_register_name:
         var params = ExternalApplicationRegistrarRegisterParams.deserialize(
             message.payload);
-        return _delegate.register(params.applicationUrl,params.args,_ExternalApplicationRegistrarRegisterResponseParamsFactory).then((response) {
+        return _impl.register(params.applicationUrl,params.args,_ExternalApplicationRegistrarRegisterResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -251,10 +273,15 @@ class ExternalApplicationRegistrarStub extends bindings.Stub {
     return null;
   }
 
-  ExternalApplicationRegistrar get delegate => _delegate;
-      set delegate(ExternalApplicationRegistrar d) {
-    assert(_delegate == null);
-    _delegate = d;
+  ExternalApplicationRegistrar get impl => _impl;
+      set impl(ExternalApplicationRegistrar d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "ExternalApplicationRegistrarStub($superString)";
   }
 }
 

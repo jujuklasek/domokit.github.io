@@ -44,6 +44,11 @@ class ScytheKillApplicationParams extends bindings.Struct {
     
     encoder0.encodeString(url, 8, false);
   }
+
+  String toString() {
+    return "ScytheKillApplicationParams("
+           "url: $url" ")";
+  }
 }
 
 class ScythePingParams extends bindings.Struct {
@@ -73,6 +78,10 @@ class ScythePingParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "ScythePingParams("")";
   }
 }
 
@@ -104,6 +113,10 @@ class ScythePingResponseParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "ScythePingResponseParams("")";
+  }
 }
 const int kScythe_killApplication_name = 0;
 const int kScythe_ping_name = 1;
@@ -120,7 +133,7 @@ abstract class Scythe {
 
 class ScytheProxyImpl extends bindings.Proxy {
   ScytheProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   ScytheProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -150,6 +163,11 @@ class ScytheProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "ScytheProxyImpl($superString)";
+  }
 }
 
 
@@ -158,12 +176,14 @@ class _ScytheProxyCalls implements Scythe {
 
   _ScytheProxyCalls(this._proxyImpl);
     void killApplication(String url) {
+      assert(_proxyImpl.isBound);
       var params = new ScytheKillApplicationParams();
       params.url = url;
       _proxyImpl.sendMessage(params, kScythe_killApplication_name);
     }
   
     Future<ScythePingResponseParams> ping([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ScythePingParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -204,17 +224,22 @@ class ScytheProxy implements bindings.ProxyBase {
       new ScytheProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "ScytheProxy($impl)";
+  }
 }
 
 
 class ScytheStub extends bindings.Stub {
-  Scythe _delegate = null;
+  Scythe _impl = null;
 
-  ScytheStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  ScytheStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  ScytheStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  ScytheStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   ScytheStub.unbound() : super.unbound();
 
@@ -231,17 +256,17 @@ class ScytheStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kScythe_killApplication_name:
         var params = ScytheKillApplicationParams.deserialize(
             message.payload);
-        _delegate.killApplication(params.url);
+        _impl.killApplication(params.url);
         break;
       case kScythe_ping_name:
         var params = ScythePingParams.deserialize(
             message.payload);
-        return _delegate.ping(_ScythePingResponseParamsFactory).then((response) {
+        return _impl.ping(_ScythePingResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -258,10 +283,15 @@ class ScytheStub extends bindings.Stub {
     return null;
   }
 
-  Scythe get delegate => _delegate;
-      set delegate(Scythe d) {
-    assert(_delegate == null);
-    _delegate = d;
+  Scythe get impl => _impl;
+      set impl(Scythe d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "ScytheStub($superString)";
   }
 }
 

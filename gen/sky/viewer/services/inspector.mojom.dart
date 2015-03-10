@@ -37,6 +37,10 @@ class InspectorServiceInjectParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "InspectorServiceInjectParams("")";
+  }
 }
 const int kInspectorService_inject_name = 0;
 
@@ -51,7 +55,7 @@ abstract class InspectorService {
 
 class InspectorServiceProxyImpl extends bindings.Proxy {
   InspectorServiceProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   InspectorServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -71,6 +75,11 @@ class InspectorServiceProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "InspectorServiceProxyImpl($superString)";
+  }
 }
 
 
@@ -79,6 +88,7 @@ class _InspectorServiceProxyCalls implements InspectorService {
 
   _InspectorServiceProxyCalls(this._proxyImpl);
     void inject() {
+      assert(_proxyImpl.isBound);
       var params = new InspectorServiceInjectParams();
       _proxyImpl.sendMessage(params, kInspectorService_inject_name);
     }
@@ -116,17 +126,22 @@ class InspectorServiceProxy implements bindings.ProxyBase {
       new InspectorServiceProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "InspectorServiceProxy($impl)";
+  }
 }
 
 
 class InspectorServiceStub extends bindings.Stub {
-  InspectorService _delegate = null;
+  InspectorService _impl = null;
 
-  InspectorServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  InspectorServiceStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  InspectorServiceStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  InspectorServiceStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   InspectorServiceStub.unbound() : super.unbound();
 
@@ -139,12 +154,12 @@ class InspectorServiceStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kInspectorService_inject_name:
         var params = InspectorServiceInjectParams.deserialize(
             message.payload);
-        _delegate.inject();
+        _impl.inject();
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -153,10 +168,15 @@ class InspectorServiceStub extends bindings.Stub {
     return null;
   }
 
-  InspectorService get delegate => _delegate;
-      set delegate(InspectorService d) {
-    assert(_delegate == null);
-    _delegate = d;
+  InspectorService get impl => _impl;
+      set impl(InspectorService d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "InspectorServiceStub($superString)";
   }
 }
 

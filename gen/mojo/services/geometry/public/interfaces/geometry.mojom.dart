@@ -51,6 +51,12 @@ class Point extends bindings.Struct {
     
     encoder0.encodeInt32(y, 12);
   }
+
+  String toString() {
+    return "Point("
+           "x: $x" ", "
+           "y: $y" ")";
+  }
 }
 
 class PointF extends bindings.Struct {
@@ -95,6 +101,12 @@ class PointF extends bindings.Struct {
     
     encoder0.encodeFloat(y, 12);
   }
+
+  String toString() {
+    return "PointF("
+           "x: $x" ", "
+           "y: $y" ")";
+  }
 }
 
 class Size extends bindings.Struct {
@@ -138,6 +150,12 @@ class Size extends bindings.Struct {
     encoder0.encodeInt32(width, 8);
     
     encoder0.encodeInt32(height, 12);
+  }
+
+  String toString() {
+    return "Size("
+           "width: $width" ", "
+           "height: $height" ")";
   }
 }
 
@@ -197,6 +215,14 @@ class Rect extends bindings.Struct {
     
     encoder0.encodeInt32(height, 20);
   }
+
+  String toString() {
+    return "Rect("
+           "x: $x" ", "
+           "y: $y" ", "
+           "width: $width" ", "
+           "height: $height" ")";
+  }
 }
 
 class RectF extends bindings.Struct {
@@ -255,6 +281,14 @@ class RectF extends bindings.Struct {
     
     encoder0.encodeFloat(height, 20);
   }
+
+  String toString() {
+    return "RectF("
+           "x: $x" ", "
+           "y: $y" ", "
+           "width: $width" ", "
+           "height: $height" ")";
+  }
 }
 
 class Transform extends bindings.Struct {
@@ -291,6 +325,11 @@ class Transform extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeFloatArray(matrix, 8, bindings.kNothingNullable, 16);
+  }
+
+  String toString() {
+    return "Transform("
+           "matrix: $matrix" ")";
   }
 }
 

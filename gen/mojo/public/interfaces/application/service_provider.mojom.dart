@@ -51,6 +51,12 @@ class ServiceProviderConnectToServiceParams extends bindings.Struct {
     
     encoder0.encodeMessagePipeHandle(pipe, 16, false);
   }
+
+  String toString() {
+    return "ServiceProviderConnectToServiceParams("
+           "interfaceName: $interfaceName" ", "
+           "pipe: $pipe" ")";
+  }
 }
 const int kServiceProvider_connectToService_name = 0;
 
@@ -65,7 +71,7 @@ abstract class ServiceProvider {
 
 class ServiceProviderProxyImpl extends bindings.Proxy {
   ServiceProviderProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   ServiceProviderProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -85,6 +91,11 @@ class ServiceProviderProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "ServiceProviderProxyImpl($superString)";
+  }
 }
 
 
@@ -93,6 +104,7 @@ class _ServiceProviderProxyCalls implements ServiceProvider {
 
   _ServiceProviderProxyCalls(this._proxyImpl);
     void connectToService(String interfaceName, core.MojoMessagePipeEndpoint pipe) {
+      assert(_proxyImpl.isBound);
       var params = new ServiceProviderConnectToServiceParams();
       params.interfaceName = interfaceName;
       params.pipe = pipe;
@@ -132,17 +144,22 @@ class ServiceProviderProxy implements bindings.ProxyBase {
       new ServiceProviderProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "ServiceProviderProxy($impl)";
+  }
 }
 
 
 class ServiceProviderStub extends bindings.Stub {
-  ServiceProvider _delegate = null;
+  ServiceProvider _impl = null;
 
-  ServiceProviderStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  ServiceProviderStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  ServiceProviderStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  ServiceProviderStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   ServiceProviderStub.unbound() : super.unbound();
 
@@ -155,12 +172,12 @@ class ServiceProviderStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kServiceProvider_connectToService_name:
         var params = ServiceProviderConnectToServiceParams.deserialize(
             message.payload);
-        _delegate.connectToService(params.interfaceName, params.pipe);
+        _impl.connectToService(params.interfaceName, params.pipe);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -169,10 +186,15 @@ class ServiceProviderStub extends bindings.Stub {
     return null;
   }
 
-  ServiceProvider get delegate => _delegate;
-      set delegate(ServiceProvider d) {
-    assert(_delegate == null);
-    _delegate = d;
+  ServiceProvider get impl => _impl;
+      set impl(ServiceProvider d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "ServiceProviderStub($superString)";
   }
 }
 

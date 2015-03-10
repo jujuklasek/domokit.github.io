@@ -58,6 +58,13 @@ class GpuShaderPrecision extends bindings.Struct {
     
     encoder0.encodeInt32(precision, 16);
   }
+
+  String toString() {
+    return "GpuShaderPrecision("
+           "minRange: $minRange" ", "
+           "maxRange: $maxRange" ", "
+           "precision: $precision" ")";
+  }
 }
 
 class GpuPerStagePrecisions extends bindings.Struct {
@@ -135,6 +142,16 @@ class GpuPerStagePrecisions extends bindings.Struct {
     encoder0.encodeStruct(mediumFloat, 40, false);
     
     encoder0.encodeStruct(highFloat, 48, false);
+  }
+
+  String toString() {
+    return "GpuPerStagePrecisions("
+           "lowInt: $lowInt" ", "
+           "mediumInt: $mediumInt" ", "
+           "highInt: $highInt" ", "
+           "lowFloat: $lowFloat" ", "
+           "mediumFloat: $mediumFloat" ", "
+           "highFloat: $highFloat" ")";
   }
 }
 
@@ -377,6 +394,40 @@ class GpuCapabilities extends bindings.Struct {
     encoder0.encodeBool(blendEquationAdvanced, 77, 5);
     
     encoder0.encodeBool(blendEquationAdvancedCoherent, 77, 6);
+  }
+
+  String toString() {
+    return "GpuCapabilities("
+           "vertexShaderPrecisions: $vertexShaderPrecisions" ", "
+           "fragmentShaderPrecisions: $fragmentShaderPrecisions" ", "
+           "maxCombinedTextureImageUnits: $maxCombinedTextureImageUnits" ", "
+           "maxCubeMapTextureSize: $maxCubeMapTextureSize" ", "
+           "maxFragmentUniformVectors: $maxFragmentUniformVectors" ", "
+           "maxRenderbufferSize: $maxRenderbufferSize" ", "
+           "maxTextureImageUnits: $maxTextureImageUnits" ", "
+           "maxTextureSize: $maxTextureSize" ", "
+           "maxVaryingVectors: $maxVaryingVectors" ", "
+           "maxVertexAttribs: $maxVertexAttribs" ", "
+           "maxVertexTextureImageUnits: $maxVertexTextureImageUnits" ", "
+           "maxVertexUniformVectors: $maxVertexUniformVectors" ", "
+           "numCompressedTextureFormats: $numCompressedTextureFormats" ", "
+           "numShaderBinaryFormats: $numShaderBinaryFormats" ", "
+           "bindGeneratesResourceChromium: $bindGeneratesResourceChromium" ", "
+           "postSubBuffer: $postSubBuffer" ", "
+           "eglImageExternal: $eglImageExternal" ", "
+           "textureFormatBgra8888: $textureFormatBgra8888" ", "
+           "textureFormatEtc1: $textureFormatEtc1" ", "
+           "textureFormatEtc1Npot: $textureFormatEtc1Npot" ", "
+           "textureRectangle: $textureRectangle" ", "
+           "iosurface: $iosurface" ", "
+           "textureUsage: $textureUsage" ", "
+           "textureStorage: $textureStorage" ", "
+           "discardFramebuffer: $discardFramebuffer" ", "
+           "syncQuery: $syncQuery" ", "
+           "image: $image" ", "
+           "futureSyncPoints: $futureSyncPoints" ", "
+           "blendEquationAdvanced: $blendEquationAdvanced" ", "
+           "blendEquationAdvancedCoherent: $blendEquationAdvancedCoherent" ")";
   }
 }
 

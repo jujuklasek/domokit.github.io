@@ -51,5 +51,11 @@ class SurfaceId extends bindings.Struct {
     
     encoder0.encodeUint32(idNamespace, 12);
   }
+
+  String toString() {
+    return "SurfaceId("
+           "local: $local" ", "
+           "idNamespace: $idNamespace" ")";
+  }
 }
 

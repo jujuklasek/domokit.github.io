@@ -2,43 +2,38 @@ part of widgets;
 
 const double _kWidth = 256.0;
 const double _kMinFlingVelocity = 0.4;
-const double _kMinAnimationDurationMS = 246.0;
-const double _kMaxAnimationDurationMS = 600.0;
+const double _kBaseSettleDurationMS = 246.0;
+const double _kMaxSettleDurationMS = 600.0;
 const Cubic _kAnimationCurve = easeOut;
 
-class DrawerAnimation {
+class DrawerAnimation extends Animation {
 
-  Stream<double> get onPositionChanged => _controller.stream;
+  Stream<double> get onPositionChanged => onValueChanged;
 
-  StreamController _controller;
-  AnimationGenerator _animation;
-  double _position;
-  bool get _isAnimating => _animation != null;
-  bool get _isMostlyClosed => _position <= -_kWidth / 2;
+  bool get _isMostlyClosed => value <= -_kWidth / 2;
 
   DrawerAnimation() {
-    _controller = new StreamController(sync: true);
-    _setPosition(-_kWidth);
+    value = -_kWidth;
   }
 
   void toggle(_) => _isMostlyClosed ? _open() : _close();
 
   void handleMaskTap(_) => _close();
 
-  void handlePointerDown(_) => _cancelAnimation();
+  void handlePointerDown(_) => stop();
 
   void handlePointerMove(sky.PointerEvent event) {
-    assert(_animation == null);
-    _setPosition(_position + event.dx);
+    assert(!isAnimating);
+    value = math.min(0.0, math.max(value + event.dx, -_kWidth));
   }
 
   void handlePointerUp(_) {
-    if (!_isAnimating)
+    if (!isAnimating)
       _settle();
   }
 
   void handlePointerCancel(_) {
-    if (!_isAnimating)
+    if (!isAnimating)
       _settle();
   }
 
@@ -48,36 +43,13 @@ class DrawerAnimation {
 
   void _settle() => _isMostlyClosed ? _close() : _open();
 
-  void _setPosition(double value) {
-    _position = math.min(0.0, math.max(value, -_kWidth));
-    _controller.add(_position);
-  }
-
-  void _cancelAnimation() {
-    if (_animation != null) {
-      _animation.cancel();
-      _animation = null;
-    }
-  }
-
-  void _animate(double duration, double begin, double end, Curve curve) {
-    _cancelAnimation();
-
-    _animation = new AnimationGenerator(duration, begin: begin, end: end,
-        curve: curve);
-
-    _animation.onTick.listen(_setPosition, onDone: () {
-      _animation = null;
-    });
-  }
-
   void _animateToPosition(double targetPosition) {
-    double distance = (targetPosition - _position).abs();
-    double duration = math.max(
-        _kMinAnimationDurationMS,
-        _kMaxAnimationDurationMS * distance / _kWidth);
-
-    _animate(duration, _position, targetPosition, _kAnimationCurve);
+    double distance = (targetPosition - value).abs();
+    if (distance != 0) {
+      double targetDuration = distance / _kWidth * _kBaseSettleDurationMS;
+      double duration = math.min(targetDuration, _kMaxSettleDurationMS);
+      animateTo(targetPosition, duration, curve: _kAnimationCurve);
+    }
   }
 
   void handleFlingStart(event) {
@@ -87,10 +59,10 @@ class DrawerAnimation {
       return;
 
     double targetPosition = direction < 0.0 ? -_kWidth : 0.0;
-    double distance = (targetPosition - _position).abs();
+    double distance = (targetPosition - value).abs();
     double duration = distance / velocityX;
 
-    _animate(duration, _position, targetPosition, linear);
+    animateTo(targetPosition, duration, curve: linear);
   }
 }
 
@@ -103,7 +75,7 @@ class Drawer extends Component {
     left: 0;
     bottom: 0;
     right: 0;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);'''
+    box-shadpw: ${Shadow[3]};'''
   );
 
   static Style _maskStyle = new Style('''
@@ -117,33 +89,22 @@ class Drawer extends Component {
   );
 
   static Style _contentStyle = new Style('''
-    background-color: #FAFAFA;
+    background-color: ${Grey[50]};
     will-change: transform;
     position: absolute;
+    z-index: 3;
     width: 256px;
     top: 0;
     left: 0;
     bottom: 0;'''
   );
 
-  Stream<double> onPositionChanged;
-  sky.EventListener handleMaskFling;
-  sky.EventListener handleMaskTap;
-  sky.EventListener handlePointerCancel;
-  sky.EventListener handlePointerDown;
-  sky.EventListener handlePointerMove;
-  sky.EventListener handlePointerUp;
+  DrawerAnimation animation;
   List<Node> children;
 
   Drawer({
     Object key,
-    this.onPositionChanged,
-    this.handleMaskFling,
-    this.handleMaskTap,
-    this.handlePointerCancel,
-    this.handlePointerDown,
-    this.handlePointerMove,
-    this.handlePointerUp,
+    this.animation,
     this.children
   }) : super(key: key);
 
@@ -156,14 +117,14 @@ class Drawer extends Component {
       return;
 
     _listening = true;
-    onPositionChanged.listen((position) {
+    animation.onPositionChanged.listen((position) {
       setState(() {
         _position = position;
       });
     });
   }
 
-  Node render() {
+  Node build() {
     _ensureListening();
 
     bool isClosed = _position <= -_kWidth;
@@ -171,29 +132,28 @@ class Drawer extends Component {
     String maskInlineStyle = 'opacity: ${(_position / _kWidth + 1) * 0.25}';
     String contentInlineStyle = 'transform: translateX(${_position}px)';
 
+    Container mask = new Container(
+      key: 'Mask',
+      style: _maskStyle,
+      inlineStyle: maskInlineStyle
+    )..events.listen('gesturetap', animation.handleMaskTap)
+     ..events.listen('gestureflingstart', animation.handleFlingStart);
+
+    Container content = new Container(
+      key: 'Content',
+      style: _contentStyle,
+      inlineStyle: contentInlineStyle,
+      children: children
+    );
+
     return new Container(
       style: _style,
       inlineStyle: inlineStyle,
-      onPointerDown: handlePointerDown,
-      onPointerMove: handlePointerMove,
-      onPointerUp: handlePointerUp,
-      onPointerCancel: handlePointerCancel,
+      children: [ mask, content ]
+    )..events.listen('pointerdown', animation.handlePointerDown)
+     ..events.listen('pointermove', animation.handlePointerMove)
+     ..events.listen('pointerup', animation.handlePointerUp)
+     ..events.listen('pointercancel', animation.handlePointerCancel);
 
-      children: [
-        new Container(
-          key: 'Mask',
-          style: _maskStyle,
-          inlineStyle: maskInlineStyle,
-          onGestureTap: handleMaskTap,
-          onFlingStart: handleMaskFling
-        ),
-        new Container(
-          key: 'Content',
-          style: _contentStyle,
-          inlineStyle: contentInlineStyle,
-          children: children
-        )
-      ]
-    );
   }
 }

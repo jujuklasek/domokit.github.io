@@ -60,6 +60,13 @@ class WindowManagerEmbedParams extends bindings.Struct {
     
     encoder0.encodeInterface(exposedServices, 20, true);
   }
+
+  String toString() {
+    return "WindowManagerEmbedParams("
+           "url: $url" ", "
+           "services: $services" ", "
+           "exposedServices: $exposedServices" ")";
+  }
 }
 
 class WindowManagerSetCaptureParams extends bindings.Struct {
@@ -96,6 +103,11 @@ class WindowManagerSetCaptureParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeUint32(viewId, 8);
+  }
+
+  String toString() {
+    return "WindowManagerSetCaptureParams("
+           "viewId: $viewId" ")";
   }
 }
 
@@ -134,6 +146,11 @@ class WindowManagerSetCaptureResponseParams extends bindings.Struct {
     
     encoder0.encodeBool(success, 8, 0);
   }
+
+  String toString() {
+    return "WindowManagerSetCaptureResponseParams("
+           "success: $success" ")";
+  }
 }
 
 class WindowManagerFocusWindowParams extends bindings.Struct {
@@ -170,6 +187,11 @@ class WindowManagerFocusWindowParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeUint32(viewId, 8);
+  }
+
+  String toString() {
+    return "WindowManagerFocusWindowParams("
+           "viewId: $viewId" ")";
   }
 }
 
@@ -208,6 +230,11 @@ class WindowManagerFocusWindowResponseParams extends bindings.Struct {
     
     encoder0.encodeBool(success, 8, 0);
   }
+
+  String toString() {
+    return "WindowManagerFocusWindowResponseParams("
+           "success: $success" ")";
+  }
 }
 
 class WindowManagerActivateWindowParams extends bindings.Struct {
@@ -244,6 +271,11 @@ class WindowManagerActivateWindowParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeUint32(viewId, 8);
+  }
+
+  String toString() {
+    return "WindowManagerActivateWindowParams("
+           "viewId: $viewId" ")";
   }
 }
 
@@ -282,6 +314,11 @@ class WindowManagerActivateWindowResponseParams extends bindings.Struct {
     
     encoder0.encodeBool(success, 8, 0);
   }
+
+  String toString() {
+    return "WindowManagerActivateWindowResponseParams("
+           "success: $success" ")";
+  }
 }
 
 class WindowManagerGetFocusedAndActiveViewsParams extends bindings.Struct {
@@ -318,6 +355,11 @@ class WindowManagerGetFocusedAndActiveViewsParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeInterface(observer, 8, true);
+  }
+
+  String toString() {
+    return "WindowManagerGetFocusedAndActiveViewsParams("
+           "observer: $observer" ")";
   }
 }
 
@@ -370,6 +412,13 @@ class WindowManagerGetFocusedAndActiveViewsResponseParams extends bindings.Struc
     
     encoder0.encodeUint32(activeViewId, 16);
   }
+
+  String toString() {
+    return "WindowManagerGetFocusedAndActiveViewsResponseParams("
+           "captureViewId: $captureViewId" ", "
+           "focusedViewId: $focusedViewId" ", "
+           "activeViewId: $activeViewId" ")";
+  }
 }
 
 class WindowManagerObserverOnCaptureChangedParams extends bindings.Struct {
@@ -406,6 +455,11 @@ class WindowManagerObserverOnCaptureChangedParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeUint32(captureViewId, 8);
+  }
+
+  String toString() {
+    return "WindowManagerObserverOnCaptureChangedParams("
+           "captureViewId: $captureViewId" ")";
   }
 }
 
@@ -444,6 +498,11 @@ class WindowManagerObserverOnFocusChangedParams extends bindings.Struct {
     
     encoder0.encodeUint32(focusedViewId, 8);
   }
+
+  String toString() {
+    return "WindowManagerObserverOnFocusChangedParams("
+           "focusedViewId: $focusedViewId" ")";
+  }
 }
 
 class WindowManagerObserverOnActiveWindowChangedParams extends bindings.Struct {
@@ -481,6 +540,11 @@ class WindowManagerObserverOnActiveWindowChangedParams extends bindings.Struct {
     
     encoder0.encodeUint32(focusedViewId, 8);
   }
+
+  String toString() {
+    return "WindowManagerObserverOnActiveWindowChangedParams("
+           "focusedViewId: $focusedViewId" ")";
+  }
 }
 const int kWindowManager_embed_name = 0;
 const int kWindowManager_setCapture_name = 1;
@@ -503,7 +567,7 @@ abstract class WindowManager {
 
 class WindowManagerProxyImpl extends bindings.Proxy {
   WindowManagerProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   WindowManagerProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -563,6 +627,11 @@ class WindowManagerProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "WindowManagerProxyImpl($superString)";
+  }
 }
 
 
@@ -571,6 +640,7 @@ class _WindowManagerProxyCalls implements WindowManager {
 
   _WindowManagerProxyCalls(this._proxyImpl);
     void embed(String url, Object services, Object exposedServices) {
+      assert(_proxyImpl.isBound);
       var params = new WindowManagerEmbedParams();
       params.url = url;
       params.services = services;
@@ -579,6 +649,7 @@ class _WindowManagerProxyCalls implements WindowManager {
     }
   
     Future<WindowManagerSetCaptureResponseParams> setCapture(int viewId,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new WindowManagerSetCaptureParams();
       params.viewId = viewId;
       return _proxyImpl.sendMessageWithRequestId(
@@ -588,6 +659,7 @@ class _WindowManagerProxyCalls implements WindowManager {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<WindowManagerFocusWindowResponseParams> focusWindow(int viewId,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new WindowManagerFocusWindowParams();
       params.viewId = viewId;
       return _proxyImpl.sendMessageWithRequestId(
@@ -597,6 +669,7 @@ class _WindowManagerProxyCalls implements WindowManager {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<WindowManagerActivateWindowResponseParams> activateWindow(int viewId,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new WindowManagerActivateWindowParams();
       params.viewId = viewId;
       return _proxyImpl.sendMessageWithRequestId(
@@ -606,6 +679,7 @@ class _WindowManagerProxyCalls implements WindowManager {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<WindowManagerGetFocusedAndActiveViewsResponseParams> getFocusedAndActiveViews(Object observer,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new WindowManagerGetFocusedAndActiveViewsParams();
       params.observer = observer;
       return _proxyImpl.sendMessageWithRequestId(
@@ -647,17 +721,22 @@ class WindowManagerProxy implements bindings.ProxyBase {
       new WindowManagerProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "WindowManagerProxy($impl)";
+  }
 }
 
 
 class WindowManagerStub extends bindings.Stub {
-  WindowManager _delegate = null;
+  WindowManager _impl = null;
 
-  WindowManagerStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  WindowManagerStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  WindowManagerStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  WindowManagerStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   WindowManagerStub.unbound() : super.unbound();
 
@@ -692,17 +771,17 @@ class WindowManagerStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kWindowManager_embed_name:
         var params = WindowManagerEmbedParams.deserialize(
             message.payload);
-        _delegate.embed(params.url, params.services, params.exposedServices);
+        _impl.embed(params.url, params.services, params.exposedServices);
         break;
       case kWindowManager_setCapture_name:
         var params = WindowManagerSetCaptureParams.deserialize(
             message.payload);
-        return _delegate.setCapture(params.viewId,_WindowManagerSetCaptureResponseParamsFactory).then((response) {
+        return _impl.setCapture(params.viewId,_WindowManagerSetCaptureResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -715,7 +794,7 @@ class WindowManagerStub extends bindings.Stub {
       case kWindowManager_focusWindow_name:
         var params = WindowManagerFocusWindowParams.deserialize(
             message.payload);
-        return _delegate.focusWindow(params.viewId,_WindowManagerFocusWindowResponseParamsFactory).then((response) {
+        return _impl.focusWindow(params.viewId,_WindowManagerFocusWindowResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -728,7 +807,7 @@ class WindowManagerStub extends bindings.Stub {
       case kWindowManager_activateWindow_name:
         var params = WindowManagerActivateWindowParams.deserialize(
             message.payload);
-        return _delegate.activateWindow(params.viewId,_WindowManagerActivateWindowResponseParamsFactory).then((response) {
+        return _impl.activateWindow(params.viewId,_WindowManagerActivateWindowResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -741,7 +820,7 @@ class WindowManagerStub extends bindings.Stub {
       case kWindowManager_getFocusedAndActiveViews_name:
         var params = WindowManagerGetFocusedAndActiveViewsParams.deserialize(
             message.payload);
-        return _delegate.getFocusedAndActiveViews(params.observer,_WindowManagerGetFocusedAndActiveViewsResponseParamsFactory).then((response) {
+        return _impl.getFocusedAndActiveViews(params.observer,_WindowManagerGetFocusedAndActiveViewsResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -758,10 +837,15 @@ class WindowManagerStub extends bindings.Stub {
     return null;
   }
 
-  WindowManager get delegate => _delegate;
-      set delegate(WindowManager d) {
-    assert(_delegate == null);
-    _delegate = d;
+  WindowManager get impl => _impl;
+      set impl(WindowManager d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "WindowManagerStub($superString)";
   }
 }
 
@@ -782,7 +866,7 @@ abstract class WindowManagerObserver {
 
 class WindowManagerObserverProxyImpl extends bindings.Proxy {
   WindowManagerObserverProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   WindowManagerObserverProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -802,6 +886,11 @@ class WindowManagerObserverProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "WindowManagerObserverProxyImpl($superString)";
+  }
 }
 
 
@@ -810,18 +899,21 @@ class _WindowManagerObserverProxyCalls implements WindowManagerObserver {
 
   _WindowManagerObserverProxyCalls(this._proxyImpl);
     void onCaptureChanged(int captureViewId) {
+      assert(_proxyImpl.isBound);
       var params = new WindowManagerObserverOnCaptureChangedParams();
       params.captureViewId = captureViewId;
       _proxyImpl.sendMessage(params, kWindowManagerObserver_onCaptureChanged_name);
     }
   
     void onFocusChanged(int focusedViewId) {
+      assert(_proxyImpl.isBound);
       var params = new WindowManagerObserverOnFocusChangedParams();
       params.focusedViewId = focusedViewId;
       _proxyImpl.sendMessage(params, kWindowManagerObserver_onFocusChanged_name);
     }
   
     void onActiveWindowChanged(int focusedViewId) {
+      assert(_proxyImpl.isBound);
       var params = new WindowManagerObserverOnActiveWindowChangedParams();
       params.focusedViewId = focusedViewId;
       _proxyImpl.sendMessage(params, kWindowManagerObserver_onActiveWindowChanged_name);
@@ -860,17 +952,22 @@ class WindowManagerObserverProxy implements bindings.ProxyBase {
       new WindowManagerObserverProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "WindowManagerObserverProxy($impl)";
+  }
 }
 
 
 class WindowManagerObserverStub extends bindings.Stub {
-  WindowManagerObserver _delegate = null;
+  WindowManagerObserver _impl = null;
 
-  WindowManagerObserverStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  WindowManagerObserverStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  WindowManagerObserverStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  WindowManagerObserverStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   WindowManagerObserverStub.unbound() : super.unbound();
 
@@ -883,22 +980,22 @@ class WindowManagerObserverStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kWindowManagerObserver_onCaptureChanged_name:
         var params = WindowManagerObserverOnCaptureChangedParams.deserialize(
             message.payload);
-        _delegate.onCaptureChanged(params.captureViewId);
+        _impl.onCaptureChanged(params.captureViewId);
         break;
       case kWindowManagerObserver_onFocusChanged_name:
         var params = WindowManagerObserverOnFocusChangedParams.deserialize(
             message.payload);
-        _delegate.onFocusChanged(params.focusedViewId);
+        _impl.onFocusChanged(params.focusedViewId);
         break;
       case kWindowManagerObserver_onActiveWindowChanged_name:
         var params = WindowManagerObserverOnActiveWindowChangedParams.deserialize(
             message.payload);
-        _delegate.onActiveWindowChanged(params.focusedViewId);
+        _impl.onActiveWindowChanged(params.focusedViewId);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -907,10 +1004,15 @@ class WindowManagerObserverStub extends bindings.Stub {
     return null;
   }
 
-  WindowManagerObserver get delegate => _delegate;
-      set delegate(WindowManagerObserver d) {
-    assert(_delegate == null);
-    _delegate = d;
+  WindowManagerObserver get impl => _impl;
+      set impl(WindowManagerObserver d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "WindowManagerObserverStub($superString)";
   }
 }
 

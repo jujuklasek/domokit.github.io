@@ -54,6 +54,12 @@ class HttpServerFactoryCreateHttpServerParams extends bindings.Struct {
     
     encoder0.encodeStruct(localAddress, 16, true);
   }
+
+  String toString() {
+    return "HttpServerFactoryCreateHttpServerParams("
+           "serverRequest: $serverRequest" ", "
+           "localAddress: $localAddress" ")";
+  }
 }
 const int kHttpServerFactory_createHttpServer_name = 0;
 
@@ -68,7 +74,7 @@ abstract class HttpServerFactory {
 
 class HttpServerFactoryProxyImpl extends bindings.Proxy {
   HttpServerFactoryProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   HttpServerFactoryProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -88,6 +94,11 @@ class HttpServerFactoryProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "HttpServerFactoryProxyImpl($superString)";
+  }
 }
 
 
@@ -96,6 +107,7 @@ class _HttpServerFactoryProxyCalls implements HttpServerFactory {
 
   _HttpServerFactoryProxyCalls(this._proxyImpl);
     void createHttpServer(Object serverRequest, net_address_mojom.NetAddress localAddress) {
+      assert(_proxyImpl.isBound);
       var params = new HttpServerFactoryCreateHttpServerParams();
       params.serverRequest = serverRequest;
       params.localAddress = localAddress;
@@ -135,17 +147,22 @@ class HttpServerFactoryProxy implements bindings.ProxyBase {
       new HttpServerFactoryProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "HttpServerFactoryProxy($impl)";
+  }
 }
 
 
 class HttpServerFactoryStub extends bindings.Stub {
-  HttpServerFactory _delegate = null;
+  HttpServerFactory _impl = null;
 
-  HttpServerFactoryStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  HttpServerFactoryStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  HttpServerFactoryStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  HttpServerFactoryStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   HttpServerFactoryStub.unbound() : super.unbound();
 
@@ -158,12 +175,12 @@ class HttpServerFactoryStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kHttpServerFactory_createHttpServer_name:
         var params = HttpServerFactoryCreateHttpServerParams.deserialize(
             message.payload);
-        _delegate.createHttpServer(params.serverRequest, params.localAddress);
+        _impl.createHttpServer(params.serverRequest, params.localAddress);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -172,10 +189,15 @@ class HttpServerFactoryStub extends bindings.Stub {
     return null;
   }
 
-  HttpServerFactory get delegate => _delegate;
-      set delegate(HttpServerFactory d) {
-    assert(_delegate == null);
-    _delegate = d;
+  HttpServerFactory get impl => _impl;
+      set impl(HttpServerFactory d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "HttpServerFactoryStub($superString)";
   }
 }
 

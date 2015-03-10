@@ -7,7 +7,7 @@ class DrawerHeader extends Component {
     flex-direction: column;
     height: 140px;
     -webkit-user-select: none;
-    background-color: #E3ECF5;
+    background-color: ${BlueGrey[50]};
     border-bottom: 1px solid #D1D9E1;
     padding-bottom: 7px;
     margin-bottom: 8px;'''
@@ -27,7 +27,7 @@ class DrawerHeader extends Component {
 
   DrawerHeader({ Object key, this.children }) : super(key: key);
 
-  Node render() {
+  Node build() {
     return new Container(
       style: _style,
       children: [

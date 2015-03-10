@@ -44,6 +44,11 @@ class PingablePingParams extends bindings.Struct {
     
     encoder0.encodeString(message, 8, false);
   }
+
+  String toString() {
+    return "PingablePingParams("
+           "message: $message" ")";
+  }
 }
 
 class PingablePingResponseParams extends bindings.Struct {
@@ -95,6 +100,13 @@ class PingablePingResponseParams extends bindings.Struct {
     
     encoder0.encodeString(message, 24, false);
   }
+
+  String toString() {
+    return "PingablePingResponseParams("
+           "appUrl: $appUrl" ", "
+           "connectionUrl: $connectionUrl" ", "
+           "message: $message" ")";
+  }
 }
 const int kPingable_ping_name = 0;
 
@@ -109,7 +121,7 @@ abstract class Pingable {
 
 class PingableProxyImpl extends bindings.Proxy {
   PingableProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   PingableProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -139,6 +151,11 @@ class PingableProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "PingableProxyImpl($superString)";
+  }
 }
 
 
@@ -147,6 +164,7 @@ class _PingableProxyCalls implements Pingable {
 
   _PingableProxyCalls(this._proxyImpl);
     Future<PingablePingResponseParams> ping(String message,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new PingablePingParams();
       params.message = message;
       return _proxyImpl.sendMessageWithRequestId(
@@ -188,17 +206,22 @@ class PingableProxy implements bindings.ProxyBase {
       new PingableProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "PingableProxy($impl)";
+  }
 }
 
 
 class PingableStub extends bindings.Stub {
-  Pingable _delegate = null;
+  Pingable _impl = null;
 
-  PingableStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  PingableStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  PingableStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  PingableStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   PingableStub.unbound() : super.unbound();
 
@@ -218,12 +241,12 @@ class PingableStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kPingable_ping_name:
         var params = PingablePingParams.deserialize(
             message.payload);
-        return _delegate.ping(params.message,_PingablePingResponseParamsFactory).then((response) {
+        return _impl.ping(params.message,_PingablePingResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -240,10 +263,15 @@ class PingableStub extends bindings.Stub {
     return null;
   }
 
-  Pingable get delegate => _delegate;
-      set delegate(Pingable d) {
-    assert(_delegate == null);
-    _delegate = d;
+  Pingable get impl => _impl;
+      set impl(Pingable d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "PingableStub($superString)";
   }
 }
 

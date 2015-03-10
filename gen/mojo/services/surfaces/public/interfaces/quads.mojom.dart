@@ -95,6 +95,11 @@ class Color extends bindings.Struct {
     
     encoder0.encodeUint32(rgba, 8);
   }
+
+  String toString() {
+    return "Color("
+           "rgba: $rgba" ")";
+  }
 }
 
 class CheckerboardQuadState extends bindings.Struct {
@@ -124,6 +129,10 @@ class CheckerboardQuadState extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "CheckerboardQuadState("")";
   }
 }
 
@@ -155,6 +164,10 @@ class DebugBorderQuadState extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "DebugBorderQuadState("")";
+  }
 }
 
 class IoSurfaceContentQuadState extends bindings.Struct {
@@ -184,6 +197,10 @@ class IoSurfaceContentQuadState extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "IoSurfaceContentQuadState("")";
   }
 }
 
@@ -228,6 +245,12 @@ class RenderPassId extends bindings.Struct {
     encoder0.encodeInt32(layerId, 8);
     
     encoder0.encodeInt32(index, 12);
+  }
+
+  String toString() {
+    return "RenderPassId("
+           "layerId: $layerId" ", "
+           "index: $index" ")";
   }
 }
 
@@ -298,6 +321,15 @@ class RenderPassQuadState extends bindings.Struct {
     
     encoder0.encodeStruct(filtersScale, 40, false);
   }
+
+  String toString() {
+    return "RenderPassQuadState("
+           "renderPassId: $renderPassId" ", "
+           "maskResourceId: $maskResourceId" ", "
+           "maskUvScale: $maskUvScale" ", "
+           "maskTextureSize: $maskTextureSize" ", "
+           "filtersScale: $filtersScale" ")";
+  }
 }
 
 class SolidColorQuadState extends bindings.Struct {
@@ -343,6 +375,12 @@ class SolidColorQuadState extends bindings.Struct {
     
     encoder0.encodeBool(forceAntiAliasingOff, 16, 0);
   }
+
+  String toString() {
+    return "SolidColorQuadState("
+           "color: $color" ", "
+           "forceAntiAliasingOff: $forceAntiAliasingOff" ")";
+  }
 }
 
 class SurfaceQuadState extends bindings.Struct {
@@ -380,6 +418,11 @@ class SurfaceQuadState extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeStruct(surface, 8, false);
+  }
+
+  String toString() {
+    return "SurfaceQuadState("
+           "surface: $surface" ")";
   }
 }
 
@@ -470,6 +513,18 @@ class TextureQuadState extends bindings.Struct {
     
     encoder0.encodeFloatArray(vertexOpacity, 40, bindings.kNothingNullable, 4);
   }
+
+  String toString() {
+    return "TextureQuadState("
+           "resourceId: $resourceId" ", "
+           "premultipliedAlpha: $premultipliedAlpha" ", "
+           "flipped: $flipped" ", "
+           "nearestNeighbor: $nearestNeighbor" ", "
+           "uvTopLeft: $uvTopLeft" ", "
+           "uvBottomRight: $uvBottomRight" ", "
+           "backgroundColor: $backgroundColor" ", "
+           "vertexOpacity: $vertexOpacity" ")";
+  }
 }
 
 class TileQuadState extends bindings.Struct {
@@ -537,6 +592,15 @@ class TileQuadState extends bindings.Struct {
     
     encoder0.encodeUint32(resourceId, 28);
   }
+
+  String toString() {
+    return "TileQuadState("
+           "texCoordRect: $texCoordRect" ", "
+           "textureSize: $textureSize" ", "
+           "swizzleContents: $swizzleContents" ", "
+           "nearestNeighbor: $nearestNeighbor" ", "
+           "resourceId: $resourceId" ")";
+  }
 }
 
 class StreamVideoQuadState extends bindings.Struct {
@@ -566,6 +630,10 @@ class StreamVideoQuadState extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "StreamVideoQuadState("")";
   }
 }
 
@@ -639,6 +707,16 @@ class YuvVideoQuadState extends bindings.Struct {
     encoder0.encodeUint32(aPlaneResourceId, 28);
     
     encoder0.encodeInt32(colorSpace, 32);
+  }
+
+  String toString() {
+    return "YuvVideoQuadState("
+           "texCoordRect: $texCoordRect" ", "
+           "yPlaneResourceId: $yPlaneResourceId" ", "
+           "uPlaneResourceId: $uPlaneResourceId" ", "
+           "vPlaneResourceId: $vPlaneResourceId" ", "
+           "aPlaneResourceId: $aPlaneResourceId" ", "
+           "colorSpace: $colorSpace" ")";
   }
 }
 
@@ -795,6 +873,26 @@ class Quad extends bindings.Struct {
     
     encoder0.encodeStruct(yuvVideoQuadState, 120, true);
   }
+
+  String toString() {
+    return "Quad("
+           "material: $material" ", "
+           "needsBlending: $needsBlending" ", "
+           "rect: $rect" ", "
+           "opaqueRect: $opaqueRect" ", "
+           "visibleRect: $visibleRect" ", "
+           "sharedQuadStateIndex: $sharedQuadStateIndex" ", "
+           "checkerboardQuadState: $checkerboardQuadState" ", "
+           "debugBorderQuadState: $debugBorderQuadState" ", "
+           "ioSurfaceQuadState: $ioSurfaceQuadState" ", "
+           "renderPassQuadState: $renderPassQuadState" ", "
+           "solidColorQuadState: $solidColorQuadState" ", "
+           "surfaceQuadState: $surfaceQuadState" ", "
+           "textureQuadState: $textureQuadState" ", "
+           "tileQuadState: $tileQuadState" ", "
+           "streamVideoQuadState: $streamVideoQuadState" ", "
+           "yuvVideoQuadState: $yuvVideoQuadState" ")";
+  }
 }
 
 class SharedQuadState extends bindings.Struct {
@@ -884,6 +982,18 @@ class SharedQuadState extends bindings.Struct {
     encoder0.encodeInt32(blendMode, 48);
     
     encoder0.encodeInt32(sortingContextId, 52);
+  }
+
+  String toString() {
+    return "SharedQuadState("
+           "contentToTargetTransform: $contentToTargetTransform" ", "
+           "contentBounds: $contentBounds" ", "
+           "visibleContentRect: $visibleContentRect" ", "
+           "clipRect: $clipRect" ", "
+           "isClipped: $isClipped" ", "
+           "opacity: $opacity" ", "
+           "blendMode: $blendMode" ", "
+           "sortingContextId: $sortingContextId" ")";
   }
 }
 
@@ -1000,6 +1110,17 @@ class Pass extends bindings.Struct {
         encoder1.encodeStruct(sharedQuadStates[i0], bindings.ArrayDataHeader.kHeaderSize + bindings.kPointerSize * i0, false);
       }
     }
+  }
+
+  String toString() {
+    return "Pass("
+           "id: $id" ", "
+           "hasTransparentBackground: $hasTransparentBackground" ", "
+           "outputRect: $outputRect" ", "
+           "damageRect: $damageRect" ", "
+           "transformToRootTarget: $transformToRootTarget" ", "
+           "quads: $quads" ", "
+           "sharedQuadStates: $sharedQuadStates" ")";
   }
 }
 

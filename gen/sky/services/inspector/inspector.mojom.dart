@@ -44,6 +44,11 @@ class InspectorFrontendSendMessageParams extends bindings.Struct {
     
     encoder0.encodeString(message, 8, false);
   }
+
+  String toString() {
+    return "InspectorFrontendSendMessageParams("
+           "message: $message" ")";
+  }
 }
 
 class InspectorBackendOnConnectParams extends bindings.Struct {
@@ -74,6 +79,10 @@ class InspectorBackendOnConnectParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "InspectorBackendOnConnectParams("")";
+  }
 }
 
 class InspectorBackendOnDisconnectParams extends bindings.Struct {
@@ -103,6 +112,10 @@ class InspectorBackendOnDisconnectParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "InspectorBackendOnDisconnectParams("")";
   }
 }
 
@@ -141,6 +154,11 @@ class InspectorBackendOnMessageParams extends bindings.Struct {
     
     encoder0.encodeString(message, 8, false);
   }
+
+  String toString() {
+    return "InspectorBackendOnMessageParams("
+           "message: $message" ")";
+  }
 }
 const int kInspectorFrontend_sendMessage_name = 0;
 
@@ -155,7 +173,7 @@ abstract class InspectorFrontend {
 
 class InspectorFrontendProxyImpl extends bindings.Proxy {
   InspectorFrontendProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   InspectorFrontendProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -175,6 +193,11 @@ class InspectorFrontendProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "InspectorFrontendProxyImpl($superString)";
+  }
 }
 
 
@@ -183,6 +206,7 @@ class _InspectorFrontendProxyCalls implements InspectorFrontend {
 
   _InspectorFrontendProxyCalls(this._proxyImpl);
     void sendMessage(String message) {
+      assert(_proxyImpl.isBound);
       var params = new InspectorFrontendSendMessageParams();
       params.message = message;
       _proxyImpl.sendMessage(params, kInspectorFrontend_sendMessage_name);
@@ -221,17 +245,22 @@ class InspectorFrontendProxy implements bindings.ProxyBase {
       new InspectorFrontendProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "InspectorFrontendProxy($impl)";
+  }
 }
 
 
 class InspectorFrontendStub extends bindings.Stub {
-  InspectorFrontend _delegate = null;
+  InspectorFrontend _impl = null;
 
-  InspectorFrontendStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  InspectorFrontendStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  InspectorFrontendStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  InspectorFrontendStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   InspectorFrontendStub.unbound() : super.unbound();
 
@@ -244,12 +273,12 @@ class InspectorFrontendStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kInspectorFrontend_sendMessage_name:
         var params = InspectorFrontendSendMessageParams.deserialize(
             message.payload);
-        _delegate.sendMessage(params.message);
+        _impl.sendMessage(params.message);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -258,10 +287,15 @@ class InspectorFrontendStub extends bindings.Stub {
     return null;
   }
 
-  InspectorFrontend get delegate => _delegate;
-      set delegate(InspectorFrontend d) {
-    assert(_delegate == null);
-    _delegate = d;
+  InspectorFrontend get impl => _impl;
+      set impl(InspectorFrontend d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "InspectorFrontendStub($superString)";
   }
 }
 
@@ -282,7 +316,7 @@ abstract class InspectorBackend {
 
 class InspectorBackendProxyImpl extends bindings.Proxy {
   InspectorBackendProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   InspectorBackendProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -302,6 +336,11 @@ class InspectorBackendProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "InspectorBackendProxyImpl($superString)";
+  }
 }
 
 
@@ -310,16 +349,19 @@ class _InspectorBackendProxyCalls implements InspectorBackend {
 
   _InspectorBackendProxyCalls(this._proxyImpl);
     void onConnect() {
+      assert(_proxyImpl.isBound);
       var params = new InspectorBackendOnConnectParams();
       _proxyImpl.sendMessage(params, kInspectorBackend_onConnect_name);
     }
   
     void onDisconnect() {
+      assert(_proxyImpl.isBound);
       var params = new InspectorBackendOnDisconnectParams();
       _proxyImpl.sendMessage(params, kInspectorBackend_onDisconnect_name);
     }
   
     void onMessage(String message) {
+      assert(_proxyImpl.isBound);
       var params = new InspectorBackendOnMessageParams();
       params.message = message;
       _proxyImpl.sendMessage(params, kInspectorBackend_onMessage_name);
@@ -358,17 +400,22 @@ class InspectorBackendProxy implements bindings.ProxyBase {
       new InspectorBackendProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "InspectorBackendProxy($impl)";
+  }
 }
 
 
 class InspectorBackendStub extends bindings.Stub {
-  InspectorBackend _delegate = null;
+  InspectorBackend _impl = null;
 
-  InspectorBackendStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  InspectorBackendStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  InspectorBackendStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  InspectorBackendStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   InspectorBackendStub.unbound() : super.unbound();
 
@@ -381,22 +428,22 @@ class InspectorBackendStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kInspectorBackend_onConnect_name:
         var params = InspectorBackendOnConnectParams.deserialize(
             message.payload);
-        _delegate.onConnect();
+        _impl.onConnect();
         break;
       case kInspectorBackend_onDisconnect_name:
         var params = InspectorBackendOnDisconnectParams.deserialize(
             message.payload);
-        _delegate.onDisconnect();
+        _impl.onDisconnect();
         break;
       case kInspectorBackend_onMessage_name:
         var params = InspectorBackendOnMessageParams.deserialize(
             message.payload);
-        _delegate.onMessage(params.message);
+        _impl.onMessage(params.message);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -405,10 +452,15 @@ class InspectorBackendStub extends bindings.Stub {
     return null;
   }
 
-  InspectorBackend get delegate => _delegate;
-      set delegate(InspectorBackend d) {
-    assert(_delegate == null);
-    _delegate = d;
+  InspectorBackend get impl => _impl;
+      set impl(InspectorBackend d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "InspectorBackendStub($superString)";
   }
 }
 

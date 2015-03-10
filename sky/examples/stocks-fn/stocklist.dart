@@ -7,9 +7,9 @@ class Stocklist extends FixedHeightScrollable {
   Stocklist({
     Object key,
     this.stocks
-  }) : super(key: key, itemHeight: 80.0, height: 800.0, minOffset: 0.0);
+  }) : super(key: key, minOffset: 0.0);
 
-  List<Node> renderItems(int start, int count) {
+  List<Node> buildItems(int start, int count) {
     var items = [];
     for (var i = 0; i < count; i++) {
       items.add(new StockRow(stock: stocks[start + i]));

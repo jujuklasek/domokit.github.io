@@ -139,7 +139,7 @@
   }
 
   var ServiceRegistry = {
-    name: 'service_registry::ServiceRegistry',
+    name: 'mojo::ServiceRegistry',
     proxyClass: ServiceRegistryProxy,
     stubClass: ServiceRegistryStub,
     validateRequest: validateServiceRegistryRequest,

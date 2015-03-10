@@ -44,6 +44,11 @@ class BrowserHostNavigateToParams extends bindings.Struct {
     
     encoder0.encodeString(url, 8, false);
   }
+
+  String toString() {
+    return "BrowserHostNavigateToParams("
+           "url: $url" ")";
+  }
 }
 const int kBrowserHost_navigateTo_name = 0;
 
@@ -58,7 +63,7 @@ abstract class BrowserHost {
 
 class BrowserHostProxyImpl extends bindings.Proxy {
   BrowserHostProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   BrowserHostProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -78,6 +83,11 @@ class BrowserHostProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "BrowserHostProxyImpl($superString)";
+  }
 }
 
 
@@ -86,6 +96,7 @@ class _BrowserHostProxyCalls implements BrowserHost {
 
   _BrowserHostProxyCalls(this._proxyImpl);
     void navigateTo(String url) {
+      assert(_proxyImpl.isBound);
       var params = new BrowserHostNavigateToParams();
       params.url = url;
       _proxyImpl.sendMessage(params, kBrowserHost_navigateTo_name);
@@ -124,17 +135,22 @@ class BrowserHostProxy implements bindings.ProxyBase {
       new BrowserHostProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "BrowserHostProxy($impl)";
+  }
 }
 
 
 class BrowserHostStub extends bindings.Stub {
-  BrowserHost _delegate = null;
+  BrowserHost _impl = null;
 
-  BrowserHostStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  BrowserHostStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  BrowserHostStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  BrowserHostStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   BrowserHostStub.unbound() : super.unbound();
 
@@ -147,12 +163,12 @@ class BrowserHostStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kBrowserHost_navigateTo_name:
         var params = BrowserHostNavigateToParams.deserialize(
             message.payload);
-        _delegate.navigateTo(params.url);
+        _impl.navigateTo(params.url);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -161,10 +177,15 @@ class BrowserHostStub extends bindings.Stub {
     return null;
   }
 
-  BrowserHost get delegate => _delegate;
-      set delegate(BrowserHost d) {
-    assert(_delegate == null);
-    _delegate = d;
+  BrowserHost get impl => _impl;
+      set impl(BrowserHost d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "BrowserHostStub($superString)";
   }
 }
 

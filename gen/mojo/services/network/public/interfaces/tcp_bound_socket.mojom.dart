@@ -48,6 +48,11 @@ class TcpBoundSocketStartListeningParams extends bindings.Struct {
     
     encoder0.encodeInterfaceRequest(server, 8, false);
   }
+
+  String toString() {
+    return "TcpBoundSocketStartListeningParams("
+           "server: $server" ")";
+  }
 }
 
 class TcpBoundSocketStartListeningResponseParams extends bindings.Struct {
@@ -85,6 +90,11 @@ class TcpBoundSocketStartListeningResponseParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeStruct(result, 8, false);
+  }
+
+  String toString() {
+    return "TcpBoundSocketStartListeningResponseParams("
+           "result: $result" ")";
   }
 }
 
@@ -145,6 +155,14 @@ class TcpBoundSocketConnectParams extends bindings.Struct {
     
     encoder0.encodeInterfaceRequest(clientSocket, 24, false);
   }
+
+  String toString() {
+    return "TcpBoundSocketConnectParams("
+           "remoteAddress: $remoteAddress" ", "
+           "sendStream: $sendStream" ", "
+           "receiveStream: $receiveStream" ", "
+           "clientSocket: $clientSocket" ")";
+  }
 }
 
 class TcpBoundSocketConnectResponseParams extends bindings.Struct {
@@ -183,6 +201,11 @@ class TcpBoundSocketConnectResponseParams extends bindings.Struct {
     
     encoder0.encodeStruct(result, 8, false);
   }
+
+  String toString() {
+    return "TcpBoundSocketConnectResponseParams("
+           "result: $result" ")";
+  }
 }
 const int kTcpBoundSocket_startListening_name = 0;
 const int kTcpBoundSocket_connect_name = 1;
@@ -199,7 +222,7 @@ abstract class TcpBoundSocket {
 
 class TcpBoundSocketProxyImpl extends bindings.Proxy {
   TcpBoundSocketProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   TcpBoundSocketProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -239,6 +262,11 @@ class TcpBoundSocketProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "TcpBoundSocketProxyImpl($superString)";
+  }
 }
 
 
@@ -247,6 +275,7 @@ class _TcpBoundSocketProxyCalls implements TcpBoundSocket {
 
   _TcpBoundSocketProxyCalls(this._proxyImpl);
     Future<TcpBoundSocketStartListeningResponseParams> startListening(Object server,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new TcpBoundSocketStartListeningParams();
       params.server = server;
       return _proxyImpl.sendMessageWithRequestId(
@@ -256,6 +285,7 @@ class _TcpBoundSocketProxyCalls implements TcpBoundSocket {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<TcpBoundSocketConnectResponseParams> connect(net_address_mojom.NetAddress remoteAddress,core.MojoDataPipeConsumer sendStream,core.MojoDataPipeProducer receiveStream,Object clientSocket,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new TcpBoundSocketConnectParams();
       params.remoteAddress = remoteAddress;
       params.sendStream = sendStream;
@@ -300,17 +330,22 @@ class TcpBoundSocketProxy implements bindings.ProxyBase {
       new TcpBoundSocketProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "TcpBoundSocketProxy($impl)";
+  }
 }
 
 
 class TcpBoundSocketStub extends bindings.Stub {
-  TcpBoundSocket _delegate = null;
+  TcpBoundSocket _impl = null;
 
-  TcpBoundSocketStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  TcpBoundSocketStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  TcpBoundSocketStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  TcpBoundSocketStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   TcpBoundSocketStub.unbound() : super.unbound();
 
@@ -333,12 +368,12 @@ class TcpBoundSocketStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kTcpBoundSocket_startListening_name:
         var params = TcpBoundSocketStartListeningParams.deserialize(
             message.payload);
-        return _delegate.startListening(params.server,_TcpBoundSocketStartListeningResponseParamsFactory).then((response) {
+        return _impl.startListening(params.server,_TcpBoundSocketStartListeningResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -351,7 +386,7 @@ class TcpBoundSocketStub extends bindings.Stub {
       case kTcpBoundSocket_connect_name:
         var params = TcpBoundSocketConnectParams.deserialize(
             message.payload);
-        return _delegate.connect(params.remoteAddress,params.sendStream,params.receiveStream,params.clientSocket,_TcpBoundSocketConnectResponseParamsFactory).then((response) {
+        return _impl.connect(params.remoteAddress,params.sendStream,params.receiveStream,params.clientSocket,_TcpBoundSocketConnectResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -368,10 +403,15 @@ class TcpBoundSocketStub extends bindings.Stub {
     return null;
   }
 
-  TcpBoundSocket get delegate => _delegate;
-      set delegate(TcpBoundSocket d) {
-    assert(_delegate == null);
-    _delegate = d;
+  TcpBoundSocket get impl => _impl;
+      set impl(TcpBoundSocket d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "TcpBoundSocketStub($superString)";
   }
 }
 

@@ -78,6 +78,13 @@ class SensorData extends bindings.Struct {
     
     encoder0.encodeFloatArray(values, 24, bindings.kNothingNullable, bindings.kUnspecifiedArrayLength);
   }
+
+  String toString() {
+    return "SensorData("
+           "accuracy: $accuracy" ", "
+           "timeStamp: $timeStamp" ", "
+           "values: $values" ")";
+  }
 }
 
 class SensorListenerOnAccuracyChangedParams extends bindings.Struct {
@@ -114,6 +121,11 @@ class SensorListenerOnAccuracyChangedParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeInt32(accuracy, 8);
+  }
+
+  String toString() {
+    return "SensorListenerOnAccuracyChangedParams("
+           "accuracy: $accuracy" ")";
   }
 }
 
@@ -152,6 +164,11 @@ class SensorListenerOnSensorChangedParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeStruct(data, 8, false);
+  }
+
+  String toString() {
+    return "SensorListenerOnSensorChangedParams("
+           "data: $data" ")";
   }
 }
 
@@ -197,6 +214,12 @@ class SensorServiceAddListenerParams extends bindings.Struct {
     
     encoder0.encodeInterface(listener, 12, false);
   }
+
+  String toString() {
+    return "SensorServiceAddListenerParams("
+           "type: $type" ", "
+           "listener: $listener" ")";
+  }
 }
 const int kSensorListener_onAccuracyChanged_name = 0;
 const int kSensorListener_onSensorChanged_name = 1;
@@ -213,7 +236,7 @@ abstract class SensorListener {
 
 class SensorListenerProxyImpl extends bindings.Proxy {
   SensorListenerProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   SensorListenerProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -233,6 +256,11 @@ class SensorListenerProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "SensorListenerProxyImpl($superString)";
+  }
 }
 
 
@@ -241,12 +269,14 @@ class _SensorListenerProxyCalls implements SensorListener {
 
   _SensorListenerProxyCalls(this._proxyImpl);
     void onAccuracyChanged(int accuracy) {
+      assert(_proxyImpl.isBound);
       var params = new SensorListenerOnAccuracyChangedParams();
       params.accuracy = accuracy;
       _proxyImpl.sendMessage(params, kSensorListener_onAccuracyChanged_name);
     }
   
     void onSensorChanged(SensorData data) {
+      assert(_proxyImpl.isBound);
       var params = new SensorListenerOnSensorChangedParams();
       params.data = data;
       _proxyImpl.sendMessage(params, kSensorListener_onSensorChanged_name);
@@ -285,17 +315,22 @@ class SensorListenerProxy implements bindings.ProxyBase {
       new SensorListenerProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "SensorListenerProxy($impl)";
+  }
 }
 
 
 class SensorListenerStub extends bindings.Stub {
-  SensorListener _delegate = null;
+  SensorListener _impl = null;
 
-  SensorListenerStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  SensorListenerStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  SensorListenerStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  SensorListenerStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   SensorListenerStub.unbound() : super.unbound();
 
@@ -308,17 +343,17 @@ class SensorListenerStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kSensorListener_onAccuracyChanged_name:
         var params = SensorListenerOnAccuracyChangedParams.deserialize(
             message.payload);
-        _delegate.onAccuracyChanged(params.accuracy);
+        _impl.onAccuracyChanged(params.accuracy);
         break;
       case kSensorListener_onSensorChanged_name:
         var params = SensorListenerOnSensorChangedParams.deserialize(
             message.payload);
-        _delegate.onSensorChanged(params.data);
+        _impl.onSensorChanged(params.data);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -327,10 +362,15 @@ class SensorListenerStub extends bindings.Stub {
     return null;
   }
 
-  SensorListener get delegate => _delegate;
-      set delegate(SensorListener d) {
-    assert(_delegate == null);
-    _delegate = d;
+  SensorListener get impl => _impl;
+      set impl(SensorListener d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "SensorListenerStub($superString)";
   }
 }
 
@@ -347,7 +387,7 @@ abstract class SensorService {
 
 class SensorServiceProxyImpl extends bindings.Proxy {
   SensorServiceProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   SensorServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -367,6 +407,11 @@ class SensorServiceProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "SensorServiceProxyImpl($superString)";
+  }
 }
 
 
@@ -375,6 +420,7 @@ class _SensorServiceProxyCalls implements SensorService {
 
   _SensorServiceProxyCalls(this._proxyImpl);
     void addListener(int type, Object listener) {
+      assert(_proxyImpl.isBound);
       var params = new SensorServiceAddListenerParams();
       params.type = type;
       params.listener = listener;
@@ -414,17 +460,22 @@ class SensorServiceProxy implements bindings.ProxyBase {
       new SensorServiceProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "SensorServiceProxy($impl)";
+  }
 }
 
 
 class SensorServiceStub extends bindings.Stub {
-  SensorService _delegate = null;
+  SensorService _impl = null;
 
-  SensorServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  SensorServiceStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  SensorServiceStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  SensorServiceStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   SensorServiceStub.unbound() : super.unbound();
 
@@ -437,12 +488,12 @@ class SensorServiceStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kSensorService_addListener_name:
         var params = SensorServiceAddListenerParams.deserialize(
             message.payload);
-        _delegate.addListener(params.type, params.listener);
+        _impl.addListener(params.type, params.listener);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -451,10 +502,15 @@ class SensorServiceStub extends bindings.Stub {
     return null;
   }
 
-  SensorService get delegate => _delegate;
-      set delegate(SensorService d) {
-    assert(_delegate == null);
-    _delegate = d;
+  SensorService get impl => _impl;
+      set impl(SensorService d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "SensorServiceStub($superString)";
   }
 }
 

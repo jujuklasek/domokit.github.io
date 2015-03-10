@@ -87,6 +87,17 @@ class CommandBufferState extends bindings.Struct {
     
     encoder0.encodeUint32(generation, 32);
   }
+
+  String toString() {
+    return "CommandBufferState("
+           "numEntries: $numEntries" ", "
+           "getOffset: $getOffset" ", "
+           "putOffset: $putOffset" ", "
+           "token: $token" ", "
+           "error: $error" ", "
+           "contextLostReason: $contextLostReason" ", "
+           "generation: $generation" ")";
+  }
 }
 
 class CommandBufferSyncClientDidInitializeParams extends bindings.Struct {
@@ -132,6 +143,12 @@ class CommandBufferSyncClientDidInitializeParams extends bindings.Struct {
     
     encoder0.encodeStruct(capabilities, 16, false);
   }
+
+  String toString() {
+    return "CommandBufferSyncClientDidInitializeParams("
+           "success: $success" ", "
+           "capabilities: $capabilities" ")";
+  }
 }
 
 class CommandBufferSyncClientDidMakeProgressParams extends bindings.Struct {
@@ -170,6 +187,11 @@ class CommandBufferSyncClientDidMakeProgressParams extends bindings.Struct {
     
     encoder0.encodeStruct(state, 8, false);
   }
+
+  String toString() {
+    return "CommandBufferSyncClientDidMakeProgressParams("
+           "state: $state" ")";
+  }
 }
 
 class CommandBufferSyncPointClientDidInsertSyncPointParams extends bindings.Struct {
@@ -207,6 +229,11 @@ class CommandBufferSyncPointClientDidInsertSyncPointParams extends bindings.Stru
     
     encoder0.encodeUint32(syncPoint, 8);
   }
+
+  String toString() {
+    return "CommandBufferSyncPointClientDidInsertSyncPointParams("
+           "syncPoint: $syncPoint" ")";
+  }
 }
 
 class CommandBufferLostContextObserverDidLoseContextParams extends bindings.Struct {
@@ -243,6 +270,11 @@ class CommandBufferLostContextObserverDidLoseContextParams extends bindings.Stru
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeInt32(contextLostReason, 8);
+  }
+
+  String toString() {
+    return "CommandBufferLostContextObserverDidLoseContextParams("
+           "contextLostReason: $contextLostReason" ")";
   }
 }
 
@@ -302,6 +334,14 @@ class CommandBufferInitializeParams extends bindings.Struct {
     
     encoder0.encodeSharedBufferHandle(sharedState, 20, false);
   }
+
+  String toString() {
+    return "CommandBufferInitializeParams("
+           "syncClient: $syncClient" ", "
+           "syncPointClient: $syncPointClient" ", "
+           "lostObserver: $lostObserver" ", "
+           "sharedState: $sharedState" ")";
+  }
 }
 
 class CommandBufferSetGetBufferParams extends bindings.Struct {
@@ -338,6 +378,11 @@ class CommandBufferSetGetBufferParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeInt32(buffer, 8);
+  }
+
+  String toString() {
+    return "CommandBufferSetGetBufferParams("
+           "buffer: $buffer" ")";
   }
 }
 
@@ -376,6 +421,11 @@ class CommandBufferFlushParams extends bindings.Struct {
     
     encoder0.encodeInt32(putOffset, 8);
   }
+
+  String toString() {
+    return "CommandBufferFlushParams("
+           "putOffset: $putOffset" ")";
+  }
 }
 
 class CommandBufferMakeProgressParams extends bindings.Struct {
@@ -412,6 +462,11 @@ class CommandBufferMakeProgressParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeInt32(lastGetOffset, 8);
+  }
+
+  String toString() {
+    return "CommandBufferMakeProgressParams("
+           "lastGetOffset: $lastGetOffset" ")";
   }
 }
 
@@ -464,6 +519,13 @@ class CommandBufferRegisterTransferBufferParams extends bindings.Struct {
     
     encoder0.encodeUint32(size, 16);
   }
+
+  String toString() {
+    return "CommandBufferRegisterTransferBufferParams("
+           "id: $id" ", "
+           "transferBuffer: $transferBuffer" ", "
+           "size: $size" ")";
+  }
 }
 
 class CommandBufferDestroyTransferBufferParams extends bindings.Struct {
@@ -500,6 +562,11 @@ class CommandBufferDestroyTransferBufferParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeInt32(id, 8);
+  }
+
+  String toString() {
+    return "CommandBufferDestroyTransferBufferParams("
+           "id: $id" ")";
   }
 }
 
@@ -538,6 +605,11 @@ class CommandBufferInsertSyncPointParams extends bindings.Struct {
     
     encoder0.encodeBool(retire, 8, 0);
   }
+
+  String toString() {
+    return "CommandBufferInsertSyncPointParams("
+           "retire: $retire" ")";
+  }
 }
 
 class CommandBufferRetireSyncPointParams extends bindings.Struct {
@@ -575,6 +647,11 @@ class CommandBufferRetireSyncPointParams extends bindings.Struct {
     
     encoder0.encodeUint32(syncPoint, 8);
   }
+
+  String toString() {
+    return "CommandBufferRetireSyncPointParams("
+           "syncPoint: $syncPoint" ")";
+  }
 }
 
 class CommandBufferEchoParams extends bindings.Struct {
@@ -604,6 +681,10 @@ class CommandBufferEchoParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "CommandBufferEchoParams("")";
   }
 }
 
@@ -635,6 +716,10 @@ class CommandBufferEchoResponseParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "CommandBufferEchoResponseParams("")";
+  }
 }
 const int kCommandBufferSyncClient_didInitialize_name = 0;
 const int kCommandBufferSyncClient_didMakeProgress_name = 1;
@@ -651,7 +736,7 @@ abstract class CommandBufferSyncClient {
 
 class CommandBufferSyncClientProxyImpl extends bindings.Proxy {
   CommandBufferSyncClientProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   CommandBufferSyncClientProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -671,6 +756,11 @@ class CommandBufferSyncClientProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "CommandBufferSyncClientProxyImpl($superString)";
+  }
 }
 
 
@@ -679,6 +769,7 @@ class _CommandBufferSyncClientProxyCalls implements CommandBufferSyncClient {
 
   _CommandBufferSyncClientProxyCalls(this._proxyImpl);
     void didInitialize(bool success, gpu_capabilities_mojom.GpuCapabilities capabilities) {
+      assert(_proxyImpl.isBound);
       var params = new CommandBufferSyncClientDidInitializeParams();
       params.success = success;
       params.capabilities = capabilities;
@@ -686,6 +777,7 @@ class _CommandBufferSyncClientProxyCalls implements CommandBufferSyncClient {
     }
   
     void didMakeProgress(CommandBufferState state) {
+      assert(_proxyImpl.isBound);
       var params = new CommandBufferSyncClientDidMakeProgressParams();
       params.state = state;
       _proxyImpl.sendMessage(params, kCommandBufferSyncClient_didMakeProgress_name);
@@ -724,17 +816,22 @@ class CommandBufferSyncClientProxy implements bindings.ProxyBase {
       new CommandBufferSyncClientProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "CommandBufferSyncClientProxy($impl)";
+  }
 }
 
 
 class CommandBufferSyncClientStub extends bindings.Stub {
-  CommandBufferSyncClient _delegate = null;
+  CommandBufferSyncClient _impl = null;
 
-  CommandBufferSyncClientStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  CommandBufferSyncClientStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  CommandBufferSyncClientStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  CommandBufferSyncClientStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   CommandBufferSyncClientStub.unbound() : super.unbound();
 
@@ -747,17 +844,17 @@ class CommandBufferSyncClientStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kCommandBufferSyncClient_didInitialize_name:
         var params = CommandBufferSyncClientDidInitializeParams.deserialize(
             message.payload);
-        _delegate.didInitialize(params.success, params.capabilities);
+        _impl.didInitialize(params.success, params.capabilities);
         break;
       case kCommandBufferSyncClient_didMakeProgress_name:
         var params = CommandBufferSyncClientDidMakeProgressParams.deserialize(
             message.payload);
-        _delegate.didMakeProgress(params.state);
+        _impl.didMakeProgress(params.state);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -766,10 +863,15 @@ class CommandBufferSyncClientStub extends bindings.Stub {
     return null;
   }
 
-  CommandBufferSyncClient get delegate => _delegate;
-      set delegate(CommandBufferSyncClient d) {
-    assert(_delegate == null);
-    _delegate = d;
+  CommandBufferSyncClient get impl => _impl;
+      set impl(CommandBufferSyncClient d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "CommandBufferSyncClientStub($superString)";
   }
 }
 
@@ -786,7 +888,7 @@ abstract class CommandBufferSyncPointClient {
 
 class CommandBufferSyncPointClientProxyImpl extends bindings.Proxy {
   CommandBufferSyncPointClientProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   CommandBufferSyncPointClientProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -806,6 +908,11 @@ class CommandBufferSyncPointClientProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "CommandBufferSyncPointClientProxyImpl($superString)";
+  }
 }
 
 
@@ -814,6 +921,7 @@ class _CommandBufferSyncPointClientProxyCalls implements CommandBufferSyncPointC
 
   _CommandBufferSyncPointClientProxyCalls(this._proxyImpl);
     void didInsertSyncPoint(int syncPoint) {
+      assert(_proxyImpl.isBound);
       var params = new CommandBufferSyncPointClientDidInsertSyncPointParams();
       params.syncPoint = syncPoint;
       _proxyImpl.sendMessage(params, kCommandBufferSyncPointClient_didInsertSyncPoint_name);
@@ -852,17 +960,22 @@ class CommandBufferSyncPointClientProxy implements bindings.ProxyBase {
       new CommandBufferSyncPointClientProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "CommandBufferSyncPointClientProxy($impl)";
+  }
 }
 
 
 class CommandBufferSyncPointClientStub extends bindings.Stub {
-  CommandBufferSyncPointClient _delegate = null;
+  CommandBufferSyncPointClient _impl = null;
 
-  CommandBufferSyncPointClientStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  CommandBufferSyncPointClientStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  CommandBufferSyncPointClientStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  CommandBufferSyncPointClientStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   CommandBufferSyncPointClientStub.unbound() : super.unbound();
 
@@ -875,12 +988,12 @@ class CommandBufferSyncPointClientStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kCommandBufferSyncPointClient_didInsertSyncPoint_name:
         var params = CommandBufferSyncPointClientDidInsertSyncPointParams.deserialize(
             message.payload);
-        _delegate.didInsertSyncPoint(params.syncPoint);
+        _impl.didInsertSyncPoint(params.syncPoint);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -889,10 +1002,15 @@ class CommandBufferSyncPointClientStub extends bindings.Stub {
     return null;
   }
 
-  CommandBufferSyncPointClient get delegate => _delegate;
-      set delegate(CommandBufferSyncPointClient d) {
-    assert(_delegate == null);
-    _delegate = d;
+  CommandBufferSyncPointClient get impl => _impl;
+      set impl(CommandBufferSyncPointClient d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "CommandBufferSyncPointClientStub($superString)";
   }
 }
 
@@ -909,7 +1027,7 @@ abstract class CommandBufferLostContextObserver {
 
 class CommandBufferLostContextObserverProxyImpl extends bindings.Proxy {
   CommandBufferLostContextObserverProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   CommandBufferLostContextObserverProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -929,6 +1047,11 @@ class CommandBufferLostContextObserverProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "CommandBufferLostContextObserverProxyImpl($superString)";
+  }
 }
 
 
@@ -937,6 +1060,7 @@ class _CommandBufferLostContextObserverProxyCalls implements CommandBufferLostCo
 
   _CommandBufferLostContextObserverProxyCalls(this._proxyImpl);
     void didLoseContext(int contextLostReason) {
+      assert(_proxyImpl.isBound);
       var params = new CommandBufferLostContextObserverDidLoseContextParams();
       params.contextLostReason = contextLostReason;
       _proxyImpl.sendMessage(params, kCommandBufferLostContextObserver_didLoseContext_name);
@@ -975,17 +1099,22 @@ class CommandBufferLostContextObserverProxy implements bindings.ProxyBase {
       new CommandBufferLostContextObserverProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "CommandBufferLostContextObserverProxy($impl)";
+  }
 }
 
 
 class CommandBufferLostContextObserverStub extends bindings.Stub {
-  CommandBufferLostContextObserver _delegate = null;
+  CommandBufferLostContextObserver _impl = null;
 
-  CommandBufferLostContextObserverStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  CommandBufferLostContextObserverStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  CommandBufferLostContextObserverStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  CommandBufferLostContextObserverStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   CommandBufferLostContextObserverStub.unbound() : super.unbound();
 
@@ -998,12 +1127,12 @@ class CommandBufferLostContextObserverStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kCommandBufferLostContextObserver_didLoseContext_name:
         var params = CommandBufferLostContextObserverDidLoseContextParams.deserialize(
             message.payload);
-        _delegate.didLoseContext(params.contextLostReason);
+        _impl.didLoseContext(params.contextLostReason);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -1012,10 +1141,15 @@ class CommandBufferLostContextObserverStub extends bindings.Stub {
     return null;
   }
 
-  CommandBufferLostContextObserver get delegate => _delegate;
-      set delegate(CommandBufferLostContextObserver d) {
-    assert(_delegate == null);
-    _delegate = d;
+  CommandBufferLostContextObserver get impl => _impl;
+      set impl(CommandBufferLostContextObserver d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "CommandBufferLostContextObserverStub($superString)";
   }
 }
 
@@ -1048,7 +1182,7 @@ abstract class CommandBuffer {
 
 class CommandBufferProxyImpl extends bindings.Proxy {
   CommandBufferProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   CommandBufferProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -1078,6 +1212,11 @@ class CommandBufferProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "CommandBufferProxyImpl($superString)";
+  }
 }
 
 
@@ -1086,6 +1225,7 @@ class _CommandBufferProxyCalls implements CommandBuffer {
 
   _CommandBufferProxyCalls(this._proxyImpl);
     void initialize(Object syncClient, Object syncPointClient, Object lostObserver, core.MojoSharedBuffer sharedState) {
+      assert(_proxyImpl.isBound);
       var params = new CommandBufferInitializeParams();
       params.syncClient = syncClient;
       params.syncPointClient = syncPointClient;
@@ -1095,24 +1235,28 @@ class _CommandBufferProxyCalls implements CommandBuffer {
     }
   
     void setGetBuffer(int buffer) {
+      assert(_proxyImpl.isBound);
       var params = new CommandBufferSetGetBufferParams();
       params.buffer = buffer;
       _proxyImpl.sendMessage(params, kCommandBuffer_setGetBuffer_name);
     }
   
     void flush(int putOffset) {
+      assert(_proxyImpl.isBound);
       var params = new CommandBufferFlushParams();
       params.putOffset = putOffset;
       _proxyImpl.sendMessage(params, kCommandBuffer_flush_name);
     }
   
     void makeProgress(int lastGetOffset) {
+      assert(_proxyImpl.isBound);
       var params = new CommandBufferMakeProgressParams();
       params.lastGetOffset = lastGetOffset;
       _proxyImpl.sendMessage(params, kCommandBuffer_makeProgress_name);
     }
   
     void registerTransferBuffer(int id, core.MojoSharedBuffer transferBuffer, int size) {
+      assert(_proxyImpl.isBound);
       var params = new CommandBufferRegisterTransferBufferParams();
       params.id = id;
       params.transferBuffer = transferBuffer;
@@ -1121,24 +1265,28 @@ class _CommandBufferProxyCalls implements CommandBuffer {
     }
   
     void destroyTransferBuffer(int id) {
+      assert(_proxyImpl.isBound);
       var params = new CommandBufferDestroyTransferBufferParams();
       params.id = id;
       _proxyImpl.sendMessage(params, kCommandBuffer_destroyTransferBuffer_name);
     }
   
     void insertSyncPoint(bool retire) {
+      assert(_proxyImpl.isBound);
       var params = new CommandBufferInsertSyncPointParams();
       params.retire = retire;
       _proxyImpl.sendMessage(params, kCommandBuffer_insertSyncPoint_name);
     }
   
     void retireSyncPoint(int syncPoint) {
+      assert(_proxyImpl.isBound);
       var params = new CommandBufferRetireSyncPointParams();
       params.syncPoint = syncPoint;
       _proxyImpl.sendMessage(params, kCommandBuffer_retireSyncPoint_name);
     }
   
     Future<CommandBufferEchoResponseParams> echo([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new CommandBufferEchoParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -1179,17 +1327,22 @@ class CommandBufferProxy implements bindings.ProxyBase {
       new CommandBufferProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "CommandBufferProxy($impl)";
+  }
 }
 
 
 class CommandBufferStub extends bindings.Stub {
-  CommandBuffer _delegate = null;
+  CommandBuffer _impl = null;
 
-  CommandBufferStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  CommandBufferStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  CommandBufferStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  CommandBufferStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   CommandBufferStub.unbound() : super.unbound();
 
@@ -1206,52 +1359,52 @@ class CommandBufferStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kCommandBuffer_initialize_name:
         var params = CommandBufferInitializeParams.deserialize(
             message.payload);
-        _delegate.initialize(params.syncClient, params.syncPointClient, params.lostObserver, params.sharedState);
+        _impl.initialize(params.syncClient, params.syncPointClient, params.lostObserver, params.sharedState);
         break;
       case kCommandBuffer_setGetBuffer_name:
         var params = CommandBufferSetGetBufferParams.deserialize(
             message.payload);
-        _delegate.setGetBuffer(params.buffer);
+        _impl.setGetBuffer(params.buffer);
         break;
       case kCommandBuffer_flush_name:
         var params = CommandBufferFlushParams.deserialize(
             message.payload);
-        _delegate.flush(params.putOffset);
+        _impl.flush(params.putOffset);
         break;
       case kCommandBuffer_makeProgress_name:
         var params = CommandBufferMakeProgressParams.deserialize(
             message.payload);
-        _delegate.makeProgress(params.lastGetOffset);
+        _impl.makeProgress(params.lastGetOffset);
         break;
       case kCommandBuffer_registerTransferBuffer_name:
         var params = CommandBufferRegisterTransferBufferParams.deserialize(
             message.payload);
-        _delegate.registerTransferBuffer(params.id, params.transferBuffer, params.size);
+        _impl.registerTransferBuffer(params.id, params.transferBuffer, params.size);
         break;
       case kCommandBuffer_destroyTransferBuffer_name:
         var params = CommandBufferDestroyTransferBufferParams.deserialize(
             message.payload);
-        _delegate.destroyTransferBuffer(params.id);
+        _impl.destroyTransferBuffer(params.id);
         break;
       case kCommandBuffer_insertSyncPoint_name:
         var params = CommandBufferInsertSyncPointParams.deserialize(
             message.payload);
-        _delegate.insertSyncPoint(params.retire);
+        _impl.insertSyncPoint(params.retire);
         break;
       case kCommandBuffer_retireSyncPoint_name:
         var params = CommandBufferRetireSyncPointParams.deserialize(
             message.payload);
-        _delegate.retireSyncPoint(params.syncPoint);
+        _impl.retireSyncPoint(params.syncPoint);
         break;
       case kCommandBuffer_echo_name:
         var params = CommandBufferEchoParams.deserialize(
             message.payload);
-        return _delegate.echo(_CommandBufferEchoResponseParamsFactory).then((response) {
+        return _impl.echo(_CommandBufferEchoResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -1268,10 +1421,15 @@ class CommandBufferStub extends bindings.Stub {
     return null;
   }
 
-  CommandBuffer get delegate => _delegate;
-      set delegate(CommandBuffer d) {
-    assert(_delegate == null);
-    _delegate = d;
+  CommandBuffer get impl => _impl;
+      set impl(CommandBuffer d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "CommandBufferStub($superString)";
   }
 }
 

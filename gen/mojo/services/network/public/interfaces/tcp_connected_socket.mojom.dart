@@ -19,7 +19,7 @@ abstract class TcpConnectedSocket {
 
 class TcpConnectedSocketProxyImpl extends bindings.Proxy {
   TcpConnectedSocketProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   TcpConnectedSocketProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -38,6 +38,11 @@ class TcpConnectedSocketProxyImpl extends bindings.Proxy {
         throw new bindings.MojoCodecError("Unexpected message name");
         break;
     }
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "TcpConnectedSocketProxyImpl($superString)";
   }
 }
 
@@ -79,17 +84,22 @@ class TcpConnectedSocketProxy implements bindings.ProxyBase {
       new TcpConnectedSocketProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "TcpConnectedSocketProxy($impl)";
+  }
 }
 
 
 class TcpConnectedSocketStub extends bindings.Stub {
-  TcpConnectedSocket _delegate = null;
+  TcpConnectedSocket _impl = null;
 
-  TcpConnectedSocketStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  TcpConnectedSocketStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  TcpConnectedSocketStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  TcpConnectedSocketStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   TcpConnectedSocketStub.unbound() : super.unbound();
 
@@ -102,7 +112,7 @@ class TcpConnectedSocketStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -111,10 +121,15 @@ class TcpConnectedSocketStub extends bindings.Stub {
     return null;
   }
 
-  TcpConnectedSocket get delegate => _delegate;
-      set delegate(TcpConnectedSocket d) {
-    assert(_delegate == null);
-    _delegate = d;
+  TcpConnectedSocket get impl => _impl;
+      set impl(TcpConnectedSocket d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "TcpConnectedSocketStub($superString)";
   }
 }
 

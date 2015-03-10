@@ -44,6 +44,11 @@ class NetworkTestServiceGetFileSizeParams extends bindings.Struct {
     
     encoder0.encodeString(url, 8, false);
   }
+
+  String toString() {
+    return "NetworkTestServiceGetFileSizeParams("
+           "url: $url" ")";
+  }
 }
 
 class NetworkTestServiceGetFileSizeResponseParams extends bindings.Struct {
@@ -88,6 +93,12 @@ class NetworkTestServiceGetFileSizeResponseParams extends bindings.Struct {
     
     encoder0.encodeUint64(size, 16);
   }
+
+  String toString() {
+    return "NetworkTestServiceGetFileSizeResponseParams("
+           "ok: $ok" ", "
+           "size: $size" ")";
+  }
 }
 
 class NetworkTestServiceQuitParams extends bindings.Struct {
@@ -118,6 +129,10 @@ class NetworkTestServiceQuitParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "NetworkTestServiceQuitParams("")";
+  }
 }
 const int kNetworkTestService_getFileSize_name = 0;
 const int kNetworkTestService_quit_name = 1;
@@ -134,7 +149,7 @@ abstract class NetworkTestService {
 
 class NetworkTestServiceProxyImpl extends bindings.Proxy {
   NetworkTestServiceProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   NetworkTestServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -164,6 +179,11 @@ class NetworkTestServiceProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "NetworkTestServiceProxyImpl($superString)";
+  }
 }
 
 
@@ -172,6 +192,7 @@ class _NetworkTestServiceProxyCalls implements NetworkTestService {
 
   _NetworkTestServiceProxyCalls(this._proxyImpl);
     Future<NetworkTestServiceGetFileSizeResponseParams> getFileSize(String url,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new NetworkTestServiceGetFileSizeParams();
       params.url = url;
       return _proxyImpl.sendMessageWithRequestId(
@@ -181,6 +202,7 @@ class _NetworkTestServiceProxyCalls implements NetworkTestService {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     void quit() {
+      assert(_proxyImpl.isBound);
       var params = new NetworkTestServiceQuitParams();
       _proxyImpl.sendMessage(params, kNetworkTestService_quit_name);
     }
@@ -218,17 +240,22 @@ class NetworkTestServiceProxy implements bindings.ProxyBase {
       new NetworkTestServiceProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "NetworkTestServiceProxy($impl)";
+  }
 }
 
 
 class NetworkTestServiceStub extends bindings.Stub {
-  NetworkTestService _delegate = null;
+  NetworkTestService _impl = null;
 
-  NetworkTestServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  NetworkTestServiceStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  NetworkTestServiceStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  NetworkTestServiceStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   NetworkTestServiceStub.unbound() : super.unbound();
 
@@ -247,12 +274,12 @@ class NetworkTestServiceStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kNetworkTestService_getFileSize_name:
         var params = NetworkTestServiceGetFileSizeParams.deserialize(
             message.payload);
-        return _delegate.getFileSize(params.url,_NetworkTestServiceGetFileSizeResponseParamsFactory).then((response) {
+        return _impl.getFileSize(params.url,_NetworkTestServiceGetFileSizeResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -265,7 +292,7 @@ class NetworkTestServiceStub extends bindings.Stub {
       case kNetworkTestService_quit_name:
         var params = NetworkTestServiceQuitParams.deserialize(
             message.payload);
-        _delegate.quit();
+        _impl.quit();
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -274,10 +301,15 @@ class NetworkTestServiceStub extends bindings.Stub {
     return null;
   }
 
-  NetworkTestService get delegate => _delegate;
-      set delegate(NetworkTestService d) {
-    assert(_delegate == null);
-    _delegate = d;
+  NetworkTestService get impl => _impl;
+      set impl(NetworkTestService d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "NetworkTestServiceStub($superString)";
   }
 }
 

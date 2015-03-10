@@ -37,6 +37,10 @@ class TestServicePingParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "TestServicePingParams("")";
+  }
 }
 
 class TestServicePingResponseParams extends bindings.Struct {
@@ -66,6 +70,10 @@ class TestServicePingResponseParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "TestServicePingResponseParams("")";
   }
 }
 
@@ -104,6 +112,11 @@ class TestServiceConnectToAppAndGetTimeParams extends bindings.Struct {
     
     encoder0.encodeString(appUrl, 8, true);
   }
+
+  String toString() {
+    return "TestServiceConnectToAppAndGetTimeParams("
+           "appUrl: $appUrl" ")";
+  }
 }
 
 class TestServiceConnectToAppAndGetTimeResponseParams extends bindings.Struct {
@@ -141,6 +154,11 @@ class TestServiceConnectToAppAndGetTimeResponseParams extends bindings.Struct {
     
     encoder0.encodeInt64(timeUsec, 8);
   }
+
+  String toString() {
+    return "TestServiceConnectToAppAndGetTimeResponseParams("
+           "timeUsec: $timeUsec" ")";
+  }
 }
 
 class TestServiceStartTrackingRequestsParams extends bindings.Struct {
@@ -170,6 +188,10 @@ class TestServiceStartTrackingRequestsParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "TestServiceStartTrackingRequestsParams("")";
   }
 }
 
@@ -201,6 +223,10 @@ class TestServiceStartTrackingRequestsResponseParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "TestServiceStartTrackingRequestsResponseParams("")";
+  }
 }
 
 class TestTimeServiceGetPartyTimeParams extends bindings.Struct {
@@ -230,6 +256,10 @@ class TestTimeServiceGetPartyTimeParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "TestTimeServiceGetPartyTimeParams("")";
   }
 }
 
@@ -268,6 +298,11 @@ class TestTimeServiceGetPartyTimeResponseParams extends bindings.Struct {
     
     encoder0.encodeInt64(timeUsec, 8);
   }
+
+  String toString() {
+    return "TestTimeServiceGetPartyTimeResponseParams("
+           "timeUsec: $timeUsec" ")";
+  }
 }
 
 class TestTimeServiceStartTrackingRequestsParams extends bindings.Struct {
@@ -297,6 +332,10 @@ class TestTimeServiceStartTrackingRequestsParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "TestTimeServiceStartTrackingRequestsParams("")";
   }
 }
 
@@ -328,6 +367,10 @@ class TestTimeServiceStartTrackingRequestsResponseParams extends bindings.Struct
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "TestTimeServiceStartTrackingRequestsResponseParams("")";
+  }
 }
 const int kTestService_ping_name = 0;
 const int kTestService_connectToAppAndGetTime_name = 1;
@@ -346,7 +389,7 @@ abstract class TestService {
 
 class TestServiceProxyImpl extends bindings.Proxy {
   TestServiceProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   TestServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -396,6 +439,11 @@ class TestServiceProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "TestServiceProxyImpl($superString)";
+  }
 }
 
 
@@ -404,6 +452,7 @@ class _TestServiceProxyCalls implements TestService {
 
   _TestServiceProxyCalls(this._proxyImpl);
     Future<TestServicePingResponseParams> ping([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new TestServicePingParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -412,6 +461,7 @@ class _TestServiceProxyCalls implements TestService {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<TestServiceConnectToAppAndGetTimeResponseParams> connectToAppAndGetTime(String appUrl,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new TestServiceConnectToAppAndGetTimeParams();
       params.appUrl = appUrl;
       return _proxyImpl.sendMessageWithRequestId(
@@ -421,6 +471,7 @@ class _TestServiceProxyCalls implements TestService {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<TestServiceStartTrackingRequestsResponseParams> startTrackingRequests([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new TestServiceStartTrackingRequestsParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -461,17 +512,22 @@ class TestServiceProxy implements bindings.ProxyBase {
       new TestServiceProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "TestServiceProxy($impl)";
+  }
 }
 
 
 class TestServiceStub extends bindings.Stub {
-  TestService _delegate = null;
+  TestService _impl = null;
 
-  TestServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  TestServiceStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  TestServiceStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  TestServiceStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   TestServiceStub.unbound() : super.unbound();
 
@@ -497,12 +553,12 @@ class TestServiceStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kTestService_ping_name:
         var params = TestServicePingParams.deserialize(
             message.payload);
-        return _delegate.ping(_TestServicePingResponseParamsFactory).then((response) {
+        return _impl.ping(_TestServicePingResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -515,7 +571,7 @@ class TestServiceStub extends bindings.Stub {
       case kTestService_connectToAppAndGetTime_name:
         var params = TestServiceConnectToAppAndGetTimeParams.deserialize(
             message.payload);
-        return _delegate.connectToAppAndGetTime(params.appUrl,_TestServiceConnectToAppAndGetTimeResponseParamsFactory).then((response) {
+        return _impl.connectToAppAndGetTime(params.appUrl,_TestServiceConnectToAppAndGetTimeResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -528,7 +584,7 @@ class TestServiceStub extends bindings.Stub {
       case kTestService_startTrackingRequests_name:
         var params = TestServiceStartTrackingRequestsParams.deserialize(
             message.payload);
-        return _delegate.startTrackingRequests(_TestServiceStartTrackingRequestsResponseParamsFactory).then((response) {
+        return _impl.startTrackingRequests(_TestServiceStartTrackingRequestsResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -545,10 +601,15 @@ class TestServiceStub extends bindings.Stub {
     return null;
   }
 
-  TestService get delegate => _delegate;
-      set delegate(TestService d) {
-    assert(_delegate == null);
-    _delegate = d;
+  TestService get impl => _impl;
+      set impl(TestService d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "TestServiceStub($superString)";
   }
 }
 
@@ -567,7 +628,7 @@ abstract class TestTimeService {
 
 class TestTimeServiceProxyImpl extends bindings.Proxy {
   TestTimeServiceProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   TestTimeServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -607,6 +668,11 @@ class TestTimeServiceProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "TestTimeServiceProxyImpl($superString)";
+  }
 }
 
 
@@ -615,6 +681,7 @@ class _TestTimeServiceProxyCalls implements TestTimeService {
 
   _TestTimeServiceProxyCalls(this._proxyImpl);
     Future<TestTimeServiceGetPartyTimeResponseParams> getPartyTime([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new TestTimeServiceGetPartyTimeParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -623,6 +690,7 @@ class _TestTimeServiceProxyCalls implements TestTimeService {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<TestTimeServiceStartTrackingRequestsResponseParams> startTrackingRequests([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new TestTimeServiceStartTrackingRequestsParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -663,17 +731,22 @@ class TestTimeServiceProxy implements bindings.ProxyBase {
       new TestTimeServiceProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "TestTimeServiceProxy($impl)";
+  }
 }
 
 
 class TestTimeServiceStub extends bindings.Stub {
-  TestTimeService _delegate = null;
+  TestTimeService _impl = null;
 
-  TestTimeServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  TestTimeServiceStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  TestTimeServiceStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  TestTimeServiceStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   TestTimeServiceStub.unbound() : super.unbound();
 
@@ -695,12 +768,12 @@ class TestTimeServiceStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kTestTimeService_getPartyTime_name:
         var params = TestTimeServiceGetPartyTimeParams.deserialize(
             message.payload);
-        return _delegate.getPartyTime(_TestTimeServiceGetPartyTimeResponseParamsFactory).then((response) {
+        return _impl.getPartyTime(_TestTimeServiceGetPartyTimeResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -713,7 +786,7 @@ class TestTimeServiceStub extends bindings.Stub {
       case kTestTimeService_startTrackingRequests_name:
         var params = TestTimeServiceStartTrackingRequestsParams.deserialize(
             message.payload);
-        return _delegate.startTrackingRequests(_TestTimeServiceStartTrackingRequestsResponseParamsFactory).then((response) {
+        return _impl.startTrackingRequests(_TestTimeServiceStartTrackingRequestsResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -730,10 +803,15 @@ class TestTimeServiceStub extends bindings.Stub {
     return null;
   }
 
-  TestTimeService get delegate => _delegate;
-      set delegate(TestTimeService d) {
-    assert(_delegate == null);
-    _delegate = d;
+  TestTimeService get impl => _impl;
+      set impl(TestTimeService d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "TestTimeServiceStub($superString)";
   }
 }
 

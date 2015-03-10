@@ -71,6 +71,12 @@ class NamedRegion extends bindings.Struct {
       }
     }
   }
+
+  String toString() {
+    return "NamedRegion("
+           "name: $name" ", "
+           "rects: $rects" ")";
+  }
 }
 
 class RectPair extends bindings.Struct {
@@ -117,6 +123,12 @@ class RectPair extends bindings.Struct {
     
     encoder0.encodeStruct(second, 16, true);
   }
+
+  String toString() {
+    return "RectPair("
+           "first: $first" ", "
+           "second: $second" ")";
+  }
 }
 
 class EmptyStruct extends bindings.Struct {
@@ -146,6 +158,10 @@ class EmptyStruct extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "EmptyStruct("")";
   }
 }
 
@@ -450,6 +466,39 @@ class NoDefaultFieldValues extends bindings.Struct {
     
     encoder0.encodeStruct(f28, 152, true);
   }
+
+  String toString() {
+    return "NoDefaultFieldValues("
+           "f0: $f0" ", "
+           "f1: $f1" ", "
+           "f2: $f2" ", "
+           "f3: $f3" ", "
+           "f4: $f4" ", "
+           "f5: $f5" ", "
+           "f6: $f6" ", "
+           "f7: $f7" ", "
+           "f8: $f8" ", "
+           "f9: $f9" ", "
+           "f13: $f13" ", "
+           "f10: $f10" ", "
+           "f11: $f11" ", "
+           "f12: $f12" ", "
+           "f14: $f14" ", "
+           "f15: $f15" ", "
+           "f16: $f16" ", "
+           "f17: $f17" ", "
+           "f18: $f18" ", "
+           "f19: $f19" ", "
+           "f20: $f20" ", "
+           "f21: $f21" ", "
+           "f22: $f22" ", "
+           "f23: $f23" ", "
+           "f24: $f24" ", "
+           "f25: $f25" ", "
+           "f26: $f26" ", "
+           "f27: $f27" ", "
+           "f28: $f28" ")";
+  }
 }
 
 class DefaultFieldValues extends bindings.Struct {
@@ -602,6 +651,27 @@ class DefaultFieldValues extends bindings.Struct {
     
     encoder0.encodeStruct(f16, 88, true);
   }
+
+  String toString() {
+    return "DefaultFieldValues("
+           "f0: $f0" ", "
+           "f1: $f1" ", "
+           "f2: $f2" ", "
+           "f3: $f3" ", "
+           "f4: $f4" ", "
+           "f5: $f5" ", "
+           "f6: $f6" ", "
+           "f7: $f7" ", "
+           "f8: $f8" ", "
+           "f9: $f9" ", "
+           "f10: $f10" ", "
+           "f11: $f11" ", "
+           "f12: $f12" ", "
+           "f13: $f13" ", "
+           "f14: $f14" ", "
+           "f15: $f15" ", "
+           "f16: $f16" ")";
+  }
 }
 
 class ScopedConstants extends bindings.Struct {
@@ -689,6 +759,17 @@ class ScopedConstants extends bindings.Struct {
     encoder0.encodeInt32(f5, 28);
     
     encoder0.encodeInt32(f6, 32);
+  }
+
+  String toString() {
+    return "ScopedConstants("
+           "f0: $f0" ", "
+           "f1: $f1" ", "
+           "f2: $f2" ", "
+           "f3: $f3" ", "
+           "f4: $f4" ", "
+           "f5: $f5" ", "
+           "f6: $f6" ")";
   }
 }
 
@@ -1143,6 +1224,22 @@ class MapKeyTypes extends bindings.Struct {
         }
       }
     }
+  }
+
+  String toString() {
+    return "MapKeyTypes("
+           "f0: $f0" ", "
+           "f1: $f1" ", "
+           "f2: $f2" ", "
+           "f3: $f3" ", "
+           "f4: $f4" ", "
+           "f5: $f5" ", "
+           "f6: $f6" ", "
+           "f7: $f7" ", "
+           "f8: $f8" ", "
+           "f9: $f9" ", "
+           "f10: $f10" ", "
+           "f11: $f11" ")";
   }
 }
 
@@ -1980,6 +2077,19 @@ class MapValueTypes extends bindings.Struct {
       }
     }
   }
+
+  String toString() {
+    return "MapValueTypes("
+           "f0: $f0" ", "
+           "f1: $f1" ", "
+           "f2: $f2" ", "
+           "f3: $f3" ", "
+           "f4: $f4" ", "
+           "f5: $f5" ", "
+           "f6: $f6" ", "
+           "f7: $f7" ", "
+           "f8: $f8" ")";
+  }
 }
 
 class ArrayValueTypes extends bindings.Struct {
@@ -2051,6 +2161,16 @@ class ArrayValueTypes extends bindings.Struct {
     encoder0.encodeFloatArray(f4, 40, bindings.kNothingNullable, bindings.kUnspecifiedArrayLength);
     
     encoder0.encodeDoubleArray(f5, 48, bindings.kNothingNullable, bindings.kUnspecifiedArrayLength);
+  }
+
+  String toString() {
+    return "ArrayValueTypes("
+           "f0: $f0" ", "
+           "f1: $f1" ", "
+           "f2: $f2" ", "
+           "f3: $f3" ", "
+           "f4: $f4" ", "
+           "f5: $f5" ")";
   }
 }
 
@@ -2161,6 +2281,20 @@ class FloatNumberValues extends bindings.Struct {
     encoder0.encodeDouble(f8, 56);
     
     encoder0.encodeDouble(f9, 64);
+  }
+
+  String toString() {
+    return "FloatNumberValues("
+           "f0: $f0" ", "
+           "f1: $f1" ", "
+           "f2: $f2" ", "
+           "f3: $f3" ", "
+           "f4: $f4" ", "
+           "f5: $f5" ", "
+           "f6: $f6" ", "
+           "f7: $f7" ", "
+           "f8: $f8" ", "
+           "f9: $f9" ")";
   }
 }
 
@@ -2352,6 +2486,30 @@ class IntegerNumberValues extends bindings.Struct {
     
     encoder0.encodeInt64(f19, 80);
   }
+
+  String toString() {
+    return "IntegerNumberValues("
+           "f0: $f0" ", "
+           "f1: $f1" ", "
+           "f2: $f2" ", "
+           "f3: $f3" ", "
+           "f4: $f4" ", "
+           "f5: $f5" ", "
+           "f6: $f6" ", "
+           "f7: $f7" ", "
+           "f8: $f8" ", "
+           "f9: $f9" ", "
+           "f10: $f10" ", "
+           "f11: $f11" ", "
+           "f12: $f12" ", "
+           "f13: $f13" ", "
+           "f14: $f14" ", "
+           "f15: $f15" ", "
+           "f16: $f16" ", "
+           "f17: $f17" ", "
+           "f18: $f18" ", "
+           "f19: $f19" ")";
+  }
 }
 
 class UnsignedNumberValues extends bindings.Struct {
@@ -2477,6 +2635,22 @@ class UnsignedNumberValues extends bindings.Struct {
     encoder0.encodeUint64(f10, 40);
     
     encoder0.encodeUint64(f11, 48);
+  }
+
+  String toString() {
+    return "UnsignedNumberValues("
+           "f0: $f0" ", "
+           "f1: $f1" ", "
+           "f2: $f2" ", "
+           "f3: $f3" ", "
+           "f4: $f4" ", "
+           "f5: $f5" ", "
+           "f6: $f6" ", "
+           "f7: $f7" ", "
+           "f8: $f8" ", "
+           "f9: $f9" ", "
+           "f10: $f10" ", "
+           "f11: $f11" ")";
   }
 }
 
@@ -2605,6 +2779,17 @@ class BitArrayValues extends bindings.Struct {
       }
     }
   }
+
+  String toString() {
+    return "BitArrayValues("
+           "f0: $f0" ", "
+           "f1: $f1" ", "
+           "f2: $f2" ", "
+           "f3: $f3" ", "
+           "f4: $f4" ", "
+           "f5: $f5" ", "
+           "f6: $f6" ")";
+  }
 }
 
 class MultiVersionStruct extends bindings.Struct {
@@ -2685,6 +2870,17 @@ class MultiVersionStruct extends bindings.Struct {
     
     encoder0.encodeInt16(fInt16, 42);
   }
+
+  String toString() {
+    return "MultiVersionStruct("
+           "fInt32: $fInt32" ", "
+           "fMessagePipe: $fMessagePipe" ", "
+           "fRect: $fRect" ", "
+           "fString: $fString" ", "
+           "fArray: $fArray" ", "
+           "fBool: $fBool" ", "
+           "fInt16: $fInt16" ")";
+  }
 }
 
 class MultiVersionStructV0 extends bindings.Struct {
@@ -2721,6 +2917,11 @@ class MultiVersionStructV0 extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeInt32(fInt32, 8);
+  }
+
+  String toString() {
+    return "MultiVersionStructV0("
+           "fInt32: $fInt32" ")";
   }
 }
 
@@ -2766,6 +2967,12 @@ class MultiVersionStructV1 extends bindings.Struct {
     encoder0.encodeInt32(fInt32, 8);
     
     encoder0.encodeStruct(fRect, 16, true);
+  }
+
+  String toString() {
+    return "MultiVersionStructV1("
+           "fInt32: $fInt32" ", "
+           "fRect: $fRect" ")";
   }
 }
 
@@ -2818,6 +3025,13 @@ class MultiVersionStructV3 extends bindings.Struct {
     encoder0.encodeStruct(fRect, 16, true);
     
     encoder0.encodeString(fString, 24, true);
+  }
+
+  String toString() {
+    return "MultiVersionStructV3("
+           "fInt32: $fInt32" ", "
+           "fRect: $fRect" ", "
+           "fString: $fString" ")";
   }
 }
 
@@ -2877,6 +3091,14 @@ class MultiVersionStructV5 extends bindings.Struct {
     encoder0.encodeString(fString, 24, true);
     
     encoder0.encodeInt8Array(fArray, 32, bindings.kNothingNullable, bindings.kUnspecifiedArrayLength);
+  }
+
+  String toString() {
+    return "MultiVersionStructV5("
+           "fInt32: $fInt32" ", "
+           "fRect: $fRect" ", "
+           "fString: $fString" ", "
+           "fArray: $fArray" ")";
   }
 }
 
@@ -2950,6 +3172,16 @@ class MultiVersionStructV7 extends bindings.Struct {
     encoder0.encodeInt8Array(fArray, 32, bindings.kNothingNullable, bindings.kUnspecifiedArrayLength);
     
     encoder0.encodeBool(fBool, 40, 0);
+  }
+
+  String toString() {
+    return "MultiVersionStructV7("
+           "fInt32: $fInt32" ", "
+           "fMessagePipe: $fMessagePipe" ", "
+           "fRect: $fRect" ", "
+           "fString: $fString" ", "
+           "fArray: $fArray" ", "
+           "fBool: $fBool" ")";
   }
 }
 

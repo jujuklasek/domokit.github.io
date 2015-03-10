@@ -37,6 +37,10 @@ class EmbeddeeHelloBackParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "EmbeddeeHelloBackParams("")";
+  }
 }
 
 class EmbeddeeHelloBackResponseParams extends bindings.Struct {
@@ -67,6 +71,10 @@ class EmbeddeeHelloBackResponseParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "EmbeddeeHelloBackResponseParams("")";
+  }
 }
 const int kEmbeddee_helloBack_name = 0;
 
@@ -81,7 +89,7 @@ abstract class Embeddee {
 
 class EmbeddeeProxyImpl extends bindings.Proxy {
   EmbeddeeProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   EmbeddeeProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -111,6 +119,11 @@ class EmbeddeeProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "EmbeddeeProxyImpl($superString)";
+  }
 }
 
 
@@ -119,6 +132,7 @@ class _EmbeddeeProxyCalls implements Embeddee {
 
   _EmbeddeeProxyCalls(this._proxyImpl);
     Future<EmbeddeeHelloBackResponseParams> helloBack([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new EmbeddeeHelloBackParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -159,17 +173,22 @@ class EmbeddeeProxy implements bindings.ProxyBase {
       new EmbeddeeProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "EmbeddeeProxy($impl)";
+  }
 }
 
 
 class EmbeddeeStub extends bindings.Stub {
-  Embeddee _delegate = null;
+  Embeddee _impl = null;
 
-  EmbeddeeStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  EmbeddeeStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  EmbeddeeStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  EmbeddeeStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   EmbeddeeStub.unbound() : super.unbound();
 
@@ -186,12 +205,12 @@ class EmbeddeeStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kEmbeddee_helloBack_name:
         var params = EmbeddeeHelloBackParams.deserialize(
             message.payload);
-        return _delegate.helloBack(_EmbeddeeHelloBackResponseParamsFactory).then((response) {
+        return _impl.helloBack(_EmbeddeeHelloBackResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -208,10 +227,15 @@ class EmbeddeeStub extends bindings.Stub {
     return null;
   }
 
-  Embeddee get delegate => _delegate;
-      set delegate(Embeddee d) {
-    assert(_delegate == null);
-    _delegate = d;
+  Embeddee get impl => _impl;
+      set impl(Embeddee d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "EmbeddeeStub($superString)";
   }
 }
 

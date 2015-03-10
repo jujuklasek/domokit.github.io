@@ -7,69 +7,8 @@ library gpu.mojom;
 import 'dart:async';
 import 'mojo:bindings' as bindings;
 import 'mojo:core' as core;
-import 'package:mojo/services/geometry/public/interfaces/geometry.mojom.dart' as geometry_mojom;
 import 'package:mojo/services/gpu/public/interfaces/command_buffer.mojom.dart' as command_buffer_mojom;
-import 'package:mojo/services/gpu/public/interfaces/viewport_parameter_listener.mojom.dart' as viewport_parameter_listener_mojom;
 
-
-class GpuCreateOnscreenGleS2ContextParams extends bindings.Struct {
-  static const int kStructSize = 32;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 4);
-  int nativeViewportId = 0;
-  geometry_mojom.Size size = null;
-  Object gles2Client = null;
-  Object listener = null;
-
-  GpuCreateOnscreenGleS2ContextParams() : super(kStructSize);
-
-  static GpuCreateOnscreenGleS2ContextParams deserialize(bindings.Message message) {
-    return decode(new bindings.Decoder(message));
-  }
-
-  static GpuCreateOnscreenGleS2ContextParams decode(bindings.Decoder decoder0) {
-    if (decoder0 == null) {
-      return null;
-    }
-    GpuCreateOnscreenGleS2ContextParams result = new GpuCreateOnscreenGleS2ContextParams();
-
-    var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 4)) {
-      throw new bindings.MojoCodecError('Malformed header');
-    }
-    {
-      
-      result.nativeViewportId = decoder0.decodeUint64(8);
-    }
-    {
-      
-      var decoder1 = decoder0.decodePointer(16, false);
-      result.size = geometry_mojom.Size.decode(decoder1);
-    }
-    {
-      
-      result.gles2Client = decoder0.decodeInterfaceRequest(24, false, command_buffer_mojom.CommandBufferStub.newFromEndpoint);
-    }
-    {
-      
-      result.listener = decoder0.decodeServiceInterface(28, true, viewport_parameter_listener_mojom.ViewportParameterListenerProxy.newFromEndpoint);
-    }
-    return result;
-  }
-
-  void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
-    
-    encoder0.encodeUint64(nativeViewportId, 8);
-    
-    encoder0.encodeStruct(size, 16, false);
-    
-    encoder0.encodeInterfaceRequest(gles2Client, 24, false);
-    
-    encoder0.encodeInterface(listener, 28, true);
-  }
-}
 
 class GpuCreateOffscreenGleS2ContextParams extends bindings.Struct {
   static const int kStructSize = 16;
@@ -106,15 +45,18 @@ class GpuCreateOffscreenGleS2ContextParams extends bindings.Struct {
     
     encoder0.encodeInterfaceRequest(gles2Client, 8, false);
   }
+
+  String toString() {
+    return "GpuCreateOffscreenGleS2ContextParams("
+           "gles2Client: $gles2Client" ")";
+  }
 }
-const int kGpu_createOnscreenGleS2Context_name = 0;
-const int kGpu_createOffscreenGleS2Context_name = 1;
+const int kGpu_createOffscreenGleS2Context_name = 0;
 
 const String GpuName =
       'mojo::Gpu';
 
 abstract class Gpu {
-  void createOnscreenGleS2Context(int nativeViewportId, geometry_mojom.Size size, Object gles2Client, Object listener);
   void createOffscreenGleS2Context(Object gles2Client);
 
 }
@@ -122,7 +64,7 @@ abstract class Gpu {
 
 class GpuProxyImpl extends bindings.Proxy {
   GpuProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   GpuProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -142,6 +84,11 @@ class GpuProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "GpuProxyImpl($superString)";
+  }
 }
 
 
@@ -149,16 +96,8 @@ class _GpuProxyCalls implements Gpu {
   GpuProxyImpl _proxyImpl;
 
   _GpuProxyCalls(this._proxyImpl);
-    void createOnscreenGleS2Context(int nativeViewportId, geometry_mojom.Size size, Object gles2Client, Object listener) {
-      var params = new GpuCreateOnscreenGleS2ContextParams();
-      params.nativeViewportId = nativeViewportId;
-      params.size = size;
-      params.gles2Client = gles2Client;
-      params.listener = listener;
-      _proxyImpl.sendMessage(params, kGpu_createOnscreenGleS2Context_name);
-    }
-  
     void createOffscreenGleS2Context(Object gles2Client) {
+      assert(_proxyImpl.isBound);
       var params = new GpuCreateOffscreenGleS2ContextParams();
       params.gles2Client = gles2Client;
       _proxyImpl.sendMessage(params, kGpu_createOffscreenGleS2Context_name);
@@ -197,17 +136,22 @@ class GpuProxy implements bindings.ProxyBase {
       new GpuProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "GpuProxy($impl)";
+  }
 }
 
 
 class GpuStub extends bindings.Stub {
-  Gpu _delegate = null;
+  Gpu _impl = null;
 
-  GpuStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  GpuStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  GpuStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  GpuStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   GpuStub.unbound() : super.unbound();
 
@@ -220,17 +164,12 @@ class GpuStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
-      case kGpu_createOnscreenGleS2Context_name:
-        var params = GpuCreateOnscreenGleS2ContextParams.deserialize(
-            message.payload);
-        _delegate.createOnscreenGleS2Context(params.nativeViewportId, params.size, params.gles2Client, params.listener);
-        break;
       case kGpu_createOffscreenGleS2Context_name:
         var params = GpuCreateOffscreenGleS2ContextParams.deserialize(
             message.payload);
-        _delegate.createOffscreenGleS2Context(params.gles2Client);
+        _impl.createOffscreenGleS2Context(params.gles2Client);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -239,10 +178,15 @@ class GpuStub extends bindings.Stub {
     return null;
   }
 
-  Gpu get delegate => _delegate;
-      set delegate(Gpu d) {
-    assert(_delegate == null);
-    _delegate = d;
+  Gpu get impl => _impl;
+      set impl(Gpu d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "GpuStub($superString)";
   }
 }
 

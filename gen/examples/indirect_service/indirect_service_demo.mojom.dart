@@ -37,6 +37,10 @@ class IntegerServiceIncrementParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "IntegerServiceIncrementParams("")";
+  }
 }
 
 class IntegerServiceIncrementResponseParams extends bindings.Struct {
@@ -73,6 +77,11 @@ class IntegerServiceIncrementResponseParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeInt32(value, 8);
+  }
+
+  String toString() {
+    return "IntegerServiceIncrementResponseParams("
+           "value: $value" ")";
   }
 }
 
@@ -111,6 +120,11 @@ class IndirectIntegerServiceSetParams extends bindings.Struct {
     
     encoder0.encodeInterface(service, 8, true);
   }
+
+  String toString() {
+    return "IndirectIntegerServiceSetParams("
+           "service: $service" ")";
+  }
 }
 
 class IndirectIntegerServiceGetParams extends bindings.Struct {
@@ -148,6 +162,11 @@ class IndirectIntegerServiceGetParams extends bindings.Struct {
     
     encoder0.encodeInterfaceRequest(service, 8, true);
   }
+
+  String toString() {
+    return "IndirectIntegerServiceGetParams("
+           "service: $service" ")";
+  }
 }
 const int kIntegerService_increment_name = 0;
 
@@ -162,7 +181,7 @@ abstract class IntegerService {
 
 class IntegerServiceProxyImpl extends bindings.Proxy {
   IntegerServiceProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   IntegerServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -192,6 +211,11 @@ class IntegerServiceProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "IntegerServiceProxyImpl($superString)";
+  }
 }
 
 
@@ -200,6 +224,7 @@ class _IntegerServiceProxyCalls implements IntegerService {
 
   _IntegerServiceProxyCalls(this._proxyImpl);
     Future<IntegerServiceIncrementResponseParams> increment([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new IntegerServiceIncrementParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -240,17 +265,22 @@ class IntegerServiceProxy implements bindings.ProxyBase {
       new IntegerServiceProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "IntegerServiceProxy($impl)";
+  }
 }
 
 
 class IntegerServiceStub extends bindings.Stub {
-  IntegerService _delegate = null;
+  IntegerService _impl = null;
 
-  IntegerServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  IntegerServiceStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  IntegerServiceStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  IntegerServiceStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   IntegerServiceStub.unbound() : super.unbound();
 
@@ -268,12 +298,12 @@ class IntegerServiceStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kIntegerService_increment_name:
         var params = IntegerServiceIncrementParams.deserialize(
             message.payload);
-        return _delegate.increment(_IntegerServiceIncrementResponseParamsFactory).then((response) {
+        return _impl.increment(_IntegerServiceIncrementResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -290,10 +320,15 @@ class IntegerServiceStub extends bindings.Stub {
     return null;
   }
 
-  IntegerService get delegate => _delegate;
-      set delegate(IntegerService d) {
-    assert(_delegate == null);
-    _delegate = d;
+  IntegerService get impl => _impl;
+      set impl(IntegerService d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "IntegerServiceStub($superString)";
   }
 }
 
@@ -312,7 +347,7 @@ abstract class IndirectIntegerService {
 
 class IndirectIntegerServiceProxyImpl extends bindings.Proxy {
   IndirectIntegerServiceProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   IndirectIntegerServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -332,6 +367,11 @@ class IndirectIntegerServiceProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "IndirectIntegerServiceProxyImpl($superString)";
+  }
 }
 
 
@@ -340,12 +380,14 @@ class _IndirectIntegerServiceProxyCalls implements IndirectIntegerService {
 
   _IndirectIntegerServiceProxyCalls(this._proxyImpl);
     void set(Object service) {
+      assert(_proxyImpl.isBound);
       var params = new IndirectIntegerServiceSetParams();
       params.service = service;
       _proxyImpl.sendMessage(params, kIndirectIntegerService_set_name);
     }
   
     void get(Object service) {
+      assert(_proxyImpl.isBound);
       var params = new IndirectIntegerServiceGetParams();
       params.service = service;
       _proxyImpl.sendMessage(params, kIndirectIntegerService_get_name);
@@ -384,17 +426,22 @@ class IndirectIntegerServiceProxy implements bindings.ProxyBase {
       new IndirectIntegerServiceProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "IndirectIntegerServiceProxy($impl)";
+  }
 }
 
 
 class IndirectIntegerServiceStub extends bindings.Stub {
-  IndirectIntegerService _delegate = null;
+  IndirectIntegerService _impl = null;
 
-  IndirectIntegerServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  IndirectIntegerServiceStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  IndirectIntegerServiceStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  IndirectIntegerServiceStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   IndirectIntegerServiceStub.unbound() : super.unbound();
 
@@ -407,17 +454,17 @@ class IndirectIntegerServiceStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kIndirectIntegerService_set_name:
         var params = IndirectIntegerServiceSetParams.deserialize(
             message.payload);
-        _delegate.set(params.service);
+        _impl.set(params.service);
         break;
       case kIndirectIntegerService_get_name:
         var params = IndirectIntegerServiceGetParams.deserialize(
             message.payload);
-        _delegate.get(params.service);
+        _impl.get(params.service);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -426,10 +473,15 @@ class IndirectIntegerServiceStub extends bindings.Stub {
     return null;
   }
 
-  IndirectIntegerService get delegate => _delegate;
-      set delegate(IndirectIntegerService d) {
-    assert(_delegate == null);
-    _delegate = d;
+  IndirectIntegerService get impl => _impl;
+      set impl(IndirectIntegerService d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "IndirectIntegerServiceStub($superString)";
   }
 }
 

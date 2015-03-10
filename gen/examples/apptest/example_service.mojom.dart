@@ -44,6 +44,11 @@ class ExampleServicePingParams extends bindings.Struct {
     
     encoder0.encodeUint16(pingValue, 8);
   }
+
+  String toString() {
+    return "ExampleServicePingParams("
+           "pingValue: $pingValue" ")";
+  }
 }
 
 class ExampleServicePingResponseParams extends bindings.Struct {
@@ -81,6 +86,11 @@ class ExampleServicePingResponseParams extends bindings.Struct {
     
     encoder0.encodeUint16(pongValue, 8);
   }
+
+  String toString() {
+    return "ExampleServicePingResponseParams("
+           "pongValue: $pongValue" ")";
+  }
 }
 const int kExampleService_ping_name = 0;
 
@@ -95,7 +105,7 @@ abstract class ExampleService {
 
 class ExampleServiceProxyImpl extends bindings.Proxy {
   ExampleServiceProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   ExampleServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -125,6 +135,11 @@ class ExampleServiceProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "ExampleServiceProxyImpl($superString)";
+  }
 }
 
 
@@ -133,6 +148,7 @@ class _ExampleServiceProxyCalls implements ExampleService {
 
   _ExampleServiceProxyCalls(this._proxyImpl);
     Future<ExampleServicePingResponseParams> ping(int pingValue,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ExampleServicePingParams();
       params.pingValue = pingValue;
       return _proxyImpl.sendMessageWithRequestId(
@@ -174,17 +190,22 @@ class ExampleServiceProxy implements bindings.ProxyBase {
       new ExampleServiceProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "ExampleServiceProxy($impl)";
+  }
 }
 
 
 class ExampleServiceStub extends bindings.Stub {
-  ExampleService _delegate = null;
+  ExampleService _impl = null;
 
-  ExampleServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  ExampleServiceStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  ExampleServiceStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  ExampleServiceStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   ExampleServiceStub.unbound() : super.unbound();
 
@@ -202,12 +223,12 @@ class ExampleServiceStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kExampleService_ping_name:
         var params = ExampleServicePingParams.deserialize(
             message.payload);
-        return _delegate.ping(params.pingValue,_ExampleServicePingResponseParamsFactory).then((response) {
+        return _impl.ping(params.pingValue,_ExampleServicePingResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -224,10 +245,15 @@ class ExampleServiceStub extends bindings.Stub {
     return null;
   }
 
-  ExampleService get delegate => _delegate;
-      set delegate(ExampleService d) {
-    assert(_delegate == null);
-    _delegate = d;
+  ExampleService get impl => _impl;
+      set impl(ExampleService d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "ExampleServiceStub($superString)";
   }
 }
 

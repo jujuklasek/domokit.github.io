@@ -121,5 +121,13 @@ class HttpRequest extends bindings.Struct {
     
     encoder0.encodeConsumerHandle(body, 32, true);
   }
+
+  String toString() {
+    return "HttpRequest("
+           "relativeUrl: $relativeUrl" ", "
+           "method: $method" ", "
+           "headers: $headers" ", "
+           "body: $body" ")";
+  }
 }
 

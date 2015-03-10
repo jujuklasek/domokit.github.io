@@ -53,6 +53,12 @@ class HttpServerSetHandlerParams extends bindings.Struct {
     
     encoder0.encodeInterface(handler, 16, false);
   }
+
+  String toString() {
+    return "HttpServerSetHandlerParams("
+           "pattern: $pattern" ", "
+           "handler: $handler" ")";
+  }
 }
 
 class HttpServerSetHandlerResponseParams extends bindings.Struct {
@@ -90,6 +96,11 @@ class HttpServerSetHandlerResponseParams extends bindings.Struct {
     
     encoder0.encodeBool(success, 8, 0);
   }
+
+  String toString() {
+    return "HttpServerSetHandlerResponseParams("
+           "success: $success" ")";
+  }
 }
 
 class HttpServerGetPortParams extends bindings.Struct {
@@ -119,6 +130,10 @@ class HttpServerGetPortParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "HttpServerGetPortParams("")";
   }
 }
 
@@ -156,6 +171,11 @@ class HttpServerGetPortResponseParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeUint16(port, 8);
+  }
+
+  String toString() {
+    return "HttpServerGetPortResponseParams("
+           "port: $port" ")";
   }
 }
 
@@ -195,6 +215,11 @@ class HttpHandlerHandleRequestParams extends bindings.Struct {
     
     encoder0.encodeStruct(request, 8, false);
   }
+
+  String toString() {
+    return "HttpHandlerHandleRequestParams("
+           "request: $request" ")";
+  }
 }
 
 class HttpHandlerHandleRequestResponseParams extends bindings.Struct {
@@ -233,6 +258,11 @@ class HttpHandlerHandleRequestResponseParams extends bindings.Struct {
     
     encoder0.encodeStruct(response, 8, false);
   }
+
+  String toString() {
+    return "HttpHandlerHandleRequestResponseParams("
+           "response: $response" ")";
+  }
 }
 const int kHttpServer_setHandler_name = 0;
 const int kHttpServer_getPort_name = 1;
@@ -249,7 +279,7 @@ abstract class HttpServer {
 
 class HttpServerProxyImpl extends bindings.Proxy {
   HttpServerProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   HttpServerProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -289,6 +319,11 @@ class HttpServerProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "HttpServerProxyImpl($superString)";
+  }
 }
 
 
@@ -297,6 +332,7 @@ class _HttpServerProxyCalls implements HttpServer {
 
   _HttpServerProxyCalls(this._proxyImpl);
     Future<HttpServerSetHandlerResponseParams> setHandler(String pattern,Object handler,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new HttpServerSetHandlerParams();
       params.pattern = pattern;
       params.handler = handler;
@@ -307,6 +343,7 @@ class _HttpServerProxyCalls implements HttpServer {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<HttpServerGetPortResponseParams> getPort([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new HttpServerGetPortParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -347,17 +384,22 @@ class HttpServerProxy implements bindings.ProxyBase {
       new HttpServerProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "HttpServerProxy($impl)";
+  }
 }
 
 
 class HttpServerStub extends bindings.Stub {
-  HttpServer _delegate = null;
+  HttpServer _impl = null;
 
-  HttpServerStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  HttpServerStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  HttpServerStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  HttpServerStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   HttpServerStub.unbound() : super.unbound();
 
@@ -380,12 +422,12 @@ class HttpServerStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kHttpServer_setHandler_name:
         var params = HttpServerSetHandlerParams.deserialize(
             message.payload);
-        return _delegate.setHandler(params.pattern,params.handler,_HttpServerSetHandlerResponseParamsFactory).then((response) {
+        return _impl.setHandler(params.pattern,params.handler,_HttpServerSetHandlerResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -398,7 +440,7 @@ class HttpServerStub extends bindings.Stub {
       case kHttpServer_getPort_name:
         var params = HttpServerGetPortParams.deserialize(
             message.payload);
-        return _delegate.getPort(_HttpServerGetPortResponseParamsFactory).then((response) {
+        return _impl.getPort(_HttpServerGetPortResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -415,10 +457,15 @@ class HttpServerStub extends bindings.Stub {
     return null;
   }
 
-  HttpServer get delegate => _delegate;
-      set delegate(HttpServer d) {
-    assert(_delegate == null);
-    _delegate = d;
+  HttpServer get impl => _impl;
+      set impl(HttpServer d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "HttpServerStub($superString)";
   }
 }
 
@@ -435,7 +482,7 @@ abstract class HttpHandler {
 
 class HttpHandlerProxyImpl extends bindings.Proxy {
   HttpHandlerProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   HttpHandlerProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -465,6 +512,11 @@ class HttpHandlerProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "HttpHandlerProxyImpl($superString)";
+  }
 }
 
 
@@ -473,6 +525,7 @@ class _HttpHandlerProxyCalls implements HttpHandler {
 
   _HttpHandlerProxyCalls(this._proxyImpl);
     Future<HttpHandlerHandleRequestResponseParams> handleRequest(http_request_mojom.HttpRequest request,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new HttpHandlerHandleRequestParams();
       params.request = request;
       return _proxyImpl.sendMessageWithRequestId(
@@ -514,17 +567,22 @@ class HttpHandlerProxy implements bindings.ProxyBase {
       new HttpHandlerProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "HttpHandlerProxy($impl)";
+  }
 }
 
 
 class HttpHandlerStub extends bindings.Stub {
-  HttpHandler _delegate = null;
+  HttpHandler _impl = null;
 
-  HttpHandlerStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  HttpHandlerStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  HttpHandlerStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  HttpHandlerStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   HttpHandlerStub.unbound() : super.unbound();
 
@@ -542,12 +600,12 @@ class HttpHandlerStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kHttpHandler_handleRequest_name:
         var params = HttpHandlerHandleRequestParams.deserialize(
             message.payload);
-        return _delegate.handleRequest(params.request,_HttpHandlerHandleRequestResponseParamsFactory).then((response) {
+        return _impl.handleRequest(params.request,_HttpHandlerHandleRequestResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -564,10 +622,15 @@ class HttpHandlerStub extends bindings.Stub {
     return null;
   }
 
-  HttpHandler get delegate => _delegate;
-      set delegate(HttpHandler d) {
-    assert(_delegate == null);
-    _delegate = d;
+  HttpHandler get impl => _impl;
+      set impl(HttpHandler d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "HttpHandlerStub($superString)";
   }
 }
 

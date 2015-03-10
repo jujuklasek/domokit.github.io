@@ -44,6 +44,11 @@ class StructA extends bindings.Struct {
     
     encoder0.encodeUint64(i, 8);
   }
+
+  String toString() {
+    return "StructA("
+           "i: $i" ")";
+  }
 }
 
 class StructB extends bindings.Struct {
@@ -82,6 +87,11 @@ class StructB extends bindings.Struct {
     
     encoder0.encodeStruct(structA, 8, false);
   }
+
+  String toString() {
+    return "StructB("
+           "structA: $structA" ")";
+  }
 }
 
 class StructC extends bindings.Struct {
@@ -119,6 +129,11 @@ class StructC extends bindings.Struct {
     
     encoder0.encodeUint8Array(data, 8, bindings.kNothingNullable, bindings.kUnspecifiedArrayLength);
   }
+
+  String toString() {
+    return "StructC("
+           "data: $data" ")";
+  }
 }
 
 class StructD extends bindings.Struct {
@@ -155,6 +170,11 @@ class StructD extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeMessagePipeHandleArray(messagePipes, 8, bindings.kNothingNullable, bindings.kUnspecifiedArrayLength);
+  }
+
+  String toString() {
+    return "StructD("
+           "messagePipes: $messagePipes" ")";
   }
 }
 
@@ -201,6 +221,12 @@ class StructE extends bindings.Struct {
     
     encoder0.encodeConsumerHandle(dataPipeConsumer, 16, false);
   }
+
+  String toString() {
+    return "StructE("
+           "structD: $structD" ", "
+           "dataPipeConsumer: $dataPipeConsumer" ")";
+  }
 }
 
 class StructF extends bindings.Struct {
@@ -237,6 +263,11 @@ class StructF extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeUint8Array(fixedSizeArray, 8, bindings.kNothingNullable, 3);
+  }
+
+  String toString() {
+    return "StructF("
+           "fixedSizeArray: $fixedSizeArray" ")";
   }
 }
 
@@ -297,6 +328,14 @@ class StructG extends bindings.Struct {
     
     encoder0.encodeString(str, 24, true);
   }
+
+  String toString() {
+    return "StructG("
+           "i: $i" ", "
+           "b: $b" ", "
+           "structA: $structA" ", "
+           "str: $str" ")";
+  }
 }
 
 class BasicStruct extends bindings.Struct {
@@ -333,6 +372,11 @@ class BasicStruct extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeInt32(a, 8);
+  }
+
+  String toString() {
+    return "BasicStruct("
+           "a: $a" ")";
   }
 }
 
@@ -371,6 +415,11 @@ class ConformanceTestInterfaceMethod0Params extends bindings.Struct {
     
     encoder0.encodeFloat(param0, 8);
   }
+
+  String toString() {
+    return "ConformanceTestInterfaceMethod0Params("
+           "param0: $param0" ")";
+  }
 }
 
 class ConformanceTestInterfaceMethod1Params extends bindings.Struct {
@@ -408,6 +457,11 @@ class ConformanceTestInterfaceMethod1Params extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeStruct(param0, 8, false);
+  }
+
+  String toString() {
+    return "ConformanceTestInterfaceMethod1Params("
+           "param0: $param0" ")";
   }
 }
 
@@ -455,6 +509,12 @@ class ConformanceTestInterfaceMethod2Params extends bindings.Struct {
     
     encoder0.encodeStruct(param1, 16, false);
   }
+
+  String toString() {
+    return "ConformanceTestInterfaceMethod2Params("
+           "param0: $param0" ", "
+           "param1: $param1" ")";
+  }
 }
 
 class ConformanceTestInterfaceMethod3Params extends bindings.Struct {
@@ -491,6 +551,11 @@ class ConformanceTestInterfaceMethod3Params extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeBoolArray(param0, 8, bindings.kNothingNullable, bindings.kUnspecifiedArrayLength);
+  }
+
+  String toString() {
+    return "ConformanceTestInterfaceMethod3Params("
+           "param0: $param0" ")";
   }
 }
 
@@ -537,6 +602,12 @@ class ConformanceTestInterfaceMethod4Params extends bindings.Struct {
     
     encoder0.encodeUint8Array(param1, 16, bindings.kNothingNullable, bindings.kUnspecifiedArrayLength);
   }
+
+  String toString() {
+    return "ConformanceTestInterfaceMethod4Params("
+           "param0: $param0" ", "
+           "param1: $param1" ")";
+  }
 }
 
 class ConformanceTestInterfaceMethod5Params extends bindings.Struct {
@@ -581,6 +652,12 @@ class ConformanceTestInterfaceMethod5Params extends bindings.Struct {
     encoder0.encodeStruct(param0, 8, false);
     
     encoder0.encodeProducerHandle(param1, 16, false);
+  }
+
+  String toString() {
+    return "ConformanceTestInterfaceMethod5Params("
+           "param0: $param0" ", "
+           "param1: $param1" ")";
   }
 }
 
@@ -634,6 +711,11 @@ class ConformanceTestInterfaceMethod6Params extends bindings.Struct {
         encoder1.encodeUint8Array(param0[i0], bindings.ArrayDataHeader.kHeaderSize + bindings.kPointerSize * i0, bindings.kNothingNullable, bindings.kUnspecifiedArrayLength);
       }
     }
+  }
+
+  String toString() {
+    return "ConformanceTestInterfaceMethod6Params("
+           "param0: $param0" ")";
   }
 }
 
@@ -695,6 +777,12 @@ class ConformanceTestInterfaceMethod7Params extends bindings.Struct {
         encoder1.encodeUint8Array(param1[i0], bindings.ArrayDataHeader.kHeaderSize + bindings.kPointerSize * i0, bindings.kArrayNullable, 3);
       }
     }
+  }
+
+  String toString() {
+    return "ConformanceTestInterfaceMethod7Params("
+           "param0: $param0" ", "
+           "param1: $param1" ")";
   }
 }
 
@@ -767,6 +855,11 @@ class ConformanceTestInterfaceMethod8Params extends bindings.Struct {
       }
     }
   }
+
+  String toString() {
+    return "ConformanceTestInterfaceMethod8Params("
+           "param0: $param0" ")";
+  }
 }
 
 class ConformanceTestInterfaceMethod9Params extends bindings.Struct {
@@ -821,6 +914,11 @@ class ConformanceTestInterfaceMethod9Params extends bindings.Struct {
         encoder1.encodeHandleArray(param0[i0], bindings.ArrayDataHeader.kHeaderSize + bindings.kPointerSize * i0, bindings.kElementNullable, bindings.kUnspecifiedArrayLength);
       }
     }
+  }
+
+  String toString() {
+    return "ConformanceTestInterfaceMethod9Params("
+           "param0: $param0" ")";
   }
 }
 
@@ -899,6 +997,11 @@ class ConformanceTestInterfaceMethod10Params extends bindings.Struct {
       encoder1.encodeUint8Array(values0, bindings.ArrayDataHeader.kHeaderSize + bindings.kPointerSize, bindings.kNothingNullable, bindings.kUnspecifiedArrayLength);
     }
   }
+
+  String toString() {
+    return "ConformanceTestInterfaceMethod10Params("
+           "param0: $param0" ")";
+  }
 }
 
 class ConformanceTestInterfaceMethod11Params extends bindings.Struct {
@@ -936,6 +1039,11 @@ class ConformanceTestInterfaceMethod11Params extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeStruct(param0, 8, false);
+  }
+
+  String toString() {
+    return "ConformanceTestInterfaceMethod11Params("
+           "param0: $param0" ")";
   }
 }
 
@@ -975,6 +1083,11 @@ class IntegrationTestInterfaceMethod0Params extends bindings.Struct {
     
     encoder0.encodeStruct(param0, 8, false);
   }
+
+  String toString() {
+    return "IntegrationTestInterfaceMethod0Params("
+           "param0: $param0" ")";
+  }
 }
 
 class IntegrationTestInterfaceMethod0ResponseParams extends bindings.Struct {
@@ -1012,6 +1125,11 @@ class IntegrationTestInterfaceMethod0ResponseParams extends bindings.Struct {
     
     encoder0.encodeUint8Array(param0, 8, bindings.kNothingNullable, bindings.kUnspecifiedArrayLength);
   }
+
+  String toString() {
+    return "IntegrationTestInterfaceMethod0ResponseParams("
+           "param0: $param0" ")";
+  }
 }
 const int kConformanceTestInterface_method0_name = 0;
 const int kConformanceTestInterface_method1_name = 1;
@@ -1048,7 +1166,7 @@ abstract class ConformanceTestInterface {
 
 class ConformanceTestInterfaceProxyImpl extends bindings.Proxy {
   ConformanceTestInterfaceProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   ConformanceTestInterfaceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -1068,6 +1186,11 @@ class ConformanceTestInterfaceProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "ConformanceTestInterfaceProxyImpl($superString)";
+  }
 }
 
 
@@ -1076,18 +1199,21 @@ class _ConformanceTestInterfaceProxyCalls implements ConformanceTestInterface {
 
   _ConformanceTestInterfaceProxyCalls(this._proxyImpl);
     void method0(double param0) {
+      assert(_proxyImpl.isBound);
       var params = new ConformanceTestInterfaceMethod0Params();
       params.param0 = param0;
       _proxyImpl.sendMessage(params, kConformanceTestInterface_method0_name);
     }
   
     void method1(StructA param0) {
+      assert(_proxyImpl.isBound);
       var params = new ConformanceTestInterfaceMethod1Params();
       params.param0 = param0;
       _proxyImpl.sendMessage(params, kConformanceTestInterface_method1_name);
     }
   
     void method2(StructB param0, StructA param1) {
+      assert(_proxyImpl.isBound);
       var params = new ConformanceTestInterfaceMethod2Params();
       params.param0 = param0;
       params.param1 = param1;
@@ -1095,12 +1221,14 @@ class _ConformanceTestInterfaceProxyCalls implements ConformanceTestInterface {
     }
   
     void method3(List<bool> param0) {
+      assert(_proxyImpl.isBound);
       var params = new ConformanceTestInterfaceMethod3Params();
       params.param0 = param0;
       _proxyImpl.sendMessage(params, kConformanceTestInterface_method3_name);
     }
   
     void method4(StructC param0, List<int> param1) {
+      assert(_proxyImpl.isBound);
       var params = new ConformanceTestInterfaceMethod4Params();
       params.param0 = param0;
       params.param1 = param1;
@@ -1108,6 +1236,7 @@ class _ConformanceTestInterfaceProxyCalls implements ConformanceTestInterface {
     }
   
     void method5(StructE param0, core.MojoDataPipeProducer param1) {
+      assert(_proxyImpl.isBound);
       var params = new ConformanceTestInterfaceMethod5Params();
       params.param0 = param0;
       params.param1 = param1;
@@ -1115,12 +1244,14 @@ class _ConformanceTestInterfaceProxyCalls implements ConformanceTestInterface {
     }
   
     void method6(List<List<int>> param0) {
+      assert(_proxyImpl.isBound);
       var params = new ConformanceTestInterfaceMethod6Params();
       params.param0 = param0;
       _proxyImpl.sendMessage(params, kConformanceTestInterface_method6_name);
     }
   
     void method7(StructF param0, List<List<int>> param1) {
+      assert(_proxyImpl.isBound);
       var params = new ConformanceTestInterfaceMethod7Params();
       params.param0 = param0;
       params.param1 = param1;
@@ -1128,24 +1259,28 @@ class _ConformanceTestInterfaceProxyCalls implements ConformanceTestInterface {
     }
   
     void method8(List<List<String>> param0) {
+      assert(_proxyImpl.isBound);
       var params = new ConformanceTestInterfaceMethod8Params();
       params.param0 = param0;
       _proxyImpl.sendMessage(params, kConformanceTestInterface_method8_name);
     }
   
     void method9(List<List<core.MojoHandle>> param0) {
+      assert(_proxyImpl.isBound);
       var params = new ConformanceTestInterfaceMethod9Params();
       params.param0 = param0;
       _proxyImpl.sendMessage(params, kConformanceTestInterface_method9_name);
     }
   
     void method10(Map<String, int> param0) {
+      assert(_proxyImpl.isBound);
       var params = new ConformanceTestInterfaceMethod10Params();
       params.param0 = param0;
       _proxyImpl.sendMessage(params, kConformanceTestInterface_method10_name);
     }
   
     void method11(StructG param0) {
+      assert(_proxyImpl.isBound);
       var params = new ConformanceTestInterfaceMethod11Params();
       params.param0 = param0;
       _proxyImpl.sendMessage(params, kConformanceTestInterface_method11_name);
@@ -1184,17 +1319,22 @@ class ConformanceTestInterfaceProxy implements bindings.ProxyBase {
       new ConformanceTestInterfaceProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "ConformanceTestInterfaceProxy($impl)";
+  }
 }
 
 
 class ConformanceTestInterfaceStub extends bindings.Stub {
-  ConformanceTestInterface _delegate = null;
+  ConformanceTestInterface _impl = null;
 
-  ConformanceTestInterfaceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  ConformanceTestInterfaceStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  ConformanceTestInterfaceStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  ConformanceTestInterfaceStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   ConformanceTestInterfaceStub.unbound() : super.unbound();
 
@@ -1207,67 +1347,67 @@ class ConformanceTestInterfaceStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kConformanceTestInterface_method0_name:
         var params = ConformanceTestInterfaceMethod0Params.deserialize(
             message.payload);
-        _delegate.method0(params.param0);
+        _impl.method0(params.param0);
         break;
       case kConformanceTestInterface_method1_name:
         var params = ConformanceTestInterfaceMethod1Params.deserialize(
             message.payload);
-        _delegate.method1(params.param0);
+        _impl.method1(params.param0);
         break;
       case kConformanceTestInterface_method2_name:
         var params = ConformanceTestInterfaceMethod2Params.deserialize(
             message.payload);
-        _delegate.method2(params.param0, params.param1);
+        _impl.method2(params.param0, params.param1);
         break;
       case kConformanceTestInterface_method3_name:
         var params = ConformanceTestInterfaceMethod3Params.deserialize(
             message.payload);
-        _delegate.method3(params.param0);
+        _impl.method3(params.param0);
         break;
       case kConformanceTestInterface_method4_name:
         var params = ConformanceTestInterfaceMethod4Params.deserialize(
             message.payload);
-        _delegate.method4(params.param0, params.param1);
+        _impl.method4(params.param0, params.param1);
         break;
       case kConformanceTestInterface_method5_name:
         var params = ConformanceTestInterfaceMethod5Params.deserialize(
             message.payload);
-        _delegate.method5(params.param0, params.param1);
+        _impl.method5(params.param0, params.param1);
         break;
       case kConformanceTestInterface_method6_name:
         var params = ConformanceTestInterfaceMethod6Params.deserialize(
             message.payload);
-        _delegate.method6(params.param0);
+        _impl.method6(params.param0);
         break;
       case kConformanceTestInterface_method7_name:
         var params = ConformanceTestInterfaceMethod7Params.deserialize(
             message.payload);
-        _delegate.method7(params.param0, params.param1);
+        _impl.method7(params.param0, params.param1);
         break;
       case kConformanceTestInterface_method8_name:
         var params = ConformanceTestInterfaceMethod8Params.deserialize(
             message.payload);
-        _delegate.method8(params.param0);
+        _impl.method8(params.param0);
         break;
       case kConformanceTestInterface_method9_name:
         var params = ConformanceTestInterfaceMethod9Params.deserialize(
             message.payload);
-        _delegate.method9(params.param0);
+        _impl.method9(params.param0);
         break;
       case kConformanceTestInterface_method10_name:
         var params = ConformanceTestInterfaceMethod10Params.deserialize(
             message.payload);
-        _delegate.method10(params.param0);
+        _impl.method10(params.param0);
         break;
       case kConformanceTestInterface_method11_name:
         var params = ConformanceTestInterfaceMethod11Params.deserialize(
             message.payload);
-        _delegate.method11(params.param0);
+        _impl.method11(params.param0);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -1276,10 +1416,15 @@ class ConformanceTestInterfaceStub extends bindings.Stub {
     return null;
   }
 
-  ConformanceTestInterface get delegate => _delegate;
-      set delegate(ConformanceTestInterface d) {
-    assert(_delegate == null);
-    _delegate = d;
+  ConformanceTestInterface get impl => _impl;
+      set impl(ConformanceTestInterface d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "ConformanceTestInterfaceStub($superString)";
   }
 }
 
@@ -1296,7 +1441,7 @@ abstract class IntegrationTestInterface {
 
 class IntegrationTestInterfaceProxyImpl extends bindings.Proxy {
   IntegrationTestInterfaceProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   IntegrationTestInterfaceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -1326,6 +1471,11 @@ class IntegrationTestInterfaceProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "IntegrationTestInterfaceProxyImpl($superString)";
+  }
 }
 
 
@@ -1334,6 +1484,7 @@ class _IntegrationTestInterfaceProxyCalls implements IntegrationTestInterface {
 
   _IntegrationTestInterfaceProxyCalls(this._proxyImpl);
     Future<IntegrationTestInterfaceMethod0ResponseParams> method0(BasicStruct param0,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new IntegrationTestInterfaceMethod0Params();
       params.param0 = param0;
       return _proxyImpl.sendMessageWithRequestId(
@@ -1375,17 +1526,22 @@ class IntegrationTestInterfaceProxy implements bindings.ProxyBase {
       new IntegrationTestInterfaceProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "IntegrationTestInterfaceProxy($impl)";
+  }
 }
 
 
 class IntegrationTestInterfaceStub extends bindings.Stub {
-  IntegrationTestInterface _delegate = null;
+  IntegrationTestInterface _impl = null;
 
-  IntegrationTestInterfaceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  IntegrationTestInterfaceStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  IntegrationTestInterfaceStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  IntegrationTestInterfaceStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   IntegrationTestInterfaceStub.unbound() : super.unbound();
 
@@ -1403,12 +1559,12 @@ class IntegrationTestInterfaceStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kIntegrationTestInterface_method0_name:
         var params = IntegrationTestInterfaceMethod0Params.deserialize(
             message.payload);
-        return _delegate.method0(params.param0,_IntegrationTestInterfaceMethod0ResponseParamsFactory).then((response) {
+        return _impl.method0(params.param0,_IntegrationTestInterfaceMethod0ResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -1425,10 +1581,15 @@ class IntegrationTestInterfaceStub extends bindings.Stub {
     return null;
   }
 
-  IntegrationTestInterface get delegate => _delegate;
-      set delegate(IntegrationTestInterface d) {
-    assert(_delegate == null);
-    _delegate = d;
+  IntegrationTestInterface get impl => _impl;
+      set impl(IntegrationTestInterface d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "IntegrationTestInterfaceStub($superString)";
   }
 }
 

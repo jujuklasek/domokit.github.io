@@ -44,6 +44,11 @@ class EchoEchoStringParams extends bindings.Struct {
     
     encoder0.encodeString(value, 8, true);
   }
+
+  String toString() {
+    return "EchoEchoStringParams("
+           "value: $value" ")";
+  }
 }
 
 class EchoEchoStringResponseParams extends bindings.Struct {
@@ -81,6 +86,11 @@ class EchoEchoStringResponseParams extends bindings.Struct {
     
     encoder0.encodeString(value, 8, true);
   }
+
+  String toString() {
+    return "EchoEchoStringResponseParams("
+           "value: $value" ")";
+  }
 }
 const int kEcho_echoString_name = 0;
 
@@ -95,7 +105,7 @@ abstract class Echo {
 
 class EchoProxyImpl extends bindings.Proxy {
   EchoProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   EchoProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -125,6 +135,11 @@ class EchoProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "EchoProxyImpl($superString)";
+  }
 }
 
 
@@ -133,6 +148,7 @@ class _EchoProxyCalls implements Echo {
 
   _EchoProxyCalls(this._proxyImpl);
     Future<EchoEchoStringResponseParams> echoString(String value,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new EchoEchoStringParams();
       params.value = value;
       return _proxyImpl.sendMessageWithRequestId(
@@ -174,17 +190,22 @@ class EchoProxy implements bindings.ProxyBase {
       new EchoProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "EchoProxy($impl)";
+  }
 }
 
 
 class EchoStub extends bindings.Stub {
-  Echo _delegate = null;
+  Echo _impl = null;
 
-  EchoStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  EchoStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  EchoStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  EchoStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   EchoStub.unbound() : super.unbound();
 
@@ -202,12 +223,12 @@ class EchoStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kEcho_echoString_name:
         var params = EchoEchoStringParams.deserialize(
             message.payload);
-        return _delegate.echoString(params.value,_EchoEchoStringResponseParamsFactory).then((response) {
+        return _impl.echoString(params.value,_EchoEchoStringResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -224,10 +245,15 @@ class EchoStub extends bindings.Stub {
     return null;
   }
 
-  Echo get delegate => _delegate;
-      set delegate(Echo d) {
-    assert(_delegate == null);
-    _delegate = d;
+  Echo get impl => _impl;
+      set impl(Echo d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "EchoStub($superString)";
   }
 }
 

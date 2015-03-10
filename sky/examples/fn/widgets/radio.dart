@@ -7,6 +7,7 @@ class Radio extends ButtonBase {
   ValueChanged onChanged;
 
   static Style _style = new Style('''
+    transform: translateX(0);
     display: inline-block;
     -webkit-user-select: none;
     width: 14px;
@@ -17,6 +18,7 @@ class Radio extends ButtonBase {
   );
 
   static Style _highlightStyle = new Style('''
+    transform: translateX(0);
     display: inline-block;
     -webkit-user-select: none;
     width: 14px;
@@ -43,19 +45,15 @@ class Radio extends ButtonBase {
     this.groupValue
   }) : super(key: key);
 
-  Node render() {
+  Node build() {
     return new Container(
       style: _highlight ? _highlightStyle : _style,
-      onClick: _handleClick,
-      onPointerDown: _handlePointerDown,
-      onPointerUp: _handlePointerUp,
-      onPointerCancel: _handlePointerCancel,
       children: value == groupValue ?
-          [new Container( style : _dotStyle )] : null
-    );
+          [super.build(), new Container( style : _dotStyle )] : [super.build()]
+    )..events.listen('click', _handleClick);
   }
 
-  void _handleClick(sky.Event e) {
+  void _handleClick(_) {
     onChanged(value);
   }
 }

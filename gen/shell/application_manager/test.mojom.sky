@@ -521,7 +521,7 @@
   }
 
   var TestService = {
-    name: 'mojo::TestService',
+    name: 'mojo::shell::TestService',
     proxyClass: TestServiceProxy,
     stubClass: TestServiceStub,
     validateRequest: validateTestServiceRequest,
@@ -615,7 +615,7 @@
   }
 
   var TestA = {
-    name: 'mojo::TestA',
+    name: 'mojo::shell::TestA',
     proxyClass: TestAProxy,
     stubClass: TestAStub,
     validateRequest: validateTestARequest,
@@ -763,7 +763,7 @@
   }
 
   var TestB = {
-    name: 'mojo::TestB',
+    name: 'mojo::shell::TestB',
     proxyClass: TestBProxy,
     stubClass: TestBStub,
     validateRequest: validateTestBRequest,
@@ -866,7 +866,7 @@
   }
 
   var TestC = {
-    name: 'mojo::TestC',
+    name: 'mojo::shell::TestC',
     proxyClass: TestCProxy,
     stubClass: TestCStub,
     validateRequest: validateTestCRequest,

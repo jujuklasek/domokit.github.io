@@ -56,6 +56,12 @@ class ChildProduceFrameParams extends bindings.Struct {
     
     encoder0.encodeStruct(size, 16, false);
   }
+
+  String toString() {
+    return "ChildProduceFrameParams("
+           "color: $color" ", "
+           "size: $size" ")";
+  }
 }
 
 class ChildProduceFrameResponseParams extends bindings.Struct {
@@ -94,6 +100,11 @@ class ChildProduceFrameResponseParams extends bindings.Struct {
     
     encoder0.encodeStruct(id, 8, false);
   }
+
+  String toString() {
+    return "ChildProduceFrameResponseParams("
+           "id: $id" ")";
+  }
 }
 const int kChild_produceFrame_name = 0;
 
@@ -108,7 +119,7 @@ abstract class Child {
 
 class ChildProxyImpl extends bindings.Proxy {
   ChildProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   ChildProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -138,6 +149,11 @@ class ChildProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "ChildProxyImpl($superString)";
+  }
 }
 
 
@@ -146,6 +162,7 @@ class _ChildProxyCalls implements Child {
 
   _ChildProxyCalls(this._proxyImpl);
     Future<ChildProduceFrameResponseParams> produceFrame(quads_mojom.Color color,geometry_mojom.Size size,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ChildProduceFrameParams();
       params.color = color;
       params.size = size;
@@ -188,17 +205,22 @@ class ChildProxy implements bindings.ProxyBase {
       new ChildProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "ChildProxy($impl)";
+  }
 }
 
 
 class ChildStub extends bindings.Stub {
-  Child _delegate = null;
+  Child _impl = null;
 
-  ChildStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  ChildStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  ChildStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  ChildStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   ChildStub.unbound() : super.unbound();
 
@@ -216,12 +238,12 @@ class ChildStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kChild_produceFrame_name:
         var params = ChildProduceFrameParams.deserialize(
             message.payload);
-        return _delegate.produceFrame(params.color,params.size,_ChildProduceFrameResponseParamsFactory).then((response) {
+        return _impl.produceFrame(params.color,params.size,_ChildProduceFrameResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -238,10 +260,15 @@ class ChildStub extends bindings.Stub {
     return null;
   }
 
-  Child get delegate => _delegate;
-      set delegate(Child d) {
-    assert(_delegate == null);
-    _delegate = d;
+  Child get impl => _impl;
+      set impl(Child d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "ChildStub($superString)";
   }
 }
 

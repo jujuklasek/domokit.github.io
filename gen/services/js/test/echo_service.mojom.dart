@@ -44,6 +44,11 @@ class EchoServiceEchoStringParams extends bindings.Struct {
     
     encoder0.encodeString(value, 8, true);
   }
+
+  String toString() {
+    return "EchoServiceEchoStringParams("
+           "value: $value" ")";
+  }
 }
 
 class EchoServiceEchoStringResponseParams extends bindings.Struct {
@@ -81,6 +86,11 @@ class EchoServiceEchoStringResponseParams extends bindings.Struct {
     
     encoder0.encodeString(value, 8, true);
   }
+
+  String toString() {
+    return "EchoServiceEchoStringResponseParams("
+           "value: $value" ")";
+  }
 }
 
 class EchoServiceShareEchoServiceParams extends bindings.Struct {
@@ -110,6 +120,10 @@ class EchoServiceShareEchoServiceParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "EchoServiceShareEchoServiceParams("")";
   }
 }
 
@@ -148,6 +162,11 @@ class EchoServiceShareEchoServiceResponseParams extends bindings.Struct {
     
     encoder0.encodeBool(ok, 8, 0);
   }
+
+  String toString() {
+    return "EchoServiceShareEchoServiceResponseParams("
+           "ok: $ok" ")";
+  }
 }
 
 class EchoServiceQuitParams extends bindings.Struct {
@@ -178,6 +197,10 @@ class EchoServiceQuitParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "EchoServiceQuitParams("")";
+  }
 }
 const int kEchoService_echoString_name = 0;
 const int kEchoService_shareEchoService_name = 1;
@@ -196,7 +219,7 @@ abstract class EchoService {
 
 class EchoServiceProxyImpl extends bindings.Proxy {
   EchoServiceProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   EchoServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -236,6 +259,11 @@ class EchoServiceProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "EchoServiceProxyImpl($superString)";
+  }
 }
 
 
@@ -244,6 +272,7 @@ class _EchoServiceProxyCalls implements EchoService {
 
   _EchoServiceProxyCalls(this._proxyImpl);
     Future<EchoServiceEchoStringResponseParams> echoString(String value,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new EchoServiceEchoStringParams();
       params.value = value;
       return _proxyImpl.sendMessageWithRequestId(
@@ -253,6 +282,7 @@ class _EchoServiceProxyCalls implements EchoService {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<EchoServiceShareEchoServiceResponseParams> shareEchoService([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new EchoServiceShareEchoServiceParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -261,6 +291,7 @@ class _EchoServiceProxyCalls implements EchoService {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     void quit() {
+      assert(_proxyImpl.isBound);
       var params = new EchoServiceQuitParams();
       _proxyImpl.sendMessage(params, kEchoService_quit_name);
     }
@@ -298,17 +329,22 @@ class EchoServiceProxy implements bindings.ProxyBase {
       new EchoServiceProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "EchoServiceProxy($impl)";
+  }
 }
 
 
 class EchoServiceStub extends bindings.Stub {
-  EchoService _delegate = null;
+  EchoService _impl = null;
 
-  EchoServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  EchoServiceStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  EchoServiceStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  EchoServiceStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   EchoServiceStub.unbound() : super.unbound();
 
@@ -331,12 +367,12 @@ class EchoServiceStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kEchoService_echoString_name:
         var params = EchoServiceEchoStringParams.deserialize(
             message.payload);
-        return _delegate.echoString(params.value,_EchoServiceEchoStringResponseParamsFactory).then((response) {
+        return _impl.echoString(params.value,_EchoServiceEchoStringResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -349,7 +385,7 @@ class EchoServiceStub extends bindings.Stub {
       case kEchoService_shareEchoService_name:
         var params = EchoServiceShareEchoServiceParams.deserialize(
             message.payload);
-        return _delegate.shareEchoService(_EchoServiceShareEchoServiceResponseParamsFactory).then((response) {
+        return _impl.shareEchoService(_EchoServiceShareEchoServiceResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -362,7 +398,7 @@ class EchoServiceStub extends bindings.Stub {
       case kEchoService_quit_name:
         var params = EchoServiceQuitParams.deserialize(
             message.payload);
-        _delegate.quit();
+        _impl.quit();
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -371,10 +407,15 @@ class EchoServiceStub extends bindings.Stub {
     return null;
   }
 
-  EchoService get delegate => _delegate;
-      set delegate(EchoService d) {
-    assert(_delegate == null);
-    _delegate = d;
+  EchoService get impl => _impl;
+      set impl(EchoService d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "EchoServiceStub($superString)";
   }
 }
 

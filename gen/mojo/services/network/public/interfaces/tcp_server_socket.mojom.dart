@@ -61,6 +61,13 @@ class TcpServerSocketAcceptParams extends bindings.Struct {
     
     encoder0.encodeInterfaceRequest(clientSocket, 16, false);
   }
+
+  String toString() {
+    return "TcpServerSocketAcceptParams("
+           "sendStream: $sendStream" ", "
+           "receiveStream: $receiveStream" ", "
+           "clientSocket: $clientSocket" ")";
+  }
 }
 
 class TcpServerSocketAcceptResponseParams extends bindings.Struct {
@@ -107,6 +114,12 @@ class TcpServerSocketAcceptResponseParams extends bindings.Struct {
     
     encoder0.encodeStruct(remoteAddress, 16, true);
   }
+
+  String toString() {
+    return "TcpServerSocketAcceptResponseParams("
+           "result: $result" ", "
+           "remoteAddress: $remoteAddress" ")";
+  }
 }
 const int kTcpServerSocket_accept_name = 0;
 
@@ -121,7 +134,7 @@ abstract class TcpServerSocket {
 
 class TcpServerSocketProxyImpl extends bindings.Proxy {
   TcpServerSocketProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   TcpServerSocketProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -151,6 +164,11 @@ class TcpServerSocketProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "TcpServerSocketProxyImpl($superString)";
+  }
 }
 
 
@@ -159,6 +177,7 @@ class _TcpServerSocketProxyCalls implements TcpServerSocket {
 
   _TcpServerSocketProxyCalls(this._proxyImpl);
     Future<TcpServerSocketAcceptResponseParams> accept(core.MojoDataPipeConsumer sendStream,core.MojoDataPipeProducer receiveStream,Object clientSocket,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new TcpServerSocketAcceptParams();
       params.sendStream = sendStream;
       params.receiveStream = receiveStream;
@@ -202,17 +221,22 @@ class TcpServerSocketProxy implements bindings.ProxyBase {
       new TcpServerSocketProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "TcpServerSocketProxy($impl)";
+  }
 }
 
 
 class TcpServerSocketStub extends bindings.Stub {
-  TcpServerSocket _delegate = null;
+  TcpServerSocket _impl = null;
 
-  TcpServerSocketStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  TcpServerSocketStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  TcpServerSocketStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  TcpServerSocketStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   TcpServerSocketStub.unbound() : super.unbound();
 
@@ -231,12 +255,12 @@ class TcpServerSocketStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kTcpServerSocket_accept_name:
         var params = TcpServerSocketAcceptParams.deserialize(
             message.payload);
-        return _delegate.accept(params.sendStream,params.receiveStream,params.clientSocket,_TcpServerSocketAcceptResponseParamsFactory).then((response) {
+        return _impl.accept(params.sendStream,params.receiveStream,params.clientSocket,_TcpServerSocketAcceptResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -253,10 +277,15 @@ class TcpServerSocketStub extends bindings.Stub {
     return null;
   }
 
-  TcpServerSocket get delegate => _delegate;
-      set delegate(TcpServerSocket d) {
-    assert(_delegate == null);
-    _delegate = d;
+  TcpServerSocket get impl => _impl;
+      set impl(TcpServerSocket d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "TcpServerSocketStub($superString)";
   }
 }
 

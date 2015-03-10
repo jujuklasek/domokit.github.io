@@ -65,5 +65,13 @@ class Rect extends bindings.Struct {
     
     encoder0.encodeInt32(height, 20);
   }
+
+  String toString() {
+    return "Rect("
+           "x: $x" ", "
+           "y: $y" ", "
+           "width: $width" ", "
+           "height: $height" ")";
+  }
 }
 

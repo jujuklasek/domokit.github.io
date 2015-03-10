@@ -44,6 +44,11 @@ class IcuDataMapParams extends bindings.Struct {
     
     encoder0.encodeString(sha1hash, 8, false);
   }
+
+  String toString() {
+    return "IcuDataMapParams("
+           "sha1hash: $sha1hash" ")";
+  }
 }
 
 class IcuDataMapResponseParams extends bindings.Struct {
@@ -81,6 +86,11 @@ class IcuDataMapResponseParams extends bindings.Struct {
     
     encoder0.encodeSharedBufferHandle(icuData, 8, true);
   }
+
+  String toString() {
+    return "IcuDataMapResponseParams("
+           "icuData: $icuData" ")";
+  }
 }
 const int kIcuData_map_name = 0;
 
@@ -95,7 +105,7 @@ abstract class IcuData {
 
 class IcuDataProxyImpl extends bindings.Proxy {
   IcuDataProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   IcuDataProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -125,6 +135,11 @@ class IcuDataProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "IcuDataProxyImpl($superString)";
+  }
 }
 
 
@@ -133,6 +148,7 @@ class _IcuDataProxyCalls implements IcuData {
 
   _IcuDataProxyCalls(this._proxyImpl);
     Future<IcuDataMapResponseParams> map(String sha1hash,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new IcuDataMapParams();
       params.sha1hash = sha1hash;
       return _proxyImpl.sendMessageWithRequestId(
@@ -174,17 +190,22 @@ class IcuDataProxy implements bindings.ProxyBase {
       new IcuDataProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "IcuDataProxy($impl)";
+  }
 }
 
 
 class IcuDataStub extends bindings.Stub {
-  IcuData _delegate = null;
+  IcuData _impl = null;
 
-  IcuDataStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  IcuDataStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  IcuDataStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  IcuDataStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   IcuDataStub.unbound() : super.unbound();
 
@@ -202,12 +223,12 @@ class IcuDataStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kIcuData_map_name:
         var params = IcuDataMapParams.deserialize(
             message.payload);
-        return _delegate.map(params.sha1hash,_IcuDataMapResponseParamsFactory).then((response) {
+        return _impl.map(params.sha1hash,_IcuDataMapResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -224,10 +245,15 @@ class IcuDataStub extends bindings.Stub {
     return null;
   }
 
-  IcuData get delegate => _delegate;
-      set delegate(IcuData d) {
-    assert(_delegate == null);
-    _delegate = d;
+  IcuData get impl => _impl;
+      set impl(IcuData d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "IcuDataStub($superString)";
   }
 }
 

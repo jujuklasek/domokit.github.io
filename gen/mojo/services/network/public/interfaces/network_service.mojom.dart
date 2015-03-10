@@ -52,6 +52,11 @@ class NetworkServiceCreateUrlLoaderParams extends bindings.Struct {
     
     encoder0.encodeInterfaceRequest(loader, 8, false);
   }
+
+  String toString() {
+    return "NetworkServiceCreateUrlLoaderParams("
+           "loader: $loader" ")";
+  }
 }
 
 class NetworkServiceGetCookieStoreParams extends bindings.Struct {
@@ -89,6 +94,11 @@ class NetworkServiceGetCookieStoreParams extends bindings.Struct {
     
     encoder0.encodeInterfaceRequest(cookieStore, 8, false);
   }
+
+  String toString() {
+    return "NetworkServiceGetCookieStoreParams("
+           "cookieStore: $cookieStore" ")";
+  }
 }
 
 class NetworkServiceCreateWebSocketParams extends bindings.Struct {
@@ -125,6 +135,11 @@ class NetworkServiceCreateWebSocketParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeInterfaceRequest(socket, 8, false);
+  }
+
+  String toString() {
+    return "NetworkServiceCreateWebSocketParams("
+           "socket: $socket" ")";
   }
 }
 
@@ -171,6 +186,12 @@ class NetworkServiceCreateTcpBoundSocketParams extends bindings.Struct {
     
     encoder0.encodeInterfaceRequest(boundSocket, 16, false);
   }
+
+  String toString() {
+    return "NetworkServiceCreateTcpBoundSocketParams("
+           "localAddress: $localAddress" ", "
+           "boundSocket: $boundSocket" ")";
+  }
 }
 
 class NetworkServiceCreateTcpBoundSocketResponseParams extends bindings.Struct {
@@ -216,6 +237,12 @@ class NetworkServiceCreateTcpBoundSocketResponseParams extends bindings.Struct {
     encoder0.encodeStruct(result, 8, false);
     
     encoder0.encodeStruct(boundTo, 16, true);
+  }
+
+  String toString() {
+    return "NetworkServiceCreateTcpBoundSocketResponseParams("
+           "result: $result" ", "
+           "boundTo: $boundTo" ")";
   }
 }
 
@@ -276,6 +303,14 @@ class NetworkServiceCreateTcpConnectedSocketParams extends bindings.Struct {
     
     encoder0.encodeInterfaceRequest(clientSocket, 24, false);
   }
+
+  String toString() {
+    return "NetworkServiceCreateTcpConnectedSocketParams("
+           "remoteAddress: $remoteAddress" ", "
+           "sendStream: $sendStream" ", "
+           "receiveStream: $receiveStream" ", "
+           "clientSocket: $clientSocket" ")";
+  }
 }
 
 class NetworkServiceCreateTcpConnectedSocketResponseParams extends bindings.Struct {
@@ -322,6 +357,12 @@ class NetworkServiceCreateTcpConnectedSocketResponseParams extends bindings.Stru
     
     encoder0.encodeStruct(localAddress, 16, true);
   }
+
+  String toString() {
+    return "NetworkServiceCreateTcpConnectedSocketResponseParams("
+           "result: $result" ", "
+           "localAddress: $localAddress" ")";
+  }
 }
 
 class NetworkServiceCreateUdpSocketParams extends bindings.Struct {
@@ -359,6 +400,11 @@ class NetworkServiceCreateUdpSocketParams extends bindings.Struct {
     
     encoder0.encodeInterfaceRequest(socket, 8, false);
   }
+
+  String toString() {
+    return "NetworkServiceCreateUdpSocketParams("
+           "socket: $socket" ")";
+  }
 }
 const int kNetworkService_createUrlLoader_name = 0;
 const int kNetworkService_getCookieStore_name = 1;
@@ -383,7 +429,7 @@ abstract class NetworkService {
 
 class NetworkServiceProxyImpl extends bindings.Proxy {
   NetworkServiceProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   NetworkServiceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -423,6 +469,11 @@ class NetworkServiceProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "NetworkServiceProxyImpl($superString)";
+  }
 }
 
 
@@ -431,24 +482,28 @@ class _NetworkServiceProxyCalls implements NetworkService {
 
   _NetworkServiceProxyCalls(this._proxyImpl);
     void createUrlLoader(Object loader) {
+      assert(_proxyImpl.isBound);
       var params = new NetworkServiceCreateUrlLoaderParams();
       params.loader = loader;
       _proxyImpl.sendMessage(params, kNetworkService_createUrlLoader_name);
     }
   
     void getCookieStore(Object cookieStore) {
+      assert(_proxyImpl.isBound);
       var params = new NetworkServiceGetCookieStoreParams();
       params.cookieStore = cookieStore;
       _proxyImpl.sendMessage(params, kNetworkService_getCookieStore_name);
     }
   
     void createWebSocket(Object socket) {
+      assert(_proxyImpl.isBound);
       var params = new NetworkServiceCreateWebSocketParams();
       params.socket = socket;
       _proxyImpl.sendMessage(params, kNetworkService_createWebSocket_name);
     }
   
     Future<NetworkServiceCreateTcpBoundSocketResponseParams> createTcpBoundSocket(net_address_mojom.NetAddress localAddress,Object boundSocket,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new NetworkServiceCreateTcpBoundSocketParams();
       params.localAddress = localAddress;
       params.boundSocket = boundSocket;
@@ -459,6 +514,7 @@ class _NetworkServiceProxyCalls implements NetworkService {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<NetworkServiceCreateTcpConnectedSocketResponseParams> createTcpConnectedSocket(net_address_mojom.NetAddress remoteAddress,core.MojoDataPipeConsumer sendStream,core.MojoDataPipeProducer receiveStream,Object clientSocket,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new NetworkServiceCreateTcpConnectedSocketParams();
       params.remoteAddress = remoteAddress;
       params.sendStream = sendStream;
@@ -471,6 +527,7 @@ class _NetworkServiceProxyCalls implements NetworkService {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     void createUdpSocket(Object socket) {
+      assert(_proxyImpl.isBound);
       var params = new NetworkServiceCreateUdpSocketParams();
       params.socket = socket;
       _proxyImpl.sendMessage(params, kNetworkService_createUdpSocket_name);
@@ -509,17 +566,22 @@ class NetworkServiceProxy implements bindings.ProxyBase {
       new NetworkServiceProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "NetworkServiceProxy($impl)";
+  }
 }
 
 
 class NetworkServiceStub extends bindings.Stub {
-  NetworkService _delegate = null;
+  NetworkService _impl = null;
 
-  NetworkServiceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  NetworkServiceStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  NetworkServiceStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  NetworkServiceStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   NetworkServiceStub.unbound() : super.unbound();
 
@@ -544,27 +606,27 @@ class NetworkServiceStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kNetworkService_createUrlLoader_name:
         var params = NetworkServiceCreateUrlLoaderParams.deserialize(
             message.payload);
-        _delegate.createUrlLoader(params.loader);
+        _impl.createUrlLoader(params.loader);
         break;
       case kNetworkService_getCookieStore_name:
         var params = NetworkServiceGetCookieStoreParams.deserialize(
             message.payload);
-        _delegate.getCookieStore(params.cookieStore);
+        _impl.getCookieStore(params.cookieStore);
         break;
       case kNetworkService_createWebSocket_name:
         var params = NetworkServiceCreateWebSocketParams.deserialize(
             message.payload);
-        _delegate.createWebSocket(params.socket);
+        _impl.createWebSocket(params.socket);
         break;
       case kNetworkService_createTcpBoundSocket_name:
         var params = NetworkServiceCreateTcpBoundSocketParams.deserialize(
             message.payload);
-        return _delegate.createTcpBoundSocket(params.localAddress,params.boundSocket,_NetworkServiceCreateTcpBoundSocketResponseParamsFactory).then((response) {
+        return _impl.createTcpBoundSocket(params.localAddress,params.boundSocket,_NetworkServiceCreateTcpBoundSocketResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -577,7 +639,7 @@ class NetworkServiceStub extends bindings.Stub {
       case kNetworkService_createTcpConnectedSocket_name:
         var params = NetworkServiceCreateTcpConnectedSocketParams.deserialize(
             message.payload);
-        return _delegate.createTcpConnectedSocket(params.remoteAddress,params.sendStream,params.receiveStream,params.clientSocket,_NetworkServiceCreateTcpConnectedSocketResponseParamsFactory).then((response) {
+        return _impl.createTcpConnectedSocket(params.remoteAddress,params.sendStream,params.receiveStream,params.clientSocket,_NetworkServiceCreateTcpConnectedSocketResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -590,7 +652,7 @@ class NetworkServiceStub extends bindings.Stub {
       case kNetworkService_createUdpSocket_name:
         var params = NetworkServiceCreateUdpSocketParams.deserialize(
             message.payload);
-        _delegate.createUdpSocket(params.socket);
+        _impl.createUdpSocket(params.socket);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -599,10 +661,15 @@ class NetworkServiceStub extends bindings.Stub {
     return null;
   }
 
-  NetworkService get delegate => _delegate;
-      set delegate(NetworkService d) {
-    assert(_delegate == null);
-    _delegate = d;
+  NetworkService get impl => _impl;
+      set impl(NetworkService d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "NetworkServiceStub($superString)";
   }
 }
 

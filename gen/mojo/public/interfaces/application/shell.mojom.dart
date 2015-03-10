@@ -59,6 +59,13 @@ class ShellConnectToApplicationParams extends bindings.Struct {
     
     encoder0.encodeInterface(exposedServices, 20, true);
   }
+
+  String toString() {
+    return "ShellConnectToApplicationParams("
+           "applicationUrl: $applicationUrl" ", "
+           "services: $services" ", "
+           "exposedServices: $exposedServices" ")";
+  }
 }
 const int kShell_connectToApplication_name = 0;
 
@@ -73,7 +80,7 @@ abstract class Shell {
 
 class ShellProxyImpl extends bindings.Proxy {
   ShellProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   ShellProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -93,6 +100,11 @@ class ShellProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "ShellProxyImpl($superString)";
+  }
 }
 
 
@@ -101,6 +113,7 @@ class _ShellProxyCalls implements Shell {
 
   _ShellProxyCalls(this._proxyImpl);
     void connectToApplication(String applicationUrl, Object services, Object exposedServices) {
+      assert(_proxyImpl.isBound);
       var params = new ShellConnectToApplicationParams();
       params.applicationUrl = applicationUrl;
       params.services = services;
@@ -141,17 +154,22 @@ class ShellProxy implements bindings.ProxyBase {
       new ShellProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "ShellProxy($impl)";
+  }
 }
 
 
 class ShellStub extends bindings.Stub {
-  Shell _delegate = null;
+  Shell _impl = null;
 
-  ShellStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  ShellStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  ShellStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  ShellStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   ShellStub.unbound() : super.unbound();
 
@@ -164,12 +182,12 @@ class ShellStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kShell_connectToApplication_name:
         var params = ShellConnectToApplicationParams.deserialize(
             message.payload);
-        _delegate.connectToApplication(params.applicationUrl, params.services, params.exposedServices);
+        _impl.connectToApplication(params.applicationUrl, params.services, params.exposedServices);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -178,10 +196,15 @@ class ShellStub extends bindings.Stub {
     return null;
   }
 
-  Shell get delegate => _delegate;
-      set delegate(Shell d) {
-    assert(_delegate == null);
-    _delegate = d;
+  Shell get impl => _impl;
+      set impl(Shell d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "ShellStub($superString)";
   }
 }
 

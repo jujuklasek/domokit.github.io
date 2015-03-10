@@ -52,6 +52,12 @@ class TestHarnessOnTestCompleteParams extends bindings.Struct {
     
     encoder0.encodeUint8Array(pixels, 16, bindings.kArrayNullable, bindings.kUnspecifiedArrayLength);
   }
+
+  String toString() {
+    return "TestHarnessOnTestCompleteParams("
+           "testResult: $testResult" ", "
+           "pixels: $pixels" ")";
+  }
 }
 
 class TestHarnessDispatchInputEventParams extends bindings.Struct {
@@ -90,6 +96,11 @@ class TestHarnessDispatchInputEventParams extends bindings.Struct {
     
     encoder0.encodeStruct(event, 8, false);
   }
+
+  String toString() {
+    return "TestHarnessDispatchInputEventParams("
+           "event: $event" ")";
+  }
 }
 const int kTestHarness_onTestComplete_name = 0;
 const int kTestHarness_dispatchInputEvent_name = 1;
@@ -106,7 +117,7 @@ abstract class TestHarness {
 
 class TestHarnessProxyImpl extends bindings.Proxy {
   TestHarnessProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   TestHarnessProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -126,6 +137,11 @@ class TestHarnessProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "TestHarnessProxyImpl($superString)";
+  }
 }
 
 
@@ -134,6 +150,7 @@ class _TestHarnessProxyCalls implements TestHarness {
 
   _TestHarnessProxyCalls(this._proxyImpl);
     void onTestComplete(String testResult, List<int> pixels) {
+      assert(_proxyImpl.isBound);
       var params = new TestHarnessOnTestCompleteParams();
       params.testResult = testResult;
       params.pixels = pixels;
@@ -141,6 +158,7 @@ class _TestHarnessProxyCalls implements TestHarness {
     }
   
     void dispatchInputEvent(input_events_mojom.Event event) {
+      assert(_proxyImpl.isBound);
       var params = new TestHarnessDispatchInputEventParams();
       params.event = event;
       _proxyImpl.sendMessage(params, kTestHarness_dispatchInputEvent_name);
@@ -179,17 +197,22 @@ class TestHarnessProxy implements bindings.ProxyBase {
       new TestHarnessProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "TestHarnessProxy($impl)";
+  }
 }
 
 
 class TestHarnessStub extends bindings.Stub {
-  TestHarness _delegate = null;
+  TestHarness _impl = null;
 
-  TestHarnessStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  TestHarnessStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  TestHarnessStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  TestHarnessStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   TestHarnessStub.unbound() : super.unbound();
 
@@ -202,17 +225,17 @@ class TestHarnessStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kTestHarness_onTestComplete_name:
         var params = TestHarnessOnTestCompleteParams.deserialize(
             message.payload);
-        _delegate.onTestComplete(params.testResult, params.pixels);
+        _impl.onTestComplete(params.testResult, params.pixels);
         break;
       case kTestHarness_dispatchInputEvent_name:
         var params = TestHarnessDispatchInputEventParams.deserialize(
             message.payload);
-        _delegate.dispatchInputEvent(params.event);
+        _impl.dispatchInputEvent(params.event);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -221,10 +244,15 @@ class TestHarnessStub extends bindings.Stub {
     return null;
   }
 
-  TestHarness get delegate => _delegate;
-      set delegate(TestHarness d) {
-    assert(_delegate == null);
-    _delegate = d;
+  TestHarness get impl => _impl;
+      set impl(TestHarness d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "TestHarnessStub($superString)";
   }
 }
 

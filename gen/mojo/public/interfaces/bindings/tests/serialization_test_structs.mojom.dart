@@ -44,6 +44,11 @@ class Struct1 extends bindings.Struct {
     
     encoder0.encodeUint8(i, 8);
   }
+
+  String toString() {
+    return "Struct1("
+           "i: $i" ")";
+  }
 }
 
 class Struct2 extends bindings.Struct {
@@ -80,6 +85,11 @@ class Struct2 extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeHandle(hdl, 8, false);
+  }
+
+  String toString() {
+    return "Struct2("
+           "hdl: $hdl" ")";
   }
 }
 
@@ -118,6 +128,11 @@ class Struct3 extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeStruct(struct1, 8, false);
+  }
+
+  String toString() {
+    return "Struct3("
+           "struct1: $struct1" ")";
   }
 }
 
@@ -173,6 +188,11 @@ class Struct4 extends bindings.Struct {
       }
     }
   }
+
+  String toString() {
+    return "Struct4("
+           "data: $data" ")";
+  }
 }
 
 class Struct5 extends bindings.Struct {
@@ -227,6 +247,11 @@ class Struct5 extends bindings.Struct {
       }
     }
   }
+
+  String toString() {
+    return "Struct5("
+           "pair: $pair" ")";
+  }
 }
 
 class Struct6 extends bindings.Struct {
@@ -263,6 +288,11 @@ class Struct6 extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeString(str, 8, false);
+  }
+
+  String toString() {
+    return "Struct6("
+           "str: $str" ")";
   }
 }
 
@@ -315,6 +345,13 @@ class StructOfNullables extends bindings.Struct {
     encoder0.encodeStruct(struct1, 16, true);
     
     encoder0.encodeString(str, 24, true);
+  }
+
+  String toString() {
+    return "StructOfNullables("
+           "hdl: $hdl" ", "
+           "struct1: $struct1" ", "
+           "str: $str" ")";
   }
 }
 

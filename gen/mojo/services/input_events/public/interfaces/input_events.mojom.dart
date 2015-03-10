@@ -56,6 +56,12 @@ class LocationData extends bindings.Struct {
     
     encoder0.encodeStruct(screenLocation, 16, true);
   }
+
+  String toString() {
+    return "LocationData("
+           "inViewLocation: $inViewLocation" ", "
+           "screenLocation: $screenLocation" ")";
+  }
 }
 
 class KeyData extends bindings.Struct {
@@ -135,6 +141,17 @@ class KeyData extends bindings.Struct {
     
     encoder0.encodeUint16(unmodifiedText, 26);
   }
+
+  String toString() {
+    return "KeyData("
+           "keyCode: $keyCode" ", "
+           "isChar: $isChar" ", "
+           "character: $character" ", "
+           "windowsKeyCode: $windowsKeyCode" ", "
+           "nativeKeyCode: $nativeKeyCode" ", "
+           "text: $text" ", "
+           "unmodifiedText: $unmodifiedText" ")";
+  }
 }
 
 class TouchData extends bindings.Struct {
@@ -171,6 +188,11 @@ class TouchData extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeInt32(pointerId, 8);
+  }
+
+  String toString() {
+    return "TouchData("
+           "pointerId: $pointerId" ")";
   }
 }
 
@@ -280,6 +302,21 @@ class GestureData extends bindings.Struct {
     
     encoder0.encodeInt32(tapCount, 40);
   }
+
+  String toString() {
+    return "GestureData("
+           "boundingBox: $boundingBox" ", "
+           "scrollX: $scrollX" ", "
+           "scrollY: $scrollY" ", "
+           "velocityX: $velocityX" ", "
+           "velocityY: $velocityY" ", "
+           "scale: $scale" ", "
+           "swipeLeft: $swipeLeft" ", "
+           "swipeRight: $swipeRight" ", "
+           "swipeUp: $swipeUp" ", "
+           "swipeDown: $swipeDown" ", "
+           "tapCount: $tapCount" ")";
+  }
 }
 
 class MouseWheelData extends bindings.Struct {
@@ -323,6 +360,12 @@ class MouseWheelData extends bindings.Struct {
     encoder0.encodeInt32(xOffset, 8);
     
     encoder0.encodeInt32(yOffset, 12);
+  }
+
+  String toString() {
+    return "MouseWheelData("
+           "xOffset: $xOffset" ", "
+           "yOffset: $yOffset" ")";
   }
 }
 
@@ -414,6 +457,18 @@ class Event extends bindings.Struct {
     encoder0.encodeStruct(gestureData, 48, true);
     
     encoder0.encodeStruct(wheelData, 56, true);
+  }
+
+  String toString() {
+    return "Event("
+           "action: $action" ", "
+           "flags: $flags" ", "
+           "timeStamp: $timeStamp" ", "
+           "locationData: $locationData" ", "
+           "keyData: $keyData" ", "
+           "touchData: $touchData" ", "
+           "gestureData: $gestureData" ", "
+           "wheelData: $wheelData" ")";
   }
 }
 

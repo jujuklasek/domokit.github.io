@@ -64,6 +64,12 @@ class Point extends bindings.Struct {
     
     encoder0.encodeInt32(y, 12);
   }
+
+  String toString() {
+    return "Point("
+           "x: $x" ", "
+           "y: $y" ")";
+  }
 }
 
 class ImportedInterfaceDoSomethingParams extends bindings.Struct {
@@ -94,6 +100,10 @@ class ImportedInterfaceDoSomethingParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "ImportedInterfaceDoSomethingParams("")";
+  }
 }
 const int kImportedInterface_doSomething_name = 0;
 
@@ -108,7 +118,7 @@ abstract class ImportedInterface {
 
 class ImportedInterfaceProxyImpl extends bindings.Proxy {
   ImportedInterfaceProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   ImportedInterfaceProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -128,6 +138,11 @@ class ImportedInterfaceProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "ImportedInterfaceProxyImpl($superString)";
+  }
 }
 
 
@@ -136,6 +151,7 @@ class _ImportedInterfaceProxyCalls implements ImportedInterface {
 
   _ImportedInterfaceProxyCalls(this._proxyImpl);
     void doSomething() {
+      assert(_proxyImpl.isBound);
       var params = new ImportedInterfaceDoSomethingParams();
       _proxyImpl.sendMessage(params, kImportedInterface_doSomething_name);
     }
@@ -173,17 +189,22 @@ class ImportedInterfaceProxy implements bindings.ProxyBase {
       new ImportedInterfaceProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "ImportedInterfaceProxy($impl)";
+  }
 }
 
 
 class ImportedInterfaceStub extends bindings.Stub {
-  ImportedInterface _delegate = null;
+  ImportedInterface _impl = null;
 
-  ImportedInterfaceStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  ImportedInterfaceStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  ImportedInterfaceStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  ImportedInterfaceStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   ImportedInterfaceStub.unbound() : super.unbound();
 
@@ -196,12 +217,12 @@ class ImportedInterfaceStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kImportedInterface_doSomething_name:
         var params = ImportedInterfaceDoSomethingParams.deserialize(
             message.payload);
-        _delegate.doSomething();
+        _impl.doSomething();
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -210,10 +231,15 @@ class ImportedInterfaceStub extends bindings.Stub {
     return null;
   }
 
-  ImportedInterface get delegate => _delegate;
-      set delegate(ImportedInterface d) {
-    assert(_delegate == null);
-    _delegate = d;
+  ImportedInterface get impl => _impl;
+      set impl(ImportedInterface d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "ImportedInterfaceStub($superString)";
   }
 }
 

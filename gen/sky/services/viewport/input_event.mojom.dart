@@ -169,6 +169,27 @@ class PointerData extends bindings.Struct {
     
     encoder0.encodeFloat(tilt, 72);
   }
+
+  String toString() {
+    return "PointerData("
+           "pointer: $pointer" ", "
+           "kind: $kind" ", "
+           "x: $x" ", "
+           "y: $y" ", "
+           "buttons: $buttons" ", "
+           "pressure: $pressure" ", "
+           "pressureMin: $pressureMin" ", "
+           "pressureMax: $pressureMax" ", "
+           "distance: $distance" ", "
+           "distanceMin: $distanceMin" ", "
+           "distanceMax: $distanceMax" ", "
+           "radiusMajor: $radiusMajor" ", "
+           "radiusMinor: $radiusMinor" ", "
+           "radiusMin: $radiusMin" ", "
+           "radiusMax: $radiusMax" ", "
+           "orientation: $orientation" ", "
+           "tilt: $tilt" ")";
+  }
 }
 
 class GestureData extends bindings.Struct {
@@ -241,6 +262,16 @@ class GestureData extends bindings.Struct {
     
     encoder0.encodeFloat(velocityY, 28);
   }
+
+  String toString() {
+    return "GestureData("
+           "x: $x" ", "
+           "y: $y" ", "
+           "dx: $dx" ", "
+           "dy: $dy" ", "
+           "velocityX: $velocityX" ", "
+           "velocityY: $velocityY" ")";
+  }
 }
 
 class InputEvent extends bindings.Struct {
@@ -300,6 +331,14 @@ class InputEvent extends bindings.Struct {
     encoder0.encodeStruct(pointerData, 24, true);
     
     encoder0.encodeStruct(gestureData, 32, true);
+  }
+
+  String toString() {
+    return "InputEvent("
+           "type: $type" ", "
+           "timeStamp: $timeStamp" ", "
+           "pointerData: $pointerData" ", "
+           "gestureData: $gestureData" ")";
   }
 }
 

@@ -38,6 +38,10 @@ class DebugPanelHostCloseTopWindowParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "DebugPanelHostCloseTopWindowParams("")";
+  }
 }
 
 class DebugPanelHostNavigateToParams extends bindings.Struct {
@@ -74,6 +78,11 @@ class DebugPanelHostNavigateToParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeString(url, 8, false);
+  }
+
+  String toString() {
+    return "DebugPanelHostNavigateToParams("
+           "url: $url" ")";
   }
 }
 
@@ -112,6 +121,11 @@ class DebugPanelHostSetNavigationTargetParams extends bindings.Struct {
     
     encoder0.encodeInt32(target, 8);
   }
+
+  String toString() {
+    return "DebugPanelHostSetNavigationTargetParams("
+           "target: $target" ")";
+  }
 }
 const int kDebugPanelHost_closeTopWindow_name = 0;
 const int kDebugPanelHost_navigateTo_name = 1;
@@ -130,7 +144,7 @@ abstract class DebugPanelHost {
 
 class DebugPanelHostProxyImpl extends bindings.Proxy {
   DebugPanelHostProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   DebugPanelHostProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -150,6 +164,11 @@ class DebugPanelHostProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "DebugPanelHostProxyImpl($superString)";
+  }
 }
 
 
@@ -158,17 +177,20 @@ class _DebugPanelHostProxyCalls implements DebugPanelHost {
 
   _DebugPanelHostProxyCalls(this._proxyImpl);
     void closeTopWindow() {
+      assert(_proxyImpl.isBound);
       var params = new DebugPanelHostCloseTopWindowParams();
       _proxyImpl.sendMessage(params, kDebugPanelHost_closeTopWindow_name);
     }
   
     void navigateTo(String url) {
+      assert(_proxyImpl.isBound);
       var params = new DebugPanelHostNavigateToParams();
       params.url = url;
       _proxyImpl.sendMessage(params, kDebugPanelHost_navigateTo_name);
     }
   
     void setNavigationTarget(int target) {
+      assert(_proxyImpl.isBound);
       var params = new DebugPanelHostSetNavigationTargetParams();
       params.target = target;
       _proxyImpl.sendMessage(params, kDebugPanelHost_setNavigationTarget_name);
@@ -207,17 +229,22 @@ class DebugPanelHostProxy implements bindings.ProxyBase {
       new DebugPanelHostProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "DebugPanelHostProxy($impl)";
+  }
 }
 
 
 class DebugPanelHostStub extends bindings.Stub {
-  DebugPanelHost _delegate = null;
+  DebugPanelHost _impl = null;
 
-  DebugPanelHostStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  DebugPanelHostStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  DebugPanelHostStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  DebugPanelHostStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   DebugPanelHostStub.unbound() : super.unbound();
 
@@ -230,22 +257,22 @@ class DebugPanelHostStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kDebugPanelHost_closeTopWindow_name:
         var params = DebugPanelHostCloseTopWindowParams.deserialize(
             message.payload);
-        _delegate.closeTopWindow();
+        _impl.closeTopWindow();
         break;
       case kDebugPanelHost_navigateTo_name:
         var params = DebugPanelHostNavigateToParams.deserialize(
             message.payload);
-        _delegate.navigateTo(params.url);
+        _impl.navigateTo(params.url);
         break;
       case kDebugPanelHost_setNavigationTarget_name:
         var params = DebugPanelHostSetNavigationTargetParams.deserialize(
             message.payload);
-        _delegate.setNavigationTarget(params.target);
+        _impl.setNavigationTarget(params.target);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -254,10 +281,15 @@ class DebugPanelHostStub extends bindings.Stub {
     return null;
   }
 
-  DebugPanelHost get delegate => _delegate;
-      set delegate(DebugPanelHost d) {
-    assert(_delegate == null);
-    _delegate = d;
+  DebugPanelHost get impl => _impl;
+      set impl(DebugPanelHost d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "DebugPanelHostStub($superString)";
   }
 }
 

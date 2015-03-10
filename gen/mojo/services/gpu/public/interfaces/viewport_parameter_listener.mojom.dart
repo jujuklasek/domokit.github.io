@@ -51,6 +51,12 @@ class ViewportParameterListenerOnVSyncParametersUpdatedParams extends bindings.S
     
     encoder0.encodeInt64(interval, 16);
   }
+
+  String toString() {
+    return "ViewportParameterListenerOnVSyncParametersUpdatedParams("
+           "timebase: $timebase" ", "
+           "interval: $interval" ")";
+  }
 }
 const int kViewportParameterListener_onVSyncParametersUpdated_name = 0;
 
@@ -65,7 +71,7 @@ abstract class ViewportParameterListener {
 
 class ViewportParameterListenerProxyImpl extends bindings.Proxy {
   ViewportParameterListenerProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   ViewportParameterListenerProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -85,6 +91,11 @@ class ViewportParameterListenerProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "ViewportParameterListenerProxyImpl($superString)";
+  }
 }
 
 
@@ -93,6 +104,7 @@ class _ViewportParameterListenerProxyCalls implements ViewportParameterListener 
 
   _ViewportParameterListenerProxyCalls(this._proxyImpl);
     void onVSyncParametersUpdated(int timebase, int interval) {
+      assert(_proxyImpl.isBound);
       var params = new ViewportParameterListenerOnVSyncParametersUpdatedParams();
       params.timebase = timebase;
       params.interval = interval;
@@ -132,17 +144,22 @@ class ViewportParameterListenerProxy implements bindings.ProxyBase {
       new ViewportParameterListenerProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "ViewportParameterListenerProxy($impl)";
+  }
 }
 
 
 class ViewportParameterListenerStub extends bindings.Stub {
-  ViewportParameterListener _delegate = null;
+  ViewportParameterListener _impl = null;
 
-  ViewportParameterListenerStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  ViewportParameterListenerStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  ViewportParameterListenerStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  ViewportParameterListenerStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   ViewportParameterListenerStub.unbound() : super.unbound();
 
@@ -155,12 +172,12 @@ class ViewportParameterListenerStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kViewportParameterListener_onVSyncParametersUpdated_name:
         var params = ViewportParameterListenerOnVSyncParametersUpdatedParams.deserialize(
             message.payload);
-        _delegate.onVSyncParametersUpdated(params.timebase, params.interval);
+        _impl.onVSyncParametersUpdated(params.timebase, params.interval);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -169,10 +186,15 @@ class ViewportParameterListenerStub extends bindings.Stub {
     return null;
   }
 
-  ViewportParameterListener get delegate => _delegate;
-      set delegate(ViewportParameterListener d) {
-    assert(_delegate == null);
-    _delegate = d;
+  ViewportParameterListener get impl => _impl;
+      set impl(ViewportParameterListener d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "ViewportParameterListenerStub($superString)";
   }
 }
 

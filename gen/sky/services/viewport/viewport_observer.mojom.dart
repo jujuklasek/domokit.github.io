@@ -59,6 +59,13 @@ class ViewportObserverOnViewportMetricsChangedParams extends bindings.Struct {
     
     encoder0.encodeFloat(devicePixelRatio, 16);
   }
+
+  String toString() {
+    return "ViewportObserverOnViewportMetricsChangedParams("
+           "width: $width" ", "
+           "height: $height" ", "
+           "devicePixelRatio: $devicePixelRatio" ")";
+  }
 }
 
 class ViewportObserverOnInputEventParams extends bindings.Struct {
@@ -97,6 +104,11 @@ class ViewportObserverOnInputEventParams extends bindings.Struct {
     
     encoder0.encodeStruct(event, 8, false);
   }
+
+  String toString() {
+    return "ViewportObserverOnInputEventParams("
+           "event: $event" ")";
+  }
 }
 
 class ViewportObserverLoadUrlParams extends bindings.Struct {
@@ -134,6 +146,11 @@ class ViewportObserverLoadUrlParams extends bindings.Struct {
     
     encoder0.encodeString(url, 8, false);
   }
+
+  String toString() {
+    return "ViewportObserverLoadUrlParams("
+           "url: $url" ")";
+  }
 }
 const int kViewportObserver_onViewportMetricsChanged_name = 0;
 const int kViewportObserver_onInputEvent_name = 1;
@@ -152,7 +169,7 @@ abstract class ViewportObserver {
 
 class ViewportObserverProxyImpl extends bindings.Proxy {
   ViewportObserverProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   ViewportObserverProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -172,6 +189,11 @@ class ViewportObserverProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "ViewportObserverProxyImpl($superString)";
+  }
 }
 
 
@@ -180,6 +202,7 @@ class _ViewportObserverProxyCalls implements ViewportObserver {
 
   _ViewportObserverProxyCalls(this._proxyImpl);
     void onViewportMetricsChanged(int width, int height, double devicePixelRatio) {
+      assert(_proxyImpl.isBound);
       var params = new ViewportObserverOnViewportMetricsChangedParams();
       params.width = width;
       params.height = height;
@@ -188,12 +211,14 @@ class _ViewportObserverProxyCalls implements ViewportObserver {
     }
   
     void onInputEvent(input_event_mojom.InputEvent event) {
+      assert(_proxyImpl.isBound);
       var params = new ViewportObserverOnInputEventParams();
       params.event = event;
       _proxyImpl.sendMessage(params, kViewportObserver_onInputEvent_name);
     }
   
     void loadUrl(String url) {
+      assert(_proxyImpl.isBound);
       var params = new ViewportObserverLoadUrlParams();
       params.url = url;
       _proxyImpl.sendMessage(params, kViewportObserver_loadUrl_name);
@@ -232,17 +257,22 @@ class ViewportObserverProxy implements bindings.ProxyBase {
       new ViewportObserverProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "ViewportObserverProxy($impl)";
+  }
 }
 
 
 class ViewportObserverStub extends bindings.Stub {
-  ViewportObserver _delegate = null;
+  ViewportObserver _impl = null;
 
-  ViewportObserverStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  ViewportObserverStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  ViewportObserverStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  ViewportObserverStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   ViewportObserverStub.unbound() : super.unbound();
 
@@ -255,22 +285,22 @@ class ViewportObserverStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kViewportObserver_onViewportMetricsChanged_name:
         var params = ViewportObserverOnViewportMetricsChangedParams.deserialize(
             message.payload);
-        _delegate.onViewportMetricsChanged(params.width, params.height, params.devicePixelRatio);
+        _impl.onViewportMetricsChanged(params.width, params.height, params.devicePixelRatio);
         break;
       case kViewportObserver_onInputEvent_name:
         var params = ViewportObserverOnInputEventParams.deserialize(
             message.payload);
-        _delegate.onInputEvent(params.event);
+        _impl.onInputEvent(params.event);
         break;
       case kViewportObserver_loadUrl_name:
         var params = ViewportObserverLoadUrlParams.deserialize(
             message.payload);
-        _delegate.loadUrl(params.url);
+        _impl.loadUrl(params.url);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -279,10 +309,15 @@ class ViewportObserverStub extends bindings.Stub {
     return null;
   }
 
-  ViewportObserver get delegate => _delegate;
-      set delegate(ViewportObserver d) {
-    assert(_delegate == null);
-    _delegate = d;
+  ViewportObserver get impl => _impl;
+      set impl(ViewportObserver d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "ViewportObserverStub($superString)";
   }
 }
 

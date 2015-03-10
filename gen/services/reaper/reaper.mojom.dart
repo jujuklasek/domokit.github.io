@@ -38,6 +38,10 @@ class ReaperGetApplicationSecretParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "ReaperGetApplicationSecretParams("")";
+  }
 }
 
 class ReaperGetApplicationSecretResponseParams extends bindings.Struct {
@@ -74,6 +78,11 @@ class ReaperGetApplicationSecretResponseParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeUint64(secret, 8);
+  }
+
+  String toString() {
+    return "ReaperGetApplicationSecretResponseParams("
+           "secret: $secret" ")";
   }
 }
 
@@ -119,6 +128,12 @@ class ReaperCreateReferenceParams extends bindings.Struct {
     
     encoder0.encodeUint32(targetNode, 12);
   }
+
+  String toString() {
+    return "ReaperCreateReferenceParams("
+           "sourceNode: $sourceNode" ", "
+           "targetNode: $targetNode" ")";
+  }
 }
 
 class ReaperDropNodeParams extends bindings.Struct {
@@ -155,6 +170,11 @@ class ReaperDropNodeParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeUint32(node, 8);
+  }
+
+  String toString() {
+    return "ReaperDropNodeParams("
+           "node: $node" ")";
   }
 }
 
@@ -200,6 +220,12 @@ class ReaperStartTransferParams extends bindings.Struct {
     
     encoder0.encodeInterfaceRequest(transfer, 12, false);
   }
+
+  String toString() {
+    return "ReaperStartTransferParams("
+           "node: $node" ", "
+           "transfer: $transfer" ")";
+  }
 }
 
 class ReaperPingParams extends bindings.Struct {
@@ -229,6 +255,10 @@ class ReaperPingParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "ReaperPingParams("")";
   }
 }
 
@@ -260,6 +290,10 @@ class ReaperPingResponseParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "ReaperPingResponseParams("")";
+  }
 }
 const int kReaper_getApplicationSecret_name = 0;
 const int kReaper_createReference_name = 1;
@@ -282,7 +316,7 @@ abstract class Reaper {
 
 class ReaperProxyImpl extends bindings.Proxy {
   ReaperProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   ReaperProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -322,6 +356,11 @@ class ReaperProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "ReaperProxyImpl($superString)";
+  }
 }
 
 
@@ -330,6 +369,7 @@ class _ReaperProxyCalls implements Reaper {
 
   _ReaperProxyCalls(this._proxyImpl);
     Future<ReaperGetApplicationSecretResponseParams> getApplicationSecret([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ReaperGetApplicationSecretParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -338,6 +378,7 @@ class _ReaperProxyCalls implements Reaper {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     void createReference(int sourceNode, int targetNode) {
+      assert(_proxyImpl.isBound);
       var params = new ReaperCreateReferenceParams();
       params.sourceNode = sourceNode;
       params.targetNode = targetNode;
@@ -345,12 +386,14 @@ class _ReaperProxyCalls implements Reaper {
     }
   
     void dropNode(int node) {
+      assert(_proxyImpl.isBound);
       var params = new ReaperDropNodeParams();
       params.node = node;
       _proxyImpl.sendMessage(params, kReaper_dropNode_name);
     }
   
     void startTransfer(int node, Object transfer) {
+      assert(_proxyImpl.isBound);
       var params = new ReaperStartTransferParams();
       params.node = node;
       params.transfer = transfer;
@@ -358,6 +401,7 @@ class _ReaperProxyCalls implements Reaper {
     }
   
     Future<ReaperPingResponseParams> ping([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ReaperPingParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -398,17 +442,22 @@ class ReaperProxy implements bindings.ProxyBase {
       new ReaperProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "ReaperProxy($impl)";
+  }
 }
 
 
 class ReaperStub extends bindings.Stub {
-  Reaper _delegate = null;
+  Reaper _impl = null;
 
-  ReaperStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  ReaperStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  ReaperStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  ReaperStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   ReaperStub.unbound() : super.unbound();
 
@@ -430,12 +479,12 @@ class ReaperStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kReaper_getApplicationSecret_name:
         var params = ReaperGetApplicationSecretParams.deserialize(
             message.payload);
-        return _delegate.getApplicationSecret(_ReaperGetApplicationSecretResponseParamsFactory).then((response) {
+        return _impl.getApplicationSecret(_ReaperGetApplicationSecretResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -448,22 +497,22 @@ class ReaperStub extends bindings.Stub {
       case kReaper_createReference_name:
         var params = ReaperCreateReferenceParams.deserialize(
             message.payload);
-        _delegate.createReference(params.sourceNode, params.targetNode);
+        _impl.createReference(params.sourceNode, params.targetNode);
         break;
       case kReaper_dropNode_name:
         var params = ReaperDropNodeParams.deserialize(
             message.payload);
-        _delegate.dropNode(params.node);
+        _impl.dropNode(params.node);
         break;
       case kReaper_startTransfer_name:
         var params = ReaperStartTransferParams.deserialize(
             message.payload);
-        _delegate.startTransfer(params.node, params.transfer);
+        _impl.startTransfer(params.node, params.transfer);
         break;
       case kReaper_ping_name:
         var params = ReaperPingParams.deserialize(
             message.payload);
-        return _delegate.ping(_ReaperPingResponseParamsFactory).then((response) {
+        return _impl.ping(_ReaperPingResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -480,10 +529,15 @@ class ReaperStub extends bindings.Stub {
     return null;
   }
 
-  Reaper get delegate => _delegate;
-      set delegate(Reaper d) {
-    assert(_delegate == null);
-    _delegate = d;
+  Reaper get impl => _impl;
+      set impl(Reaper d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "ReaperStub($superString)";
   }
 }
 

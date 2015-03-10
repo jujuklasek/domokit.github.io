@@ -51,6 +51,12 @@ class RecipeChangeValue extends bindings.Struct {
     
     encoder0.encodeUint8Array(newValue, 16, bindings.kArrayNullable, bindings.kUnspecifiedArrayLength);
   }
+
+  String toString() {
+    return "RecipeChangeValue("
+           "oldValue: $oldValue" ", "
+           "newValue: $newValue" ")";
+  }
 }
 
 class RecipeValueStoreUpdateValuesParams extends bindings.Struct {
@@ -142,6 +148,11 @@ class RecipeValueStoreUpdateValuesParams extends bindings.Struct {
       }
     }
   }
+
+  String toString() {
+    return "RecipeValueStoreUpdateValuesParams("
+           "values: $values" ")";
+  }
 }
 
 class RecipeValueStoreSetObserverParams extends bindings.Struct {
@@ -178,6 +189,11 @@ class RecipeValueStoreSetObserverParams extends bindings.Struct {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
     encoder0.encodeInterface(observer, 8, false);
+  }
+
+  String toString() {
+    return "RecipeValueStoreSetObserverParams("
+           "observer: $observer" ")";
   }
 }
 
@@ -271,6 +287,11 @@ class RecipeValueStoreObserverOnValuesChangedParams extends bindings.Struct {
       }
     }
   }
+
+  String toString() {
+    return "RecipeValueStoreObserverOnValuesChangedParams("
+           "changedValues: $changedValues" ")";
+  }
 }
 const int kRecipeValueStore_updateValues_name = 0;
 const int kRecipeValueStore_setObserver_name = 1;
@@ -287,7 +308,7 @@ abstract class RecipeValueStore {
 
 class RecipeValueStoreProxyImpl extends bindings.Proxy {
   RecipeValueStoreProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   RecipeValueStoreProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -307,6 +328,11 @@ class RecipeValueStoreProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "RecipeValueStoreProxyImpl($superString)";
+  }
 }
 
 
@@ -315,12 +341,14 @@ class _RecipeValueStoreProxyCalls implements RecipeValueStore {
 
   _RecipeValueStoreProxyCalls(this._proxyImpl);
     void updateValues(Map<String, List<int>> values) {
+      assert(_proxyImpl.isBound);
       var params = new RecipeValueStoreUpdateValuesParams();
       params.values = values;
       _proxyImpl.sendMessage(params, kRecipeValueStore_updateValues_name);
     }
   
     void setObserver(Object observer) {
+      assert(_proxyImpl.isBound);
       var params = new RecipeValueStoreSetObserverParams();
       params.observer = observer;
       _proxyImpl.sendMessage(params, kRecipeValueStore_setObserver_name);
@@ -359,17 +387,22 @@ class RecipeValueStoreProxy implements bindings.ProxyBase {
       new RecipeValueStoreProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "RecipeValueStoreProxy($impl)";
+  }
 }
 
 
 class RecipeValueStoreStub extends bindings.Stub {
-  RecipeValueStore _delegate = null;
+  RecipeValueStore _impl = null;
 
-  RecipeValueStoreStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  RecipeValueStoreStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  RecipeValueStoreStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  RecipeValueStoreStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   RecipeValueStoreStub.unbound() : super.unbound();
 
@@ -382,17 +415,17 @@ class RecipeValueStoreStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kRecipeValueStore_updateValues_name:
         var params = RecipeValueStoreUpdateValuesParams.deserialize(
             message.payload);
-        _delegate.updateValues(params.values);
+        _impl.updateValues(params.values);
         break;
       case kRecipeValueStore_setObserver_name:
         var params = RecipeValueStoreSetObserverParams.deserialize(
             message.payload);
-        _delegate.setObserver(params.observer);
+        _impl.setObserver(params.observer);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -401,10 +434,15 @@ class RecipeValueStoreStub extends bindings.Stub {
     return null;
   }
 
-  RecipeValueStore get delegate => _delegate;
-      set delegate(RecipeValueStore d) {
-    assert(_delegate == null);
-    _delegate = d;
+  RecipeValueStore get impl => _impl;
+      set impl(RecipeValueStore d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "RecipeValueStoreStub($superString)";
   }
 }
 
@@ -421,7 +459,7 @@ abstract class RecipeValueStoreObserver {
 
 class RecipeValueStoreObserverProxyImpl extends bindings.Proxy {
   RecipeValueStoreObserverProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   RecipeValueStoreObserverProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -441,6 +479,11 @@ class RecipeValueStoreObserverProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "RecipeValueStoreObserverProxyImpl($superString)";
+  }
 }
 
 
@@ -449,6 +492,7 @@ class _RecipeValueStoreObserverProxyCalls implements RecipeValueStoreObserver {
 
   _RecipeValueStoreObserverProxyCalls(this._proxyImpl);
     void onValuesChanged(Map<String, RecipeChangeValue> changedValues) {
+      assert(_proxyImpl.isBound);
       var params = new RecipeValueStoreObserverOnValuesChangedParams();
       params.changedValues = changedValues;
       _proxyImpl.sendMessage(params, kRecipeValueStoreObserver_onValuesChanged_name);
@@ -487,17 +531,22 @@ class RecipeValueStoreObserverProxy implements bindings.ProxyBase {
       new RecipeValueStoreObserverProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "RecipeValueStoreObserverProxy($impl)";
+  }
 }
 
 
 class RecipeValueStoreObserverStub extends bindings.Stub {
-  RecipeValueStoreObserver _delegate = null;
+  RecipeValueStoreObserver _impl = null;
 
-  RecipeValueStoreObserverStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  RecipeValueStoreObserverStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  RecipeValueStoreObserverStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  RecipeValueStoreObserverStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   RecipeValueStoreObserverStub.unbound() : super.unbound();
 
@@ -510,12 +559,12 @@ class RecipeValueStoreObserverStub extends bindings.Stub {
 
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kRecipeValueStoreObserver_onValuesChanged_name:
         var params = RecipeValueStoreObserverOnValuesChangedParams.deserialize(
             message.payload);
-        _delegate.onValuesChanged(params.changedValues);
+        _impl.onValuesChanged(params.changedValues);
         break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
@@ -524,10 +573,15 @@ class RecipeValueStoreObserverStub extends bindings.Stub {
     return null;
   }
 
-  RecipeValueStoreObserver get delegate => _delegate;
-      set delegate(RecipeValueStoreObserver d) {
-    assert(_delegate == null);
-    _delegate = d;
+  RecipeValueStoreObserver get impl => _impl;
+      set impl(RecipeValueStoreObserver d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "RecipeValueStoreObserverStub($superString)";
   }
 }
 

@@ -7,75 +7,8 @@
 <import src="/gen/mojo/public/sky/connection.sky" as="connection" />
 <import src="/gen/mojo/public/sky/core.sky" as="core" />
 <import src="/gen/mojo/public/sky/validator.sky" as="validator" />
-<import src="/gen/mojo/services/geometry/public/interfaces/geometry.mojom.sky" as="geometry$" />
 <import src="/gen/mojo/services/gpu/public/interfaces/command_buffer.mojom.sky" as="command_buffer$" />
-<import src="/gen/mojo/services/gpu/public/interfaces/viewport_parameter_listener.mojom.sky" as="viewport_parameter_listener$" />
 <script>
-
-  function Gpu_CreateOnscreenGLES2Context_Params(values) {
-    this.initDefaults_();
-    this.initFields_(values);
-  }
-
-
-  Gpu_CreateOnscreenGLES2Context_Params.prototype.initDefaults_ = function() {
-    this.native_viewport_id = 0;
-    this.size = null;
-    this.gles2_client = null;
-    this.listener = null;
-  };
-  Gpu_CreateOnscreenGLES2Context_Params.prototype.initFields_ = function(fields) {
-    for(var field in fields) {
-        if (this.hasOwnProperty(field))
-          this[field] = fields[field];
-    }
-  };
-
-  Gpu_CreateOnscreenGLES2Context_Params.validate = function(messageValidator, offset) {
-    var err;
-
-    err = messageValidator.validateStructHeader(offset, Gpu_CreateOnscreenGLES2Context_Params.encodedSize, 4);
-    if (err !== validator.validationError.NONE)
-        return err;
-    // validate Gpu_CreateOnscreenGLES2Context_Params.size
-    err = messageValidator.validateStructPointer(offset + codec.kStructHeaderSize + 8, geometry$.Size, false);
-    if (err !== validator.validationError.NONE)
-        return err;
-    // validate Gpu_CreateOnscreenGLES2Context_Params.gles2_client
-    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 16, false)
-    if (err !== validator.validationError.NONE)
-        return err;
-    // validate Gpu_CreateOnscreenGLES2Context_Params.listener
-    err = messageValidator.validateHandle(offset + codec.kStructHeaderSize + 20, true)
-    if (err !== validator.validationError.NONE)
-        return err;
-
-    return validator.validationError.NONE;
-  };
-
-  Gpu_CreateOnscreenGLES2Context_Params.encodedSize = codec.kStructHeaderSize + 24;
-
-  Gpu_CreateOnscreenGLES2Context_Params.decode = function(decoder) {
-    var packed;
-    var val = new Gpu_CreateOnscreenGLES2Context_Params();
-    var numberOfBytes = decoder.readUint32();
-    var version = decoder.readUint32();
-    val.native_viewport_id = decoder.decodeStruct(codec.Uint64);
-    val.size = decoder.decodeStructPointer(geometry$.Size);
-    val.gles2_client = decoder.decodeStruct(codec.Handle);
-    val.listener = decoder.decodeStruct(codec.Handle);
-    return val;
-  };
-
-  Gpu_CreateOnscreenGLES2Context_Params.encode = function(encoder, val) {
-    var packed;
-    encoder.writeUint32(Gpu_CreateOnscreenGLES2Context_Params.encodedSize);
-    encoder.writeUint32(4);
-    encoder.encodeStruct(codec.Uint64, val.native_viewport_id);
-    encoder.encodeStructPointer(geometry$.Size, val.size);
-    encoder.encodeStruct(codec.Handle, val.gles2_client);
-    encoder.encodeStruct(codec.Handle, val.listener);
-  };
 
   function Gpu_CreateOffscreenGLES2Context_Params(values) {
     this.initDefaults_();
@@ -133,26 +66,12 @@
     encoder.skip(1);
   };
 
-  var kGpu_CreateOnscreenGLES2Context_Name = 0;
-  var kGpu_CreateOffscreenGLES2Context_Name = 1;
+  var kGpu_CreateOffscreenGLES2Context_Name = 0;
 
   function GpuProxy(receiver) {
     bindings.ProxyBase.call(this, receiver);
   }
   GpuProxy.prototype = Object.create(bindings.ProxyBase.prototype);
-  GpuProxy.prototype.createOnscreenGLES2Context = function(native_viewport_id, size, gles2_client, listener) {
-    var params = new Gpu_CreateOnscreenGLES2Context_Params();
-    params.native_viewport_id = native_viewport_id;
-    params.size = size;
-    params.gles2_client = core.isHandle(gles2_client) ? gles2_client : connection.bindProxy(gles2_client, command_buffer$.CommandBuffer);
-    params.listener = core.isHandle(listener) ? listener : connection.bindImpl(listener, viewport_parameter_listener$.ViewportParameterListener);
-    var builder = new codec.MessageBuilder(
-        kGpu_CreateOnscreenGLES2Context_Name,
-        codec.align(Gpu_CreateOnscreenGLES2Context_Params.encodedSize));
-    builder.encodeStruct(Gpu_CreateOnscreenGLES2Context_Params, params);
-    var message = builder.finish();
-    this.receiver_.accept(message);
-  };
   GpuProxy.prototype.createOffscreenGLES2Context = function(gles2_client) {
     var params = new Gpu_CreateOffscreenGLES2Context_Params();
     params.gles2_client = core.isHandle(gles2_client) ? gles2_client : connection.bindProxy(gles2_client, command_buffer$.CommandBuffer);
@@ -168,9 +87,6 @@
     bindings.StubBase.call(this, delegate);
   }
   GpuStub.prototype = Object.create(bindings.StubBase.prototype);
-  GpuStub.prototype.createOnscreenGLES2Context = function(native_viewport_id, size, gles2_client, listener) {
-    return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.createOnscreenGLES2Context && bindings.StubBindings(this).delegate.createOnscreenGLES2Context(native_viewport_id, size, connection.bindHandleToStub(gles2_client, command_buffer$.CommandBuffer), connection.bindHandleToProxy(listener, viewport_parameter_listener$.ViewportParameterListener));
-  }
   GpuStub.prototype.createOffscreenGLES2Context = function(gles2_client) {
     return bindings.StubBindings(this).delegate && bindings.StubBindings(this).delegate.createOffscreenGLES2Context && bindings.StubBindings(this).delegate.createOffscreenGLES2Context(connection.bindHandleToStub(gles2_client, command_buffer$.CommandBuffer));
   }
@@ -178,10 +94,6 @@
   GpuStub.prototype.accept = function(message) {
     var reader = new codec.MessageReader(message);
     switch (reader.messageName) {
-    case kGpu_CreateOnscreenGLES2Context_Name:
-      var params = reader.decodeStruct(Gpu_CreateOnscreenGLES2Context_Params);
-      this.createOnscreenGLES2Context(params.native_viewport_id, params.size, params.gles2_client, params.listener);
-      return true;
     case kGpu_CreateOffscreenGLES2Context_Name:
       var params = reader.decodeStruct(Gpu_CreateOffscreenGLES2Context_Params);
       this.createOffscreenGLES2Context(params.gles2_client);
@@ -204,10 +116,6 @@
     var message = messageValidator.message;
     var paramsClass = null;
     switch (message.getName()) {
-      case kGpu_CreateOnscreenGLES2Context_Name:
-        if (!message.expectsResponse() && !message.isResponse())
-          paramsClass = Gpu_CreateOnscreenGLES2Context_Params;
-      break;
       case kGpu_CreateOffscreenGLES2Context_Name:
         if (!message.expectsResponse() && !message.isResponse())
           paramsClass = Gpu_CreateOffscreenGLES2Context_Params;

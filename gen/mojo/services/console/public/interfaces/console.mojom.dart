@@ -37,6 +37,10 @@ class ConsoleReadLineParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "ConsoleReadLineParams("")";
+  }
 }
 
 class ConsoleReadLineResponseParams extends bindings.Struct {
@@ -80,6 +84,12 @@ class ConsoleReadLineResponseParams extends bindings.Struct {
     encoder0.encodeBool(success, 8, 0);
     
     encoder0.encodeString(line, 16, false);
+  }
+
+  String toString() {
+    return "ConsoleReadLineResponseParams("
+           "success: $success" ", "
+           "line: $line" ")";
   }
 }
 
@@ -134,6 +144,11 @@ class ConsolePrintLinesParams extends bindings.Struct {
       }
     }
   }
+
+  String toString() {
+    return "ConsolePrintLinesParams("
+           "lines: $lines" ")";
+  }
 }
 
 class ConsolePrintLinesResponseParams extends bindings.Struct {
@@ -171,6 +186,11 @@ class ConsolePrintLinesResponseParams extends bindings.Struct {
     
     encoder0.encodeBool(success, 8, 0);
   }
+
+  String toString() {
+    return "ConsolePrintLinesResponseParams("
+           "success: $success" ")";
+  }
 }
 const int kConsole_readLine_name = 0;
 const int kConsole_printLines_name = 1;
@@ -187,7 +207,7 @@ abstract class Console {
 
 class ConsoleProxyImpl extends bindings.Proxy {
   ConsoleProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   ConsoleProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -227,6 +247,11 @@ class ConsoleProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "ConsoleProxyImpl($superString)";
+  }
 }
 
 
@@ -235,6 +260,7 @@ class _ConsoleProxyCalls implements Console {
 
   _ConsoleProxyCalls(this._proxyImpl);
     Future<ConsoleReadLineResponseParams> readLine([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ConsoleReadLineParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -243,6 +269,7 @@ class _ConsoleProxyCalls implements Console {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     Future<ConsolePrintLinesResponseParams> printLines(List<String> lines,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new ConsolePrintLinesParams();
       params.lines = lines;
       return _proxyImpl.sendMessageWithRequestId(
@@ -284,17 +311,22 @@ class ConsoleProxy implements bindings.ProxyBase {
       new ConsoleProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "ConsoleProxy($impl)";
+  }
 }
 
 
 class ConsoleStub extends bindings.Stub {
-  Console _delegate = null;
+  Console _impl = null;
 
-  ConsoleStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  ConsoleStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  ConsoleStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  ConsoleStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   ConsoleStub.unbound() : super.unbound();
 
@@ -318,12 +350,12 @@ class ConsoleStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kConsole_readLine_name:
         var params = ConsoleReadLineParams.deserialize(
             message.payload);
-        return _delegate.readLine(_ConsoleReadLineResponseParamsFactory).then((response) {
+        return _impl.readLine(_ConsoleReadLineResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -336,7 +368,7 @@ class ConsoleStub extends bindings.Stub {
       case kConsole_printLines_name:
         var params = ConsolePrintLinesParams.deserialize(
             message.payload);
-        return _delegate.printLines(params.lines,_ConsolePrintLinesResponseParamsFactory).then((response) {
+        return _impl.printLines(params.lines,_ConsolePrintLinesResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -353,10 +385,15 @@ class ConsoleStub extends bindings.Stub {
     return null;
   }
 
-  Console get delegate => _delegate;
-      set delegate(Console d) {
-    assert(_delegate == null);
-    _delegate = d;
+  Console get impl => _impl;
+      set impl(Console d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "ConsoleStub($superString)";
   }
 }
 

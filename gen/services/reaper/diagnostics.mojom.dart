@@ -74,6 +74,15 @@ class Node extends bindings.Struct {
     
     encoder0.encodeBool(isSource, 32, 0);
   }
+
+  String toString() {
+    return "Node("
+           "appUrl: $appUrl" ", "
+           "nodeId: $nodeId" ", "
+           "otherId: $otherId" ", "
+           "otherAppUrl: $otherAppUrl" ", "
+           "isSource: $isSource" ")";
+  }
 }
 
 class DiagnosticsDumpNodesParams extends bindings.Struct {
@@ -103,6 +112,10 @@ class DiagnosticsDumpNodesParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "DiagnosticsDumpNodesParams("")";
   }
 }
 
@@ -158,6 +171,11 @@ class DiagnosticsDumpNodesResponseParams extends bindings.Struct {
       }
     }
   }
+
+  String toString() {
+    return "DiagnosticsDumpNodesResponseParams("
+           "nodes: $nodes" ")";
+  }
 }
 
 class DiagnosticsResetParams extends bindings.Struct {
@@ -187,6 +205,10 @@ class DiagnosticsResetParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "DiagnosticsResetParams("")";
   }
 }
 
@@ -232,6 +254,12 @@ class DiagnosticsGetReaperForAppParams extends bindings.Struct {
     
     encoder0.encodeInterfaceRequest(reaper, 16, false);
   }
+
+  String toString() {
+    return "DiagnosticsGetReaperForAppParams("
+           "appUrl: $appUrl" ", "
+           "reaper: $reaper" ")";
+  }
 }
 
 class DiagnosticsSetIsRootParams extends bindings.Struct {
@@ -276,6 +304,12 @@ class DiagnosticsSetIsRootParams extends bindings.Struct {
     
     encoder0.encodeBool(isRoot, 16, 0);
   }
+
+  String toString() {
+    return "DiagnosticsSetIsRootParams("
+           "appUrl: $appUrl" ", "
+           "isRoot: $isRoot" ")";
+  }
 }
 
 class DiagnosticsSetScytheParams extends bindings.Struct {
@@ -313,6 +347,11 @@ class DiagnosticsSetScytheParams extends bindings.Struct {
     
     encoder0.encodeInterface(scythe, 8, false);
   }
+
+  String toString() {
+    return "DiagnosticsSetScytheParams("
+           "scythe: $scythe" ")";
+  }
 }
 
 class DiagnosticsPingParams extends bindings.Struct {
@@ -342,6 +381,10 @@ class DiagnosticsPingParams extends bindings.Struct {
 
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+  }
+
+  String toString() {
+    return "DiagnosticsPingParams("")";
   }
 }
 
@@ -373,6 +416,10 @@ class DiagnosticsPingResponseParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     encoder.getStructEncoderAtOffset(kDefaultStructInfo);
   }
+
+  String toString() {
+    return "DiagnosticsPingResponseParams("")";
+  }
 }
 const int kDiagnostics_dumpNodes_name = 0;
 const int kDiagnostics_reset_name = 1;
@@ -397,7 +444,7 @@ abstract class Diagnostics {
 
 class DiagnosticsProxyImpl extends bindings.Proxy {
   DiagnosticsProxyImpl.fromEndpoint(
-      core.MojoMessagePipeEndpoint endpoint) : super(endpoint);
+      core.MojoMessagePipeEndpoint endpoint) : super.fromEndpoint(endpoint);
 
   DiagnosticsProxyImpl.fromHandle(core.MojoHandle handle) :
       super.fromHandle(handle);
@@ -437,6 +484,11 @@ class DiagnosticsProxyImpl extends bindings.Proxy {
         break;
     }
   }
+
+  String toString() {
+    var superString = super.toString();
+    return "DiagnosticsProxyImpl($superString)";
+  }
 }
 
 
@@ -445,6 +497,7 @@ class _DiagnosticsProxyCalls implements Diagnostics {
 
   _DiagnosticsProxyCalls(this._proxyImpl);
     Future<DiagnosticsDumpNodesResponseParams> dumpNodes([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new DiagnosticsDumpNodesParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -453,11 +506,13 @@ class _DiagnosticsProxyCalls implements Diagnostics {
           bindings.MessageHeader.kMessageExpectsResponse);
     }
     void reset() {
+      assert(_proxyImpl.isBound);
       var params = new DiagnosticsResetParams();
       _proxyImpl.sendMessage(params, kDiagnostics_reset_name);
     }
   
     void getReaperForApp(String appUrl, Object reaper) {
+      assert(_proxyImpl.isBound);
       var params = new DiagnosticsGetReaperForAppParams();
       params.appUrl = appUrl;
       params.reaper = reaper;
@@ -465,6 +520,7 @@ class _DiagnosticsProxyCalls implements Diagnostics {
     }
   
     void setIsRoot(String appUrl, bool isRoot) {
+      assert(_proxyImpl.isBound);
       var params = new DiagnosticsSetIsRootParams();
       params.appUrl = appUrl;
       params.isRoot = isRoot;
@@ -472,12 +528,14 @@ class _DiagnosticsProxyCalls implements Diagnostics {
     }
   
     void setScythe(Object scythe) {
+      assert(_proxyImpl.isBound);
       var params = new DiagnosticsSetScytheParams();
       params.scythe = scythe;
       _proxyImpl.sendMessage(params, kDiagnostics_setScythe_name);
     }
   
     Future<DiagnosticsPingResponseParams> ping([Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
       var params = new DiagnosticsPingParams();
       return _proxyImpl.sendMessageWithRequestId(
           params,
@@ -518,17 +576,22 @@ class DiagnosticsProxy implements bindings.ProxyBase {
       new DiagnosticsProxy.fromEndpoint(endpoint);
 
   void close() => impl.close();
+
+  String toString() {
+    return "DiagnosticsProxy($impl)";
+  }
 }
 
 
 class DiagnosticsStub extends bindings.Stub {
-  Diagnostics _delegate = null;
+  Diagnostics _impl = null;
 
-  DiagnosticsStub.fromEndpoint(core.MojoMessagePipeEndpoint endpoint) :
-      super(endpoint);
+  DiagnosticsStub.fromEndpoint(
+      core.MojoMessagePipeEndpoint endpoint, [this._impl])
+      : super.fromEndpoint(endpoint);
 
-  DiagnosticsStub.fromHandle(core.MojoHandle handle) :
-      super.fromHandle(handle);
+  DiagnosticsStub.fromHandle(core.MojoHandle handle, [this._impl])
+      : super.fromHandle(handle);
 
   DiagnosticsStub.unbound() : super.unbound();
 
@@ -550,12 +613,12 @@ class DiagnosticsStub extends bindings.Stub {
   }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
-    assert(_delegate != null);
+    assert(_impl != null);
     switch (message.header.type) {
       case kDiagnostics_dumpNodes_name:
         var params = DiagnosticsDumpNodesParams.deserialize(
             message.payload);
-        return _delegate.dumpNodes(_DiagnosticsDumpNodesResponseParamsFactory).then((response) {
+        return _impl.dumpNodes(_DiagnosticsDumpNodesResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -568,27 +631,27 @@ class DiagnosticsStub extends bindings.Stub {
       case kDiagnostics_reset_name:
         var params = DiagnosticsResetParams.deserialize(
             message.payload);
-        _delegate.reset();
+        _impl.reset();
         break;
       case kDiagnostics_getReaperForApp_name:
         var params = DiagnosticsGetReaperForAppParams.deserialize(
             message.payload);
-        _delegate.getReaperForApp(params.appUrl, params.reaper);
+        _impl.getReaperForApp(params.appUrl, params.reaper);
         break;
       case kDiagnostics_setIsRoot_name:
         var params = DiagnosticsSetIsRootParams.deserialize(
             message.payload);
-        _delegate.setIsRoot(params.appUrl, params.isRoot);
+        _impl.setIsRoot(params.appUrl, params.isRoot);
         break;
       case kDiagnostics_setScythe_name:
         var params = DiagnosticsSetScytheParams.deserialize(
             message.payload);
-        _delegate.setScythe(params.scythe);
+        _impl.setScythe(params.scythe);
         break;
       case kDiagnostics_ping_name:
         var params = DiagnosticsPingParams.deserialize(
             message.payload);
-        return _delegate.ping(_DiagnosticsPingResponseParamsFactory).then((response) {
+        return _impl.ping(_DiagnosticsPingResponseParamsFactory).then((response) {
           if (response != null) {
             return buildResponseWithId(
                 response,
@@ -605,10 +668,15 @@ class DiagnosticsStub extends bindings.Stub {
     return null;
   }
 
-  Diagnostics get delegate => _delegate;
-      set delegate(Diagnostics d) {
-    assert(_delegate == null);
-    _delegate = d;
+  Diagnostics get impl => _impl;
+      set impl(Diagnostics d) {
+    assert(_impl == null);
+    _impl = d;
+  }
+
+  String toString() {
+    var superString = super.toString();
+    return "DiagnosticsStub($superString)";
   }
 }
 
