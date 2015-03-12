@@ -5,8 +5,8 @@
 library directory.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 import 'package:services/files/file.mojom.dart' as file_mojom;
 import 'package:services/files/types.mojom.dart' as types_mojom;
 
@@ -910,7 +910,7 @@ class DirectoryProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new DirectoryProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "DirectoryProxy($impl)";

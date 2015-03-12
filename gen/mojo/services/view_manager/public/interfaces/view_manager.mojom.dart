@@ -5,8 +5,8 @@
 library view_manager.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 import 'package:mojo/services/geometry/public/interfaces/geometry.mojom.dart' as geometry_mojom;
 import 'package:mojo/services/input_events/public/interfaces/input_events.mojom.dart' as input_events_mojom;
 import 'package:mojo/public/interfaces/application/service_provider.mojom.dart' as service_provider_mojom;
@@ -2516,7 +2516,7 @@ class ViewManagerServiceProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new ViewManagerServiceProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "ViewManagerServiceProxy($impl)";
@@ -3029,7 +3029,7 @@ class ViewManagerClientProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new ViewManagerClientProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "ViewManagerClientProxy($impl)";

@@ -5,8 +5,8 @@
 library test_harness.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 import 'package:mojo/services/input_events/public/interfaces/input_events.mojom.dart' as input_events_mojom;
 
 
@@ -196,7 +196,7 @@ class TestHarnessProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new TestHarnessProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "TestHarnessProxy($impl)";

@@ -5,8 +5,8 @@
 library sample_interfaces.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 final kLong = 4405;
 
 final int Enum_VALUE = 0;
@@ -527,7 +527,7 @@ class ProviderProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new ProviderProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "ProviderProxy($impl)";

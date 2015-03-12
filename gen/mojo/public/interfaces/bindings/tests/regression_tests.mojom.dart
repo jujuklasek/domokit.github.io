@@ -5,8 +5,8 @@
 library regression_tests.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 
 final int EnumWithReference_k_STEREO_AND_KEYBOARD_MIC = 30;
 final int EnumWithReference_k_MAX = EnumWithReference_k_STEREO_AND_KEYBOARD_MIC;
@@ -586,7 +586,7 @@ class CheckMethodWithEmptyResponseProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new CheckMethodWithEmptyResponseProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "CheckMethodWithEmptyResponseProxy($impl)";
@@ -768,7 +768,7 @@ class CheckNameCollisionProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new CheckNameCollisionProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "CheckNameCollisionProxy($impl)";

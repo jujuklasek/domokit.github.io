@@ -5,8 +5,8 @@
 library console.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 
 
 class ConsoleReadLineParams extends bindings.Struct {
@@ -310,7 +310,7 @@ class ConsoleProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new ConsoleProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "ConsoleProxy($impl)";

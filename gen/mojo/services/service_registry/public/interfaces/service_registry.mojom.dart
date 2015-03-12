@@ -5,8 +5,8 @@
 library service_registry.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 import 'package:mojo/public/interfaces/application/service_provider.mojom.dart' as service_provider_mojom;
 
 
@@ -160,7 +160,7 @@ class ServiceRegistryProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new ServiceRegistryProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "ServiceRegistryProxy($impl)";

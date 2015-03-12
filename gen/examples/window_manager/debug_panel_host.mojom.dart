@@ -5,8 +5,8 @@
 library debug_panel_host.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 import 'package:mojo/services/navigation/public/interfaces/navigation.mojom.dart' as navigation_mojom;
 
 
@@ -228,7 +228,7 @@ class DebugPanelHostProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new DebugPanelHostProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "DebugPanelHostProxy($impl)";

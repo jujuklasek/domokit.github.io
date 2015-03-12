@@ -5,8 +5,8 @@
 library sensors.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 
 final int SensorType_ACCELEROMETER = 0;
 final int SensorType_AMBIENT_TEMPERATURE = SensorType_ACCELEROMETER + 1;
@@ -314,7 +314,7 @@ class SensorListenerProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new SensorListenerProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "SensorListenerProxy($impl)";
@@ -459,7 +459,7 @@ class SensorServiceProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new SensorServiceProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "SensorServiceProxy($impl)";

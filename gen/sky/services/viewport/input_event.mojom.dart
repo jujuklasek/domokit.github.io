@@ -5,19 +5,23 @@
 library input_event.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 
 final int EventType_UNKNOWN = 0;
-final int EventType_POINTER_DOWN = EventType_UNKNOWN + 1;
-final int EventType_POINTER_UP = EventType_POINTER_DOWN + 1;
-final int EventType_POINTER_MOVE = EventType_POINTER_UP + 1;
-final int EventType_POINTER_CANCEL = EventType_POINTER_MOVE + 1;
-final int EventType_GESTURE_SCROLL_BEGIN = EventType_POINTER_CANCEL + 1;
-final int EventType_GESTURE_SCROLL_UPDATE = EventType_GESTURE_SCROLL_BEGIN + 1;
-final int EventType_GESTURE_SCROLL_END = EventType_GESTURE_SCROLL_UPDATE + 1;
-final int EventType_GESTURE_FLING_START = EventType_GESTURE_SCROLL_END + 1;
-final int EventType_GESTURE_FLING_CANCEL = EventType_GESTURE_FLING_START + 1;
+final int EventType_POINTER_CANCEL = EventType_UNKNOWN + 1;
+final int EventType_POINTER_DOWN = EventType_POINTER_CANCEL + 1;
+final int EventType_POINTER_MOVE = EventType_POINTER_DOWN + 1;
+final int EventType_POINTER_UP = EventType_POINTER_MOVE + 1;
+final int EventType_GESTURE_FLING_CANCEL = EventType_POINTER_UP + 1;
+final int EventType_GESTURE_FLING_START = EventType_GESTURE_FLING_CANCEL + 1;
+final int EventType_GESTURE_LONG_PRESS = EventType_GESTURE_FLING_START + 1;
+final int EventType_GESTURE_SCROLL_BEGIN = EventType_GESTURE_LONG_PRESS + 1;
+final int EventType_GESTURE_SCROLL_END = EventType_GESTURE_SCROLL_BEGIN + 1;
+final int EventType_GESTURE_SCROLL_UPDATE = EventType_GESTURE_SCROLL_END + 1;
+final int EventType_GESTURE_SHOW_PRESS = EventType_GESTURE_SCROLL_UPDATE + 1;
+final int EventType_GESTURE_TAP = EventType_GESTURE_SHOW_PRESS + 1;
+final int EventType_GESTURE_TAP_DOWN = EventType_GESTURE_TAP + 1;
 
 final int PointerKind_TOUCH = 0;
 

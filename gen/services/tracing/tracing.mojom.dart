@@ -5,8 +5,8 @@
 library tracing.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 
 
 class TraceControllerStartTracingParams extends bindings.Struct {
@@ -311,7 +311,7 @@ class TraceControllerProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new TraceControllerProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "TraceControllerProxy($impl)";
@@ -455,7 +455,7 @@ class TraceDataCollectorProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new TraceDataCollectorProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "TraceDataCollectorProxy($impl)";
@@ -603,7 +603,7 @@ class TraceCoordinatorProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new TraceCoordinatorProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "TraceCoordinatorProxy($impl)";

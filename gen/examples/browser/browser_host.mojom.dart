@@ -5,8 +5,8 @@
 library browser_host.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 
 
 class BrowserHostNavigateToParams extends bindings.Struct {
@@ -134,7 +134,7 @@ class BrowserHostProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new BrowserHostProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "BrowserHostProxy($impl)";

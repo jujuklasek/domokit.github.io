@@ -5,8 +5,8 @@
 library pingpong_service.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 
 
 class PingPongServiceSetClientParams extends bindings.Struct {
@@ -550,7 +550,7 @@ class PingPongServiceProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new PingPongServiceProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "PingPongServiceProxy($impl)";
@@ -740,7 +740,7 @@ class PingPongClientProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new PingPongClientProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "PingPongClientProxy($impl)";

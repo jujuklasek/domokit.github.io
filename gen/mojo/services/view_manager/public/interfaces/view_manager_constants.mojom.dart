@@ -5,8 +5,8 @@
 library view_manager_constants.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 
 final int OrderDirection_ABOVE = 1;
 final int OrderDirection_BELOW = OrderDirection_ABOVE + 1;

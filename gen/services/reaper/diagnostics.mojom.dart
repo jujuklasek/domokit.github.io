@@ -5,8 +5,8 @@
 library diagnostics.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 import 'package:services/reaper/reaper.mojom.dart' as reaper_mojom;
 import 'package:services/reaper/scythe.mojom.dart' as scythe_mojom;
 
@@ -575,7 +575,7 @@ class DiagnosticsProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new DiagnosticsProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "DiagnosticsProxy($impl)";

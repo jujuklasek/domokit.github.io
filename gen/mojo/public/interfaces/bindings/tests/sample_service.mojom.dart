@@ -5,8 +5,8 @@
 library sample_service.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 import 'package:mojo/public/interfaces/bindings/tests/sample_import.mojom.dart' as sample_import_mojom;
 import 'package:mojo/public/interfaces/bindings/tests/sample_import2.mojom.dart' as sample_import2_mojom;
 final kTwelve = 12;
@@ -1037,7 +1037,7 @@ class ServiceProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new ServiceProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "ServiceProxy($impl)";
@@ -1195,7 +1195,7 @@ class PortProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new PortProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "PortProxy($impl)";

@@ -5,8 +5,8 @@
 library viewport_observer.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 import 'package:sky/services/viewport/input_event.mojom.dart' as input_event_mojom;
 
 
@@ -256,7 +256,7 @@ class ViewportObserverProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new ViewportObserverProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "ViewportObserverProxy($impl)";

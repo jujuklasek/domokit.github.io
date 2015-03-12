@@ -5,8 +5,8 @@
 library hr_system_server.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 
 final int Department_SALES = 0;
 final int Department_DEV = Department_SALES + 1;
@@ -425,7 +425,7 @@ class HumanResourceDatabaseProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new HumanResourceDatabaseProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "HumanResourceDatabaseProxy($impl)";

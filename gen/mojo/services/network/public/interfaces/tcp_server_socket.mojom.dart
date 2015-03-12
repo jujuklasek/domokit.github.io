@@ -5,8 +5,8 @@
 library tcp_server_socket.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 import 'package:mojo/services/network/public/interfaces/net_address.mojom.dart' as net_address_mojom;
 import 'package:mojo/services/network/public/interfaces/network_error.mojom.dart' as network_error_mojom;
 import 'package:mojo/services/network/public/interfaces/tcp_connected_socket.mojom.dart' as tcp_connected_socket_mojom;
@@ -220,7 +220,7 @@ class TcpServerSocketProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new TcpServerSocketProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "TcpServerSocketProxy($impl)";

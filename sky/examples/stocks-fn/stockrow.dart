@@ -1,6 +1,6 @@
 part of stocksapp;
 
-class StockRow extends Material {
+class StockRow extends Component {
 
   Stock stock;
 
@@ -47,25 +47,23 @@ class StockRow extends Material {
       ),
       new Container(
         key: 'Ticker',
-        style: _tickerStyle,
+        styles: [_tickerStyle],
         children: [new Text(stock.symbol)]
       ),
       new Container(
         key: 'LastSale',
-        style: _lastSaleStyle,
+        styles: [_lastSaleStyle],
         children: [new Text(lastSale)]
       ),
       new Container(
         key: 'Change',
-        style: _changeStyle,
+        styles: [_changeStyle],
         children: [new Text(changeInPrice)]
       )
     ];
 
-    children.add(super.build());
-
-    return new Container(
-      style: _style,
+    return new Material(
+      styles: [_style],
       children: children
     );
   }

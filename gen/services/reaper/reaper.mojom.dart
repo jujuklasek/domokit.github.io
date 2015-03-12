@@ -5,8 +5,8 @@
 library reaper.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 import 'package:services/reaper/transfer.mojom.dart' as transfer_mojom;
 
 
@@ -441,7 +441,7 @@ class ReaperProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new ReaperProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "ReaperProxy($impl)";

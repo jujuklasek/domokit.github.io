@@ -5,8 +5,8 @@
 library input_key_codes.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 
 final int KeyboardCode_BACK = 0x08;
 final int KeyboardCode_TAB = 0x09;

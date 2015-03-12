@@ -5,8 +5,8 @@
 library test_request_tracker.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 
 
 class ServiceStats extends bindings.Struct {
@@ -442,7 +442,7 @@ class TestTrackedRequestServiceProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new TestTrackedRequestServiceProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "TestTrackedRequestServiceProxy($impl)";
@@ -617,7 +617,7 @@ class TestRequestTrackerProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new TestRequestTrackerProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "TestRequestTrackerProxy($impl)";

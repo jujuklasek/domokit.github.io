@@ -5,8 +5,8 @@
 library location_service.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 import 'package:mojo/services/location/public/interfaces/location.mojom.dart' as location_mojom;
 
 
@@ -196,7 +196,7 @@ class LocationServiceProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new LocationServiceProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "LocationServiceProxy($impl)";

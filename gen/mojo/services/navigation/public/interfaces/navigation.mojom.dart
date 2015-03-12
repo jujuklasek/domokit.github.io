@@ -5,8 +5,8 @@
 library navigation.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 import 'package:mojo/services/network/public/interfaces/url_loader.mojom.dart' as url_loader_mojom;
 
 final int Target_DEFAULT = 0;
@@ -251,7 +251,7 @@ class NavigatorHostProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new NavigatorHostProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "NavigatorHostProxy($impl)";

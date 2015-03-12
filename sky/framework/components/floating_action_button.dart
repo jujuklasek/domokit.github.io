@@ -5,9 +5,8 @@
 import '../fn.dart';
 import 'material.dart';
 import '../theme/colors.dart';
-import '../theme/shadows.dart';
 
-class FloatingActionButton extends Material {
+class FloatingActionButton extends Component {
   static final Style _style = new Style('''
     position: absolute;
     bottom: 16px;
@@ -18,7 +17,6 @@ class FloatingActionButton extends Material {
     height: 56px;
     background-color: ${Red[500]};
     color: white;
-    box-shadow: ${Shadow[3]};
     border-radius: 28px;'''
   );
   static final Style _clipStyle = new Style('''
@@ -34,22 +32,28 @@ class FloatingActionButton extends Material {
     -webkit-clip-path: circle(28px at center);''');
 
   Node content;
+  int level;
 
-  FloatingActionButton({ Object key, this.content }) : super(key: key);
+  FloatingActionButton({ Object key, this.content, this.level: 0 })
+      : super(key: key);
 
   Node build() {
-    List<Node> children = [super.build()];
+    List<Node> children = [];
 
     if (content != null)
       children.add(content);
 
+    List<Style> containerStyle = [_style];
+    if (level > 0)
+      containerStyle.add(Material.shadowStyle[level]);
+
     return new Container(
       key: "Container",
-      style: _style,
+      styles: containerStyle,
       children: [
-        new Container(
+        new Material(
           key: "Clip",
-          style: _clipStyle,
+          styles: [_clipStyle],
           children: children
         )
       ]

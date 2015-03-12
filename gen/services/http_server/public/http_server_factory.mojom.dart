@@ -5,8 +5,8 @@
 library http_server_factory.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 import 'package:mojo/services/network/public/interfaces/net_address.mojom.dart' as net_address_mojom;
 import 'package:services/http_server/public/http_server.mojom.dart' as http_server_mojom;
 
@@ -146,7 +146,7 @@ class HttpServerFactoryProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new HttpServerFactoryProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "HttpServerFactoryProxy($impl)";

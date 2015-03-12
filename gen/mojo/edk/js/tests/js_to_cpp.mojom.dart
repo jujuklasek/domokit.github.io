@@ -5,8 +5,8 @@
 library js_to_cpp.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 
 
 class EchoArgs extends bindings.Struct {
@@ -826,7 +826,7 @@ class CppSideProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new CppSideProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "CppSideProxy($impl)";
@@ -1026,7 +1026,7 @@ class JsSideProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new JsSideProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "JsSideProxy($impl)";

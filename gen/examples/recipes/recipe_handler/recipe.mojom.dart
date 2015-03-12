@@ -5,8 +5,8 @@
 library recipe.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 
 
 class Ingredient extends bindings.Struct {
@@ -239,7 +239,7 @@ class RecipeProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new RecipeProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "RecipeProxy($impl)";

@@ -13,6 +13,7 @@ typedef void ValueChanged(value);
 class Input extends Component {
   static final Style _style = new Style('''
     display: paragraph;
+    transform: translateX(0);
     margin: 8px;
     padding: 8px;
     border-bottom: 1px solid ${Grey[200]};
@@ -22,29 +23,40 @@ class Input extends Component {
     overflow: hidden;'''
   );
 
+  static final Style _placeholderStyle = new Style('''
+    top: 8px;
+    left: 8px;
+    color: ${Grey[200]};
+    position: absolute;'''
+  );
+
   static final String _focusedInlineStyle = '''
     padding: 7px;
     border-bottom: 2px solid ${Blue[500]};''';
 
   ValueChanged onChanged;
-  String value;
+  String placeholder;
   bool focused = false;
 
+  String _value = '';
   bool _isAttachedToKeyboard = false;
   EditableString _editableValue;
 
-  Input({Object key, this.value: '', this.focused})
+  Input({Object key,
+         this.placeholder,
+         this.onChanged,
+         this.focused})
       : super(key: key, stateful: true) {
-    _editableValue = new EditableString(text: value,
+    _editableValue = new EditableString(text: _value,
                                         onUpdated: _handleTextUpdated);
   }
 
   void _handleTextUpdated() {
     setState(() {});
-    if (value != _editableValue.text) {
-      value = _editableValue.text;
+    if (_value != _editableValue.text) {
+      _value = _editableValue.text;
       if (onChanged != null)
-        onChanged(value);
+        onChanged(_value);
     }
   }
 
@@ -59,12 +71,21 @@ class Input extends Component {
       _isAttachedToKeyboard = true;
     }
 
+    List<Node> children = [];
+
+    if (placeholder != null && _value.isEmpty) {
+      children.add(new Container(
+          styles: [_placeholderStyle],
+          children: [new Text(placeholder)]
+      ));
+    }
+
+    children.add(new EditableText(value: _editableValue, focused: focused));
+
     return new Container(
-      style: _style,
+      styles: [_style],
       inlineStyle: focused ? _focusedInlineStyle : null,
-      children: [
-        new EditableText(value: _editableValue, focused: focused),
-      ]
+      children: children
     );
   }
 }

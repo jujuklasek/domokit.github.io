@@ -5,8 +5,8 @@
 library content_handler.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 import 'package:mojo/public/interfaces/application/application.mojom.dart' as application_mojom;
 import 'package:mojo/services/network/public/interfaces/url_loader.mojom.dart' as url_loader_mojom;
 
@@ -146,7 +146,7 @@ class ContentHandlerProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new ContentHandlerProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "ContentHandlerProxy($impl)";

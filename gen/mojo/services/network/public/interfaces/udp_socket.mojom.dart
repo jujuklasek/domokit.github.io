@@ -5,8 +5,8 @@
 library udp_socket.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 import 'package:mojo/services/network/public/interfaces/net_address.mojom.dart' as net_address_mojom;
 import 'package:mojo/services/network/public/interfaces/network_error.mojom.dart' as network_error_mojom;
 
@@ -981,7 +981,7 @@ class UdpSocketProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new UdpSocketProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "UdpSocketProxy($impl)";
@@ -1252,7 +1252,7 @@ class UdpSocketReceiverProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new UdpSocketReceiverProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "UdpSocketReceiverProxy($impl)";

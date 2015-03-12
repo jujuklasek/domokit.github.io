@@ -5,8 +5,8 @@
 library test_structs.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 import 'package:mojo/public/interfaces/bindings/tests/rect.mojom.dart' as rect_mojom;
 
 

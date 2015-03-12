@@ -5,8 +5,8 @@
 library network_service.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 import 'package:mojo/services/network/public/interfaces/cookie_store.mojom.dart' as cookie_store_mojom;
 import 'package:mojo/services/network/public/interfaces/net_address.mojom.dart' as net_address_mojom;
 import 'package:mojo/services/network/public/interfaces/network_error.mojom.dart' as network_error_mojom;
@@ -565,7 +565,7 @@ class NetworkServiceProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new NetworkServiceProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "NetworkServiceProxy($impl)";

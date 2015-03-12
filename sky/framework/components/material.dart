@@ -3,14 +3,13 @@
 // found in the LICENSE file.
 
 import '../fn.dart';
-import 'dart:sky' as sky;
+import '../theme/shadows.dart';
 import 'dart:collection';
+import 'dart:sky' as sky;
 import 'ink_splash.dart';
 
-abstract class Material extends Component {
-  static const _splashesKey = const Object();
-
-  static final Style _style = new Style('''
+class Material extends Component {
+  static final Style _splashesStyle = new Style('''
     transform: translateX(0);
     position: absolute;
     top: 0;
@@ -19,26 +18,56 @@ abstract class Material extends Component {
     bottom: 0'''
   );
 
+  static final List<Style> shadowStyle = [
+    null,
+    new Style('box-shadow: ${Shadow[1]}'),
+    new Style('box-shadow: ${Shadow[2]}'),
+    new Style('box-shadow: ${Shadow[3]}'),
+    new Style('box-shadow: ${Shadow[4]}'),
+    new Style('box-shadow: ${Shadow[5]}'),
+  ];
+
   LinkedHashSet<SplashAnimation> _splashes;
 
-  Material({ Object key }) : super(key: key) {
+  List<Style> styles;
+  String inlineStyle;
+  List<Node> children;
+  int level;
+
+  Material({
+      Object key,
+      this.styles,
+      this.inlineStyle,
+      this.children,
+      this.level: 0 }) : super(key: key) {
     events.listen('gesturescrollstart', _cancelSplashes);
     events.listen('wheel', _cancelSplashes);
     events.listen('pointerdown', _startSplash);
   }
 
   Node build() {
-    List<Node> children = [];
+    List<Node> childrenIncludingSplashes = [];
 
     if (_splashes != null) {
-      children.addAll(_splashes.map((s) => new InkSplash(s.onStyleChanged)));
+      childrenIncludingSplashes.add(new Container(
+        styles: [_splashesStyle],
+        children: new List.from(_splashes.map(
+            (s) => new InkSplash(s.onStyleChanged))),
+        key: 'Splashes'
+      ));
     }
 
-    return new Container(
-      style: _style,
-      children: children,
-      key: _splashesKey
-    );
+    if (children != null)
+      childrenIncludingSplashes.addAll(children);
+
+    List<Style> stylesIncludingShadow = styles;
+    if (level > 0) {
+      stylesIncludingShadow = new List.from(styles);
+      stylesIncludingShadow.add(shadowStyle[level]);
+    }
+
+    return new Container(key: 'Material', styles: stylesIncludingShadow,
+        inlineStyle: inlineStyle, children: childrenIncludingSplashes);
   }
 
   sky.ClientRect _getBoundingRect() => (getRoot() as sky.Element).getBoundingClientRect();

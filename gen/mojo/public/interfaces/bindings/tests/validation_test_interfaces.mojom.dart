@@ -5,8 +5,8 @@
 library validation_test_interfaces.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 
 
 class StructA extends bindings.Struct {
@@ -1318,7 +1318,7 @@ class ConformanceTestInterfaceProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new ConformanceTestInterfaceProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "ConformanceTestInterfaceProxy($impl)";
@@ -1525,7 +1525,7 @@ class IntegrationTestInterfaceProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new IntegrationTestInterfaceProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "IntegrationTestInterfaceProxy($impl)";

@@ -5,8 +5,8 @@
 library http_server.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 import 'package:services/http_server/public/http_request.mojom.dart' as http_request_mojom;
 import 'package:services/http_server/public/http_response.mojom.dart' as http_response_mojom;
 
@@ -383,7 +383,7 @@ class HttpServerProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new HttpServerProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "HttpServerProxy($impl)";
@@ -566,7 +566,7 @@ class HttpHandlerProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new HttpHandlerProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "HttpHandlerProxy($impl)";

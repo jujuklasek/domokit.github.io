@@ -5,8 +5,8 @@
 library icu_data.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 
 
 class IcuDataMapParams extends bindings.Struct {
@@ -189,7 +189,7 @@ class IcuDataProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new IcuDataProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "IcuDataProxy($impl)";

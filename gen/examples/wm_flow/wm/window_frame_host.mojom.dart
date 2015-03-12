@@ -5,8 +5,8 @@
 library window_frame_host.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 
 
 class WindowFrameHostActivateWindowParams extends bindings.Struct {
@@ -260,7 +260,7 @@ class WindowFrameHostProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new WindowFrameHostProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "WindowFrameHostProxy($impl)";

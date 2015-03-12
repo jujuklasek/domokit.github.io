@@ -5,8 +5,8 @@
 library command_buffer.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 import 'package:mojo/services/gpu/public/interfaces/gpu_capabilities.mojom.dart' as gpu_capabilities_mojom;
 
 
@@ -815,7 +815,7 @@ class CommandBufferSyncClientProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new CommandBufferSyncClientProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "CommandBufferSyncClientProxy($impl)";
@@ -959,7 +959,7 @@ class CommandBufferSyncPointClientProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new CommandBufferSyncPointClientProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "CommandBufferSyncPointClientProxy($impl)";
@@ -1098,7 +1098,7 @@ class CommandBufferLostContextObserverProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new CommandBufferLostContextObserverProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "CommandBufferLostContextObserverProxy($impl)";
@@ -1326,7 +1326,7 @@ class CommandBufferProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new CommandBufferProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "CommandBufferProxy($impl)";

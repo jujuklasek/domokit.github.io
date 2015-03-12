@@ -4,6 +4,7 @@
 
 import '../fn.dart';
 import 'button_base.dart';
+import 'material.dart';
 
 typedef void ValueChanged(value);
 
@@ -54,11 +55,10 @@ class Radio extends ButtonBase {
   }
 
   Node build() {
-    return new Container(
-      style: highlight ? _highlightStyle : _style,
-      children: value == groupValue ?
-          [super.build(), new Container( style : _dotStyle )] : [super.build()]
-    )
+    return new Material(
+      styles: [highlight ? _highlightStyle : _style],
+      children: value == groupValue ? [new Container(styles: [_dotStyle] )] : []
+    );
   }
 
   void _handleClick(_) {

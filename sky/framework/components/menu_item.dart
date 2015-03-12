@@ -5,6 +5,7 @@
 import '../fn.dart';
 import 'button_base.dart';
 import 'icon.dart';
+import 'material.dart';
 
 class MenuItem extends ButtonBase {
   static final Style _style = new Style('''
@@ -41,17 +42,16 @@ class MenuItem extends ButtonBase {
   MenuItem({ Object key, this.icon, this.children }) : super(key: key);
 
   Node build() {
-    return new Container(
-      style: highlight ? _highlightStyle : _style,
+    return new Material (
+      styles: [highlight ? _highlightStyle : _style],
       children: [
-        super.build(),
         new Icon(
-          style: _iconStyle,
+          styles: [_iconStyle],
           size: 24,
           type: "${icon}_grey600"
         ),
         new Container(
-          style: _labelStyle,
+          styles: [_labelStyle],
           children: children
         )
       ]

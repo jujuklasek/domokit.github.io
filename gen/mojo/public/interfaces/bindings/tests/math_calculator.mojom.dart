@@ -5,8 +5,8 @@
 library math_calculator.mojom;
 
 import 'dart:async';
-import 'mojo:bindings' as bindings;
-import 'mojo:core' as core;
+import 'dart:mojo.bindings' as bindings;
+import 'dart:mojo.core' as core;
 
 
 class CalculatorClearParams extends bindings.Struct {
@@ -392,7 +392,7 @@ class CalculatorProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new CalculatorProxy.fromEndpoint(endpoint);
 
-  void close() => impl.close();
+  Future close() => impl.close();
 
   String toString() {
     return "CalculatorProxy($impl)";
