@@ -51,13 +51,13 @@ class Radio extends ButtonBase {
     this.value,
     this.groupValue
   }) : super(key: key) {
-    events.listen('click', _handleClick);
+    events.listen('gesturetap', _handleClick);
   }
 
   Node build() {
     return new Material(
-      styles: [highlight ? _highlightStyle : _style],
-      children: value == groupValue ? [new Container(styles: [_dotStyle] )] : []
+      style: highlight ? _highlightStyle : _style,
+      children: value == groupValue ? [new Container(style: _dotStyle )] : []
     );
   }
 

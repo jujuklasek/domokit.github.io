@@ -6,8 +6,14 @@ import 'curves.dart';
 import 'dart:async';
 import 'dart:math' as math;
 import 'dart:sky' as sky;
+import 'mechanics.dart';
 
-class FrameGenerator {
+abstract class Generator {
+  Stream<double> get onTick;
+  void cancel();
+}
+
+class FrameGenerator extends Generator {
   Function onDone;
   StreamController _controller;
 
@@ -51,35 +57,45 @@ class FrameGenerator {
   }
 }
 
-class AnimationGenerator extends FrameGenerator {
+class AnimationGenerator extends Generator {
   Stream<double> get onTick => _stream;
   final double initialDelay;
   final double duration;
   final double begin;
   final double end;
   final Curve curve;
+
+  FrameGenerator _generator;
   Stream<double> _stream;
   bool _done = false;
 
-  AnimationGenerator(this.duration, {
+  AnimationGenerator({
     this.initialDelay: 0.0,
+    this.duration,
     this.begin: 0.0,
     this.end: 1.0,
     this.curve: linear,
     Function onDone
-  }):super(onDone: onDone) {
-    assert(duration > 0);
+  }) {
+    assert(curve != null);
+    assert(duration != null && duration > 0.0);
+    _generator = new FrameGenerator(onDone: onDone);
+
     double startTime = 0.0;
-    _stream = super.onTick.map((timeStamp) {
+    _stream = _generator.onTick.map((timeStamp) {
       if (startTime == 0.0)
         startTime = timeStamp;
 
       double t = (timeStamp - (startTime + initialDelay)) / duration;
       return math.max(0.0, math.min(t, 1.0));
     })
-    .takeWhile(_checkForCompletion) //
+    .takeWhile(_checkForCompletion)
     .where((t) => t >= 0.0)
     .map(_transform);
+  }
+
+  void cancel() {
+    _generator.cancel();
   }
 
   double _transform(double t) {
@@ -98,45 +114,40 @@ class AnimationGenerator extends FrameGenerator {
   }
 }
 
-class Animation {
-  Stream<double> get onValueChanged => _controller.stream;
+class Simulation extends Generator {
+  Stream<double> get onTick => _stream;
+  final System system;
 
-  double get value => _value;
+  FrameGenerator _generator;
+  Stream<double> _stream;
+  double _previousTime = 0.0;
 
-  void set value(double value) {
-    stop();
-   _setValue(value);
-  }
+  Simulation(this.system, {Function terminationCondition, Function onDone}) {
+    _generator = new FrameGenerator(onDone: onDone);
+    _stream = _generator.onTick.map(_update);
 
-  bool get isAnimating => _animation != null;
-
-  StreamController _controller = new StreamController(sync: true);
-
-  AnimationGenerator _animation;
-
-  double _value;
-
-  void _setValue(double value) {
-    _value = value;
-    _controller.add(_value);
-  }
-
-  void stop() {
-    if (_animation != null) {
-      _animation.cancel();
-      _animation = null;
+    if (terminationCondition != null) {
+      bool done = false;
+      _stream = _stream.takeWhile((_) {
+        if (done)
+          return false;
+        done = terminationCondition();
+        return true;
+      });
     }
   }
 
-  void animateTo(double newValue, double duration,
-      { Curve curve: linear, double initialDelay: 0.0 }) {
-    stop();
+  void cancel() {
+    _generator.cancel();
+  }
 
-    _animation = new AnimationGenerator(duration, begin: _value, end: newValue,
-        curve: curve, initialDelay: initialDelay);
-
-    _animation.onTick.listen(_setValue, onDone: () {
-      _animation = null;
-    });
+  double _update(double timeStamp) {
+    double previousTime = _previousTime;
+    _previousTime = timeStamp;
+    if (previousTime == 0.0)
+      return timeStamp;
+    double deltaT = timeStamp - previousTime;
+    system.update(deltaT);
+    return timeStamp;
   }
 }

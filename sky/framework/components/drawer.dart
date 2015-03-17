@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import '../animation/animation.dart';
 import '../animation/curves.dart';
-import '../animation/generator.dart';
 import '../fn.dart';
 import '../theme/colors.dart';
 import '../theme/shadows.dart';
@@ -12,11 +12,11 @@ import 'dart:math' as math;
 import 'dart:sky' as sky;
 import 'material.dart';
 
-const double _kWidth = 256.0;
+const double _kWidth = 304.0;
 const double _kMinFlingVelocity = 0.4;
 const double _kBaseSettleDurationMS = 246.0;
 const double _kMaxSettleDurationMS = 600.0;
-const Cubic _kAnimationCurve = easeOut;
+const Curve _kAnimationCurve = parabolicRise;
 
 class DrawerAnimation extends Animation {
   Stream<double> get onPositionChanged => onValueChanged;
@@ -34,7 +34,8 @@ class DrawerAnimation extends Animation {
   void handlePointerDown(_) => stop();
 
   void handlePointerMove(sky.PointerEvent event) {
-    assert(!isAnimating);
+    if (isAnimating)
+      return;
     value = math.min(0.0, math.max(value + event.dx, -_kWidth));
   }
 
@@ -80,7 +81,6 @@ class DrawerAnimation extends Animation {
 class Drawer extends Component {
   static final Style _style = new Style('''
     position: absolute;
-    z-index: 2;
     top: 0;
     left: 0;
     bottom: 0;
@@ -101,8 +101,7 @@ class Drawer extends Component {
     background-color: ${Grey[50]};
     will-change: transform;
     position: absolute;
-    z-index: 3;
-    width: 256px;
+    width: 304px;
     top: 0;
     left: 0;
     bottom: 0;'''
@@ -145,26 +144,26 @@ class Drawer extends Component {
 
     bool isClosed = _position <= -_kWidth;
     String inlineStyle = 'display: ${isClosed ? 'none' : ''}';
-    String maskInlineStyle = 'opacity: ${(_position / _kWidth + 1) * 0.25}';
+    String maskInlineStyle = 'opacity: ${(_position / _kWidth + 1) * 0.5}';
     String contentInlineStyle = 'transform: translateX(${_position}px)';
 
     Container mask = new Container(
       key: 'Mask',
-      styles: [_maskStyle],
+      style: _maskStyle,
       inlineStyle: maskInlineStyle
     )..events.listen('gesturetap', animation.handleMaskTap)
      ..events.listen('gestureflingstart', animation.handleFlingStart);
 
     Material content = new Material(
       key: 'Content',
-      styles: [_contentStyle],
+      style: _contentStyle,
       inlineStyle: contentInlineStyle,
       children: children,
       level: level
     );
 
     return new Container(
-      styles: [_style],
+      style: _style,
       inlineStyle: inlineStyle,
       children: [ mask, content ]
     );

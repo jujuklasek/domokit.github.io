@@ -4,12 +4,13 @@
 
 import '../fn.dart';
 import '../theme/colors.dart';
+import '../theme/view-configuration.dart';
 
 class DrawerHeader extends Component {
   static final Style _style = new Style('''
     display: flex;
     flex-direction: column;
-    height: 140px;
+    height: ${140 + kStatusBarHeight}px;
     -webkit-user-select: none;
     background-color: ${BlueGrey[50]};
     border-bottom: 1px solid #D1D9E1;
@@ -22,9 +23,7 @@ class DrawerHeader extends Component {
   );
 
   static final Style _labelStyle = new Style('''
-    padding: 0 16px;
-    font-family: 'Roboto Medium', 'Helvetica';
-    color: #212121;'''
+    padding: 0 16px;'''
   );
 
   List<Node> children;
@@ -33,15 +32,15 @@ class DrawerHeader extends Component {
 
   Node build() {
     return new Container(
-      styles: [_style],
+      style: _style,
       children: [
         new Container(
           key: 'Spacer',
-          styles: [_spacerStyle]
+          style: _spacerStyle
         ),
         new Container(
           key: 'Label',
-          styles: [_labelStyle],
+          style: _labelStyle,
           children: children
         )
       ]

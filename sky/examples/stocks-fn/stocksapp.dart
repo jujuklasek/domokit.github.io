@@ -1,19 +1,20 @@
 library stocksapp;
 
-import '../../framework/fn.dart';
-import '../../framework/animation/scroll_curve.dart';
-import '../../framework/components/drawer.dart';
-import '../../framework/components/drawer_header.dart';
-import '../../framework/components/fixed_height_scrollable.dart';
-import '../../framework/components/floating_action_button.dart';
-import '../../framework/components/icon.dart';
-import '../../framework/components/input.dart';
-import '../../framework/components/material.dart';
-import '../../framework/components/menu_divider.dart';
-import '../../framework/components/menu_item.dart';
-import '../../framework/components/toolbar.dart';
 import '../data/stocks.dart';
 import 'dart:math';
+import 'package:sky/framework/animation/scroll_behavior.dart';
+import 'package:sky/framework/components/action_bar.dart';
+import 'package:sky/framework/components/drawer.dart';
+import 'package:sky/framework/components/drawer_header.dart';
+import 'package:sky/framework/components/fixed_height_scrollable.dart';
+import 'package:sky/framework/components/floating_action_button.dart';
+import 'package:sky/framework/components/icon.dart';
+import 'package:sky/framework/components/input.dart';
+import 'package:sky/framework/components/material.dart';
+import 'package:sky/framework/components/menu_divider.dart';
+import 'package:sky/framework/components/menu_item.dart';
+import 'package:sky/framework/fn.dart';
+import 'package:sky/framework/theme/typography.dart' as typography;
 
 part 'stockarrow.dart';
 part 'stocklist.dart';
@@ -27,18 +28,18 @@ class StocksApp extends App {
     display: flex;
     flex-direction: column;
     height: -webkit-fill-available;
-    font-family: 'Roboto Regular', 'Helvetica';
-    font-size: 16px;'''
+    ${typography.typeface};
+    ${typography.black.body1};'''
   );
 
   static Style _iconStyle = new Style('''
-    padding: 8px;
-    margin: 0 4px;'''
+    padding: 8px;'''
   );
 
   static Style _titleStyle = new Style('''
+    padding-left: 24px;
     flex: 1;
-    margin: 0 4px;'''
+    ${typography.white.title};'''
   );
 
   List<Stock> _sortedStocks;
@@ -100,24 +101,24 @@ class StocksApp extends App {
       title = new Input(focused: true, placeholder: 'Search stocks',
           onChanged: _handleSearchQueryChanged);
     } else {
-      title = new Text('I am a stocks app');
+      title = new Text('Stocks');
     }
 
-    var toolbar = new Toolbar(
+    var toolbar = new ActionBar(
       children: [
-        new Icon(key: 'menu', styles: [_iconStyle],
+        new Icon(key: 'menu', style: _iconStyle,
             size: 24,
             type: 'navigation/menu_white')
-          ..events.listen('click', _drawerAnimation.toggle),
+          ..events.listen('gesturetap', _drawerAnimation.toggle),
         new Container(
-          styles: [_titleStyle],
+          style: _titleStyle,
           children: [title]
         ),
-        new Icon(key: 'search', styles: [_iconStyle],
+        new Icon(key: 'search', style: _iconStyle,
             size: 24,
             type: 'action/search_white')
-          ..events.listen('click', _handleSearchClick),
-        new Icon(key: 'more_white', styles: [_iconStyle],
+          ..events.listen('gesturetap', _handleSearchClick),
+        new Icon(key: 'more_white', style: _iconStyle,
             size: 24,
             type: 'navigation/more_vert_white')
       ]
@@ -133,7 +134,7 @@ class StocksApp extends App {
       children: [
         new Container(
           key: 'Content',
-          styles: [_style],
+          style: _style,
           children: [toolbar, list]
         ),
         fab,

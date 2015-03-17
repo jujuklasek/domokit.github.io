@@ -253,11 +253,10 @@ class WebSocketCloseParams extends bindings.Struct {
 class WebSocketClientDidConnectParams extends bindings.Struct {
   static const int kStructSize = 32;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 4);
-  bool fail = false;
-  core.MojoDataPipeConsumer receiveStream = null;
+      const bindings.StructDataHeader(kStructSize, 3);
   String selectedSubprotocol = null;
   String extensions = null;
+  core.MojoDataPipeConsumer receiveStream = null;
 
   WebSocketClientDidConnectParams() : super(kStructSize);
 
@@ -273,24 +272,20 @@ class WebSocketClientDidConnectParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 4)) {
+        (mainDataHeader.version < 3)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
       
-      result.fail = decoder0.decodeBool(8, 0);
+      result.selectedSubprotocol = decoder0.decodeString(8, false);
     }
     {
       
-      result.receiveStream = decoder0.decodeConsumerHandle(12, false);
+      result.extensions = decoder0.decodeString(16, false);
     }
     {
       
-      result.selectedSubprotocol = decoder0.decodeString(16, false);
-    }
-    {
-      
-      result.extensions = decoder0.decodeString(24, false);
+      result.receiveStream = decoder0.decodeConsumerHandle(24, false);
     }
     return result;
   }
@@ -298,21 +293,18 @@ class WebSocketClientDidConnectParams extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
-    encoder0.encodeBool(fail, 8, 0);
+    encoder0.encodeString(selectedSubprotocol, 8, false);
     
-    encoder0.encodeConsumerHandle(receiveStream, 12, false);
+    encoder0.encodeString(extensions, 16, false);
     
-    encoder0.encodeString(selectedSubprotocol, 16, false);
-    
-    encoder0.encodeString(extensions, 24, false);
+    encoder0.encodeConsumerHandle(receiveStream, 24, false);
   }
 
   String toString() {
     return "WebSocketClientDidConnectParams("
-           "fail: $fail" ", "
-           "receiveStream: $receiveStream" ", "
            "selectedSubprotocol: $selectedSubprotocol" ", "
-           "extensions: $extensions" ")";
+           "extensions: $extensions" ", "
+           "receiveStream: $receiveStream" ")";
   }
 }
 
@@ -718,7 +710,7 @@ const String WebSocketClientName =
       'mojo::WebSocketClient';
 
 abstract class WebSocketClient {
-  void didConnect(bool fail, String selectedSubprotocol, String extensions, core.MojoDataPipeConsumer receiveStream);
+  void didConnect(String selectedSubprotocol, String extensions, core.MojoDataPipeConsumer receiveStream);
   void didReceiveData(bool fin, int type, int numBytes);
   void didReceiveFlowControl(int quota);
   void didFail(String message);
@@ -761,10 +753,9 @@ class _WebSocketClientProxyCalls implements WebSocketClient {
   WebSocketClientProxyImpl _proxyImpl;
 
   _WebSocketClientProxyCalls(this._proxyImpl);
-    void didConnect(bool fail, String selectedSubprotocol, String extensions, core.MojoDataPipeConsumer receiveStream) {
+    void didConnect(String selectedSubprotocol, String extensions, core.MojoDataPipeConsumer receiveStream) {
       assert(_proxyImpl.isBound);
       var params = new WebSocketClientDidConnectParams();
-      params.fail = fail;
       params.selectedSubprotocol = selectedSubprotocol;
       params.extensions = extensions;
       params.receiveStream = receiveStream;
@@ -869,7 +860,7 @@ class WebSocketClientStub extends bindings.Stub {
       case kWebSocketClient_didConnect_name:
         var params = WebSocketClientDidConnectParams.deserialize(
             message.payload);
-        _impl.didConnect(params.fail, params.selectedSubprotocol, params.extensions, params.receiveStream);
+        _impl.didConnect(params.selectedSubprotocol, params.extensions, params.receiveStream);
         break;
       case kWebSocketClient_didReceiveData_name:
         var params = WebSocketClientDidReceiveDataParams.deserialize(

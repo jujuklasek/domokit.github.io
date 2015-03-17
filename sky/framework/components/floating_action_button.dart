@@ -11,12 +11,10 @@ class FloatingActionButton extends Component {
     position: absolute;
     bottom: 16px;
     right: 16px;
-    z-index: 5;
     transform: translateX(0);
     width: 56px;
     height: 56px;
     background-color: ${Red[500]};
-    color: white;
     border-radius: 28px;'''
   );
   static final Style _clipStyle = new Style('''
@@ -43,17 +41,13 @@ class FloatingActionButton extends Component {
     if (content != null)
       children.add(content);
 
-    List<Style> containerStyle = [_style];
-    if (level > 0)
-      containerStyle.add(Material.shadowStyle[level]);
-
     return new Container(
       key: "Container",
-      styles: containerStyle,
+      style: level > 0 ? _style.extend(Material.shadowStyle[level]) : _style,
       children: [
         new Material(
           key: "Clip",
-          styles: [_clipStyle],
+          style: _clipStyle,
           children: children
         )
       ]

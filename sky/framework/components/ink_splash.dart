@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 import '../animation/curves.dart';
-import '../animation/generator.dart';
+import '../animation/generators.dart';
 import '../fn.dart';
 import 'dart:async';
 import 'dart:sky' as sky;
@@ -27,8 +27,11 @@ class SplashAnimation {
       : _offsetX = x - rect.left,
         _offsetY = y - rect.top {
 
-    _animation = new AnimationGenerator(_kSplashDuration,
-        end: _kSplashSize, curve: easeOut, onDone: onDone);
+    _animation = new AnimationGenerator(
+        duration:_kSplashDuration,
+        end: _kSplashSize,
+        curve: easeOut,
+        onDone: onDone);
 
     _styleChanged = _animation.onTick.map((p) => '''
       top: ${_offsetY - p/2}px;
@@ -42,25 +45,18 @@ class SplashAnimation {
 }
 
 class InkSplash extends Component {
-  static final Style _style = new Style('''
+  static final Style _clipperStyle = new Style('''
     position: absolute;
     pointer-events: none;
     overflow: hidden;
     top: 0;
     left: 0;
     bottom: 0;
-    right: 0;
-  ''');
+    right: 0;''');
 
   static final Style _splashStyle = new Style('''
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 0;
-    top: 0;
-    left: 0;
-    height: 0;
-    width: 0;
-  ''');
+    background-color: rgba(0, 0, 0, 0.4);''');
 
   Stream<String> onStyleChanged;
 
@@ -91,11 +87,11 @@ class InkSplash extends Component {
     _ensureListening();
 
     return new Container(
-      styles: [_style],
+      style: _clipperStyle,
       children: [
         new Container(
           inlineStyle: _inlineStyle,
-          styles: [_splashStyle]
+          style: _splashStyle
         )
       ]
     );

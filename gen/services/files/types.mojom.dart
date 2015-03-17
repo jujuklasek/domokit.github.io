@@ -138,9 +138,10 @@ class TimespecOrNow extends bindings.Struct {
 }
 
 class FileInformation extends bindings.Struct {
-  static const int kStructSize = 32;
+  static const int kStructSize = 40;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 4);
+  int type = 0;
   int size = 0;
   Timespec atime = null;
   Timespec mtime = null;
@@ -159,21 +160,25 @@ class FileInformation extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 4)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
       
-      result.size = decoder0.decodeInt64(8);
+      result.type = decoder0.decodeInt32(8);
     }
     {
       
-      var decoder1 = decoder0.decodePointer(16, true);
-      result.atime = Timespec.decode(decoder1);
+      result.size = decoder0.decodeInt64(16);
     }
     {
       
       var decoder1 = decoder0.decodePointer(24, true);
+      result.atime = Timespec.decode(decoder1);
+    }
+    {
+      
+      var decoder1 = decoder0.decodePointer(32, true);
       result.mtime = Timespec.decode(decoder1);
     }
     return result;
@@ -182,15 +187,18 @@ class FileInformation extends bindings.Struct {
   void encode(bindings.Encoder encoder) {
     var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
     
-    encoder0.encodeInt64(size, 8);
+    encoder0.encodeInt32(type, 8);
     
-    encoder0.encodeStruct(atime, 16, true);
+    encoder0.encodeInt64(size, 16);
     
-    encoder0.encodeStruct(mtime, 24, true);
+    encoder0.encodeStruct(atime, 24, true);
+    
+    encoder0.encodeStruct(mtime, 32, true);
   }
 
   String toString() {
     return "FileInformation("
+           "type: $type" ", "
            "size: $size" ", "
            "atime: $atime" ", "
            "mtime: $mtime" ")";

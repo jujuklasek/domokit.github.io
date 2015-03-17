@@ -16,8 +16,7 @@ class StockRow extends Component {
   );
 
   static Style _tickerStyle = new Style('''
-    flex: 1;
-    font-family: 'Roboto Medium', 'Helvetica';'''
+    flex: 1;'''
   );
 
   static Style _lastSaleStyle = new Style('''
@@ -26,7 +25,7 @@ class StockRow extends Component {
   );
 
   static Style _changeStyle = new Style('''
-    color: #8A8A8A;
+    ${typography.black.caption};
     text-align: right;'''
   );
 
@@ -47,23 +46,23 @@ class StockRow extends Component {
       ),
       new Container(
         key: 'Ticker',
-        styles: [_tickerStyle],
+        style: _tickerStyle,
         children: [new Text(stock.symbol)]
       ),
       new Container(
         key: 'LastSale',
-        styles: [_lastSaleStyle],
+        style: _lastSaleStyle,
         children: [new Text(lastSale)]
       ),
       new Container(
         key: 'Change',
-        styles: [_changeStyle],
+        style: _changeStyle,
         children: [new Text(changeInPrice)]
       )
     ];
 
     return new Material(
-      styles: [_style],
+      style: _style,
       children: children
     );
   }

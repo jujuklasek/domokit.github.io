@@ -5,25 +5,26 @@
 import '../fn.dart';
 import '../theme/colors.dart';
 import '../theme/shadows.dart';
+import '../theme/view-configuration.dart';
 
-class Toolbar extends Component {
+class ActionBar extends Component {
   List<Node> children;
 
   static final Style _style = new Style('''
     display: flex;
     align-items: center;
     height: 56px;
-    z-index: 1;
+    padding: 0 8px;
     background-color: ${Purple[500]};
-    color: white;
+    padding-top: ${kStatusBarHeight}px;
     box-shadow: ${Shadow[2]};'''
   );
 
-  Toolbar({String key, this.children}) : super(key: key);
+  ActionBar({String key, this.children}) : super(key: key);
 
   Node build() {
     return new Container(
-      styles: [_style],
+      style: _style,
       children: children
     );
   }
