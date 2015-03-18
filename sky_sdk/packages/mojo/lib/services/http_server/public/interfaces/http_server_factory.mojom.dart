@@ -7,8 +7,8 @@ library http_server_factory.mojom;
 import 'dart:async';
 import 'dart:mojo.bindings' as bindings;
 import 'dart:mojo.core' as core;
-import 'package:mojo/services/network/public/interfaces/net_address.mojom.dart' as net_address_mojom;
 import 'package:mojo/services/http_server/public/interfaces/http_server.mojom.dart' as http_server_mojom;
+import 'package:mojo/services/network/public/interfaces/net_address.mojom.dart' as net_address_mojom;
 
 
 class HttpServerFactoryCreateHttpServerParams extends bindings.Struct {
