@@ -1,0 +1,20 @@
+#!mojo mojo:sky_viewer
+<sky>
+<style>
+ a { line-height: 120% }
+ h1 { font-size: 2em; margin: 1em; }
+ h2 { font-size: 1.2em; margin: 1em; }
+ p { margin: 0.5em 1em; color: #bcd8f5; font-weight: 900; }
+ a { font-size: 1.642874em; }
+</style>
+<h1>Sky Demos</h1>
+<a href='/sky_sdk/examples/stocks/index.sky'>stocks app (custom elements)</a>
+<a href='/sky_sdk/examples/stocks-fn/stocks.sky'>stocks app (react-style)</a>
+<a href='/sky_sdk/examples/spinning-square.sky'>spinning square</a>
+<a href='/sky_sdk/examples/touch-demo.sky'>touch demo</a>
+<a href='/sky_sdk/examples/widgets/index.sky'>widgets (custom elements)</a>
+<a href='/sky_sdk/examples/widgets-fn/main.sky'>widgets (react-style)</a>
+<a href='/sky_sdk/examples/scrolling/index.sky'>scrolling (custom elements)</a>
+
+<a href='/sky_sdk/LICENSES.sky'>LICENCES</a>
+</sky>
