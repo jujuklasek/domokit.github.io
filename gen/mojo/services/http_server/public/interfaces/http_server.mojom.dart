@@ -14,7 +14,7 @@ import 'package:mojo/services/http_server/public/interfaces/http_response.mojom.
 class HttpServerSetHandlerParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   String pattern = null;
   Object handler = null;
 
@@ -32,7 +32,7 @@ class HttpServerSetHandlerParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -64,7 +64,7 @@ class HttpServerSetHandlerParams extends bindings.Struct {
 class HttpServerSetHandlerResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool success = false;
 
   HttpServerSetHandlerResponseParams() : super(kStructSize);
@@ -81,7 +81,7 @@ class HttpServerSetHandlerResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -140,7 +140,7 @@ class HttpServerGetPortParams extends bindings.Struct {
 class HttpServerGetPortResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int port = 0;
 
   HttpServerGetPortResponseParams() : super(kStructSize);
@@ -157,7 +157,7 @@ class HttpServerGetPortResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -182,7 +182,7 @@ class HttpServerGetPortResponseParams extends bindings.Struct {
 class HttpHandlerHandleRequestParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   http_request_mojom.HttpRequest request = null;
 
   HttpHandlerHandleRequestParams() : super(kStructSize);
@@ -199,7 +199,7 @@ class HttpHandlerHandleRequestParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -225,7 +225,7 @@ class HttpHandlerHandleRequestParams extends bindings.Struct {
 class HttpHandlerHandleRequestResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   http_response_mojom.HttpResponse response = null;
 
   HttpHandlerHandleRequestResponseParams() : super(kStructSize);
@@ -242,7 +242,7 @@ class HttpHandlerHandleRequestResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

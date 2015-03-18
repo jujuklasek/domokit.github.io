@@ -12,7 +12,7 @@ import 'dart:mojo.core' as core;
 class CompletionData extends bindings.Struct {
   static const int kStructSize = 40;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 4);
+      const bindings.StructDataHeader(kStructSize, 0);
   int id = 0;
   int position = 0;
   String text = null;
@@ -32,7 +32,7 @@ class CompletionData extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 4)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -78,7 +78,7 @@ class CompletionData extends bindings.Struct {
 class CorrectionData extends bindings.Struct {
   static const int kStructSize = 32;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   int offset = 0;
   String oldText = null;
   String newText = null;
@@ -97,7 +97,7 @@ class CorrectionData extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -136,7 +136,7 @@ class CorrectionData extends bindings.Struct {
 class KeyboardClientCommitCompletionParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   CompletionData completion = null;
 
   KeyboardClientCommitCompletionParams() : super(kStructSize);
@@ -153,7 +153,7 @@ class KeyboardClientCommitCompletionParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -179,7 +179,7 @@ class KeyboardClientCommitCompletionParams extends bindings.Struct {
 class KeyboardClientCommitCorrectionParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   CorrectionData correction = null;
 
   KeyboardClientCommitCorrectionParams() : super(kStructSize);
@@ -196,7 +196,7 @@ class KeyboardClientCommitCorrectionParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -222,7 +222,7 @@ class KeyboardClientCommitCorrectionParams extends bindings.Struct {
 class KeyboardClientCommitTextParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   String text = null;
   int newCursorPosition = 0;
 
@@ -240,7 +240,7 @@ class KeyboardClientCommitTextParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -272,7 +272,7 @@ class KeyboardClientCommitTextParams extends bindings.Struct {
 class KeyboardClientDeleteSurroundingTextParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int beforeLength = 0;
   int afterLength = 0;
 
@@ -290,7 +290,7 @@ class KeyboardClientDeleteSurroundingTextParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -322,7 +322,7 @@ class KeyboardClientDeleteSurroundingTextParams extends bindings.Struct {
 class KeyboardClientSetComposingRegionParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int start = 0;
   int end = 0;
 
@@ -340,7 +340,7 @@ class KeyboardClientSetComposingRegionParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -372,7 +372,7 @@ class KeyboardClientSetComposingRegionParams extends bindings.Struct {
 class KeyboardClientSetComposingTextParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   String text = null;
   int newCursorPosition = 0;
 
@@ -390,7 +390,7 @@ class KeyboardClientSetComposingTextParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -422,7 +422,7 @@ class KeyboardClientSetComposingTextParams extends bindings.Struct {
 class KeyboardClientSetSelectionParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int start = 0;
   int end = 0;
 
@@ -440,7 +440,7 @@ class KeyboardClientSetSelectionParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -472,7 +472,7 @@ class KeyboardClientSetSelectionParams extends bindings.Struct {
 class KeyboardServiceShowParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object client = null;
 
   KeyboardServiceShowParams() : super(kStructSize);
@@ -489,7 +489,7 @@ class KeyboardServiceShowParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

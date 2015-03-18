@@ -47,7 +47,7 @@ class ReaperGetApplicationSecretParams extends bindings.Struct {
 class ReaperGetApplicationSecretResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int secret = 0;
 
   ReaperGetApplicationSecretResponseParams() : super(kStructSize);
@@ -64,7 +64,7 @@ class ReaperGetApplicationSecretResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -89,7 +89,7 @@ class ReaperGetApplicationSecretResponseParams extends bindings.Struct {
 class ReaperCreateReferenceParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int sourceNode = 0;
   int targetNode = 0;
 
@@ -107,7 +107,7 @@ class ReaperCreateReferenceParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -139,7 +139,7 @@ class ReaperCreateReferenceParams extends bindings.Struct {
 class ReaperDropNodeParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int node = 0;
 
   ReaperDropNodeParams() : super(kStructSize);
@@ -156,7 +156,7 @@ class ReaperDropNodeParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -181,7 +181,7 @@ class ReaperDropNodeParams extends bindings.Struct {
 class ReaperStartTransferParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int node = 0;
   Object transfer = null;
 
@@ -199,7 +199,7 @@ class ReaperStartTransferParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

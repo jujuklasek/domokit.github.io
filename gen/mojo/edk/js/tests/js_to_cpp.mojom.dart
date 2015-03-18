@@ -12,7 +12,7 @@ import 'dart:mojo.core' as core;
 class EchoArgs extends bindings.Struct {
   static const int kStructSize = 104;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 18);
+      const bindings.StructDataHeader(kStructSize, 0);
   int si64 = 0;
   int si32 = 0;
   int si16 = 0;
@@ -46,7 +46,7 @@ class EchoArgs extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 18)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -208,7 +208,7 @@ class EchoArgs extends bindings.Struct {
 class EchoArgsList extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   EchoArgsList next = null;
   EchoArgs item = null;
 
@@ -226,7 +226,7 @@ class EchoArgsList extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -362,7 +362,7 @@ class CppSidePingResponseParams extends bindings.Struct {
 class CppSideEchoResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   EchoArgsList list = null;
 
   CppSideEchoResponseParams() : super(kStructSize);
@@ -379,7 +379,7 @@ class CppSideEchoResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -405,7 +405,7 @@ class CppSideEchoResponseParams extends bindings.Struct {
 class CppSideBitFlipResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   EchoArgsList arg = null;
 
   CppSideBitFlipResponseParams() : super(kStructSize);
@@ -422,7 +422,7 @@ class CppSideBitFlipResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -448,7 +448,7 @@ class CppSideBitFlipResponseParams extends bindings.Struct {
 class CppSideBackPointerResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   EchoArgsList arg = null;
 
   CppSideBackPointerResponseParams() : super(kStructSize);
@@ -465,7 +465,7 @@ class CppSideBackPointerResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -491,7 +491,7 @@ class CppSideBackPointerResponseParams extends bindings.Struct {
 class JsSideSetCppSideParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object cpp = null;
 
   JsSideSetCppSideParams() : super(kStructSize);
@@ -508,7 +508,7 @@ class JsSideSetCppSideParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -567,7 +567,7 @@ class JsSidePingParams extends bindings.Struct {
 class JsSideEchoParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int numIterations = 0;
   EchoArgs arg = null;
 
@@ -585,7 +585,7 @@ class JsSideEchoParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -618,7 +618,7 @@ class JsSideEchoParams extends bindings.Struct {
 class JsSideBitFlipParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   EchoArgs arg = null;
 
   JsSideBitFlipParams() : super(kStructSize);
@@ -635,7 +635,7 @@ class JsSideBitFlipParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -661,7 +661,7 @@ class JsSideBitFlipParams extends bindings.Struct {
 class JsSideBackPointerParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   EchoArgs arg = null;
 
   JsSideBackPointerParams() : super(kStructSize);
@@ -678,7 +678,7 @@ class JsSideBackPointerParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

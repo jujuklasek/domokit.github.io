@@ -12,7 +12,7 @@ import 'dart:mojo.core' as core;
 class EchoServiceEchoStringParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   String value = null;
 
   EchoServiceEchoStringParams() : super(kStructSize);
@@ -29,7 +29,7 @@ class EchoServiceEchoStringParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -54,7 +54,7 @@ class EchoServiceEchoStringParams extends bindings.Struct {
 class EchoServiceEchoStringResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   String value = null;
 
   EchoServiceEchoStringResponseParams() : super(kStructSize);
@@ -71,7 +71,7 @@ class EchoServiceEchoStringResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -130,7 +130,7 @@ class EchoServiceShareEchoServiceParams extends bindings.Struct {
 class EchoServiceShareEchoServiceResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool ok = false;
 
   EchoServiceShareEchoServiceResponseParams() : super(kStructSize);
@@ -147,7 +147,7 @@ class EchoServiceShareEchoServiceResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

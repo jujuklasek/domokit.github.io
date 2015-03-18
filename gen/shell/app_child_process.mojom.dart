@@ -13,7 +13,7 @@ import 'package:mojo/public/interfaces/application/application.mojom.dart' as ap
 class AppChildControllerStartAppParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   String appPath = null;
   bool cleanAppPath = false;
   Object applicationRequest = null;
@@ -32,7 +32,7 @@ class AppChildControllerStartAppParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -71,7 +71,7 @@ class AppChildControllerStartAppParams extends bindings.Struct {
 class AppChildControllerStartAppResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int result = 0;
 
   AppChildControllerStartAppResponseParams() : super(kStructSize);
@@ -88,7 +88,7 @@ class AppChildControllerStartAppResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

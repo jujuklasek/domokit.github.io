@@ -46,7 +46,7 @@ class ConsoleReadLineParams extends bindings.Struct {
 class ConsoleReadLineResponseParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool success = false;
   String line = null;
 
@@ -64,7 +64,7 @@ class ConsoleReadLineResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -96,7 +96,7 @@ class ConsoleReadLineResponseParams extends bindings.Struct {
 class ConsolePrintLinesParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   List<String> lines = null;
 
   ConsolePrintLinesParams() : super(kStructSize);
@@ -113,7 +113,7 @@ class ConsolePrintLinesParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -154,7 +154,7 @@ class ConsolePrintLinesParams extends bindings.Struct {
 class ConsolePrintLinesResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool success = false;
 
   ConsolePrintLinesResponseParams() : super(kStructSize);
@@ -171,7 +171,7 @@ class ConsolePrintLinesResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

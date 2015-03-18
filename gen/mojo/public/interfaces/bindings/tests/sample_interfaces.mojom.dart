@@ -15,7 +15,7 @@ final int Enum_VALUE = 0;
 class ProviderEchoStringParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   String a = null;
 
   ProviderEchoStringParams() : super(kStructSize);
@@ -32,7 +32,7 @@ class ProviderEchoStringParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -57,7 +57,7 @@ class ProviderEchoStringParams extends bindings.Struct {
 class ProviderEchoStringResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   String a = null;
 
   ProviderEchoStringResponseParams() : super(kStructSize);
@@ -74,7 +74,7 @@ class ProviderEchoStringResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -99,7 +99,7 @@ class ProviderEchoStringResponseParams extends bindings.Struct {
 class ProviderEchoStringsParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   String a = null;
   String b = null;
 
@@ -117,7 +117,7 @@ class ProviderEchoStringsParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -149,7 +149,7 @@ class ProviderEchoStringsParams extends bindings.Struct {
 class ProviderEchoStringsResponseParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   String a = null;
   String b = null;
 
@@ -167,7 +167,7 @@ class ProviderEchoStringsResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -199,7 +199,7 @@ class ProviderEchoStringsResponseParams extends bindings.Struct {
 class ProviderEchoMessagePipeHandleParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   core.MojoMessagePipeEndpoint a = null;
 
   ProviderEchoMessagePipeHandleParams() : super(kStructSize);
@@ -216,7 +216,7 @@ class ProviderEchoMessagePipeHandleParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -241,7 +241,7 @@ class ProviderEchoMessagePipeHandleParams extends bindings.Struct {
 class ProviderEchoMessagePipeHandleResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   core.MojoMessagePipeEndpoint a = null;
 
   ProviderEchoMessagePipeHandleResponseParams() : super(kStructSize);
@@ -258,7 +258,7 @@ class ProviderEchoMessagePipeHandleResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -283,7 +283,7 @@ class ProviderEchoMessagePipeHandleResponseParams extends bindings.Struct {
 class ProviderEchoEnumParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int a = 0;
 
   ProviderEchoEnumParams() : super(kStructSize);
@@ -300,7 +300,7 @@ class ProviderEchoEnumParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -325,7 +325,7 @@ class ProviderEchoEnumParams extends bindings.Struct {
 class ProviderEchoEnumResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int a = 0;
 
   ProviderEchoEnumResponseParams() : super(kStructSize);
@@ -342,7 +342,7 @@ class ProviderEchoEnumResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

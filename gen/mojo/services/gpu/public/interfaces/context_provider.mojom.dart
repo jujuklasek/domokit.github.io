@@ -14,7 +14,7 @@ import 'package:mojo/services/gpu/public/interfaces/viewport_parameter_listener.
 class ContextProviderCreateParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object viewportParameterListener = null;
 
   ContextProviderCreateParams() : super(kStructSize);
@@ -31,7 +31,7 @@ class ContextProviderCreateParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -56,7 +56,7 @@ class ContextProviderCreateParams extends bindings.Struct {
 class ContextProviderCreateResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object gles2Client = null;
 
   ContextProviderCreateResponseParams() : super(kStructSize);
@@ -73,7 +73,7 @@ class ContextProviderCreateResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

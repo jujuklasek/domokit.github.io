@@ -12,7 +12,7 @@ import 'dart:mojo.core' as core;
 class ClipboardGetSequenceNumberParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int clipboardType = 0;
 
   ClipboardGetSequenceNumberParams() : super(kStructSize);
@@ -29,7 +29,7 @@ class ClipboardGetSequenceNumberParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -54,7 +54,7 @@ class ClipboardGetSequenceNumberParams extends bindings.Struct {
 class ClipboardGetSequenceNumberResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int sequence = 0;
 
   ClipboardGetSequenceNumberResponseParams() : super(kStructSize);
@@ -71,7 +71,7 @@ class ClipboardGetSequenceNumberResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -96,7 +96,7 @@ class ClipboardGetSequenceNumberResponseParams extends bindings.Struct {
 class ClipboardGetAvailableMimeTypesParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int clipboardTypes = 0;
 
   ClipboardGetAvailableMimeTypesParams() : super(kStructSize);
@@ -113,7 +113,7 @@ class ClipboardGetAvailableMimeTypesParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -138,7 +138,7 @@ class ClipboardGetAvailableMimeTypesParams extends bindings.Struct {
 class ClipboardGetAvailableMimeTypesResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   List<String> types = null;
 
   ClipboardGetAvailableMimeTypesResponseParams() : super(kStructSize);
@@ -155,7 +155,7 @@ class ClipboardGetAvailableMimeTypesResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -196,7 +196,7 @@ class ClipboardGetAvailableMimeTypesResponseParams extends bindings.Struct {
 class ClipboardReadMimeTypeParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int clipboardType = 0;
   String mimeType = null;
 
@@ -214,7 +214,7 @@ class ClipboardReadMimeTypeParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -246,7 +246,7 @@ class ClipboardReadMimeTypeParams extends bindings.Struct {
 class ClipboardReadMimeTypeResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   List<int> data = null;
 
   ClipboardReadMimeTypeResponseParams() : super(kStructSize);
@@ -263,7 +263,7 @@ class ClipboardReadMimeTypeResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -288,7 +288,7 @@ class ClipboardReadMimeTypeResponseParams extends bindings.Struct {
 class ClipboardWriteClipboardDataParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int clipboardType = 0;
   Map<String, List<int>> data = null;
 
@@ -306,7 +306,7 @@ class ClipboardWriteClipboardDataParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

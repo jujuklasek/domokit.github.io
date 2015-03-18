@@ -12,7 +12,7 @@ import 'dart:mojo.core' as core;
 class RecipeChangeValue extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   List<int> oldValue = null;
   List<int> newValue = null;
 
@@ -30,7 +30,7 @@ class RecipeChangeValue extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -62,7 +62,7 @@ class RecipeChangeValue extends bindings.Struct {
 class RecipeValueStoreUpdateValuesParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Map<String, List<int>> values = null;
 
   RecipeValueStoreUpdateValuesParams() : super(kStructSize);
@@ -79,7 +79,7 @@ class RecipeValueStoreUpdateValuesParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -158,7 +158,7 @@ class RecipeValueStoreUpdateValuesParams extends bindings.Struct {
 class RecipeValueStoreSetObserverParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object observer = null;
 
   RecipeValueStoreSetObserverParams() : super(kStructSize);
@@ -175,7 +175,7 @@ class RecipeValueStoreSetObserverParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -200,7 +200,7 @@ class RecipeValueStoreSetObserverParams extends bindings.Struct {
 class RecipeValueStoreObserverOnValuesChangedParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Map<String, RecipeChangeValue> changedValues = null;
 
   RecipeValueStoreObserverOnValuesChangedParams() : super(kStructSize);
@@ -217,7 +217,7 @@ class RecipeValueStoreObserverOnValuesChangedParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

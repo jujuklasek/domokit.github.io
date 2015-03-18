@@ -14,7 +14,7 @@ import 'package:mojo/public/interfaces/application/shell.mojom.dart' as shell_mo
 class ApplicationInitializeParams extends bindings.Struct {
   static const int kStructSize = 32;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object shell = null;
   List<String> args = null;
   String url = null;
@@ -33,7 +33,7 @@ class ApplicationInitializeParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -90,7 +90,7 @@ class ApplicationInitializeParams extends bindings.Struct {
 class ApplicationAcceptConnectionParams extends bindings.Struct {
   static const int kStructSize = 32;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 4);
+      const bindings.StructDataHeader(kStructSize, 0);
   String requestorUrl = null;
   Object services = null;
   Object exposedServices = null;
@@ -110,7 +110,7 @@ class ApplicationAcceptConnectionParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 4)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

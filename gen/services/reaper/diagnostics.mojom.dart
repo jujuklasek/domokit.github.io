@@ -14,7 +14,7 @@ import 'package:services/reaper/scythe.mojom.dart' as scythe_mojom;
 class Node extends bindings.Struct {
   static const int kStructSize = 40;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 5);
+      const bindings.StructDataHeader(kStructSize, 0);
   String appUrl = null;
   int nodeId = 0;
   int otherId = 0;
@@ -35,7 +35,7 @@ class Node extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 5)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -122,7 +122,7 @@ class DiagnosticsDumpNodesParams extends bindings.Struct {
 class DiagnosticsDumpNodesResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   List<Node> nodes = null;
 
   DiagnosticsDumpNodesResponseParams() : super(kStructSize);
@@ -139,7 +139,7 @@ class DiagnosticsDumpNodesResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -215,7 +215,7 @@ class DiagnosticsResetParams extends bindings.Struct {
 class DiagnosticsGetReaperForAppParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   String appUrl = null;
   Object reaper = null;
 
@@ -233,7 +233,7 @@ class DiagnosticsGetReaperForAppParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -265,7 +265,7 @@ class DiagnosticsGetReaperForAppParams extends bindings.Struct {
 class DiagnosticsSetIsRootParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   String appUrl = null;
   bool isRoot = false;
 
@@ -283,7 +283,7 @@ class DiagnosticsSetIsRootParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -315,7 +315,7 @@ class DiagnosticsSetIsRootParams extends bindings.Struct {
 class DiagnosticsSetScytheParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object scythe = null;
 
   DiagnosticsSetScytheParams() : super(kStructSize);
@@ -332,7 +332,7 @@ class DiagnosticsSetScytheParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

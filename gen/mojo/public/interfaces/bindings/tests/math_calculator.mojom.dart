@@ -46,7 +46,7 @@ class CalculatorClearParams extends bindings.Struct {
 class CalculatorClearResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   double value = 0.0;
 
   CalculatorClearResponseParams() : super(kStructSize);
@@ -63,7 +63,7 @@ class CalculatorClearResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -88,7 +88,7 @@ class CalculatorClearResponseParams extends bindings.Struct {
 class CalculatorAddParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   double value = 0.0;
 
   CalculatorAddParams() : super(kStructSize);
@@ -105,7 +105,7 @@ class CalculatorAddParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -130,7 +130,7 @@ class CalculatorAddParams extends bindings.Struct {
 class CalculatorAddResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   double value = 0.0;
 
   CalculatorAddResponseParams() : super(kStructSize);
@@ -147,7 +147,7 @@ class CalculatorAddResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -172,7 +172,7 @@ class CalculatorAddResponseParams extends bindings.Struct {
 class CalculatorMultiplyParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   double value = 0.0;
 
   CalculatorMultiplyParams() : super(kStructSize);
@@ -189,7 +189,7 @@ class CalculatorMultiplyParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -214,7 +214,7 @@ class CalculatorMultiplyParams extends bindings.Struct {
 class CalculatorMultiplyResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   double value = 0.0;
 
   CalculatorMultiplyResponseParams() : super(kStructSize);
@@ -231,7 +231,7 @@ class CalculatorMultiplyResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

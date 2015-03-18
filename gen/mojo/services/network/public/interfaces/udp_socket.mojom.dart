@@ -48,7 +48,7 @@ class UdpSocketAllowAddressReuseParams extends bindings.Struct {
 class UdpSocketAllowAddressReuseResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   network_error_mojom.NetworkError result = null;
 
   UdpSocketAllowAddressReuseResponseParams() : super(kStructSize);
@@ -65,7 +65,7 @@ class UdpSocketAllowAddressReuseResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -91,7 +91,7 @@ class UdpSocketAllowAddressReuseResponseParams extends bindings.Struct {
 class UdpSocketBindParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   net_address_mojom.NetAddress addr = null;
 
   UdpSocketBindParams() : super(kStructSize);
@@ -108,7 +108,7 @@ class UdpSocketBindParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -134,7 +134,7 @@ class UdpSocketBindParams extends bindings.Struct {
 class UdpSocketBindResponseParams extends bindings.Struct {
   static const int kStructSize = 32;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   network_error_mojom.NetworkError result = null;
   net_address_mojom.NetAddress boundAddr = null;
   Object receiver = null;
@@ -153,7 +153,7 @@ class UdpSocketBindResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -194,7 +194,7 @@ class UdpSocketBindResponseParams extends bindings.Struct {
 class UdpSocketConnectParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   net_address_mojom.NetAddress remoteAddr = null;
 
   UdpSocketConnectParams() : super(kStructSize);
@@ -211,7 +211,7 @@ class UdpSocketConnectParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -237,7 +237,7 @@ class UdpSocketConnectParams extends bindings.Struct {
 class UdpSocketConnectResponseParams extends bindings.Struct {
   static const int kStructSize = 32;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   network_error_mojom.NetworkError result = null;
   net_address_mojom.NetAddress localAddr = null;
   Object receiver = null;
@@ -256,7 +256,7 @@ class UdpSocketConnectResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -297,7 +297,7 @@ class UdpSocketConnectResponseParams extends bindings.Struct {
 class UdpSocketSetSendBufferSizeParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int size = 0;
 
   UdpSocketSetSendBufferSizeParams() : super(kStructSize);
@@ -314,7 +314,7 @@ class UdpSocketSetSendBufferSizeParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -339,7 +339,7 @@ class UdpSocketSetSendBufferSizeParams extends bindings.Struct {
 class UdpSocketSetSendBufferSizeResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   network_error_mojom.NetworkError result = null;
 
   UdpSocketSetSendBufferSizeResponseParams() : super(kStructSize);
@@ -356,7 +356,7 @@ class UdpSocketSetSendBufferSizeResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -382,7 +382,7 @@ class UdpSocketSetSendBufferSizeResponseParams extends bindings.Struct {
 class UdpSocketSetReceiveBufferSizeParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int size = 0;
 
   UdpSocketSetReceiveBufferSizeParams() : super(kStructSize);
@@ -399,7 +399,7 @@ class UdpSocketSetReceiveBufferSizeParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -424,7 +424,7 @@ class UdpSocketSetReceiveBufferSizeParams extends bindings.Struct {
 class UdpSocketSetReceiveBufferSizeResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   network_error_mojom.NetworkError result = null;
 
   UdpSocketSetReceiveBufferSizeResponseParams() : super(kStructSize);
@@ -441,7 +441,7 @@ class UdpSocketSetReceiveBufferSizeResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -467,7 +467,7 @@ class UdpSocketSetReceiveBufferSizeResponseParams extends bindings.Struct {
 class UdpSocketNegotiateMaxPendingSendRequestsParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int requestedSize = 0;
 
   UdpSocketNegotiateMaxPendingSendRequestsParams() : super(kStructSize);
@@ -484,7 +484,7 @@ class UdpSocketNegotiateMaxPendingSendRequestsParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -509,7 +509,7 @@ class UdpSocketNegotiateMaxPendingSendRequestsParams extends bindings.Struct {
 class UdpSocketNegotiateMaxPendingSendRequestsResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int actualSize = 0;
 
   UdpSocketNegotiateMaxPendingSendRequestsResponseParams() : super(kStructSize);
@@ -526,7 +526,7 @@ class UdpSocketNegotiateMaxPendingSendRequestsResponseParams extends bindings.St
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -551,7 +551,7 @@ class UdpSocketNegotiateMaxPendingSendRequestsResponseParams extends bindings.St
 class UdpSocketReceiveMoreParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int datagramNumber = 0;
 
   UdpSocketReceiveMoreParams() : super(kStructSize);
@@ -568,7 +568,7 @@ class UdpSocketReceiveMoreParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -593,7 +593,7 @@ class UdpSocketReceiveMoreParams extends bindings.Struct {
 class UdpSocketSendToParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   net_address_mojom.NetAddress destAddr = null;
   List<int> data = null;
 
@@ -611,7 +611,7 @@ class UdpSocketSendToParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -644,7 +644,7 @@ class UdpSocketSendToParams extends bindings.Struct {
 class UdpSocketSendToResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   network_error_mojom.NetworkError result = null;
 
   UdpSocketSendToResponseParams() : super(kStructSize);
@@ -661,7 +661,7 @@ class UdpSocketSendToResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -687,7 +687,7 @@ class UdpSocketSendToResponseParams extends bindings.Struct {
 class UdpSocketReceiverOnReceivedParams extends bindings.Struct {
   static const int kStructSize = 32;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   network_error_mojom.NetworkError result = null;
   net_address_mojom.NetAddress srcAddr = null;
   List<int> data = null;
@@ -706,7 +706,7 @@ class UdpSocketReceiverOnReceivedParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

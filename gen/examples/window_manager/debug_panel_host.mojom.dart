@@ -47,7 +47,7 @@ class DebugPanelHostCloseTopWindowParams extends bindings.Struct {
 class DebugPanelHostNavigateToParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   String url = null;
 
   DebugPanelHostNavigateToParams() : super(kStructSize);
@@ -64,7 +64,7 @@ class DebugPanelHostNavigateToParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -89,7 +89,7 @@ class DebugPanelHostNavigateToParams extends bindings.Struct {
 class DebugPanelHostSetNavigationTargetParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int target = 0;
 
   DebugPanelHostSetNavigationTargetParams() : super(kStructSize);
@@ -106,7 +106,7 @@ class DebugPanelHostSetNavigationTargetParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

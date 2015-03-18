@@ -12,7 +12,7 @@ import 'dart:mojo.core' as core;
 class PingPongServiceSetClientParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object client = null;
 
   PingPongServiceSetClientParams() : super(kStructSize);
@@ -29,7 +29,7 @@ class PingPongServiceSetClientParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -54,7 +54,7 @@ class PingPongServiceSetClientParams extends bindings.Struct {
 class PingPongServicePingParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int pingValue = 0;
 
   PingPongServicePingParams() : super(kStructSize);
@@ -71,7 +71,7 @@ class PingPongServicePingParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -96,7 +96,7 @@ class PingPongServicePingParams extends bindings.Struct {
 class PingPongServicePingTargetUrlParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   String url = null;
   int count = 0;
 
@@ -114,7 +114,7 @@ class PingPongServicePingTargetUrlParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -146,7 +146,7 @@ class PingPongServicePingTargetUrlParams extends bindings.Struct {
 class PingPongServicePingTargetUrlResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool ok = false;
 
   PingPongServicePingTargetUrlResponseParams() : super(kStructSize);
@@ -163,7 +163,7 @@ class PingPongServicePingTargetUrlResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -188,7 +188,7 @@ class PingPongServicePingTargetUrlResponseParams extends bindings.Struct {
 class PingPongServicePingTargetServiceParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object service = null;
   int count = 0;
 
@@ -206,7 +206,7 @@ class PingPongServicePingTargetServiceParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -238,7 +238,7 @@ class PingPongServicePingTargetServiceParams extends bindings.Struct {
 class PingPongServicePingTargetServiceResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool ok = false;
 
   PingPongServicePingTargetServiceResponseParams() : super(kStructSize);
@@ -255,7 +255,7 @@ class PingPongServicePingTargetServiceResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -280,7 +280,7 @@ class PingPongServicePingTargetServiceResponseParams extends bindings.Struct {
 class PingPongServiceGetPingPongServiceParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object service = null;
 
   PingPongServiceGetPingPongServiceParams() : super(kStructSize);
@@ -297,7 +297,7 @@ class PingPongServiceGetPingPongServiceParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -356,7 +356,7 @@ class PingPongServiceQuitParams extends bindings.Struct {
 class PingPongClientPongParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int pongValue = 0;
 
   PingPongClientPongParams() : super(kStructSize);
@@ -373,7 +373,7 @@ class PingPongClientPongParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

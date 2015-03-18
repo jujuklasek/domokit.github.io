@@ -46,7 +46,7 @@ class IntegerServiceIncrementParams extends bindings.Struct {
 class IntegerServiceIncrementResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int value = 0;
 
   IntegerServiceIncrementResponseParams() : super(kStructSize);
@@ -63,7 +63,7 @@ class IntegerServiceIncrementResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -88,7 +88,7 @@ class IntegerServiceIncrementResponseParams extends bindings.Struct {
 class IndirectIntegerServiceSetParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object service = null;
 
   IndirectIntegerServiceSetParams() : super(kStructSize);
@@ -105,7 +105,7 @@ class IndirectIntegerServiceSetParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -130,7 +130,7 @@ class IndirectIntegerServiceSetParams extends bindings.Struct {
 class IndirectIntegerServiceGetParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object service = null;
 
   IndirectIntegerServiceGetParams() : super(kStructSize);
@@ -147,7 +147,7 @@ class IndirectIntegerServiceGetParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

@@ -16,7 +16,7 @@ final int Color_BLACK = Color_RED + 1;
 class Size extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int width = 0;
   int height = 0;
 
@@ -34,7 +34,7 @@ class Size extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -66,7 +66,7 @@ class Size extends bindings.Struct {
 class Thing extends bindings.Struct {
   static const int kStructSize = 32;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 4);
+      const bindings.StructDataHeader(kStructSize, 0);
   int shape = sample_import_mojom.Shape_RECTANGLE;
   int color = Color_BLACK;
   sample_import_mojom.Point location = null;
@@ -86,7 +86,7 @@ class Thing extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 4)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

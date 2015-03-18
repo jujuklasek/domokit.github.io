@@ -32,7 +32,7 @@ final int SensorType_STEP_DETECTOR = SensorType_STEP_COUNTER + 1;
 class SensorData extends bindings.Struct {
   static const int kStructSize = 32;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   int accuracy = 0;
   int timeStamp = 0;
   List<double> values = null;
@@ -51,7 +51,7 @@ class SensorData extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -90,7 +90,7 @@ class SensorData extends bindings.Struct {
 class SensorListenerOnAccuracyChangedParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int accuracy = 0;
 
   SensorListenerOnAccuracyChangedParams() : super(kStructSize);
@@ -107,7 +107,7 @@ class SensorListenerOnAccuracyChangedParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -132,7 +132,7 @@ class SensorListenerOnAccuracyChangedParams extends bindings.Struct {
 class SensorListenerOnSensorChangedParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   SensorData data = null;
 
   SensorListenerOnSensorChangedParams() : super(kStructSize);
@@ -149,7 +149,7 @@ class SensorListenerOnSensorChangedParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -175,7 +175,7 @@ class SensorListenerOnSensorChangedParams extends bindings.Struct {
 class SensorServiceAddListenerParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int type = 0;
   Object listener = null;
 
@@ -193,7 +193,7 @@ class SensorServiceAddListenerParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

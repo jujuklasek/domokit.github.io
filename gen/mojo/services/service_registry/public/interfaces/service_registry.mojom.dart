@@ -13,7 +13,7 @@ import 'package:mojo/public/interfaces/application/service_provider.mojom.dart' 
 class ServiceRegistryAddServicesParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   List<String> interfaceNames = null;
   Object serviceProvider = null;
 
@@ -31,7 +31,7 @@ class ServiceRegistryAddServicesParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

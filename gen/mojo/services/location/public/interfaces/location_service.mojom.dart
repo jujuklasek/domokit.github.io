@@ -13,7 +13,7 @@ import 'package:mojo/services/location/public/interfaces/location.mojom.dart' as
 class LocationServiceGetNextLocationParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int priority = 0;
 
   LocationServiceGetNextLocationParams() : super(kStructSize);
@@ -30,7 +30,7 @@ class LocationServiceGetNextLocationParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -55,7 +55,7 @@ class LocationServiceGetNextLocationParams extends bindings.Struct {
 class LocationServiceGetNextLocationResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   location_mojom.Location location = null;
 
   LocationServiceGetNextLocationResponseParams() : super(kStructSize);
@@ -72,7 +72,7 @@ class LocationServiceGetNextLocationResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

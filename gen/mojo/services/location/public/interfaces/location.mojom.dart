@@ -12,7 +12,7 @@ import 'dart:mojo.core' as core;
 class Location extends bindings.Struct {
   static const int kStructSize = 64;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 13);
+      const bindings.StructDataHeader(kStructSize, 0);
   int time = 0;
   bool hasElapsedRealTimeNanos = false;
   bool hasAltitude = false;
@@ -41,7 +41,7 @@ class Location extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 13)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

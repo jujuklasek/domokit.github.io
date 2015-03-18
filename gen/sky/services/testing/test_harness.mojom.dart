@@ -13,7 +13,7 @@ import 'package:mojo/services/input_events/public/interfaces/input_events.mojom.
 class TestHarnessOnTestCompleteParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   String testResult = null;
   List<int> pixels = null;
 
@@ -31,7 +31,7 @@ class TestHarnessOnTestCompleteParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -63,7 +63,7 @@ class TestHarnessOnTestCompleteParams extends bindings.Struct {
 class TestHarnessDispatchInputEventParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   input_events_mojom.Event event = null;
 
   TestHarnessDispatchInputEventParams() : super(kStructSize);
@@ -80,7 +80,7 @@ class TestHarnessDispatchInputEventParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

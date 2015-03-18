@@ -15,7 +15,7 @@ import 'package:mojo/services/input_events/public/interfaces/input_key_codes.moj
 class LocationData extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   geometry_mojom.Point inViewLocation = null;
   geometry_mojom.Point screenLocation = null;
 
@@ -33,7 +33,7 @@ class LocationData extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -67,7 +67,7 @@ class LocationData extends bindings.Struct {
 class KeyData extends bindings.Struct {
   static const int kStructSize = 32;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 7);
+      const bindings.StructDataHeader(kStructSize, 0);
   int keyCode = 0;
   bool isChar = false;
   int character = 0;
@@ -90,7 +90,7 @@ class KeyData extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 7)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -157,7 +157,7 @@ class KeyData extends bindings.Struct {
 class TouchData extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int pointerId = 0;
 
   TouchData() : super(kStructSize);
@@ -174,7 +174,7 @@ class TouchData extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -199,7 +199,7 @@ class TouchData extends bindings.Struct {
 class GestureData extends bindings.Struct {
   static const int kStructSize = 48;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 11);
+      const bindings.StructDataHeader(kStructSize, 0);
   geometry_mojom.RectF boundingBox = null;
   double scrollX = 0.0;
   double scrollY = 0.0;
@@ -226,7 +226,7 @@ class GestureData extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 11)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -322,7 +322,7 @@ class GestureData extends bindings.Struct {
 class MouseWheelData extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int xOffset = 0;
   int yOffset = 0;
 
@@ -340,7 +340,7 @@ class MouseWheelData extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -372,7 +372,7 @@ class MouseWheelData extends bindings.Struct {
 class Event extends bindings.Struct {
   static const int kStructSize = 64;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 8);
+      const bindings.StructDataHeader(kStructSize, 0);
   int action = 0;
   int flags = 0;
   int timeStamp = 0;
@@ -396,7 +396,7 @@ class Event extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 8)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

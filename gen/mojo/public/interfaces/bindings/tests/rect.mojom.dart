@@ -12,7 +12,7 @@ import 'dart:mojo.core' as core;
 class Rect extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 4);
+      const bindings.StructDataHeader(kStructSize, 0);
   int x = 0;
   int y = 0;
   int width = 0;
@@ -32,7 +32,7 @@ class Rect extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 4)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

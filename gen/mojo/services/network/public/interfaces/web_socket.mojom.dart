@@ -13,7 +13,7 @@ import 'package:mojo/services/network/public/interfaces/network_error.mojom.dart
 class WebSocketConnectParams extends bindings.Struct {
   static const int kStructSize = 40;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 5);
+      const bindings.StructDataHeader(kStructSize, 0);
   String url = null;
   List<String> protocols = null;
   String origin = null;
@@ -34,7 +34,7 @@ class WebSocketConnectParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 5)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -103,7 +103,7 @@ class WebSocketConnectParams extends bindings.Struct {
 class WebSocketSendParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool fin = false;
   int type = 0;
   int numBytes = 0;
@@ -122,7 +122,7 @@ class WebSocketSendParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -161,7 +161,7 @@ class WebSocketSendParams extends bindings.Struct {
 class WebSocketFlowControlParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int quota = 0;
 
   WebSocketFlowControlParams() : super(kStructSize);
@@ -178,7 +178,7 @@ class WebSocketFlowControlParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -203,7 +203,7 @@ class WebSocketFlowControlParams extends bindings.Struct {
 class WebSocketCloseParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int code = 0;
   String reason = null;
 
@@ -221,7 +221,7 @@ class WebSocketCloseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -253,7 +253,7 @@ class WebSocketCloseParams extends bindings.Struct {
 class WebSocketClientDidConnectParams extends bindings.Struct {
   static const int kStructSize = 32;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   String selectedSubprotocol = null;
   String extensions = null;
   core.MojoDataPipeConsumer receiveStream = null;
@@ -272,7 +272,7 @@ class WebSocketClientDidConnectParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -311,7 +311,7 @@ class WebSocketClientDidConnectParams extends bindings.Struct {
 class WebSocketClientDidReceiveDataParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool fin = false;
   int type = 0;
   int numBytes = 0;
@@ -330,7 +330,7 @@ class WebSocketClientDidReceiveDataParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -369,7 +369,7 @@ class WebSocketClientDidReceiveDataParams extends bindings.Struct {
 class WebSocketClientDidReceiveFlowControlParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int quota = 0;
 
   WebSocketClientDidReceiveFlowControlParams() : super(kStructSize);
@@ -386,7 +386,7 @@ class WebSocketClientDidReceiveFlowControlParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -411,7 +411,7 @@ class WebSocketClientDidReceiveFlowControlParams extends bindings.Struct {
 class WebSocketClientDidFailParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   String message = null;
 
   WebSocketClientDidFailParams() : super(kStructSize);
@@ -428,7 +428,7 @@ class WebSocketClientDidFailParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -453,7 +453,7 @@ class WebSocketClientDidFailParams extends bindings.Struct {
 class WebSocketClientDidCloseParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool wasClean = false;
   int code = 0;
   String reason = null;
@@ -472,7 +472,7 @@ class WebSocketClientDidCloseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

@@ -12,7 +12,7 @@ import 'dart:mojo.core' as core;
 class HttpResponse extends bindings.Struct {
   static const int kStructSize = 40;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 5);
+      const bindings.StructDataHeader(kStructSize, 0);
   int statusCode = 200;
   core.MojoDataPipeConsumer body = null;
   int contentLength = 0;
@@ -33,7 +33,7 @@ class HttpResponse extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 5)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

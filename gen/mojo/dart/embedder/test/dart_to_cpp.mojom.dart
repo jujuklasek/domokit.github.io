@@ -12,7 +12,7 @@ import 'dart:mojo.core' as core;
 class EchoArgs extends bindings.Struct {
   static const int kStructSize = 104;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 18);
+      const bindings.StructDataHeader(kStructSize, 0);
   int si64 = 0;
   int si32 = 0;
   int si16 = 0;
@@ -46,7 +46,7 @@ class EchoArgs extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 18)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -208,7 +208,7 @@ class EchoArgs extends bindings.Struct {
 class EchoArgsList extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   EchoArgsList next = null;
   EchoArgs item = null;
 
@@ -226,7 +226,7 @@ class EchoArgsList extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -362,7 +362,7 @@ class CppSidePingResponseParams extends bindings.Struct {
 class CppSideEchoResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   EchoArgsList list = null;
 
   CppSideEchoResponseParams() : super(kStructSize);
@@ -379,7 +379,7 @@ class CppSideEchoResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -405,7 +405,7 @@ class CppSideEchoResponseParams extends bindings.Struct {
 class DartSideSetClientParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object cppSide = null;
 
   DartSideSetClientParams() : super(kStructSize);
@@ -422,7 +422,7 @@ class DartSideSetClientParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -481,7 +481,7 @@ class DartSidePingParams extends bindings.Struct {
 class DartSideEchoParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int numIterations = 0;
   EchoArgs arg = null;
 
@@ -499,7 +499,7 @@ class DartSideEchoParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

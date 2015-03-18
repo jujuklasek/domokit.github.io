@@ -12,7 +12,7 @@ import 'dart:mojo.core' as core;
 class TraceControllerStartTracingParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   String categories = null;
   Object collector = null;
 
@@ -30,7 +30,7 @@ class TraceControllerStartTracingParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -96,7 +96,7 @@ class TraceControllerStopTracingParams extends bindings.Struct {
 class TraceDataCollectorDataCollectedParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   String json = null;
 
   TraceDataCollectorDataCollectedParams() : super(kStructSize);
@@ -113,7 +113,7 @@ class TraceDataCollectorDataCollectedParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -138,7 +138,7 @@ class TraceDataCollectorDataCollectedParams extends bindings.Struct {
 class TraceCoordinatorStartParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   core.MojoDataPipeProducer stream = null;
   String categories = null;
 
@@ -156,7 +156,7 @@ class TraceCoordinatorStartParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

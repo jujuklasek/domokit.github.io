@@ -12,7 +12,7 @@ import 'dart:mojo.core' as core;
 class IcuDataMapParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   String sha1hash = null;
 
   IcuDataMapParams() : super(kStructSize);
@@ -29,7 +29,7 @@ class IcuDataMapParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -54,7 +54,7 @@ class IcuDataMapParams extends bindings.Struct {
 class IcuDataMapResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   core.MojoSharedBuffer icuData = null;
 
   IcuDataMapResponseParams() : super(kStructSize);
@@ -71,7 +71,7 @@ class IcuDataMapResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

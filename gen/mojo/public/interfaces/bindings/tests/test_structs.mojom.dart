@@ -13,7 +13,7 @@ import 'package:mojo/public/interfaces/bindings/tests/rect.mojom.dart' as rect_m
 class NamedRegion extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   String name = null;
   List<rect_mojom.Rect> rects = null;
 
@@ -31,7 +31,7 @@ class NamedRegion extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -82,7 +82,7 @@ class NamedRegion extends bindings.Struct {
 class RectPair extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   rect_mojom.Rect first = null;
   rect_mojom.Rect second = null;
 
@@ -100,7 +100,7 @@ class RectPair extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -168,7 +168,7 @@ class EmptyStruct extends bindings.Struct {
 class NoDefaultFieldValues extends bindings.Struct {
   static const int kStructSize = 160;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 29);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool f0 = false;
   int f1 = 0;
   int f2 = 0;
@@ -213,7 +213,7 @@ class NoDefaultFieldValues extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 29)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -504,7 +504,7 @@ class NoDefaultFieldValues extends bindings.Struct {
 class DefaultFieldValues extends bindings.Struct {
   static const int kStructSize = 96;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 17);
+      const bindings.StructDataHeader(kStructSize, 0);
   static final kFoo = "foo";
   bool f0 = true;
   int f1 = 100;
@@ -538,7 +538,7 @@ class DefaultFieldValues extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 17)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -677,7 +677,7 @@ class DefaultFieldValues extends bindings.Struct {
 class ScopedConstants extends bindings.Struct {
   static const int kStructSize = 40;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 7);
+      const bindings.StructDataHeader(kStructSize, 0);
   
   static final int EType_E0 = 0;
   static final int EType_E1 = EType_E0 + 1;
@@ -709,7 +709,7 @@ class ScopedConstants extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 7)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -776,7 +776,7 @@ class ScopedConstants extends bindings.Struct {
 class MapKeyTypes extends bindings.Struct {
   static const int kStructSize = 104;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 12);
+      const bindings.StructDataHeader(kStructSize, 0);
   Map<bool, bool> f0 = null;
   Map<int, int> f1 = null;
   Map<int, int> f2 = null;
@@ -804,7 +804,7 @@ class MapKeyTypes extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 12)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -1246,7 +1246,7 @@ class MapKeyTypes extends bindings.Struct {
 class MapValueTypes extends bindings.Struct {
   static const int kStructSize = 80;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 9);
+      const bindings.StructDataHeader(kStructSize, 0);
   Map<String, List<String>> f0 = null;
   Map<String, List<String>> f1 = null;
   Map<String, List<String>> f2 = null;
@@ -1271,7 +1271,7 @@ class MapValueTypes extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 9)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -2095,7 +2095,7 @@ class MapValueTypes extends bindings.Struct {
 class ArrayValueTypes extends bindings.Struct {
   static const int kStructSize = 56;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 6);
+      const bindings.StructDataHeader(kStructSize, 0);
   List<int> f0 = null;
   List<int> f1 = null;
   List<int> f2 = null;
@@ -2117,7 +2117,7 @@ class ArrayValueTypes extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 6)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -2177,7 +2177,7 @@ class ArrayValueTypes extends bindings.Struct {
 class FloatNumberValues extends bindings.Struct {
   static const int kStructSize = 72;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 10);
+      const bindings.StructDataHeader(kStructSize, 0);
   static final V0 = double.INFINITY;
   static final V1 = double.NEGATIVE_INFINITY;
   static final V2 = double.NAN;
@@ -2213,7 +2213,7 @@ class FloatNumberValues extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 10)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -2301,7 +2301,7 @@ class FloatNumberValues extends bindings.Struct {
 class IntegerNumberValues extends bindings.Struct {
   static const int kStructSize = 88;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 20);
+      const bindings.StructDataHeader(kStructSize, 0);
   static final V0 = -128;
   static final V1 = -1;
   static final V2 = 0;
@@ -2357,7 +2357,7 @@ class IntegerNumberValues extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 20)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -2515,7 +2515,7 @@ class IntegerNumberValues extends bindings.Struct {
 class UnsignedNumberValues extends bindings.Struct {
   static const int kStructSize = 56;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 12);
+      const bindings.StructDataHeader(kStructSize, 0);
   static final V0 = 0;
   static final V1 = 42;
   static final V2 = 0xFF;
@@ -2555,7 +2555,7 @@ class UnsignedNumberValues extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 12)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -2657,7 +2657,7 @@ class UnsignedNumberValues extends bindings.Struct {
 class BitArrayValues extends bindings.Struct {
   static const int kStructSize = 64;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 7);
+      const bindings.StructDataHeader(kStructSize, 0);
   List<bool> f0 = null;
   List<bool> f1 = null;
   List<bool> f2 = null;
@@ -2680,7 +2680,7 @@ class BitArrayValues extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 7)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

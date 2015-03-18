@@ -13,7 +13,7 @@ import 'package:mojo/services/gpu/public/interfaces/gpu_capabilities.mojom.dart'
 class CommandBufferState extends bindings.Struct {
   static const int kStructSize = 40;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 7);
+      const bindings.StructDataHeader(kStructSize, 0);
   int numEntries = 0;
   int getOffset = 0;
   int putOffset = 0;
@@ -36,7 +36,7 @@ class CommandBufferState extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 7)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -103,7 +103,7 @@ class CommandBufferState extends bindings.Struct {
 class CommandBufferSyncClientDidInitializeParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool success = false;
   gpu_capabilities_mojom.GpuCapabilities capabilities = null;
 
@@ -121,7 +121,7 @@ class CommandBufferSyncClientDidInitializeParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -154,7 +154,7 @@ class CommandBufferSyncClientDidInitializeParams extends bindings.Struct {
 class CommandBufferSyncClientDidMakeProgressParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   CommandBufferState state = null;
 
   CommandBufferSyncClientDidMakeProgressParams() : super(kStructSize);
@@ -171,7 +171,7 @@ class CommandBufferSyncClientDidMakeProgressParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -197,7 +197,7 @@ class CommandBufferSyncClientDidMakeProgressParams extends bindings.Struct {
 class CommandBufferSyncPointClientDidInsertSyncPointParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int syncPoint = 0;
 
   CommandBufferSyncPointClientDidInsertSyncPointParams() : super(kStructSize);
@@ -214,7 +214,7 @@ class CommandBufferSyncPointClientDidInsertSyncPointParams extends bindings.Stru
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -239,7 +239,7 @@ class CommandBufferSyncPointClientDidInsertSyncPointParams extends bindings.Stru
 class CommandBufferLostContextObserverDidLoseContextParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int contextLostReason = 0;
 
   CommandBufferLostContextObserverDidLoseContextParams() : super(kStructSize);
@@ -256,7 +256,7 @@ class CommandBufferLostContextObserverDidLoseContextParams extends bindings.Stru
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -281,7 +281,7 @@ class CommandBufferLostContextObserverDidLoseContextParams extends bindings.Stru
 class CommandBufferInitializeParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 4);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object syncClient = null;
   Object syncPointClient = null;
   Object lostObserver = null;
@@ -301,7 +301,7 @@ class CommandBufferInitializeParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 4)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -347,7 +347,7 @@ class CommandBufferInitializeParams extends bindings.Struct {
 class CommandBufferSetGetBufferParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int buffer = 0;
 
   CommandBufferSetGetBufferParams() : super(kStructSize);
@@ -364,7 +364,7 @@ class CommandBufferSetGetBufferParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -389,7 +389,7 @@ class CommandBufferSetGetBufferParams extends bindings.Struct {
 class CommandBufferFlushParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int putOffset = 0;
 
   CommandBufferFlushParams() : super(kStructSize);
@@ -406,7 +406,7 @@ class CommandBufferFlushParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -431,7 +431,7 @@ class CommandBufferFlushParams extends bindings.Struct {
 class CommandBufferMakeProgressParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int lastGetOffset = 0;
 
   CommandBufferMakeProgressParams() : super(kStructSize);
@@ -448,7 +448,7 @@ class CommandBufferMakeProgressParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -473,7 +473,7 @@ class CommandBufferMakeProgressParams extends bindings.Struct {
 class CommandBufferRegisterTransferBufferParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   int id = 0;
   core.MojoSharedBuffer transferBuffer = null;
   int size = 0;
@@ -492,7 +492,7 @@ class CommandBufferRegisterTransferBufferParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -531,7 +531,7 @@ class CommandBufferRegisterTransferBufferParams extends bindings.Struct {
 class CommandBufferDestroyTransferBufferParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int id = 0;
 
   CommandBufferDestroyTransferBufferParams() : super(kStructSize);
@@ -548,7 +548,7 @@ class CommandBufferDestroyTransferBufferParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -573,7 +573,7 @@ class CommandBufferDestroyTransferBufferParams extends bindings.Struct {
 class CommandBufferInsertSyncPointParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool retire = false;
 
   CommandBufferInsertSyncPointParams() : super(kStructSize);
@@ -590,7 +590,7 @@ class CommandBufferInsertSyncPointParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -615,7 +615,7 @@ class CommandBufferInsertSyncPointParams extends bindings.Struct {
 class CommandBufferRetireSyncPointParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int syncPoint = 0;
 
   CommandBufferRetireSyncPointParams() : super(kStructSize);
@@ -632,7 +632,7 @@ class CommandBufferRetireSyncPointParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

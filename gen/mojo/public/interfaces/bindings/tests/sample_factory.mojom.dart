@@ -13,7 +13,7 @@ import 'package:mojo/public/interfaces/bindings/tests/sample_import.mojom.dart' 
 class Request extends bindings.Struct {
   static const int kStructSize = 32;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 4);
+      const bindings.StructDataHeader(kStructSize, 0);
   int x = 0;
   core.MojoMessagePipeEndpoint pipe = null;
   List<core.MojoMessagePipeEndpoint> morePipes = null;
@@ -33,7 +33,7 @@ class Request extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 4)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -79,7 +79,7 @@ class Request extends bindings.Struct {
 class Response extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int x = 0;
   core.MojoMessagePipeEndpoint pipe = null;
 
@@ -97,7 +97,7 @@ class Response extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -129,7 +129,7 @@ class Response extends bindings.Struct {
 class NamedObjectSetNameParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   String name = null;
 
   NamedObjectSetNameParams() : super(kStructSize);
@@ -146,7 +146,7 @@ class NamedObjectSetNameParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -205,7 +205,7 @@ class NamedObjectGetNameParams extends bindings.Struct {
 class NamedObjectGetNameResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   String name = null;
 
   NamedObjectGetNameResponseParams() : super(kStructSize);
@@ -222,7 +222,7 @@ class NamedObjectGetNameResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -247,7 +247,7 @@ class NamedObjectGetNameResponseParams extends bindings.Struct {
 class FactoryDoStuffParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   Request request = null;
   core.MojoMessagePipeEndpoint pipe = null;
 
@@ -265,7 +265,7 @@ class FactoryDoStuffParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -298,7 +298,7 @@ class FactoryDoStuffParams extends bindings.Struct {
 class FactoryDoStuffResponseParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   Response response = null;
   String text = null;
 
@@ -316,7 +316,7 @@ class FactoryDoStuffResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -349,7 +349,7 @@ class FactoryDoStuffResponseParams extends bindings.Struct {
 class FactoryDoStuff2Params extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   core.MojoDataPipeConsumer pipe = null;
 
   FactoryDoStuff2Params() : super(kStructSize);
@@ -366,7 +366,7 @@ class FactoryDoStuff2Params extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -391,7 +391,7 @@ class FactoryDoStuff2Params extends bindings.Struct {
 class FactoryDoStuff2ResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   String text = null;
 
   FactoryDoStuff2ResponseParams() : super(kStructSize);
@@ -408,7 +408,7 @@ class FactoryDoStuff2ResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -433,7 +433,7 @@ class FactoryDoStuff2ResponseParams extends bindings.Struct {
 class FactoryCreateNamedObjectParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object obj = null;
 
   FactoryCreateNamedObjectParams() : super(kStructSize);
@@ -450,7 +450,7 @@ class FactoryCreateNamedObjectParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -475,7 +475,7 @@ class FactoryCreateNamedObjectParams extends bindings.Struct {
 class FactoryRequestImportedInterfaceParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object obj = null;
 
   FactoryRequestImportedInterfaceParams() : super(kStructSize);
@@ -492,7 +492,7 @@ class FactoryRequestImportedInterfaceParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -517,7 +517,7 @@ class FactoryRequestImportedInterfaceParams extends bindings.Struct {
 class FactoryRequestImportedInterfaceResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object obj = null;
 
   FactoryRequestImportedInterfaceResponseParams() : super(kStructSize);
@@ -534,7 +534,7 @@ class FactoryRequestImportedInterfaceResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -559,7 +559,7 @@ class FactoryRequestImportedInterfaceResponseParams extends bindings.Struct {
 class FactoryTakeImportedInterfaceParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object obj = null;
 
   FactoryTakeImportedInterfaceParams() : super(kStructSize);
@@ -576,7 +576,7 @@ class FactoryTakeImportedInterfaceParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -601,7 +601,7 @@ class FactoryTakeImportedInterfaceParams extends bindings.Struct {
 class FactoryTakeImportedInterfaceResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object obj = null;
 
   FactoryTakeImportedInterfaceResponseParams() : super(kStructSize);
@@ -618,7 +618,7 @@ class FactoryTakeImportedInterfaceResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

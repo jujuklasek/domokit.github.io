@@ -14,7 +14,7 @@ import 'package:mojo/services/http_server/public/interfaces/http_server.mojom.da
 class HttpServerFactoryCreateHttpServerParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object serverRequest = null;
   net_address_mojom.NetAddress localAddress = null;
 
@@ -32,7 +32,7 @@ class HttpServerFactoryCreateHttpServerParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

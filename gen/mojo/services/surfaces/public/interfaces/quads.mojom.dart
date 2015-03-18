@@ -63,7 +63,7 @@ final int SkXfermode_kLastMode = SkXfermode_kLuminosity_Mode;
 class Color extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int rgba = 0;
 
   Color() : super(kStructSize);
@@ -80,7 +80,7 @@ class Color extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -207,7 +207,7 @@ class IoSurfaceContentQuadState extends bindings.Struct {
 class RenderPassId extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int layerId = 0;
   int index = 0;
 
@@ -225,7 +225,7 @@ class RenderPassId extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -257,7 +257,7 @@ class RenderPassId extends bindings.Struct {
 class RenderPassQuadState extends bindings.Struct {
   static const int kStructSize = 48;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 5);
+      const bindings.StructDataHeader(kStructSize, 0);
   RenderPassId renderPassId = null;
   int maskResourceId = 0;
   geometry_mojom.PointF maskUvScale = null;
@@ -278,7 +278,7 @@ class RenderPassQuadState extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 5)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -335,7 +335,7 @@ class RenderPassQuadState extends bindings.Struct {
 class SolidColorQuadState extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   Color color = null;
   bool forceAntiAliasingOff = false;
 
@@ -353,7 +353,7 @@ class SolidColorQuadState extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -386,7 +386,7 @@ class SolidColorQuadState extends bindings.Struct {
 class SurfaceQuadState extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   surface_id_mojom.SurfaceId surface = null;
 
   SurfaceQuadState() : super(kStructSize);
@@ -403,7 +403,7 @@ class SurfaceQuadState extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -429,7 +429,7 @@ class SurfaceQuadState extends bindings.Struct {
 class TextureQuadState extends bindings.Struct {
   static const int kStructSize = 48;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 8);
+      const bindings.StructDataHeader(kStructSize, 0);
   int resourceId = 0;
   bool premultipliedAlpha = false;
   bool flipped = false;
@@ -453,7 +453,7 @@ class TextureQuadState extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 8)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -530,7 +530,7 @@ class TextureQuadState extends bindings.Struct {
 class TileQuadState extends bindings.Struct {
   static const int kStructSize = 32;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 5);
+      const bindings.StructDataHeader(kStructSize, 0);
   geometry_mojom.RectF texCoordRect = null;
   geometry_mojom.Size textureSize = null;
   bool swizzleContents = false;
@@ -551,7 +551,7 @@ class TileQuadState extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 5)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -640,7 +640,7 @@ class StreamVideoQuadState extends bindings.Struct {
 class YuvVideoQuadState extends bindings.Struct {
   static const int kStructSize = 40;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 6);
+      const bindings.StructDataHeader(kStructSize, 0);
   geometry_mojom.RectF texCoordRect = null;
   int yPlaneResourceId = 0;
   int uPlaneResourceId = 0;
@@ -662,7 +662,7 @@ class YuvVideoQuadState extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 6)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -723,7 +723,7 @@ class YuvVideoQuadState extends bindings.Struct {
 class Quad extends bindings.Struct {
   static const int kStructSize = 128;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 16);
+      const bindings.StructDataHeader(kStructSize, 0);
   int material = 0;
   bool needsBlending = false;
   geometry_mojom.Rect rect = null;
@@ -755,7 +755,7 @@ class Quad extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 16)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -898,7 +898,7 @@ class Quad extends bindings.Struct {
 class SharedQuadState extends bindings.Struct {
   static const int kStructSize = 56;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 8);
+      const bindings.StructDataHeader(kStructSize, 0);
   geometry_mojom.Transform contentToTargetTransform = null;
   geometry_mojom.Size contentBounds = null;
   geometry_mojom.Rect visibleContentRect = null;
@@ -922,7 +922,7 @@ class SharedQuadState extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 8)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -1000,7 +1000,7 @@ class SharedQuadState extends bindings.Struct {
 class Pass extends bindings.Struct {
   static const int kStructSize = 56;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 7);
+      const bindings.StructDataHeader(kStructSize, 0);
   int id = 0;
   bool hasTransparentBackground = false;
   geometry_mojom.Rect outputRect = null;
@@ -1023,7 +1023,7 @@ class Pass extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 7)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

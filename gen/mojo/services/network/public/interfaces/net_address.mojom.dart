@@ -16,7 +16,7 @@ final int NetAddressFamily_IPV6 = NetAddressFamily_IPV4 + 1;
 class NetAddressIPv4 extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int port = 0;
   List<int> addr = null;
 
@@ -34,7 +34,7 @@ class NetAddressIPv4 extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -66,7 +66,7 @@ class NetAddressIPv4 extends bindings.Struct {
 class NetAddressIPv6 extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int port = 0;
   List<int> addr = null;
 
@@ -84,7 +84,7 @@ class NetAddressIPv6 extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -116,7 +116,7 @@ class NetAddressIPv6 extends bindings.Struct {
 class NetAddress extends bindings.Struct {
   static const int kStructSize = 32;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   int family = NetAddressFamily_UNSPECIFIED;
   NetAddressIPv4 ipv4 = null;
   NetAddressIPv6 ipv6 = null;
@@ -135,7 +135,7 @@ class NetAddress extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

@@ -15,7 +15,7 @@ import 'package:mojo/services/network/public/interfaces/tcp_connected_socket.moj
 class TcpServerSocketAcceptParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   core.MojoDataPipeConsumer sendStream = null;
   core.MojoDataPipeProducer receiveStream = null;
   Object clientSocket = null;
@@ -34,7 +34,7 @@ class TcpServerSocketAcceptParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -73,7 +73,7 @@ class TcpServerSocketAcceptParams extends bindings.Struct {
 class TcpServerSocketAcceptResponseParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   network_error_mojom.NetworkError result = null;
   net_address_mojom.NetAddress remoteAddress = null;
 
@@ -91,7 +91,7 @@ class TcpServerSocketAcceptResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

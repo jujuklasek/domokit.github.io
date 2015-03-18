@@ -12,7 +12,7 @@ import 'dart:mojo.core' as core;
 class GpuShaderPrecision extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   int minRange = 0;
   int maxRange = 0;
   int precision = 0;
@@ -31,7 +31,7 @@ class GpuShaderPrecision extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -70,7 +70,7 @@ class GpuShaderPrecision extends bindings.Struct {
 class GpuPerStagePrecisions extends bindings.Struct {
   static const int kStructSize = 56;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 6);
+      const bindings.StructDataHeader(kStructSize, 0);
   GpuShaderPrecision lowInt = null;
   GpuShaderPrecision mediumInt = null;
   GpuShaderPrecision highInt = null;
@@ -92,7 +92,7 @@ class GpuPerStagePrecisions extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 6)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -158,7 +158,7 @@ class GpuPerStagePrecisions extends bindings.Struct {
 class GpuCapabilities extends bindings.Struct {
   static const int kStructSize = 80;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 30);
+      const bindings.StructDataHeader(kStructSize, 0);
   GpuPerStagePrecisions vertexShaderPrecisions = null;
   GpuPerStagePrecisions fragmentShaderPrecisions = null;
   int maxCombinedTextureImageUnits = 0;
@@ -204,7 +204,7 @@ class GpuCapabilities extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 30)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

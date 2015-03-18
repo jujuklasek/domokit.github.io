@@ -20,7 +20,7 @@ import 'package:mojo/services/network/public/interfaces/web_socket.mojom.dart' a
 class NetworkServiceCreateUrlLoaderParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object loader = null;
 
   NetworkServiceCreateUrlLoaderParams() : super(kStructSize);
@@ -37,7 +37,7 @@ class NetworkServiceCreateUrlLoaderParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -62,7 +62,7 @@ class NetworkServiceCreateUrlLoaderParams extends bindings.Struct {
 class NetworkServiceGetCookieStoreParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object cookieStore = null;
 
   NetworkServiceGetCookieStoreParams() : super(kStructSize);
@@ -79,7 +79,7 @@ class NetworkServiceGetCookieStoreParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -104,7 +104,7 @@ class NetworkServiceGetCookieStoreParams extends bindings.Struct {
 class NetworkServiceCreateWebSocketParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object socket = null;
 
   NetworkServiceCreateWebSocketParams() : super(kStructSize);
@@ -121,7 +121,7 @@ class NetworkServiceCreateWebSocketParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -146,7 +146,7 @@ class NetworkServiceCreateWebSocketParams extends bindings.Struct {
 class NetworkServiceCreateTcpBoundSocketParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   net_address_mojom.NetAddress localAddress = null;
   Object boundSocket = null;
 
@@ -164,7 +164,7 @@ class NetworkServiceCreateTcpBoundSocketParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -197,7 +197,7 @@ class NetworkServiceCreateTcpBoundSocketParams extends bindings.Struct {
 class NetworkServiceCreateTcpBoundSocketResponseParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   network_error_mojom.NetworkError result = null;
   net_address_mojom.NetAddress boundTo = null;
 
@@ -215,7 +215,7 @@ class NetworkServiceCreateTcpBoundSocketResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -249,7 +249,7 @@ class NetworkServiceCreateTcpBoundSocketResponseParams extends bindings.Struct {
 class NetworkServiceCreateTcpConnectedSocketParams extends bindings.Struct {
   static const int kStructSize = 32;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 4);
+      const bindings.StructDataHeader(kStructSize, 0);
   net_address_mojom.NetAddress remoteAddress = null;
   core.MojoDataPipeConsumer sendStream = null;
   core.MojoDataPipeProducer receiveStream = null;
@@ -269,7 +269,7 @@ class NetworkServiceCreateTcpConnectedSocketParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 4)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -316,7 +316,7 @@ class NetworkServiceCreateTcpConnectedSocketParams extends bindings.Struct {
 class NetworkServiceCreateTcpConnectedSocketResponseParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   network_error_mojom.NetworkError result = null;
   net_address_mojom.NetAddress localAddress = null;
 
@@ -334,7 +334,7 @@ class NetworkServiceCreateTcpConnectedSocketResponseParams extends bindings.Stru
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -368,7 +368,7 @@ class NetworkServiceCreateTcpConnectedSocketResponseParams extends bindings.Stru
 class NetworkServiceCreateUdpSocketParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object socket = null;
 
   NetworkServiceCreateUdpSocketParams() : super(kStructSize);
@@ -385,7 +385,7 @@ class NetworkServiceCreateUdpSocketParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

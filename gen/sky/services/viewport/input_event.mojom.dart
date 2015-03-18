@@ -29,7 +29,7 @@ final int PointerKind_TOUCH = 0;
 class PointerData extends bindings.Struct {
   static const int kStructSize = 80;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 17);
+      const bindings.StructDataHeader(kStructSize, 0);
   int pointer = 0;
   int kind = 0;
   double x = 0.0;
@@ -62,7 +62,7 @@ class PointerData extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 17)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -199,7 +199,7 @@ class PointerData extends bindings.Struct {
 class GestureData extends bindings.Struct {
   static const int kStructSize = 32;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 6);
+      const bindings.StructDataHeader(kStructSize, 0);
   double x = 0.0;
   double y = 0.0;
   double dx = 0.0;
@@ -221,7 +221,7 @@ class GestureData extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 6)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -281,7 +281,7 @@ class GestureData extends bindings.Struct {
 class InputEvent extends bindings.Struct {
   static const int kStructSize = 40;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 4);
+      const bindings.StructDataHeader(kStructSize, 0);
   int type = 0;
   int timeStamp = 0;
   PointerData pointerData = null;
@@ -301,7 +301,7 @@ class InputEvent extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 4)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

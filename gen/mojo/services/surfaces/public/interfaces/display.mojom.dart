@@ -15,7 +15,7 @@ import 'package:mojo/services/surfaces/public/interfaces/surfaces.mojom.dart' as
 class DisplaySubmitFrameParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   surfaces_mojom.Frame frame = null;
 
   DisplaySubmitFrameParams() : super(kStructSize);
@@ -32,7 +32,7 @@ class DisplaySubmitFrameParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -92,7 +92,7 @@ class DisplaySubmitFrameResponseParams extends bindings.Struct {
 class DisplayFactoryCreateParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object contextProvider = null;
   Object returner = null;
   Object displayRequest = null;
@@ -111,7 +111,7 @@ class DisplayFactoryCreateParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

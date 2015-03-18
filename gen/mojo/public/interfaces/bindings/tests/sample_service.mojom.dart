@@ -22,7 +22,7 @@ final kFloatNaN = double.NAN;
 class Bar extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 4);
+      const bindings.StructDataHeader(kStructSize, 0);
   
   static final int Type_VERTICAL = 1;
   static final int Type_HORIZONTAL = Type_VERTICAL + 1;
@@ -47,7 +47,7 @@ class Bar extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 4)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -93,7 +93,7 @@ class Bar extends bindings.Struct {
 class Foo extends bindings.Struct {
   static const int kStructSize = 96;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 15);
+      const bindings.StructDataHeader(kStructSize, 0);
   static final kFooby = "Fooby";
   int x = 0;
   int y = 0;
@@ -125,7 +125,7 @@ class Foo extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 15)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -336,7 +336,7 @@ class Foo extends bindings.Struct {
 class DefaultsTest extends bindings.Struct {
   static const int kStructSize = 184;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 32);
+      const bindings.StructDataHeader(kStructSize, 0);
   int a0 = -12;
   int a1 = kTwelve;
   int a2 = 1234;
@@ -384,7 +384,7 @@ class DefaultsTest extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 32)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -628,7 +628,7 @@ class DefaultsTest extends bindings.Struct {
 class StructWithHoleV1 extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int v1 = 1;
   int v2 = 2;
 
@@ -646,7 +646,7 @@ class StructWithHoleV1 extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -678,7 +678,7 @@ class StructWithHoleV1 extends bindings.Struct {
 class StructWithHoleV2 extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   int v1 = 1;
   int v3 = 3;
   int v2 = 2;
@@ -697,7 +697,7 @@ class StructWithHoleV2 extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -736,7 +736,7 @@ class StructWithHoleV2 extends bindings.Struct {
 class ServiceFrobinateParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   Foo foo = null;
   int baz = 0;
   Object port = null;
@@ -755,7 +755,7 @@ class ServiceFrobinateParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -795,7 +795,7 @@ class ServiceFrobinateParams extends bindings.Struct {
 class ServiceFrobinateResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int result = 0;
 
   ServiceFrobinateResponseParams() : super(kStructSize);
@@ -812,7 +812,7 @@ class ServiceFrobinateResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -837,7 +837,7 @@ class ServiceFrobinateResponseParams extends bindings.Struct {
 class ServiceGetPortParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object port = null;
 
   ServiceGetPortParams() : super(kStructSize);
@@ -854,7 +854,7 @@ class ServiceGetPortParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -879,7 +879,7 @@ class ServiceGetPortParams extends bindings.Struct {
 class PortPostMessageParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   String messageText = null;
   Object port = null;
 
@@ -897,7 +897,7 @@ class PortPostMessageParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

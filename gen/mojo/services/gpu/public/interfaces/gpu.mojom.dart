@@ -13,7 +13,7 @@ import 'package:mojo/services/gpu/public/interfaces/command_buffer.mojom.dart' a
 class GpuCreateOffscreenGleS2ContextParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object gles2Client = null;
 
   GpuCreateOffscreenGleS2ContextParams() : super(kStructSize);
@@ -30,7 +30,7 @@ class GpuCreateOffscreenGleS2ContextParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

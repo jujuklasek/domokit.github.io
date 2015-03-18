@@ -13,7 +13,7 @@ import 'package:sky/services/viewport/input_event.mojom.dart' as input_event_moj
 class ViewportObserverOnViewportMetricsChangedParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   int width = 0;
   int height = 0;
   double devicePixelRatio = 0.0;
@@ -32,7 +32,7 @@ class ViewportObserverOnViewportMetricsChangedParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -71,7 +71,7 @@ class ViewportObserverOnViewportMetricsChangedParams extends bindings.Struct {
 class ViewportObserverOnInputEventParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   input_event_mojom.InputEvent event = null;
 
   ViewportObserverOnInputEventParams() : super(kStructSize);
@@ -88,7 +88,7 @@ class ViewportObserverOnInputEventParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -114,7 +114,7 @@ class ViewportObserverOnInputEventParams extends bindings.Struct {
 class ViewportObserverLoadUrlParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   String url = null;
 
   ViewportObserverLoadUrlParams() : super(kStructSize);
@@ -131,7 +131,7 @@ class ViewportObserverLoadUrlParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

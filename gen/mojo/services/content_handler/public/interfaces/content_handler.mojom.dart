@@ -14,7 +14,7 @@ import 'package:mojo/services/network/public/interfaces/url_loader.mojom.dart' a
 class ContentHandlerStartApplicationParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object application = null;
   url_loader_mojom.UrlResponse response = null;
 
@@ -32,7 +32,7 @@ class ContentHandlerStartApplicationParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

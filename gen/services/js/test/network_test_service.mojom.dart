@@ -12,7 +12,7 @@ import 'dart:mojo.core' as core;
 class NetworkTestServiceGetFileSizeParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   String url = null;
 
   NetworkTestServiceGetFileSizeParams() : super(kStructSize);
@@ -29,7 +29,7 @@ class NetworkTestServiceGetFileSizeParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -54,7 +54,7 @@ class NetworkTestServiceGetFileSizeParams extends bindings.Struct {
 class NetworkTestServiceGetFileSizeResponseParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool ok = false;
   int size = 0;
 
@@ -72,7 +72,7 @@ class NetworkTestServiceGetFileSizeResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

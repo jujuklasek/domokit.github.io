@@ -12,7 +12,7 @@ import 'dart:mojo.core' as core;
 class ServiceProviderConnectToServiceParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   String interfaceName = null;
   core.MojoMessagePipeEndpoint pipe = null;
 
@@ -30,7 +30,7 @@ class ServiceProviderConnectToServiceParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

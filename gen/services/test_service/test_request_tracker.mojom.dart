@@ -12,7 +12,7 @@ import 'dart:mojo.core' as core;
 class ServiceStats extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int numNewRequests = 0;
   double health = 0.0;
 
@@ -30,7 +30,7 @@ class ServiceStats extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -62,7 +62,7 @@ class ServiceStats extends bindings.Struct {
 class ServiceReport extends bindings.Struct {
   static const int kStructSize = 32;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   String serviceName = null;
   int totalRequests = 0;
   double meanHealth = 0.0;
@@ -81,7 +81,7 @@ class ServiceReport extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -154,7 +154,7 @@ class TestTrackedRequestServiceGetReportParams extends bindings.Struct {
 class TestTrackedRequestServiceGetReportResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   List<ServiceReport> report = null;
 
   TestTrackedRequestServiceGetReportResponseParams() : super(kStructSize);
@@ -171,7 +171,7 @@ class TestTrackedRequestServiceGetReportResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -215,7 +215,7 @@ class TestTrackedRequestServiceGetReportResponseParams extends bindings.Struct {
 class TestRequestTrackerSetNameAndReturnIdParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   String serviceName = null;
 
   TestRequestTrackerSetNameAndReturnIdParams() : super(kStructSize);
@@ -232,7 +232,7 @@ class TestRequestTrackerSetNameAndReturnIdParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -257,7 +257,7 @@ class TestRequestTrackerSetNameAndReturnIdParams extends bindings.Struct {
 class TestRequestTrackerSetNameAndReturnIdResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int id = 0;
 
   TestRequestTrackerSetNameAndReturnIdResponseParams() : super(kStructSize);
@@ -274,7 +274,7 @@ class TestRequestTrackerSetNameAndReturnIdResponseParams extends bindings.Struct
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -299,7 +299,7 @@ class TestRequestTrackerSetNameAndReturnIdResponseParams extends bindings.Struct
 class TestRequestTrackerRecordStatsParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int clientId = 0;
   ServiceStats stats = null;
 
@@ -317,7 +317,7 @@ class TestRequestTrackerRecordStatsParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

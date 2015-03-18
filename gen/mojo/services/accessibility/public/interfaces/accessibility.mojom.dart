@@ -13,7 +13,7 @@ import 'package:mojo/services/geometry/public/interfaces/geometry.mojom.dart' as
 class AxNode extends bindings.Struct {
   static const int kStructSize = 48;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 6);
+      const bindings.StructDataHeader(kStructSize, 0);
   int id = 0;
   int parentId = 0;
   int nextSiblingId = 0;
@@ -35,7 +35,7 @@ class AxNode extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 6)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -98,7 +98,7 @@ class AxNode extends bindings.Struct {
 class AxLink extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   String url = null;
 
   AxLink() : super(kStructSize);
@@ -115,7 +115,7 @@ class AxLink extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -140,7 +140,7 @@ class AxLink extends bindings.Struct {
 class AxText extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   String content = null;
 
   AxText() : super(kStructSize);
@@ -157,7 +157,7 @@ class AxText extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -216,7 +216,7 @@ class AxProviderGetTreeParams extends bindings.Struct {
 class AxProviderGetTreeResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   List<AxNode> nodes = null;
 
   AxProviderGetTreeResponseParams() : super(kStructSize);
@@ -233,7 +233,7 @@ class AxProviderGetTreeResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

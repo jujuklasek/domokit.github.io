@@ -13,7 +13,7 @@ import 'package:mojo/public/interfaces/application/service_provider.mojom.dart' 
 class ShellConnectToApplicationParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   String applicationUrl = null;
   Object services = null;
   Object exposedServices = null;
@@ -32,7 +32,7 @@ class ShellConnectToApplicationParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

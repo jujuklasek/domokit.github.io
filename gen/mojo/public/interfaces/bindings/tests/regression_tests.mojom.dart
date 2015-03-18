@@ -22,7 +22,7 @@ final int EnumWithK_K = 0;
 class Edge extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Vertex v = null;
 
   Edge() : super(kStructSize);
@@ -39,7 +39,7 @@ class Edge extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -65,7 +65,7 @@ class Edge extends bindings.Struct {
 class Vertex extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   EmptyStruct e = null;
 
   Vertex() : super(kStructSize);
@@ -82,7 +82,7 @@ class Vertex extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -142,7 +142,7 @@ class EmptyStruct extends bindings.Struct {
 class A extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   B b = null;
 
   A() : super(kStructSize);
@@ -159,7 +159,7 @@ class A extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -185,7 +185,7 @@ class A extends bindings.Struct {
 class B extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   A a = null;
 
   B() : super(kStructSize);
@@ -202,7 +202,7 @@ class B extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -296,7 +296,7 @@ class CheckMethodWithEmptyResponseWithouParameterAndEmptyResponseResponseParams 
 class CheckMethodWithEmptyResponseWithParameterAndEmptyResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool b = false;
 
   CheckMethodWithEmptyResponseWithParameterAndEmptyResponseParams() : super(kStructSize);
@@ -313,7 +313,7 @@ class CheckMethodWithEmptyResponseWithParameterAndEmptyResponseParams extends bi
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -372,7 +372,7 @@ class CheckMethodWithEmptyResponseWithParameterAndEmptyResponseResponseParams ex
 class CheckNameCollisionWithNameCollisionParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool message = false;
   bool response = false;
 
@@ -390,7 +390,7 @@ class CheckNameCollisionWithNameCollisionParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -422,7 +422,7 @@ class CheckNameCollisionWithNameCollisionParams extends bindings.Struct {
 class CheckNameCollisionWithNameCollisionResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool message = false;
   bool response = false;
 
@@ -440,7 +440,7 @@ class CheckNameCollisionWithNameCollisionResponseParams extends bindings.Struct 
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

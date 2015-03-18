@@ -23,7 +23,7 @@ final int ResourceFormat_ETC1 = ResourceFormat_RGB_565 + 1;
 class Mailbox extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   List<int> name = null;
 
   Mailbox() : super(kStructSize);
@@ -40,7 +40,7 @@ class Mailbox extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -65,7 +65,7 @@ class Mailbox extends bindings.Struct {
 class MailboxHolder extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   Mailbox mailbox = null;
   int textureTarget = 0;
   int syncPoint = 0;
@@ -84,7 +84,7 @@ class MailboxHolder extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -124,7 +124,7 @@ class MailboxHolder extends bindings.Struct {
 class TransferableResource extends bindings.Struct {
   static const int kStructSize = 40;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 7);
+      const bindings.StructDataHeader(kStructSize, 0);
   int id = 0;
   int format = 0;
   int filter = 0;
@@ -147,7 +147,7 @@ class TransferableResource extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 7)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -216,7 +216,7 @@ class TransferableResource extends bindings.Struct {
 class ReturnedResource extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 4);
+      const bindings.StructDataHeader(kStructSize, 0);
   int id = 0;
   int syncPoint = 0;
   int count = 0;
@@ -236,7 +236,7 @@ class ReturnedResource extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 4)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -282,7 +282,7 @@ class ReturnedResource extends bindings.Struct {
 class Frame extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   List<TransferableResource> resources = null;
   List<quads_mojom.Pass> passes = null;
 
@@ -300,7 +300,7 @@ class Frame extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -366,7 +366,7 @@ class Frame extends bindings.Struct {
 class ResourceReturnerReturnResourcesParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   List<ReturnedResource> resources = null;
 
   ResourceReturnerReturnResourcesParams() : super(kStructSize);
@@ -383,7 +383,7 @@ class ResourceReturnerReturnResourcesParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -459,7 +459,7 @@ class SurfaceGetIdNamespaceParams extends bindings.Struct {
 class SurfaceGetIdNamespaceResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int idNamespace = 0;
 
   SurfaceGetIdNamespaceResponseParams() : super(kStructSize);
@@ -476,7 +476,7 @@ class SurfaceGetIdNamespaceResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -501,7 +501,7 @@ class SurfaceGetIdNamespaceResponseParams extends bindings.Struct {
 class SurfaceSetResourceReturnerParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object returner = null;
 
   SurfaceSetResourceReturnerParams() : super(kStructSize);
@@ -518,7 +518,7 @@ class SurfaceSetResourceReturnerParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -543,7 +543,7 @@ class SurfaceSetResourceReturnerParams extends bindings.Struct {
 class SurfaceCreateSurfaceParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int idLocal = 0;
 
   SurfaceCreateSurfaceParams() : super(kStructSize);
@@ -560,7 +560,7 @@ class SurfaceCreateSurfaceParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -585,7 +585,7 @@ class SurfaceCreateSurfaceParams extends bindings.Struct {
 class SurfaceSubmitFrameParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int idLocal = 0;
   Frame frame = null;
 
@@ -603,7 +603,7 @@ class SurfaceSubmitFrameParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -670,7 +670,7 @@ class SurfaceSubmitFrameResponseParams extends bindings.Struct {
 class SurfaceDestroySurfaceParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int idLocal = 0;
 
   SurfaceDestroySurfaceParams() : super(kStructSize);
@@ -687,7 +687,7 @@ class SurfaceDestroySurfaceParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

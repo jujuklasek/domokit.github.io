@@ -80,7 +80,7 @@ class TestServicePingResponseParams extends bindings.Struct {
 class TestServiceConnectToAppAndGetTimeParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   String appUrl = null;
 
   TestServiceConnectToAppAndGetTimeParams() : super(kStructSize);
@@ -97,7 +97,7 @@ class TestServiceConnectToAppAndGetTimeParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -122,7 +122,7 @@ class TestServiceConnectToAppAndGetTimeParams extends bindings.Struct {
 class TestServiceConnectToAppAndGetTimeResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int timeUsec = 0;
 
   TestServiceConnectToAppAndGetTimeResponseParams() : super(kStructSize);
@@ -139,7 +139,7 @@ class TestServiceConnectToAppAndGetTimeResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -266,7 +266,7 @@ class TestTimeServiceGetPartyTimeParams extends bindings.Struct {
 class TestTimeServiceGetPartyTimeResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int timeUsec = 0;
 
   TestTimeServiceGetPartyTimeResponseParams() : super(kStructSize);
@@ -283,7 +283,7 @@ class TestTimeServiceGetPartyTimeResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

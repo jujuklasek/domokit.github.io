@@ -15,7 +15,7 @@ import 'package:mojo/services/surfaces/public/interfaces/surface_id.mojom.dart' 
 class ChildProduceFrameParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   quads_mojom.Color color = null;
   geometry_mojom.Size size = null;
 
@@ -33,7 +33,7 @@ class ChildProduceFrameParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -67,7 +67,7 @@ class ChildProduceFrameParams extends bindings.Struct {
 class ChildProduceFrameResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   surface_id_mojom.SurfaceId id = null;
 
   ChildProduceFrameResponseParams() : super(kStructSize);
@@ -84,7 +84,7 @@ class ChildProduceFrameResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

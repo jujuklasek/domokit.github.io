@@ -14,7 +14,7 @@ import 'package:mojo/public/interfaces/application/service_provider.mojom.dart' 
 class WindowManagerEmbedParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   String url = null;
   Object services = null;
   Object exposedServices = null;
@@ -33,7 +33,7 @@ class WindowManagerEmbedParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -72,7 +72,7 @@ class WindowManagerEmbedParams extends bindings.Struct {
 class WindowManagerSetCaptureParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int viewId = 0;
 
   WindowManagerSetCaptureParams() : super(kStructSize);
@@ -89,7 +89,7 @@ class WindowManagerSetCaptureParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -114,7 +114,7 @@ class WindowManagerSetCaptureParams extends bindings.Struct {
 class WindowManagerSetCaptureResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool success = false;
 
   WindowManagerSetCaptureResponseParams() : super(kStructSize);
@@ -131,7 +131,7 @@ class WindowManagerSetCaptureResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -156,7 +156,7 @@ class WindowManagerSetCaptureResponseParams extends bindings.Struct {
 class WindowManagerFocusWindowParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int viewId = 0;
 
   WindowManagerFocusWindowParams() : super(kStructSize);
@@ -173,7 +173,7 @@ class WindowManagerFocusWindowParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -198,7 +198,7 @@ class WindowManagerFocusWindowParams extends bindings.Struct {
 class WindowManagerFocusWindowResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool success = false;
 
   WindowManagerFocusWindowResponseParams() : super(kStructSize);
@@ -215,7 +215,7 @@ class WindowManagerFocusWindowResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -240,7 +240,7 @@ class WindowManagerFocusWindowResponseParams extends bindings.Struct {
 class WindowManagerActivateWindowParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int viewId = 0;
 
   WindowManagerActivateWindowParams() : super(kStructSize);
@@ -257,7 +257,7 @@ class WindowManagerActivateWindowParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -282,7 +282,7 @@ class WindowManagerActivateWindowParams extends bindings.Struct {
 class WindowManagerActivateWindowResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool success = false;
 
   WindowManagerActivateWindowResponseParams() : super(kStructSize);
@@ -299,7 +299,7 @@ class WindowManagerActivateWindowResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -324,7 +324,7 @@ class WindowManagerActivateWindowResponseParams extends bindings.Struct {
 class WindowManagerGetFocusedAndActiveViewsParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object observer = null;
 
   WindowManagerGetFocusedAndActiveViewsParams() : super(kStructSize);
@@ -341,7 +341,7 @@ class WindowManagerGetFocusedAndActiveViewsParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -366,7 +366,7 @@ class WindowManagerGetFocusedAndActiveViewsParams extends bindings.Struct {
 class WindowManagerGetFocusedAndActiveViewsResponseParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   int captureViewId = 0;
   int focusedViewId = 0;
   int activeViewId = 0;
@@ -385,7 +385,7 @@ class WindowManagerGetFocusedAndActiveViewsResponseParams extends bindings.Struc
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -424,7 +424,7 @@ class WindowManagerGetFocusedAndActiveViewsResponseParams extends bindings.Struc
 class WindowManagerObserverOnCaptureChangedParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int captureViewId = 0;
 
   WindowManagerObserverOnCaptureChangedParams() : super(kStructSize);
@@ -441,7 +441,7 @@ class WindowManagerObserverOnCaptureChangedParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -466,7 +466,7 @@ class WindowManagerObserverOnCaptureChangedParams extends bindings.Struct {
 class WindowManagerObserverOnFocusChangedParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int focusedViewId = 0;
 
   WindowManagerObserverOnFocusChangedParams() : super(kStructSize);
@@ -483,7 +483,7 @@ class WindowManagerObserverOnFocusChangedParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -508,7 +508,7 @@ class WindowManagerObserverOnFocusChangedParams extends bindings.Struct {
 class WindowManagerObserverOnActiveWindowChangedParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int focusedViewId = 0;
 
   WindowManagerObserverOnActiveWindowChangedParams() : super(kStructSize);
@@ -525,7 +525,7 @@ class WindowManagerObserverOnActiveWindowChangedParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

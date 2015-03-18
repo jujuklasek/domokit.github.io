@@ -13,7 +13,7 @@ import 'package:mojo/services/network/public/interfaces/network_error.mojom.dart
 class UrlRequest extends bindings.Struct {
   static const int kStructSize = 48;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 7);
+      const bindings.StructDataHeader(kStructSize, 0);
   String url = null;
   String method = "GET";
   List<String> headers = null;
@@ -36,7 +36,7 @@ class UrlRequest extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 7)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -121,7 +121,7 @@ class UrlRequest extends bindings.Struct {
 class UrlResponse extends bindings.Struct {
   static const int kStructSize = 80;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 10);
+      const bindings.StructDataHeader(kStructSize, 0);
   network_error_mojom.NetworkError error = null;
   core.MojoDataPipeConsumer body = null;
   int statusCode = 0;
@@ -147,7 +147,7 @@ class UrlResponse extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 10)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -254,7 +254,7 @@ class UrlResponse extends bindings.Struct {
 class UrlLoaderStatus extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   network_error_mojom.NetworkError error = null;
   bool isLoading = false;
 
@@ -272,7 +272,7 @@ class UrlLoaderStatus extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -305,7 +305,7 @@ class UrlLoaderStatus extends bindings.Struct {
 class UrlLoaderStartParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   UrlRequest request = null;
 
   UrlLoaderStartParams() : super(kStructSize);
@@ -322,7 +322,7 @@ class UrlLoaderStartParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -348,7 +348,7 @@ class UrlLoaderStartParams extends bindings.Struct {
 class UrlLoaderStartResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   UrlResponse response = null;
 
   UrlLoaderStartResponseParams() : super(kStructSize);
@@ -365,7 +365,7 @@ class UrlLoaderStartResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -425,7 +425,7 @@ class UrlLoaderFollowRedirectParams extends bindings.Struct {
 class UrlLoaderFollowRedirectResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   UrlResponse response = null;
 
   UrlLoaderFollowRedirectResponseParams() : super(kStructSize);
@@ -442,7 +442,7 @@ class UrlLoaderFollowRedirectResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -502,7 +502,7 @@ class UrlLoaderQueryStatusParams extends bindings.Struct {
 class UrlLoaderQueryStatusResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   UrlLoaderStatus status = null;
 
   UrlLoaderQueryStatusResponseParams() : super(kStructSize);
@@ -519,7 +519,7 @@ class UrlLoaderQueryStatusResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

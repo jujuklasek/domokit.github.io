@@ -13,7 +13,7 @@ import 'package:mojo/public/interfaces/application/application.mojom.dart' as ap
 class ExternalApplicationRegistrarRegisterParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   String applicationUrl = null;
   List<String> args = null;
 
@@ -31,7 +31,7 @@ class ExternalApplicationRegistrarRegisterParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -81,7 +81,7 @@ class ExternalApplicationRegistrarRegisterParams extends bindings.Struct {
 class ExternalApplicationRegistrarRegisterResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object applicationRequest = null;
 
   ExternalApplicationRegistrarRegisterResponseParams() : super(kStructSize);
@@ -98,7 +98,7 @@ class ExternalApplicationRegistrarRegisterResponseParams extends bindings.Struct
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

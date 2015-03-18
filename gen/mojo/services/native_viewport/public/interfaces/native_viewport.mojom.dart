@@ -15,7 +15,7 @@ import 'package:mojo/services/input_events/public/interfaces/input_events.mojom.
 class ViewportMetrics extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   geometry_mojom.Size size = null;
   double devicePixelRatio = 1.0;
 
@@ -33,7 +33,7 @@ class ViewportMetrics extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -66,7 +66,7 @@ class ViewportMetrics extends bindings.Struct {
 class NativeViewportCreateParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   geometry_mojom.Size size = null;
 
   NativeViewportCreateParams() : super(kStructSize);
@@ -83,7 +83,7 @@ class NativeViewportCreateParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -109,7 +109,7 @@ class NativeViewportCreateParams extends bindings.Struct {
 class NativeViewportCreateResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   ViewportMetrics metrics = null;
 
   NativeViewportCreateResponseParams() : super(kStructSize);
@@ -126,7 +126,7 @@ class NativeViewportCreateResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -254,7 +254,7 @@ class NativeViewportCloseParams extends bindings.Struct {
 class NativeViewportSetSizeParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   geometry_mojom.Size size = null;
 
   NativeViewportSetSizeParams() : super(kStructSize);
@@ -271,7 +271,7 @@ class NativeViewportSetSizeParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -297,7 +297,7 @@ class NativeViewportSetSizeParams extends bindings.Struct {
 class NativeViewportSetEventDispatcherParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object dispatcher = null;
 
   NativeViewportSetEventDispatcherParams() : super(kStructSize);
@@ -314,7 +314,7 @@ class NativeViewportSetEventDispatcherParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -339,7 +339,7 @@ class NativeViewportSetEventDispatcherParams extends bindings.Struct {
 class NativeViewportGetContextProviderParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   Object provider = null;
 
   NativeViewportGetContextProviderParams() : super(kStructSize);
@@ -356,7 +356,7 @@ class NativeViewportGetContextProviderParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -415,7 +415,7 @@ class NativeViewportRequestMetricsParams extends bindings.Struct {
 class NativeViewportRequestMetricsResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   ViewportMetrics metrics = null;
 
   NativeViewportRequestMetricsResponseParams() : super(kStructSize);
@@ -432,7 +432,7 @@ class NativeViewportRequestMetricsResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -458,7 +458,7 @@ class NativeViewportRequestMetricsResponseParams extends bindings.Struct {
 class NativeViewportEventDispatcherOnEventParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   input_events_mojom.Event event = null;
 
   NativeViewportEventDispatcherOnEventParams() : super(kStructSize);
@@ -475,7 +475,7 @@ class NativeViewportEventDispatcherOnEventParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

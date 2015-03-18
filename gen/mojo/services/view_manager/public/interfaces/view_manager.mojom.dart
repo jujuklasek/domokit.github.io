@@ -22,7 +22,7 @@ final int ErrorCode_ILLEGAL_ARGUMENT = ErrorCode_VALUE_IN_USE + 1;
 class ViewData extends bindings.Struct {
   static const int kStructSize = 48;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 7);
+      const bindings.StructDataHeader(kStructSize, 0);
   int parentId = 0;
   int viewId = 0;
   geometry_mojom.Rect bounds = null;
@@ -45,7 +45,7 @@ class ViewData extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 7)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -168,7 +168,7 @@ class ViewData extends bindings.Struct {
 class ViewManagerServiceCreateViewParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int viewId = 0;
 
   ViewManagerServiceCreateViewParams() : super(kStructSize);
@@ -185,7 +185,7 @@ class ViewManagerServiceCreateViewParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -210,7 +210,7 @@ class ViewManagerServiceCreateViewParams extends bindings.Struct {
 class ViewManagerServiceCreateViewResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int errorCode = 0;
 
   ViewManagerServiceCreateViewResponseParams() : super(kStructSize);
@@ -227,7 +227,7 @@ class ViewManagerServiceCreateViewResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -252,7 +252,7 @@ class ViewManagerServiceCreateViewResponseParams extends bindings.Struct {
 class ViewManagerServiceDeleteViewParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int viewId = 0;
 
   ViewManagerServiceDeleteViewParams() : super(kStructSize);
@@ -269,7 +269,7 @@ class ViewManagerServiceDeleteViewParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -294,7 +294,7 @@ class ViewManagerServiceDeleteViewParams extends bindings.Struct {
 class ViewManagerServiceDeleteViewResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool success = false;
 
   ViewManagerServiceDeleteViewResponseParams() : super(kStructSize);
@@ -311,7 +311,7 @@ class ViewManagerServiceDeleteViewResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -336,7 +336,7 @@ class ViewManagerServiceDeleteViewResponseParams extends bindings.Struct {
 class ViewManagerServiceSetViewBoundsParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int viewId = 0;
   geometry_mojom.Rect bounds = null;
 
@@ -354,7 +354,7 @@ class ViewManagerServiceSetViewBoundsParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -387,7 +387,7 @@ class ViewManagerServiceSetViewBoundsParams extends bindings.Struct {
 class ViewManagerServiceSetViewBoundsResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool success = false;
 
   ViewManagerServiceSetViewBoundsResponseParams() : super(kStructSize);
@@ -404,7 +404,7 @@ class ViewManagerServiceSetViewBoundsResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -429,7 +429,7 @@ class ViewManagerServiceSetViewBoundsResponseParams extends bindings.Struct {
 class ViewManagerServiceSetViewVisibilityParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int viewId = 0;
   bool visible = false;
 
@@ -447,7 +447,7 @@ class ViewManagerServiceSetViewVisibilityParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -479,7 +479,7 @@ class ViewManagerServiceSetViewVisibilityParams extends bindings.Struct {
 class ViewManagerServiceSetViewVisibilityResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool success = false;
 
   ViewManagerServiceSetViewVisibilityResponseParams() : super(kStructSize);
@@ -496,7 +496,7 @@ class ViewManagerServiceSetViewVisibilityResponseParams extends bindings.Struct 
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -521,7 +521,7 @@ class ViewManagerServiceSetViewVisibilityResponseParams extends bindings.Struct 
 class ViewManagerServiceSetViewPropertyParams extends bindings.Struct {
   static const int kStructSize = 32;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   int viewId = 0;
   String name = null;
   List<int> value = null;
@@ -540,7 +540,7 @@ class ViewManagerServiceSetViewPropertyParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -579,7 +579,7 @@ class ViewManagerServiceSetViewPropertyParams extends bindings.Struct {
 class ViewManagerServiceSetViewPropertyResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool success = false;
 
   ViewManagerServiceSetViewPropertyResponseParams() : super(kStructSize);
@@ -596,7 +596,7 @@ class ViewManagerServiceSetViewPropertyResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -621,7 +621,7 @@ class ViewManagerServiceSetViewPropertyResponseParams extends bindings.Struct {
 class ViewManagerServiceAddViewParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int parent = 0;
   int child = 0;
 
@@ -639,7 +639,7 @@ class ViewManagerServiceAddViewParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -671,7 +671,7 @@ class ViewManagerServiceAddViewParams extends bindings.Struct {
 class ViewManagerServiceAddViewResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool success = false;
 
   ViewManagerServiceAddViewResponseParams() : super(kStructSize);
@@ -688,7 +688,7 @@ class ViewManagerServiceAddViewResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -713,7 +713,7 @@ class ViewManagerServiceAddViewResponseParams extends bindings.Struct {
 class ViewManagerServiceRemoveViewFromParentParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int viewId = 0;
 
   ViewManagerServiceRemoveViewFromParentParams() : super(kStructSize);
@@ -730,7 +730,7 @@ class ViewManagerServiceRemoveViewFromParentParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -755,7 +755,7 @@ class ViewManagerServiceRemoveViewFromParentParams extends bindings.Struct {
 class ViewManagerServiceRemoveViewFromParentResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool success = false;
 
   ViewManagerServiceRemoveViewFromParentResponseParams() : super(kStructSize);
@@ -772,7 +772,7 @@ class ViewManagerServiceRemoveViewFromParentResponseParams extends bindings.Stru
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -797,7 +797,7 @@ class ViewManagerServiceRemoveViewFromParentResponseParams extends bindings.Stru
 class ViewManagerServiceReorderViewParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   int viewId = 0;
   int relativeViewId = 0;
   int direction = 0;
@@ -816,7 +816,7 @@ class ViewManagerServiceReorderViewParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -855,7 +855,7 @@ class ViewManagerServiceReorderViewParams extends bindings.Struct {
 class ViewManagerServiceReorderViewResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool success = false;
 
   ViewManagerServiceReorderViewResponseParams() : super(kStructSize);
@@ -872,7 +872,7 @@ class ViewManagerServiceReorderViewResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -897,7 +897,7 @@ class ViewManagerServiceReorderViewResponseParams extends bindings.Struct {
 class ViewManagerServiceGetViewTreeParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int viewId = 0;
 
   ViewManagerServiceGetViewTreeParams() : super(kStructSize);
@@ -914,7 +914,7 @@ class ViewManagerServiceGetViewTreeParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -939,7 +939,7 @@ class ViewManagerServiceGetViewTreeParams extends bindings.Struct {
 class ViewManagerServiceGetViewTreeResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   List<ViewData> views = null;
 
   ViewManagerServiceGetViewTreeResponseParams() : super(kStructSize);
@@ -956,7 +956,7 @@ class ViewManagerServiceGetViewTreeResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -998,7 +998,7 @@ class ViewManagerServiceGetViewTreeResponseParams extends bindings.Struct {
 class ViewManagerServiceSetViewSurfaceIdParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int viewId = 0;
   surface_id_mojom.SurfaceId surfaceId = null;
 
@@ -1016,7 +1016,7 @@ class ViewManagerServiceSetViewSurfaceIdParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -1049,7 +1049,7 @@ class ViewManagerServiceSetViewSurfaceIdParams extends bindings.Struct {
 class ViewManagerServiceSetViewSurfaceIdResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool success = false;
 
   ViewManagerServiceSetViewSurfaceIdResponseParams() : super(kStructSize);
@@ -1066,7 +1066,7 @@ class ViewManagerServiceSetViewSurfaceIdResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -1091,7 +1091,7 @@ class ViewManagerServiceSetViewSurfaceIdResponseParams extends bindings.Struct {
 class ViewManagerServiceEmbedUrlParams extends bindings.Struct {
   static const int kStructSize = 32;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 4);
+      const bindings.StructDataHeader(kStructSize, 0);
   String url = null;
   int viewId = 0;
   Object services = null;
@@ -1111,7 +1111,7 @@ class ViewManagerServiceEmbedUrlParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 4)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -1157,7 +1157,7 @@ class ViewManagerServiceEmbedUrlParams extends bindings.Struct {
 class ViewManagerServiceEmbedUrlResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool success = false;
 
   ViewManagerServiceEmbedUrlResponseParams() : super(kStructSize);
@@ -1174,7 +1174,7 @@ class ViewManagerServiceEmbedUrlResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -1199,7 +1199,7 @@ class ViewManagerServiceEmbedUrlResponseParams extends bindings.Struct {
 class ViewManagerServiceEmbedParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int viewId = 0;
   Object client = null;
 
@@ -1217,7 +1217,7 @@ class ViewManagerServiceEmbedParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -1249,7 +1249,7 @@ class ViewManagerServiceEmbedParams extends bindings.Struct {
 class ViewManagerServiceEmbedResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool success = false;
 
   ViewManagerServiceEmbedResponseParams() : super(kStructSize);
@@ -1266,7 +1266,7 @@ class ViewManagerServiceEmbedResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -1291,7 +1291,7 @@ class ViewManagerServiceEmbedResponseParams extends bindings.Struct {
 class ViewManagerServicePerformActionParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int viewId = 0;
   String action = null;
 
@@ -1309,7 +1309,7 @@ class ViewManagerServicePerformActionParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -1341,7 +1341,7 @@ class ViewManagerServicePerformActionParams extends bindings.Struct {
 class ViewManagerServicePerformActionResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool success = false;
 
   ViewManagerServicePerformActionResponseParams() : super(kStructSize);
@@ -1358,7 +1358,7 @@ class ViewManagerServicePerformActionResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -1383,7 +1383,7 @@ class ViewManagerServicePerformActionResponseParams extends bindings.Struct {
 class ViewManagerClientOnEmbedParams extends bindings.Struct {
   static const int kStructSize = 48;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 7);
+      const bindings.StructDataHeader(kStructSize, 0);
   int connectionId = 0;
   Object viewManagerService = null;
   String embedderUrl = null;
@@ -1406,7 +1406,7 @@ class ViewManagerClientOnEmbedParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 7)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -1474,7 +1474,7 @@ class ViewManagerClientOnEmbedParams extends bindings.Struct {
 class ViewManagerClientOnEmbeddedAppDisconnectedParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int view = 0;
 
   ViewManagerClientOnEmbeddedAppDisconnectedParams() : super(kStructSize);
@@ -1491,7 +1491,7 @@ class ViewManagerClientOnEmbeddedAppDisconnectedParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -1516,7 +1516,7 @@ class ViewManagerClientOnEmbeddedAppDisconnectedParams extends bindings.Struct {
 class ViewManagerClientOnViewBoundsChangedParams extends bindings.Struct {
   static const int kStructSize = 32;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   int view = 0;
   geometry_mojom.Rect oldBounds = null;
   geometry_mojom.Rect newBounds = null;
@@ -1535,7 +1535,7 @@ class ViewManagerClientOnViewBoundsChangedParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -1576,7 +1576,7 @@ class ViewManagerClientOnViewBoundsChangedParams extends bindings.Struct {
 class ViewManagerClientOnViewViewportMetricsChangedParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   native_viewport_mojom.ViewportMetrics oldMetrics = null;
   native_viewport_mojom.ViewportMetrics newMetrics = null;
 
@@ -1594,7 +1594,7 @@ class ViewManagerClientOnViewViewportMetricsChangedParams extends bindings.Struc
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -1628,7 +1628,7 @@ class ViewManagerClientOnViewViewportMetricsChangedParams extends bindings.Struc
 class ViewManagerClientOnViewHierarchyChangedParams extends bindings.Struct {
   static const int kStructSize = 32;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 4);
+      const bindings.StructDataHeader(kStructSize, 0);
   int view = 0;
   int newParent = 0;
   int oldParent = 0;
@@ -1648,7 +1648,7 @@ class ViewManagerClientOnViewHierarchyChangedParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 4)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -1711,7 +1711,7 @@ class ViewManagerClientOnViewHierarchyChangedParams extends bindings.Struct {
 class ViewManagerClientOnViewReorderedParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   int viewId = 0;
   int relativeViewId = 0;
   int direction = 0;
@@ -1730,7 +1730,7 @@ class ViewManagerClientOnViewReorderedParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -1769,7 +1769,7 @@ class ViewManagerClientOnViewReorderedParams extends bindings.Struct {
 class ViewManagerClientOnViewDeletedParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int view = 0;
 
   ViewManagerClientOnViewDeletedParams() : super(kStructSize);
@@ -1786,7 +1786,7 @@ class ViewManagerClientOnViewDeletedParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -1811,7 +1811,7 @@ class ViewManagerClientOnViewDeletedParams extends bindings.Struct {
 class ViewManagerClientOnViewVisibilityChangedParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int view = 0;
   bool visible = false;
 
@@ -1829,7 +1829,7 @@ class ViewManagerClientOnViewVisibilityChangedParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -1861,7 +1861,7 @@ class ViewManagerClientOnViewVisibilityChangedParams extends bindings.Struct {
 class ViewManagerClientOnViewDrawnStateChangedParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int view = 0;
   bool drawn = false;
 
@@ -1879,7 +1879,7 @@ class ViewManagerClientOnViewDrawnStateChangedParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -1911,7 +1911,7 @@ class ViewManagerClientOnViewDrawnStateChangedParams extends bindings.Struct {
 class ViewManagerClientOnViewSharedPropertyChangedParams extends bindings.Struct {
   static const int kStructSize = 32;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 3);
+      const bindings.StructDataHeader(kStructSize, 0);
   int view = 0;
   String name = null;
   List<int> newData = null;
@@ -1930,7 +1930,7 @@ class ViewManagerClientOnViewSharedPropertyChangedParams extends bindings.Struct
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 3)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -1969,7 +1969,7 @@ class ViewManagerClientOnViewSharedPropertyChangedParams extends bindings.Struct
 class ViewManagerClientOnViewInputEventParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int view = 0;
   input_events_mojom.Event event = null;
 
@@ -1987,7 +1987,7 @@ class ViewManagerClientOnViewInputEventParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -2054,7 +2054,7 @@ class ViewManagerClientOnViewInputEventResponseParams extends bindings.Struct {
 class ViewManagerClientOnPerformActionParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int viewId = 0;
   String action = null;
 
@@ -2072,7 +2072,7 @@ class ViewManagerClientOnPerformActionParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -2104,7 +2104,7 @@ class ViewManagerClientOnPerformActionParams extends bindings.Struct {
 class ViewManagerClientOnPerformActionResponseParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   bool success = false;
 
   ViewManagerClientOnPerformActionResponseParams() : super(kStructSize);
@@ -2121,7 +2121,7 @@ class ViewManagerClientOnPerformActionResponseParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {

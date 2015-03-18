@@ -14,7 +14,7 @@ import 'package:mojo/services/input_events/public/interfaces/input_events.mojom.
 class WindowManagerInternalCreateWindowManagerForViewManagerClientParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int connectionId = 0;
   core.MojoMessagePipeEndpoint windowManagerPipe = null;
 
@@ -32,7 +32,7 @@ class WindowManagerInternalCreateWindowManagerForViewManagerClientParams extends
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -64,7 +64,7 @@ class WindowManagerInternalCreateWindowManagerForViewManagerClientParams extends
 class WindowManagerInternalSetViewManagerClientParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   core.MojoMessagePipeEndpoint viewManagerClientRequest = null;
 
   WindowManagerInternalSetViewManagerClientParams() : super(kStructSize);
@@ -81,7 +81,7 @@ class WindowManagerInternalSetViewManagerClientParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -106,7 +106,7 @@ class WindowManagerInternalSetViewManagerClientParams extends bindings.Struct {
 class WindowManagerInternalClientDispatchInputEventToViewParams extends bindings.Struct {
   static const int kStructSize = 24;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 2);
+      const bindings.StructDataHeader(kStructSize, 0);
   int viewId = 0;
   input_events_mojom.Event event = null;
 
@@ -124,7 +124,7 @@ class WindowManagerInternalClientDispatchInputEventToViewParams extends bindings
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 2)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -157,7 +157,7 @@ class WindowManagerInternalClientDispatchInputEventToViewParams extends bindings
 class WindowManagerInternalClientSetViewportSizeParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   geometry_mojom.Size size = null;
 
   WindowManagerInternalClientSetViewportSizeParams() : super(kStructSize);
@@ -174,7 +174,7 @@ class WindowManagerInternalClientSetViewportSizeParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
@@ -200,7 +200,7 @@ class WindowManagerInternalClientSetViewportSizeParams extends bindings.Struct {
 class WindowManagerInternalClientCloneAndAnimateParams extends bindings.Struct {
   static const int kStructSize = 16;
   static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+      const bindings.StructDataHeader(kStructSize, 0);
   int viewId = 0;
 
   WindowManagerInternalClientCloneAndAnimateParams() : super(kStructSize);
@@ -217,7 +217,7 @@ class WindowManagerInternalClientCloneAndAnimateParams extends bindings.Struct {
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
     if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
+        (mainDataHeader.version < 0)) {
       throw new bindings.MojoCodecError('Malformed header');
     }
     {
