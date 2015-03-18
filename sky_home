@@ -8,13 +8,16 @@
  a { font-size: 1.642874em; }
 </style>
 <h1>Sky Demos</h1>
-<a href='/sky_sdk/examples/stocks/index.sky'>stocks app (custom elements)</a>
 <a href='/sky_sdk/examples/stocks-fn/main.sky'>stocks app (react-style)</a>
-<a href='/sky_sdk/examples/spinning-square.sky'>spinning square</a>
 <a href='/sky_sdk/examples/touch-demo.sky'>touch demo</a>
-<a href='/sky_sdk/examples/widgets/index.sky'>widgets (custom elements)</a>
 <a href='/sky_sdk/examples/widgets-fn/main.sky'>widgets (react-style)</a>
+
+<h1>Older Demos</h1>
+<a href='/sky_sdk/examples/spinning-square.sky'>spinning square</a>
+<a href='/sky_sdk/examples/stocks/index.sky'>stocks app (custom elements)</a>
+<a href='/sky_sdk/examples/widgets/index.sky'>widgets (custom elements)</a>
 <a href='/sky_sdk/examples/scrolling/index.sky'>scrolling (custom elements)</a>
+
 
 <a href='/sky_sdk/LICENSES.sky'>LICENCES</a>
 </sky>
