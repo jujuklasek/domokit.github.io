@@ -439,7 +439,11 @@ class PingPongServiceProxyImpl extends bindings.Proxy {
           throw 'Expected a message with a valid request Id.';
         }
         Completer c = completerMap[message.header.requestId];
-        completerMap[message.header.requestId] = null;
+        if (c == null) {
+          throw 'Message had unknown request Id: ${message.header.requestId}';
+        }
+        completerMap.remove(message.header.requestId);
+        assert(!c.isCompleted);
         c.complete(r);
         break;
       case kPingPongService_pingTargetService_name:
@@ -449,7 +453,11 @@ class PingPongServiceProxyImpl extends bindings.Proxy {
           throw 'Expected a message with a valid request Id.';
         }
         Completer c = completerMap[message.header.requestId];
-        completerMap[message.header.requestId] = null;
+        if (c == null) {
+          throw 'Message had unknown request Id: ${message.header.requestId}';
+        }
+        completerMap.remove(message.header.requestId);
+        assert(!c.isCompleted);
         c.complete(r);
         break;
       default:
@@ -550,7 +558,7 @@ class PingPongServiceProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new PingPongServiceProxy.fromEndpoint(endpoint);
 
-  Future close() => impl.close();
+  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
 
   String toString() {
     return "PingPongServiceProxy($impl)";
@@ -740,7 +748,7 @@ class PingPongClientProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new PingPongClientProxy.fromEndpoint(endpoint);
 
-  Future close() => impl.close();
+  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
 
   String toString() {
     return "PingPongClientProxy($impl)";

@@ -171,7 +171,11 @@ class NetworkTestServiceProxyImpl extends bindings.Proxy {
           throw 'Expected a message with a valid request Id.';
         }
         Completer c = completerMap[message.header.requestId];
-        completerMap[message.header.requestId] = null;
+        if (c == null) {
+          throw 'Message had unknown request Id: ${message.header.requestId}';
+        }
+        completerMap.remove(message.header.requestId);
+        assert(!c.isCompleted);
         c.complete(r);
         break;
       default:
@@ -239,7 +243,7 @@ class NetworkTestServiceProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new NetworkTestServiceProxy.fromEndpoint(endpoint);
 
-  Future close() => impl.close();
+  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
 
   String toString() {
     return "NetworkTestServiceProxy($impl)";

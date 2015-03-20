@@ -92,13 +92,107 @@ class EchoServiceEchoStringResponseParams extends bindings.Struct {
            "value: $value" ")";
   }
 }
+
+class EchoServiceDelayedEchoStringParams extends bindings.Struct {
+  static const int kStructSize = 24;
+  static const bindings.StructDataHeader kDefaultStructInfo =
+      const bindings.StructDataHeader(kStructSize, 0);
+  String value = null;
+  int millis = 0;
+
+  EchoServiceDelayedEchoStringParams() : super(kStructSize);
+
+  static EchoServiceDelayedEchoStringParams deserialize(bindings.Message message) {
+    return decode(new bindings.Decoder(message));
+  }
+
+  static EchoServiceDelayedEchoStringParams decode(bindings.Decoder decoder0) {
+    if (decoder0 == null) {
+      return null;
+    }
+    EchoServiceDelayedEchoStringParams result = new EchoServiceDelayedEchoStringParams();
+
+    var mainDataHeader = decoder0.decodeStructDataHeader();
+    if ((mainDataHeader.size < kStructSize) ||
+        (mainDataHeader.version < 0)) {
+      throw new bindings.MojoCodecError('Malformed header');
+    }
+    {
+      
+      result.value = decoder0.decodeString(8, true);
+    }
+    {
+      
+      result.millis = decoder0.decodeInt32(16);
+    }
+    return result;
+  }
+
+  void encode(bindings.Encoder encoder) {
+    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    
+    encoder0.encodeString(value, 8, true);
+    
+    encoder0.encodeInt32(millis, 16);
+  }
+
+  String toString() {
+    return "EchoServiceDelayedEchoStringParams("
+           "value: $value" ", "
+           "millis: $millis" ")";
+  }
+}
+
+class EchoServiceDelayedEchoStringResponseParams extends bindings.Struct {
+  static const int kStructSize = 16;
+  static const bindings.StructDataHeader kDefaultStructInfo =
+      const bindings.StructDataHeader(kStructSize, 0);
+  String value = null;
+
+  EchoServiceDelayedEchoStringResponseParams() : super(kStructSize);
+
+  static EchoServiceDelayedEchoStringResponseParams deserialize(bindings.Message message) {
+    return decode(new bindings.Decoder(message));
+  }
+
+  static EchoServiceDelayedEchoStringResponseParams decode(bindings.Decoder decoder0) {
+    if (decoder0 == null) {
+      return null;
+    }
+    EchoServiceDelayedEchoStringResponseParams result = new EchoServiceDelayedEchoStringResponseParams();
+
+    var mainDataHeader = decoder0.decodeStructDataHeader();
+    if ((mainDataHeader.size < kStructSize) ||
+        (mainDataHeader.version < 0)) {
+      throw new bindings.MojoCodecError('Malformed header');
+    }
+    {
+      
+      result.value = decoder0.decodeString(8, true);
+    }
+    return result;
+  }
+
+  void encode(bindings.Encoder encoder) {
+    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    
+    encoder0.encodeString(value, 8, true);
+  }
+
+  String toString() {
+    return "EchoServiceDelayedEchoStringResponseParams("
+           "value: $value" ")";
+  }
+}
 const int kEchoService_echoString_name = 0;
+const int kEchoService_delayedEchoString_name = 1;
 
 const String EchoServiceName =
       'mojo::EchoService';
 
 abstract class EchoService {
   Future<EchoServiceEchoStringResponseParams> echoString(String value,[Function responseFactory = null]);
+  Future<EchoServiceDelayedEchoStringResponseParams> delayedEchoString(String value,int millis,[Function responseFactory = null]);
 
 }
 
@@ -127,7 +221,25 @@ class EchoServiceProxyImpl extends bindings.Proxy {
           throw 'Expected a message with a valid request Id.';
         }
         Completer c = completerMap[message.header.requestId];
-        completerMap[message.header.requestId] = null;
+        if (c == null) {
+          throw 'Message had unknown request Id: ${message.header.requestId}';
+        }
+        completerMap.remove(message.header.requestId);
+        assert(!c.isCompleted);
+        c.complete(r);
+        break;
+      case kEchoService_delayedEchoString_name:
+        var r = EchoServiceDelayedEchoStringResponseParams.deserialize(
+            message.payload);
+        if (!message.header.hasRequestId) {
+          throw 'Expected a message with a valid request Id.';
+        }
+        Completer c = completerMap[message.header.requestId];
+        if (c == null) {
+          throw 'Message had unknown request Id: ${message.header.requestId}';
+        }
+        completerMap.remove(message.header.requestId);
+        assert(!c.isCompleted);
         c.complete(r);
         break;
       default:
@@ -154,6 +266,17 @@ class _EchoServiceProxyCalls implements EchoService {
       return _proxyImpl.sendMessageWithRequestId(
           params,
           kEchoService_echoString_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<EchoServiceDelayedEchoStringResponseParams> delayedEchoString(String value,int millis,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
+      var params = new EchoServiceDelayedEchoStringParams();
+      params.value = value;
+      params.millis = millis;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kEchoService_delayedEchoString_name,
           -1,
           bindings.MessageHeader.kMessageExpectsResponse);
     }
@@ -189,7 +312,7 @@ class EchoServiceProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new EchoServiceProxy.fromEndpoint(endpoint);
 
-  Future close() => impl.close();
+  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
 
   String toString() {
     return "EchoServiceProxy($impl)";
@@ -221,6 +344,11 @@ class EchoServiceStub extends bindings.Stub {
     result.value = value;
     return result;
   }
+  EchoServiceDelayedEchoStringResponseParams _EchoServiceDelayedEchoStringResponseParamsFactory(String value) {
+    var result = new EchoServiceDelayedEchoStringResponseParams();
+    result.value = value;
+    return result;
+  }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
     assert(_impl != null);
@@ -233,6 +361,19 @@ class EchoServiceStub extends bindings.Stub {
             return buildResponseWithId(
                 response,
                 kEchoService_echoString_name,
+                message.header.requestId,
+                bindings.MessageHeader.kMessageIsResponse);
+          }
+        });
+        break;
+      case kEchoService_delayedEchoString_name:
+        var params = EchoServiceDelayedEchoStringParams.deserialize(
+            message.payload);
+        return _impl.delayedEchoString(params.value,params.millis,_EchoServiceDelayedEchoStringResponseParamsFactory).then((response) {
+          if (response != null) {
+            return buildResponseWithId(
+                response,
+                kEchoService_delayedEchoString_name,
                 message.header.requestId,
                 bindings.MessageHeader.kMessageIsResponse);
           }

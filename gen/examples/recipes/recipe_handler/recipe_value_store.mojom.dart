@@ -386,7 +386,7 @@ class RecipeValueStoreProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new RecipeValueStoreProxy.fromEndpoint(endpoint);
 
-  Future close() => impl.close();
+  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
 
   String toString() {
     return "RecipeValueStoreProxy($impl)";
@@ -530,7 +530,7 @@ class RecipeValueStoreObserverProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new RecipeValueStoreObserverProxy.fromEndpoint(endpoint);
 
-  Future close() => impl.close();
+  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
 
   String toString() {
     return "RecipeValueStoreObserverProxy($impl)";

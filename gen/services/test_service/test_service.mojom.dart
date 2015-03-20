@@ -411,7 +411,11 @@ class TestServiceProxyImpl extends bindings.Proxy {
           throw 'Expected a message with a valid request Id.';
         }
         Completer c = completerMap[message.header.requestId];
-        completerMap[message.header.requestId] = null;
+        if (c == null) {
+          throw 'Message had unknown request Id: ${message.header.requestId}';
+        }
+        completerMap.remove(message.header.requestId);
+        assert(!c.isCompleted);
         c.complete(r);
         break;
       case kTestService_connectToAppAndGetTime_name:
@@ -421,7 +425,11 @@ class TestServiceProxyImpl extends bindings.Proxy {
           throw 'Expected a message with a valid request Id.';
         }
         Completer c = completerMap[message.header.requestId];
-        completerMap[message.header.requestId] = null;
+        if (c == null) {
+          throw 'Message had unknown request Id: ${message.header.requestId}';
+        }
+        completerMap.remove(message.header.requestId);
+        assert(!c.isCompleted);
         c.complete(r);
         break;
       case kTestService_startTrackingRequests_name:
@@ -431,7 +439,11 @@ class TestServiceProxyImpl extends bindings.Proxy {
           throw 'Expected a message with a valid request Id.';
         }
         Completer c = completerMap[message.header.requestId];
-        completerMap[message.header.requestId] = null;
+        if (c == null) {
+          throw 'Message had unknown request Id: ${message.header.requestId}';
+        }
+        completerMap.remove(message.header.requestId);
+        assert(!c.isCompleted);
         c.complete(r);
         break;
       default:
@@ -511,7 +523,7 @@ class TestServiceProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new TestServiceProxy.fromEndpoint(endpoint);
 
-  Future close() => impl.close();
+  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
 
   String toString() {
     return "TestServiceProxy($impl)";
@@ -650,7 +662,11 @@ class TestTimeServiceProxyImpl extends bindings.Proxy {
           throw 'Expected a message with a valid request Id.';
         }
         Completer c = completerMap[message.header.requestId];
-        completerMap[message.header.requestId] = null;
+        if (c == null) {
+          throw 'Message had unknown request Id: ${message.header.requestId}';
+        }
+        completerMap.remove(message.header.requestId);
+        assert(!c.isCompleted);
         c.complete(r);
         break;
       case kTestTimeService_startTrackingRequests_name:
@@ -660,7 +676,11 @@ class TestTimeServiceProxyImpl extends bindings.Proxy {
           throw 'Expected a message with a valid request Id.';
         }
         Completer c = completerMap[message.header.requestId];
-        completerMap[message.header.requestId] = null;
+        if (c == null) {
+          throw 'Message had unknown request Id: ${message.header.requestId}';
+        }
+        completerMap.remove(message.header.requestId);
+        assert(!c.isCompleted);
         c.complete(r);
         break;
       default:
@@ -730,7 +750,7 @@ class TestTimeServiceProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new TestTimeServiceProxy.fromEndpoint(endpoint);
 
-  Future close() => impl.close();
+  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
 
   String toString() {
     return "TestTimeServiceProxy($impl)";

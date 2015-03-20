@@ -228,7 +228,7 @@ class DebugPanelHostProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new DebugPanelHostProxy.fromEndpoint(endpoint);
 
-  Future close() => impl.close();
+  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
 
   String toString() {
     return "DebugPanelHostProxy($impl)";
