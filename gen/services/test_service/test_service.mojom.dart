@@ -5,16 +5,17 @@
 library test_service.mojom;
 
 import 'dart:async';
-import 'dart:mojo.bindings' as bindings;
-import 'dart:mojo.core' as core;
+
+import 'package:mojo/public/dart/bindings.dart' as bindings;
+import 'package:mojo/public/dart/core.dart' as core;
 
 
 class TestServicePingParams extends bindings.Struct {
-  static const int kStructSize = 8;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(8, 0)
+  ];
 
-  TestServicePingParams() : super(kStructSize);
+  TestServicePingParams() : super(kVersions.last.size);
 
   static TestServicePingParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -27,15 +28,25 @@ class TestServicePingParams extends bindings.Struct {
     TestServicePingParams result = new TestServicePingParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
     return result;
   }
 
   void encode(bindings.Encoder encoder) {
-    encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    encoder.getStructEncoderAtOffset(kVersions.last);
   }
 
   String toString() {
@@ -44,11 +55,11 @@ class TestServicePingParams extends bindings.Struct {
 }
 
 class TestServicePingResponseParams extends bindings.Struct {
-  static const int kStructSize = 8;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(8, 0)
+  ];
 
-  TestServicePingResponseParams() : super(kStructSize);
+  TestServicePingResponseParams() : super(kVersions.last.size);
 
   static TestServicePingResponseParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -61,15 +72,25 @@ class TestServicePingResponseParams extends bindings.Struct {
     TestServicePingResponseParams result = new TestServicePingResponseParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
     return result;
   }
 
   void encode(bindings.Encoder encoder) {
-    encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    encoder.getStructEncoderAtOffset(kVersions.last);
   }
 
   String toString() {
@@ -78,12 +99,12 @@ class TestServicePingResponseParams extends bindings.Struct {
 }
 
 class TestServiceConnectToAppAndGetTimeParams extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   String appUrl = null;
 
-  TestServiceConnectToAppAndGetTimeParams() : super(kStructSize);
+  TestServiceConnectToAppAndGetTimeParams() : super(kVersions.last.size);
 
   static TestServiceConnectToAppAndGetTimeParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -96,11 +117,21 @@ class TestServiceConnectToAppAndGetTimeParams extends bindings.Struct {
     TestServiceConnectToAppAndGetTimeParams result = new TestServiceConnectToAppAndGetTimeParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.appUrl = decoder0.decodeString(8, true);
     }
@@ -108,7 +139,7 @@ class TestServiceConnectToAppAndGetTimeParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeString(appUrl, 8, true);
   }
@@ -120,12 +151,12 @@ class TestServiceConnectToAppAndGetTimeParams extends bindings.Struct {
 }
 
 class TestServiceConnectToAppAndGetTimeResponseParams extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   int timeUsec = 0;
 
-  TestServiceConnectToAppAndGetTimeResponseParams() : super(kStructSize);
+  TestServiceConnectToAppAndGetTimeResponseParams() : super(kVersions.last.size);
 
   static TestServiceConnectToAppAndGetTimeResponseParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -138,11 +169,21 @@ class TestServiceConnectToAppAndGetTimeResponseParams extends bindings.Struct {
     TestServiceConnectToAppAndGetTimeResponseParams result = new TestServiceConnectToAppAndGetTimeResponseParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.timeUsec = decoder0.decodeInt64(8);
     }
@@ -150,7 +191,7 @@ class TestServiceConnectToAppAndGetTimeResponseParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeInt64(timeUsec, 8);
   }
@@ -162,11 +203,11 @@ class TestServiceConnectToAppAndGetTimeResponseParams extends bindings.Struct {
 }
 
 class TestServiceStartTrackingRequestsParams extends bindings.Struct {
-  static const int kStructSize = 8;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(8, 0)
+  ];
 
-  TestServiceStartTrackingRequestsParams() : super(kStructSize);
+  TestServiceStartTrackingRequestsParams() : super(kVersions.last.size);
 
   static TestServiceStartTrackingRequestsParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -179,15 +220,25 @@ class TestServiceStartTrackingRequestsParams extends bindings.Struct {
     TestServiceStartTrackingRequestsParams result = new TestServiceStartTrackingRequestsParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
     return result;
   }
 
   void encode(bindings.Encoder encoder) {
-    encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    encoder.getStructEncoderAtOffset(kVersions.last);
   }
 
   String toString() {
@@ -196,11 +247,11 @@ class TestServiceStartTrackingRequestsParams extends bindings.Struct {
 }
 
 class TestServiceStartTrackingRequestsResponseParams extends bindings.Struct {
-  static const int kStructSize = 8;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(8, 0)
+  ];
 
-  TestServiceStartTrackingRequestsResponseParams() : super(kStructSize);
+  TestServiceStartTrackingRequestsResponseParams() : super(kVersions.last.size);
 
   static TestServiceStartTrackingRequestsResponseParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -213,15 +264,25 @@ class TestServiceStartTrackingRequestsResponseParams extends bindings.Struct {
     TestServiceStartTrackingRequestsResponseParams result = new TestServiceStartTrackingRequestsResponseParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
     return result;
   }
 
   void encode(bindings.Encoder encoder) {
-    encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    encoder.getStructEncoderAtOffset(kVersions.last);
   }
 
   String toString() {
@@ -230,11 +291,11 @@ class TestServiceStartTrackingRequestsResponseParams extends bindings.Struct {
 }
 
 class TestTimeServiceGetPartyTimeParams extends bindings.Struct {
-  static const int kStructSize = 8;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(8, 0)
+  ];
 
-  TestTimeServiceGetPartyTimeParams() : super(kStructSize);
+  TestTimeServiceGetPartyTimeParams() : super(kVersions.last.size);
 
   static TestTimeServiceGetPartyTimeParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -247,15 +308,25 @@ class TestTimeServiceGetPartyTimeParams extends bindings.Struct {
     TestTimeServiceGetPartyTimeParams result = new TestTimeServiceGetPartyTimeParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
     return result;
   }
 
   void encode(bindings.Encoder encoder) {
-    encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    encoder.getStructEncoderAtOffset(kVersions.last);
   }
 
   String toString() {
@@ -264,12 +335,12 @@ class TestTimeServiceGetPartyTimeParams extends bindings.Struct {
 }
 
 class TestTimeServiceGetPartyTimeResponseParams extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   int timeUsec = 0;
 
-  TestTimeServiceGetPartyTimeResponseParams() : super(kStructSize);
+  TestTimeServiceGetPartyTimeResponseParams() : super(kVersions.last.size);
 
   static TestTimeServiceGetPartyTimeResponseParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -282,11 +353,21 @@ class TestTimeServiceGetPartyTimeResponseParams extends bindings.Struct {
     TestTimeServiceGetPartyTimeResponseParams result = new TestTimeServiceGetPartyTimeResponseParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.timeUsec = decoder0.decodeInt64(8);
     }
@@ -294,7 +375,7 @@ class TestTimeServiceGetPartyTimeResponseParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeInt64(timeUsec, 8);
   }
@@ -306,11 +387,11 @@ class TestTimeServiceGetPartyTimeResponseParams extends bindings.Struct {
 }
 
 class TestTimeServiceStartTrackingRequestsParams extends bindings.Struct {
-  static const int kStructSize = 8;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(8, 0)
+  ];
 
-  TestTimeServiceStartTrackingRequestsParams() : super(kStructSize);
+  TestTimeServiceStartTrackingRequestsParams() : super(kVersions.last.size);
 
   static TestTimeServiceStartTrackingRequestsParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -323,15 +404,25 @@ class TestTimeServiceStartTrackingRequestsParams extends bindings.Struct {
     TestTimeServiceStartTrackingRequestsParams result = new TestTimeServiceStartTrackingRequestsParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
     return result;
   }
 
   void encode(bindings.Encoder encoder) {
-    encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    encoder.getStructEncoderAtOffset(kVersions.last);
   }
 
   String toString() {
@@ -340,11 +431,11 @@ class TestTimeServiceStartTrackingRequestsParams extends bindings.Struct {
 }
 
 class TestTimeServiceStartTrackingRequestsResponseParams extends bindings.Struct {
-  static const int kStructSize = 8;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(8, 0)
+  ];
 
-  TestTimeServiceStartTrackingRequestsResponseParams() : super(kStructSize);
+  TestTimeServiceStartTrackingRequestsResponseParams() : super(kVersions.last.size);
 
   static TestTimeServiceStartTrackingRequestsResponseParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -357,15 +448,25 @@ class TestTimeServiceStartTrackingRequestsResponseParams extends bindings.Struct
     TestTimeServiceStartTrackingRequestsResponseParams result = new TestTimeServiceStartTrackingRequestsResponseParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
     return result;
   }
 
   void encode(bindings.Encoder encoder) {
-    encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    encoder.getStructEncoderAtOffset(kVersions.last);
   }
 
   String toString() {

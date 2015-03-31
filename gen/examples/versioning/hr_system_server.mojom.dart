@@ -5,22 +5,23 @@
 library hr_system_server.mojom;
 
 import 'dart:async';
-import 'dart:mojo.bindings' as bindings;
-import 'dart:mojo.core' as core;
+
+import 'package:mojo/public/dart/bindings.dart' as bindings;
+import 'package:mojo/public/dart/core.dart' as core;
 
 final int Department_SALES = 0;
 final int Department_DEV = Department_SALES + 1;
 
 
 class Date extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   int year = 0;
   int month = 0;
   int day = 0;
 
-  Date() : super(kStructSize);
+  Date() : super(kVersions.last.size);
 
   static Date deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -33,19 +34,29 @@ class Date extends bindings.Struct {
     Date result = new Date();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.year = decoder0.decodeUint16(8);
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.month = decoder0.decodeUint8(10);
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.day = decoder0.decodeUint8(11);
     }
@@ -53,7 +64,7 @@ class Date extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeUint16(year, 8);
     
@@ -71,15 +82,16 @@ class Date extends bindings.Struct {
 }
 
 class Employee extends bindings.Struct {
-  static const int kStructSize = 40;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 1);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(32, 0),
+    const bindings.StructDataHeader(40, 1)
+  ];
   int employeeId = 0;
   String name = null;
   int department = 0;
   Date birthday = null;
 
-  Employee() : super(kStructSize);
+  Employee() : super(kVersions.last.size);
 
   static Employee deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -92,23 +104,33 @@ class Employee extends bindings.Struct {
     Employee result = new Employee();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 1)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.employeeId = decoder0.decodeUint64(8);
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.name = decoder0.decodeString(16, false);
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.department = decoder0.decodeInt32(24);
     }
-    {
+    if (mainDataHeader.version >= 1) {
       
       var decoder1 = decoder0.decodePointer(32, true);
       result.birthday = Date.decode(decoder1);
@@ -117,7 +139,7 @@ class Employee extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeUint64(employeeId, 8);
     
@@ -138,12 +160,12 @@ class Employee extends bindings.Struct {
 }
 
 class HumanResourceDatabaseAddEmployeeParams extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   Employee employee = null;
 
-  HumanResourceDatabaseAddEmployeeParams() : super(kStructSize);
+  HumanResourceDatabaseAddEmployeeParams() : super(kVersions.last.size);
 
   static HumanResourceDatabaseAddEmployeeParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -156,11 +178,21 @@ class HumanResourceDatabaseAddEmployeeParams extends bindings.Struct {
     HumanResourceDatabaseAddEmployeeParams result = new HumanResourceDatabaseAddEmployeeParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       var decoder1 = decoder0.decodePointer(8, false);
       result.employee = Employee.decode(decoder1);
@@ -169,7 +201,7 @@ class HumanResourceDatabaseAddEmployeeParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeStruct(employee, 8, false);
   }
@@ -181,12 +213,12 @@ class HumanResourceDatabaseAddEmployeeParams extends bindings.Struct {
 }
 
 class HumanResourceDatabaseAddEmployeeResponseParams extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   bool success = false;
 
-  HumanResourceDatabaseAddEmployeeResponseParams() : super(kStructSize);
+  HumanResourceDatabaseAddEmployeeResponseParams() : super(kVersions.last.size);
 
   static HumanResourceDatabaseAddEmployeeResponseParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -199,11 +231,21 @@ class HumanResourceDatabaseAddEmployeeResponseParams extends bindings.Struct {
     HumanResourceDatabaseAddEmployeeResponseParams result = new HumanResourceDatabaseAddEmployeeResponseParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.success = decoder0.decodeBool(8, 0);
     }
@@ -211,7 +253,7 @@ class HumanResourceDatabaseAddEmployeeResponseParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeBool(success, 8, 0);
   }
@@ -223,12 +265,12 @@ class HumanResourceDatabaseAddEmployeeResponseParams extends bindings.Struct {
 }
 
 class HumanResourceDatabaseQueryEmployeeParams extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   int id = 0;
 
-  HumanResourceDatabaseQueryEmployeeParams() : super(kStructSize);
+  HumanResourceDatabaseQueryEmployeeParams() : super(kVersions.last.size);
 
   static HumanResourceDatabaseQueryEmployeeParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -241,11 +283,21 @@ class HumanResourceDatabaseQueryEmployeeParams extends bindings.Struct {
     HumanResourceDatabaseQueryEmployeeParams result = new HumanResourceDatabaseQueryEmployeeParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.id = decoder0.decodeUint64(8);
     }
@@ -253,7 +305,7 @@ class HumanResourceDatabaseQueryEmployeeParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeUint64(id, 8);
   }
@@ -265,12 +317,12 @@ class HumanResourceDatabaseQueryEmployeeParams extends bindings.Struct {
 }
 
 class HumanResourceDatabaseQueryEmployeeResponseParams extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   Employee employee = null;
 
-  HumanResourceDatabaseQueryEmployeeResponseParams() : super(kStructSize);
+  HumanResourceDatabaseQueryEmployeeResponseParams() : super(kVersions.last.size);
 
   static HumanResourceDatabaseQueryEmployeeResponseParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -283,11 +335,21 @@ class HumanResourceDatabaseQueryEmployeeResponseParams extends bindings.Struct {
     HumanResourceDatabaseQueryEmployeeResponseParams result = new HumanResourceDatabaseQueryEmployeeResponseParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       var decoder1 = decoder0.decodePointer(8, true);
       result.employee = Employee.decode(decoder1);
@@ -296,7 +358,7 @@ class HumanResourceDatabaseQueryEmployeeResponseParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeStruct(employee, 8, true);
   }

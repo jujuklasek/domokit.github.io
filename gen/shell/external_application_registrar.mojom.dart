@@ -5,19 +5,20 @@
 library external_application_registrar.mojom;
 
 import 'dart:async';
-import 'dart:mojo.bindings' as bindings;
-import 'dart:mojo.core' as core;
+
+import 'package:mojo/public/dart/bindings.dart' as bindings;
+import 'package:mojo/public/dart/core.dart' as core;
 import 'package:mojo/public/interfaces/application/application.mojom.dart' as application_mojom;
 
 
 class ExternalApplicationRegistrarRegisterParams extends bindings.Struct {
-  static const int kStructSize = 24;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(24, 0)
+  ];
   String applicationUrl = null;
   List<String> args = null;
 
-  ExternalApplicationRegistrarRegisterParams() : super(kStructSize);
+  ExternalApplicationRegistrarRegisterParams() : super(kVersions.last.size);
 
   static ExternalApplicationRegistrarRegisterParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -30,15 +31,25 @@ class ExternalApplicationRegistrarRegisterParams extends bindings.Struct {
     ExternalApplicationRegistrarRegisterParams result = new ExternalApplicationRegistrarRegisterParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.applicationUrl = decoder0.decodeString(8, false);
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       var decoder1 = decoder0.decodePointer(16, true);
       if (decoder1 == null) {
@@ -56,7 +67,7 @@ class ExternalApplicationRegistrarRegisterParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeString(applicationUrl, 8, false);
     
@@ -79,12 +90,12 @@ class ExternalApplicationRegistrarRegisterParams extends bindings.Struct {
 }
 
 class ExternalApplicationRegistrarRegisterResponseParams extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   Object applicationRequest = null;
 
-  ExternalApplicationRegistrarRegisterResponseParams() : super(kStructSize);
+  ExternalApplicationRegistrarRegisterResponseParams() : super(kVersions.last.size);
 
   static ExternalApplicationRegistrarRegisterResponseParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -97,11 +108,21 @@ class ExternalApplicationRegistrarRegisterResponseParams extends bindings.Struct
     ExternalApplicationRegistrarRegisterResponseParams result = new ExternalApplicationRegistrarRegisterResponseParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.applicationRequest = decoder0.decodeInterfaceRequest(8, false, application_mojom.ApplicationStub.newFromEndpoint);
     }
@@ -109,7 +130,7 @@ class ExternalApplicationRegistrarRegisterResponseParams extends bindings.Struct
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeInterfaceRequest(applicationRequest, 8, false);
   }

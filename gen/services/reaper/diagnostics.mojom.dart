@@ -5,23 +5,24 @@
 library diagnostics.mojom;
 
 import 'dart:async';
-import 'dart:mojo.bindings' as bindings;
-import 'dart:mojo.core' as core;
+
+import 'package:mojo/public/dart/bindings.dart' as bindings;
+import 'package:mojo/public/dart/core.dart' as core;
 import 'package:services/reaper/reaper.mojom.dart' as reaper_mojom;
 import 'package:services/reaper/scythe.mojom.dart' as scythe_mojom;
 
 
 class Node extends bindings.Struct {
-  static const int kStructSize = 40;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(40, 0)
+  ];
   String appUrl = null;
   int nodeId = 0;
   int otherId = 0;
   String otherAppUrl = null;
   bool isSource = false;
 
-  Node() : super(kStructSize);
+  Node() : super(kVersions.last.size);
 
   static Node deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -34,27 +35,37 @@ class Node extends bindings.Struct {
     Node result = new Node();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.appUrl = decoder0.decodeString(8, false);
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.nodeId = decoder0.decodeUint32(16);
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.otherId = decoder0.decodeUint32(20);
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.otherAppUrl = decoder0.decodeString(24, false);
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.isSource = decoder0.decodeBool(32, 0);
     }
@@ -62,7 +73,7 @@ class Node extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeString(appUrl, 8, false);
     
@@ -86,11 +97,11 @@ class Node extends bindings.Struct {
 }
 
 class DiagnosticsDumpNodesParams extends bindings.Struct {
-  static const int kStructSize = 8;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(8, 0)
+  ];
 
-  DiagnosticsDumpNodesParams() : super(kStructSize);
+  DiagnosticsDumpNodesParams() : super(kVersions.last.size);
 
   static DiagnosticsDumpNodesParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -103,15 +114,25 @@ class DiagnosticsDumpNodesParams extends bindings.Struct {
     DiagnosticsDumpNodesParams result = new DiagnosticsDumpNodesParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
     return result;
   }
 
   void encode(bindings.Encoder encoder) {
-    encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    encoder.getStructEncoderAtOffset(kVersions.last);
   }
 
   String toString() {
@@ -120,12 +141,12 @@ class DiagnosticsDumpNodesParams extends bindings.Struct {
 }
 
 class DiagnosticsDumpNodesResponseParams extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   List<Node> nodes = null;
 
-  DiagnosticsDumpNodesResponseParams() : super(kStructSize);
+  DiagnosticsDumpNodesResponseParams() : super(kVersions.last.size);
 
   static DiagnosticsDumpNodesResponseParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -138,11 +159,21 @@ class DiagnosticsDumpNodesResponseParams extends bindings.Struct {
     DiagnosticsDumpNodesResponseParams result = new DiagnosticsDumpNodesResponseParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       var decoder1 = decoder0.decodePointer(8, false);
       {
@@ -159,7 +190,7 @@ class DiagnosticsDumpNodesResponseParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     if (nodes == null) {
       encoder0.encodeNullPointer(8, false);
@@ -179,11 +210,11 @@ class DiagnosticsDumpNodesResponseParams extends bindings.Struct {
 }
 
 class DiagnosticsResetParams extends bindings.Struct {
-  static const int kStructSize = 8;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(8, 0)
+  ];
 
-  DiagnosticsResetParams() : super(kStructSize);
+  DiagnosticsResetParams() : super(kVersions.last.size);
 
   static DiagnosticsResetParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -196,15 +227,25 @@ class DiagnosticsResetParams extends bindings.Struct {
     DiagnosticsResetParams result = new DiagnosticsResetParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
     return result;
   }
 
   void encode(bindings.Encoder encoder) {
-    encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    encoder.getStructEncoderAtOffset(kVersions.last);
   }
 
   String toString() {
@@ -213,13 +254,13 @@ class DiagnosticsResetParams extends bindings.Struct {
 }
 
 class DiagnosticsGetReaperForAppParams extends bindings.Struct {
-  static const int kStructSize = 24;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(24, 0)
+  ];
   String appUrl = null;
   Object reaper = null;
 
-  DiagnosticsGetReaperForAppParams() : super(kStructSize);
+  DiagnosticsGetReaperForAppParams() : super(kVersions.last.size);
 
   static DiagnosticsGetReaperForAppParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -232,15 +273,25 @@ class DiagnosticsGetReaperForAppParams extends bindings.Struct {
     DiagnosticsGetReaperForAppParams result = new DiagnosticsGetReaperForAppParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.appUrl = decoder0.decodeString(8, false);
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.reaper = decoder0.decodeInterfaceRequest(16, false, reaper_mojom.ReaperStub.newFromEndpoint);
     }
@@ -248,7 +299,7 @@ class DiagnosticsGetReaperForAppParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeString(appUrl, 8, false);
     
@@ -263,13 +314,13 @@ class DiagnosticsGetReaperForAppParams extends bindings.Struct {
 }
 
 class DiagnosticsSetIsRootParams extends bindings.Struct {
-  static const int kStructSize = 24;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(24, 0)
+  ];
   String appUrl = null;
   bool isRoot = false;
 
-  DiagnosticsSetIsRootParams() : super(kStructSize);
+  DiagnosticsSetIsRootParams() : super(kVersions.last.size);
 
   static DiagnosticsSetIsRootParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -282,15 +333,25 @@ class DiagnosticsSetIsRootParams extends bindings.Struct {
     DiagnosticsSetIsRootParams result = new DiagnosticsSetIsRootParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.appUrl = decoder0.decodeString(8, false);
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.isRoot = decoder0.decodeBool(16, 0);
     }
@@ -298,7 +359,7 @@ class DiagnosticsSetIsRootParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeString(appUrl, 8, false);
     
@@ -313,12 +374,12 @@ class DiagnosticsSetIsRootParams extends bindings.Struct {
 }
 
 class DiagnosticsSetScytheParams extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   Object scythe = null;
 
-  DiagnosticsSetScytheParams() : super(kStructSize);
+  DiagnosticsSetScytheParams() : super(kVersions.last.size);
 
   static DiagnosticsSetScytheParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -331,11 +392,21 @@ class DiagnosticsSetScytheParams extends bindings.Struct {
     DiagnosticsSetScytheParams result = new DiagnosticsSetScytheParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.scythe = decoder0.decodeServiceInterface(8, false, scythe_mojom.ScytheProxy.newFromEndpoint);
     }
@@ -343,7 +414,7 @@ class DiagnosticsSetScytheParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeInterface(scythe, 8, false);
   }
@@ -355,11 +426,11 @@ class DiagnosticsSetScytheParams extends bindings.Struct {
 }
 
 class DiagnosticsPingParams extends bindings.Struct {
-  static const int kStructSize = 8;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(8, 0)
+  ];
 
-  DiagnosticsPingParams() : super(kStructSize);
+  DiagnosticsPingParams() : super(kVersions.last.size);
 
   static DiagnosticsPingParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -372,15 +443,25 @@ class DiagnosticsPingParams extends bindings.Struct {
     DiagnosticsPingParams result = new DiagnosticsPingParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
     return result;
   }
 
   void encode(bindings.Encoder encoder) {
-    encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    encoder.getStructEncoderAtOffset(kVersions.last);
   }
 
   String toString() {
@@ -389,11 +470,11 @@ class DiagnosticsPingParams extends bindings.Struct {
 }
 
 class DiagnosticsPingResponseParams extends bindings.Struct {
-  static const int kStructSize = 8;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(8, 0)
+  ];
 
-  DiagnosticsPingResponseParams() : super(kStructSize);
+  DiagnosticsPingResponseParams() : super(kVersions.last.size);
 
   static DiagnosticsPingResponseParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -406,15 +487,25 @@ class DiagnosticsPingResponseParams extends bindings.Struct {
     DiagnosticsPingResponseParams result = new DiagnosticsPingResponseParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
     return result;
   }
 
   void encode(bindings.Encoder encoder) {
-    encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    encoder.getStructEncoderAtOffset(kVersions.last);
   }
 
   String toString() {

@@ -5,18 +5,19 @@
 library recipe_value_store.mojom;
 
 import 'dart:async';
-import 'dart:mojo.bindings' as bindings;
-import 'dart:mojo.core' as core;
+
+import 'package:mojo/public/dart/bindings.dart' as bindings;
+import 'package:mojo/public/dart/core.dart' as core;
 
 
 class RecipeChangeValue extends bindings.Struct {
-  static const int kStructSize = 24;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(24, 0)
+  ];
   List<int> oldValue = null;
   List<int> newValue = null;
 
-  RecipeChangeValue() : super(kStructSize);
+  RecipeChangeValue() : super(kVersions.last.size);
 
   static RecipeChangeValue deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -29,15 +30,25 @@ class RecipeChangeValue extends bindings.Struct {
     RecipeChangeValue result = new RecipeChangeValue();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.oldValue = decoder0.decodeUint8Array(8, bindings.kArrayNullable, bindings.kUnspecifiedArrayLength);
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.newValue = decoder0.decodeUint8Array(16, bindings.kArrayNullable, bindings.kUnspecifiedArrayLength);
     }
@@ -45,7 +56,7 @@ class RecipeChangeValue extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeUint8Array(oldValue, 8, bindings.kArrayNullable, bindings.kUnspecifiedArrayLength);
     
@@ -60,12 +71,12 @@ class RecipeChangeValue extends bindings.Struct {
 }
 
 class RecipeValueStoreUpdateValuesParams extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   Map<String, List<int>> values = null;
 
-  RecipeValueStoreUpdateValuesParams() : super(kStructSize);
+  RecipeValueStoreUpdateValuesParams() : super(kVersions.last.size);
 
   static RecipeValueStoreUpdateValuesParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -78,11 +89,21 @@ class RecipeValueStoreUpdateValuesParams extends bindings.Struct {
     RecipeValueStoreUpdateValuesParams result = new RecipeValueStoreUpdateValuesParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       var decoder1 = decoder0.decodePointer(8, false);
       {
@@ -121,7 +142,7 @@ class RecipeValueStoreUpdateValuesParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     if (values == null) {
       encoder0.encodeNullPointer(8, false);
@@ -156,12 +177,12 @@ class RecipeValueStoreUpdateValuesParams extends bindings.Struct {
 }
 
 class RecipeValueStoreSetObserverParams extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   Object observer = null;
 
-  RecipeValueStoreSetObserverParams() : super(kStructSize);
+  RecipeValueStoreSetObserverParams() : super(kVersions.last.size);
 
   static RecipeValueStoreSetObserverParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -174,11 +195,21 @@ class RecipeValueStoreSetObserverParams extends bindings.Struct {
     RecipeValueStoreSetObserverParams result = new RecipeValueStoreSetObserverParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.observer = decoder0.decodeServiceInterface(8, false, RecipeValueStoreObserverProxy.newFromEndpoint);
     }
@@ -186,7 +217,7 @@ class RecipeValueStoreSetObserverParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeInterface(observer, 8, false);
   }
@@ -198,12 +229,12 @@ class RecipeValueStoreSetObserverParams extends bindings.Struct {
 }
 
 class RecipeValueStoreObserverOnValuesChangedParams extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   Map<String, RecipeChangeValue> changedValues = null;
 
-  RecipeValueStoreObserverOnValuesChangedParams() : super(kStructSize);
+  RecipeValueStoreObserverOnValuesChangedParams() : super(kVersions.last.size);
 
   static RecipeValueStoreObserverOnValuesChangedParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -216,11 +247,21 @@ class RecipeValueStoreObserverOnValuesChangedParams extends bindings.Struct {
     RecipeValueStoreObserverOnValuesChangedParams result = new RecipeValueStoreObserverOnValuesChangedParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       var decoder1 = decoder0.decodePointer(8, false);
       {
@@ -260,7 +301,7 @@ class RecipeValueStoreObserverOnValuesChangedParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     if (changedValues == null) {
       encoder0.encodeNullPointer(8, false);

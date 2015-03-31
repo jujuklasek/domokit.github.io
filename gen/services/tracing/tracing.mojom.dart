@@ -5,18 +5,19 @@
 library tracing.mojom;
 
 import 'dart:async';
-import 'dart:mojo.bindings' as bindings;
-import 'dart:mojo.core' as core;
+
+import 'package:mojo/public/dart/bindings.dart' as bindings;
+import 'package:mojo/public/dart/core.dart' as core;
 
 
 class TraceControllerStartTracingParams extends bindings.Struct {
-  static const int kStructSize = 24;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(24, 0)
+  ];
   String categories = null;
   Object collector = null;
 
-  TraceControllerStartTracingParams() : super(kStructSize);
+  TraceControllerStartTracingParams() : super(kVersions.last.size);
 
   static TraceControllerStartTracingParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -29,15 +30,25 @@ class TraceControllerStartTracingParams extends bindings.Struct {
     TraceControllerStartTracingParams result = new TraceControllerStartTracingParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.categories = decoder0.decodeString(8, false);
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.collector = decoder0.decodeServiceInterface(16, false, TraceDataCollectorProxy.newFromEndpoint);
     }
@@ -45,7 +56,7 @@ class TraceControllerStartTracingParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeString(categories, 8, false);
     
@@ -60,11 +71,11 @@ class TraceControllerStartTracingParams extends bindings.Struct {
 }
 
 class TraceControllerStopTracingParams extends bindings.Struct {
-  static const int kStructSize = 8;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(8, 0)
+  ];
 
-  TraceControllerStopTracingParams() : super(kStructSize);
+  TraceControllerStopTracingParams() : super(kVersions.last.size);
 
   static TraceControllerStopTracingParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -77,15 +88,25 @@ class TraceControllerStopTracingParams extends bindings.Struct {
     TraceControllerStopTracingParams result = new TraceControllerStopTracingParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
     return result;
   }
 
   void encode(bindings.Encoder encoder) {
-    encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    encoder.getStructEncoderAtOffset(kVersions.last);
   }
 
   String toString() {
@@ -94,12 +115,12 @@ class TraceControllerStopTracingParams extends bindings.Struct {
 }
 
 class TraceDataCollectorDataCollectedParams extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   String json = null;
 
-  TraceDataCollectorDataCollectedParams() : super(kStructSize);
+  TraceDataCollectorDataCollectedParams() : super(kVersions.last.size);
 
   static TraceDataCollectorDataCollectedParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -112,11 +133,21 @@ class TraceDataCollectorDataCollectedParams extends bindings.Struct {
     TraceDataCollectorDataCollectedParams result = new TraceDataCollectorDataCollectedParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.json = decoder0.decodeString(8, false);
     }
@@ -124,7 +155,7 @@ class TraceDataCollectorDataCollectedParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeString(json, 8, false);
   }
@@ -136,13 +167,13 @@ class TraceDataCollectorDataCollectedParams extends bindings.Struct {
 }
 
 class TraceCoordinatorStartParams extends bindings.Struct {
-  static const int kStructSize = 24;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(24, 0)
+  ];
   core.MojoDataPipeProducer stream = null;
   String categories = null;
 
-  TraceCoordinatorStartParams() : super(kStructSize);
+  TraceCoordinatorStartParams() : super(kVersions.last.size);
 
   static TraceCoordinatorStartParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -155,15 +186,25 @@ class TraceCoordinatorStartParams extends bindings.Struct {
     TraceCoordinatorStartParams result = new TraceCoordinatorStartParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.stream = decoder0.decodeProducerHandle(8, false);
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.categories = decoder0.decodeString(16, false);
     }
@@ -171,7 +212,7 @@ class TraceCoordinatorStartParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeProducerHandle(stream, 8, false);
     
@@ -186,11 +227,11 @@ class TraceCoordinatorStartParams extends bindings.Struct {
 }
 
 class TraceCoordinatorStopAndFlushParams extends bindings.Struct {
-  static const int kStructSize = 8;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(8, 0)
+  ];
 
-  TraceCoordinatorStopAndFlushParams() : super(kStructSize);
+  TraceCoordinatorStopAndFlushParams() : super(kVersions.last.size);
 
   static TraceCoordinatorStopAndFlushParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -203,15 +244,25 @@ class TraceCoordinatorStopAndFlushParams extends bindings.Struct {
     TraceCoordinatorStopAndFlushParams result = new TraceCoordinatorStopAndFlushParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
     return result;
   }
 
   void encode(bindings.Encoder encoder) {
-    encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    encoder.getStructEncoderAtOffset(kVersions.last);
   }
 
   String toString() {

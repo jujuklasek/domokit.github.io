@@ -5,17 +5,18 @@
 library pingpong_service.mojom;
 
 import 'dart:async';
-import 'dart:mojo.bindings' as bindings;
-import 'dart:mojo.core' as core;
+
+import 'package:mojo/public/dart/bindings.dart' as bindings;
+import 'package:mojo/public/dart/core.dart' as core;
 
 
 class PingPongServiceSetClientParams extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   Object client = null;
 
-  PingPongServiceSetClientParams() : super(kStructSize);
+  PingPongServiceSetClientParams() : super(kVersions.last.size);
 
   static PingPongServiceSetClientParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -28,11 +29,21 @@ class PingPongServiceSetClientParams extends bindings.Struct {
     PingPongServiceSetClientParams result = new PingPongServiceSetClientParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.client = decoder0.decodeServiceInterface(8, false, PingPongClientProxy.newFromEndpoint);
     }
@@ -40,7 +51,7 @@ class PingPongServiceSetClientParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeInterface(client, 8, false);
   }
@@ -52,12 +63,12 @@ class PingPongServiceSetClientParams extends bindings.Struct {
 }
 
 class PingPongServicePingParams extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   int pingValue = 0;
 
-  PingPongServicePingParams() : super(kStructSize);
+  PingPongServicePingParams() : super(kVersions.last.size);
 
   static PingPongServicePingParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -70,11 +81,21 @@ class PingPongServicePingParams extends bindings.Struct {
     PingPongServicePingParams result = new PingPongServicePingParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.pingValue = decoder0.decodeUint16(8);
     }
@@ -82,7 +103,7 @@ class PingPongServicePingParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeUint16(pingValue, 8);
   }
@@ -94,13 +115,13 @@ class PingPongServicePingParams extends bindings.Struct {
 }
 
 class PingPongServicePingTargetUrlParams extends bindings.Struct {
-  static const int kStructSize = 24;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(24, 0)
+  ];
   String url = null;
   int count = 0;
 
-  PingPongServicePingTargetUrlParams() : super(kStructSize);
+  PingPongServicePingTargetUrlParams() : super(kVersions.last.size);
 
   static PingPongServicePingTargetUrlParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -113,15 +134,25 @@ class PingPongServicePingTargetUrlParams extends bindings.Struct {
     PingPongServicePingTargetUrlParams result = new PingPongServicePingTargetUrlParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.url = decoder0.decodeString(8, false);
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.count = decoder0.decodeUint16(16);
     }
@@ -129,7 +160,7 @@ class PingPongServicePingTargetUrlParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeString(url, 8, false);
     
@@ -144,12 +175,12 @@ class PingPongServicePingTargetUrlParams extends bindings.Struct {
 }
 
 class PingPongServicePingTargetUrlResponseParams extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   bool ok = false;
 
-  PingPongServicePingTargetUrlResponseParams() : super(kStructSize);
+  PingPongServicePingTargetUrlResponseParams() : super(kVersions.last.size);
 
   static PingPongServicePingTargetUrlResponseParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -162,11 +193,21 @@ class PingPongServicePingTargetUrlResponseParams extends bindings.Struct {
     PingPongServicePingTargetUrlResponseParams result = new PingPongServicePingTargetUrlResponseParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.ok = decoder0.decodeBool(8, 0);
     }
@@ -174,7 +215,7 @@ class PingPongServicePingTargetUrlResponseParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeBool(ok, 8, 0);
   }
@@ -186,13 +227,13 @@ class PingPongServicePingTargetUrlResponseParams extends bindings.Struct {
 }
 
 class PingPongServicePingTargetServiceParams extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   Object service = null;
   int count = 0;
 
-  PingPongServicePingTargetServiceParams() : super(kStructSize);
+  PingPongServicePingTargetServiceParams() : super(kVersions.last.size);
 
   static PingPongServicePingTargetServiceParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -205,15 +246,25 @@ class PingPongServicePingTargetServiceParams extends bindings.Struct {
     PingPongServicePingTargetServiceParams result = new PingPongServicePingTargetServiceParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.service = decoder0.decodeServiceInterface(8, false, PingPongServiceProxy.newFromEndpoint);
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.count = decoder0.decodeUint16(12);
     }
@@ -221,7 +272,7 @@ class PingPongServicePingTargetServiceParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeInterface(service, 8, false);
     
@@ -236,12 +287,12 @@ class PingPongServicePingTargetServiceParams extends bindings.Struct {
 }
 
 class PingPongServicePingTargetServiceResponseParams extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   bool ok = false;
 
-  PingPongServicePingTargetServiceResponseParams() : super(kStructSize);
+  PingPongServicePingTargetServiceResponseParams() : super(kVersions.last.size);
 
   static PingPongServicePingTargetServiceResponseParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -254,11 +305,21 @@ class PingPongServicePingTargetServiceResponseParams extends bindings.Struct {
     PingPongServicePingTargetServiceResponseParams result = new PingPongServicePingTargetServiceResponseParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.ok = decoder0.decodeBool(8, 0);
     }
@@ -266,7 +327,7 @@ class PingPongServicePingTargetServiceResponseParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeBool(ok, 8, 0);
   }
@@ -278,12 +339,12 @@ class PingPongServicePingTargetServiceResponseParams extends bindings.Struct {
 }
 
 class PingPongServiceGetPingPongServiceParams extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   Object service = null;
 
-  PingPongServiceGetPingPongServiceParams() : super(kStructSize);
+  PingPongServiceGetPingPongServiceParams() : super(kVersions.last.size);
 
   static PingPongServiceGetPingPongServiceParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -296,11 +357,21 @@ class PingPongServiceGetPingPongServiceParams extends bindings.Struct {
     PingPongServiceGetPingPongServiceParams result = new PingPongServiceGetPingPongServiceParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.service = decoder0.decodeInterfaceRequest(8, false, PingPongServiceStub.newFromEndpoint);
     }
@@ -308,7 +379,7 @@ class PingPongServiceGetPingPongServiceParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeInterfaceRequest(service, 8, false);
   }
@@ -320,11 +391,11 @@ class PingPongServiceGetPingPongServiceParams extends bindings.Struct {
 }
 
 class PingPongServiceQuitParams extends bindings.Struct {
-  static const int kStructSize = 8;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(8, 0)
+  ];
 
-  PingPongServiceQuitParams() : super(kStructSize);
+  PingPongServiceQuitParams() : super(kVersions.last.size);
 
   static PingPongServiceQuitParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -337,15 +408,25 @@ class PingPongServiceQuitParams extends bindings.Struct {
     PingPongServiceQuitParams result = new PingPongServiceQuitParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
     return result;
   }
 
   void encode(bindings.Encoder encoder) {
-    encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    encoder.getStructEncoderAtOffset(kVersions.last);
   }
 
   String toString() {
@@ -354,12 +435,12 @@ class PingPongServiceQuitParams extends bindings.Struct {
 }
 
 class PingPongClientPongParams extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   int pongValue = 0;
 
-  PingPongClientPongParams() : super(kStructSize);
+  PingPongClientPongParams() : super(kVersions.last.size);
 
   static PingPongClientPongParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -372,11 +453,21 @@ class PingPongClientPongParams extends bindings.Struct {
     PingPongClientPongParams result = new PingPongClientPongParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.pongValue = decoder0.decodeUint16(8);
     }
@@ -384,7 +475,7 @@ class PingPongClientPongParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeUint16(pongValue, 8);
   }

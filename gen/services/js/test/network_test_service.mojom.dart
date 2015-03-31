@@ -5,17 +5,18 @@
 library network_test_service.mojom;
 
 import 'dart:async';
-import 'dart:mojo.bindings' as bindings;
-import 'dart:mojo.core' as core;
+
+import 'package:mojo/public/dart/bindings.dart' as bindings;
+import 'package:mojo/public/dart/core.dart' as core;
 
 
 class NetworkTestServiceGetFileSizeParams extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   String url = null;
 
-  NetworkTestServiceGetFileSizeParams() : super(kStructSize);
+  NetworkTestServiceGetFileSizeParams() : super(kVersions.last.size);
 
   static NetworkTestServiceGetFileSizeParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -28,11 +29,21 @@ class NetworkTestServiceGetFileSizeParams extends bindings.Struct {
     NetworkTestServiceGetFileSizeParams result = new NetworkTestServiceGetFileSizeParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.url = decoder0.decodeString(8, false);
     }
@@ -40,7 +51,7 @@ class NetworkTestServiceGetFileSizeParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeString(url, 8, false);
   }
@@ -52,13 +63,13 @@ class NetworkTestServiceGetFileSizeParams extends bindings.Struct {
 }
 
 class NetworkTestServiceGetFileSizeResponseParams extends bindings.Struct {
-  static const int kStructSize = 24;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(24, 0)
+  ];
   bool ok = false;
   int size = 0;
 
-  NetworkTestServiceGetFileSizeResponseParams() : super(kStructSize);
+  NetworkTestServiceGetFileSizeResponseParams() : super(kVersions.last.size);
 
   static NetworkTestServiceGetFileSizeResponseParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -71,15 +82,25 @@ class NetworkTestServiceGetFileSizeResponseParams extends bindings.Struct {
     NetworkTestServiceGetFileSizeResponseParams result = new NetworkTestServiceGetFileSizeResponseParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.ok = decoder0.decodeBool(8, 0);
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.size = decoder0.decodeUint64(16);
     }
@@ -87,7 +108,7 @@ class NetworkTestServiceGetFileSizeResponseParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeBool(ok, 8, 0);
     
@@ -102,11 +123,11 @@ class NetworkTestServiceGetFileSizeResponseParams extends bindings.Struct {
 }
 
 class NetworkTestServiceQuitParams extends bindings.Struct {
-  static const int kStructSize = 8;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(8, 0)
+  ];
 
-  NetworkTestServiceQuitParams() : super(kStructSize);
+  NetworkTestServiceQuitParams() : super(kVersions.last.size);
 
   static NetworkTestServiceQuitParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -119,15 +140,25 @@ class NetworkTestServiceQuitParams extends bindings.Struct {
     NetworkTestServiceQuitParams result = new NetworkTestServiceQuitParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
     return result;
   }
 
   void encode(bindings.Encoder encoder) {
-    encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    encoder.getStructEncoderAtOffset(kVersions.last);
   }
 
   String toString() {

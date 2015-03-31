@@ -5,16 +5,17 @@
 library window_frame_host.mojom;
 
 import 'dart:async';
-import 'dart:mojo.bindings' as bindings;
-import 'dart:mojo.core' as core;
+
+import 'package:mojo/public/dart/bindings.dart' as bindings;
+import 'package:mojo/public/dart/core.dart' as core;
 
 
 class WindowFrameHostActivateWindowParams extends bindings.Struct {
-  static const int kStructSize = 8;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(8, 0)
+  ];
 
-  WindowFrameHostActivateWindowParams() : super(kStructSize);
+  WindowFrameHostActivateWindowParams() : super(kVersions.last.size);
 
   static WindowFrameHostActivateWindowParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -27,15 +28,25 @@ class WindowFrameHostActivateWindowParams extends bindings.Struct {
     WindowFrameHostActivateWindowParams result = new WindowFrameHostActivateWindowParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
     return result;
   }
 
   void encode(bindings.Encoder encoder) {
-    encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    encoder.getStructEncoderAtOffset(kVersions.last);
   }
 
   String toString() {
@@ -44,11 +55,11 @@ class WindowFrameHostActivateWindowParams extends bindings.Struct {
 }
 
 class WindowFrameHostCloseWindowParams extends bindings.Struct {
-  static const int kStructSize = 8;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(8, 0)
+  ];
 
-  WindowFrameHostCloseWindowParams() : super(kStructSize);
+  WindowFrameHostCloseWindowParams() : super(kVersions.last.size);
 
   static WindowFrameHostCloseWindowParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -61,15 +72,25 @@ class WindowFrameHostCloseWindowParams extends bindings.Struct {
     WindowFrameHostCloseWindowParams result = new WindowFrameHostCloseWindowParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
     return result;
   }
 
   void encode(bindings.Encoder encoder) {
-    encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    encoder.getStructEncoderAtOffset(kVersions.last);
   }
 
   String toString() {
@@ -78,12 +99,12 @@ class WindowFrameHostCloseWindowParams extends bindings.Struct {
 }
 
 class WindowFrameHostSetCaptureParams extends bindings.Struct {
-  static const int kStructSize = 16;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
   bool frameHasCapture = false;
 
-  WindowFrameHostSetCaptureParams() : super(kStructSize);
+  WindowFrameHostSetCaptureParams() : super(kVersions.last.size);
 
   static WindowFrameHostSetCaptureParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -96,11 +117,21 @@ class WindowFrameHostSetCaptureParams extends bindings.Struct {
     WindowFrameHostSetCaptureParams result = new WindowFrameHostSetCaptureParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
-    {
+    if (mainDataHeader.version >= 0) {
       
       result.frameHasCapture = decoder0.decodeBool(8, 0);
     }
@@ -108,7 +139,7 @@ class WindowFrameHostSetCaptureParams extends bindings.Struct {
   }
 
   void encode(bindings.Encoder encoder) {
-    var encoder0 = encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
     
     encoder0.encodeBool(frameHasCapture, 8, 0);
   }
@@ -120,11 +151,11 @@ class WindowFrameHostSetCaptureParams extends bindings.Struct {
 }
 
 class WindowFrameHostToggleMaximizeParams extends bindings.Struct {
-  static const int kStructSize = 8;
-  static const bindings.StructDataHeader kDefaultStructInfo =
-      const bindings.StructDataHeader(kStructSize, 0);
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(8, 0)
+  ];
 
-  WindowFrameHostToggleMaximizeParams() : super(kStructSize);
+  WindowFrameHostToggleMaximizeParams() : super(kVersions.last.size);
 
   static WindowFrameHostToggleMaximizeParams deserialize(bindings.Message message) {
     return decode(new bindings.Decoder(message));
@@ -137,15 +168,25 @@ class WindowFrameHostToggleMaximizeParams extends bindings.Struct {
     WindowFrameHostToggleMaximizeParams result = new WindowFrameHostToggleMaximizeParams();
 
     var mainDataHeader = decoder0.decodeStructDataHeader();
-    if ((mainDataHeader.size < kStructSize) ||
-        (mainDataHeader.version < 0)) {
-      throw new bindings.MojoCodecError('Malformed header');
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
     }
     return result;
   }
 
   void encode(bindings.Encoder encoder) {
-    encoder.getStructEncoderAtOffset(kDefaultStructInfo);
+    encoder.getStructEncoderAtOffset(kVersions.last);
   }
 
   String toString() {
