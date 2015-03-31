@@ -12,10 +12,10 @@
 <a href='/mojo/embedded_app.mojo'>embeded_app</a>
 <a href='/mojo/surfaces_app.mojo'>surfaces_app</a>
 <h2>Sky/Dart Apps</h2>
-<a href='/sky_sdk/examples/stocks-fn/main.sky'>stocks app</a>
-<a href='/sky_sdk/examples/spinning-square.sky'>spinning square</a>
-<a href='/sky_sdk/examples/touch-demo.sky'>touch demo</a>
-<a href='/sky_sdk/examples/widgets-fn/main.sky'>widgets</a>
+<a href='/sky_sdk/examples/stocks/main.sky'>stocks app</a>
+<a href='/sky_sdk/examples/raw/spinning-square.sky'>spinning square</a>
+<a href='/sky_sdk/examples/raw/touch-demo.sky'>touch demo</a>
+<a href='/sky_sdk/examples/widgets/main.sky'>widgets</a>
 
 <a href='/sky_sdk/LICENSES.sky'>LICENCES</a>
 </sky>

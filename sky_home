@@ -8,9 +8,9 @@
  a { font-size: 1.642874em; }
 </style>
 <h1>Sky Demos</h1>
-<a href='/sky_sdk/examples/stocks-fn/main.sky'>stocks app</a>
-<a href='/sky_sdk/examples/touch-demo.sky'>touch demo</a>
-<a href='/sky_sdk/examples/widgets-fn/main.sky'>widgets</a>
-<a href='/sky_sdk/examples/spinning-square.sky'>spinning square</a>
+<a href='/sky_sdk/examples/stocks/main.sky'>stocks app</a>
+<a href='/sky_sdk/examples/raw/touch-demo.sky'>touch demo</a>
+<a href='/sky_sdk/examples/widgets/main.sky'>widgets</a>
+<a href='/sky_sdk/examples/raw/spinning-square.sky'>spinning square</a>
 <a href='/sky_sdk/LICENSES.sky'>LICENCES</a>
 </sky>
