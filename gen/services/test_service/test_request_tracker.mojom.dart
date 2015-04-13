@@ -517,7 +517,7 @@ class TestTrackedRequestServiceProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new TestTrackedRequestServiceProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "TestTrackedRequestServiceProxy($impl)";
@@ -696,7 +696,7 @@ class TestRequestTrackerProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new TestRequestTrackerProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "TestRequestTrackerProxy($impl)";

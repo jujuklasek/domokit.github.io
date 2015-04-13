@@ -857,7 +857,7 @@ class WindowManagerProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new WindowManagerProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "WindowManagerProxy($impl)";
@@ -1088,7 +1088,7 @@ class WindowManagerObserverProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new WindowManagerObserverProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "WindowManagerObserverProxy($impl)";

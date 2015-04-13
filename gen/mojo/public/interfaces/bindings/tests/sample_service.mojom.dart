@@ -1132,7 +1132,7 @@ class ServiceProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new ServiceProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "ServiceProxy($impl)";
@@ -1290,7 +1290,7 @@ class PortProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new PortProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "PortProxy($impl)";

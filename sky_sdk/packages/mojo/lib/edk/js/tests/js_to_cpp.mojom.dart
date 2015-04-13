@@ -957,7 +957,7 @@ class CppSideProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new CppSideProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "CppSideProxy($impl)";
@@ -1157,7 +1157,7 @@ class JsSideProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new JsSideProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "JsSideProxy($impl)";

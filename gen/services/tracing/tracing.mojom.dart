@@ -362,7 +362,7 @@ class TraceControllerProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new TraceControllerProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "TraceControllerProxy($impl)";
@@ -506,7 +506,7 @@ class TraceDataCollectorProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new TraceDataCollectorProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "TraceDataCollectorProxy($impl)";
@@ -654,7 +654,7 @@ class TraceCoordinatorProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new TraceCoordinatorProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "TraceCoordinatorProxy($impl)";

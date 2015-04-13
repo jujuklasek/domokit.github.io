@@ -798,7 +798,7 @@ class KeyboardClientProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new KeyboardClientProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "KeyboardClientProxy($impl)";
@@ -975,7 +975,7 @@ class KeyboardServiceProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new KeyboardServiceProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "KeyboardServiceProxy($impl)";

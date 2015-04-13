@@ -460,7 +460,7 @@ class TestCCResponseParams extends bindings.Struct {
 const int kTestService_test_name = 0;
 
 const String TestServiceName =
-      'mojo::shell::TestService';
+      'shell::TestService';
 
 abstract class TestService {
   Future<TestServiceTestResponseParams> test(String testString,[Function responseFactory = null]);
@@ -558,7 +558,7 @@ class TestServiceProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new TestServiceProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "TestServiceProxy($impl)";
@@ -629,7 +629,7 @@ const int kTestA_callB_name = 0;
 const int kTestA_callCFromB_name = 1;
 
 const String TestAName =
-      'mojo::shell::TestA';
+      'shell::TestA';
 
 abstract class TestA {
   void callB();
@@ -716,7 +716,7 @@ class TestAProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new TestAProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "TestAProxy($impl)";
@@ -780,7 +780,7 @@ const int kTestB_b_name = 0;
 const int kTestB_callC_name = 1;
 
 const String TestBName =
-      'mojo::shell::TestB';
+      'shell::TestB';
 
 abstract class TestB {
   Future<TestBBResponseParams> b([Function responseFactory = null]);
@@ -901,7 +901,7 @@ class TestBProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new TestBProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "TestBProxy($impl)";
@@ -988,7 +988,7 @@ class TestBStub extends bindings.Stub {
 const int kTestC_c_name = 0;
 
 const String TestCName =
-      'mojo::shell::TestC';
+      'shell::TestC';
 
 abstract class TestC {
   Future<TestCCResponseParams> c([Function responseFactory = null]);
@@ -1085,7 +1085,7 @@ class TestCProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new TestCProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "TestCProxy($impl)";

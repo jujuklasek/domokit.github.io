@@ -2986,7 +2986,7 @@ class MultiVersionStruct extends bindings.Struct {
     }
     if (mainDataHeader.version >= 5) {
       
-      result.fArray = decoder0.decodeInt8Array(32, bindings.kNothingNullable, bindings.kUnspecifiedArrayLength);
+      result.fArray = decoder0.decodeInt8Array(32, bindings.kArrayNullable, bindings.kUnspecifiedArrayLength);
     }
     if (mainDataHeader.version >= 7) {
       
@@ -3010,7 +3010,7 @@ class MultiVersionStruct extends bindings.Struct {
     
     encoder0.encodeString(fString, 24, true);
     
-    encoder0.encodeInt8Array(fArray, 32, bindings.kNothingNullable, bindings.kUnspecifiedArrayLength);
+    encoder0.encodeInt8Array(fArray, 32, bindings.kArrayNullable, bindings.kUnspecifiedArrayLength);
     
     encoder0.encodeBool(fBool, 40, 0);
     
@@ -3268,7 +3268,7 @@ class MultiVersionStructV5 extends bindings.Struct {
     }
     if (mainDataHeader.version >= 5) {
       
-      result.fArray = decoder0.decodeInt8Array(32, bindings.kNothingNullable, bindings.kUnspecifiedArrayLength);
+      result.fArray = decoder0.decodeInt8Array(32, bindings.kArrayNullable, bindings.kUnspecifiedArrayLength);
     }
     return result;
   }
@@ -3282,7 +3282,7 @@ class MultiVersionStructV5 extends bindings.Struct {
     
     encoder0.encodeString(fString, 24, true);
     
-    encoder0.encodeInt8Array(fArray, 32, bindings.kNothingNullable, bindings.kUnspecifiedArrayLength);
+    encoder0.encodeInt8Array(fArray, 32, bindings.kArrayNullable, bindings.kUnspecifiedArrayLength);
   }
 
   String toString() {
@@ -3355,7 +3355,7 @@ class MultiVersionStructV7 extends bindings.Struct {
     }
     if (mainDataHeader.version >= 5) {
       
-      result.fArray = decoder0.decodeInt8Array(32, bindings.kNothingNullable, bindings.kUnspecifiedArrayLength);
+      result.fArray = decoder0.decodeInt8Array(32, bindings.kArrayNullable, bindings.kUnspecifiedArrayLength);
     }
     if (mainDataHeader.version >= 7) {
       
@@ -3375,7 +3375,7 @@ class MultiVersionStructV7 extends bindings.Struct {
     
     encoder0.encodeString(fString, 24, true);
     
-    encoder0.encodeInt8Array(fArray, 32, bindings.kNothingNullable, bindings.kUnspecifiedArrayLength);
+    encoder0.encodeInt8Array(fArray, 32, bindings.kArrayNullable, bindings.kUnspecifiedArrayLength);
     
     encoder0.encodeBool(fBool, 40, 0);
   }

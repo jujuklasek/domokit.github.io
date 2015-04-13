@@ -1170,7 +1170,7 @@ class UdpSocketProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new UdpSocketProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "UdpSocketProxy($impl)";
@@ -1441,7 +1441,7 @@ class UdpSocketReceiverProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new UdpSocketReceiverProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "UdpSocketReceiverProxy($impl)";

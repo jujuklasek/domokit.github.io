@@ -282,7 +282,7 @@ class NavigatorHostProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new NavigatorHostProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "NavigatorHostProxy($impl)";

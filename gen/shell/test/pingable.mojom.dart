@@ -132,7 +132,7 @@ class PingablePingResponseParams extends bindings.Struct {
 const int kPingable_ping_name = 0;
 
 const String PingableName =
-      'mojo::Pingable';
+      '::Pingable';
 
 abstract class Pingable {
   Future<PingablePingResponseParams> ping(String message,[Function responseFactory = null]);
@@ -230,7 +230,7 @@ class PingableProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new PingableProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "PingableProxy($impl)";

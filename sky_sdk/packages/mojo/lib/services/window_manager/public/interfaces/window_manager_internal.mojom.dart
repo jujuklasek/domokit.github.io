@@ -383,7 +383,7 @@ class WindowManagerInternalProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new WindowManagerInternalProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "WindowManagerInternalProxy($impl)";
@@ -546,7 +546,7 @@ class WindowManagerInternalClientProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new WindowManagerInternalClientProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "WindowManagerInternalClientProxy($impl)";

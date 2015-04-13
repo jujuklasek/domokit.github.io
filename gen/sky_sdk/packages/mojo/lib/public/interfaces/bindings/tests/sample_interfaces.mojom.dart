@@ -444,10 +444,115 @@ class ProviderEchoEnumResponseParams extends bindings.Struct {
            "a: $a" ")";
   }
 }
+
+class ProviderEchoIntParams extends bindings.Struct {
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
+  int a = 0;
+
+  ProviderEchoIntParams() : super(kVersions.last.size);
+
+  static ProviderEchoIntParams deserialize(bindings.Message message) {
+    return decode(new bindings.Decoder(message));
+  }
+
+  static ProviderEchoIntParams decode(bindings.Decoder decoder0) {
+    if (decoder0 == null) {
+      return null;
+    }
+    ProviderEchoIntParams result = new ProviderEchoIntParams();
+
+    var mainDataHeader = decoder0.decodeStructDataHeader();
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
+    }
+    if (mainDataHeader.version >= 0) {
+      
+      result.a = decoder0.decodeInt32(8);
+    }
+    return result;
+  }
+
+  void encode(bindings.Encoder encoder) {
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
+    
+    encoder0.encodeInt32(a, 8);
+  }
+
+  String toString() {
+    return "ProviderEchoIntParams("
+           "a: $a" ")";
+  }
+}
+
+class ProviderEchoIntResponseParams extends bindings.Struct {
+  static const List<bindings.StructDataHeader> kVersions = const [
+    const bindings.StructDataHeader(16, 0)
+  ];
+  int a = 0;
+
+  ProviderEchoIntResponseParams() : super(kVersions.last.size);
+
+  static ProviderEchoIntResponseParams deserialize(bindings.Message message) {
+    return decode(new bindings.Decoder(message));
+  }
+
+  static ProviderEchoIntResponseParams decode(bindings.Decoder decoder0) {
+    if (decoder0 == null) {
+      return null;
+    }
+    ProviderEchoIntResponseParams result = new ProviderEchoIntResponseParams();
+
+    var mainDataHeader = decoder0.decodeStructDataHeader();
+    if (mainDataHeader.version <= kVersions.last.version) {
+      // Scan in reverse order to optimize for more recent versions.
+      for (int i = kVersions.length - 1; i >= 0; --i) {
+        if (mainDataHeader.version >= kVersions[i].version) {
+          if (mainDataHeader.size != kVersions[i].size)
+            throw new bindings.MojoCodecError(
+                'Header doesn\'t correspond to any known version.');
+        }
+      }
+    } else if (mainDataHeader.size < kVersions.last.size) {
+      throw new bindings.MojoCodecError(
+        'Message newer than the last known version cannot be shorter than '
+        'required by the last known version.');
+    }
+    if (mainDataHeader.version >= 0) {
+      
+      result.a = decoder0.decodeInt32(8);
+    }
+    return result;
+  }
+
+  void encode(bindings.Encoder encoder) {
+    var encoder0 = encoder.getStructEncoderAtOffset(kVersions.last);
+    
+    encoder0.encodeInt32(a, 8);
+  }
+
+  String toString() {
+    return "ProviderEchoIntResponseParams("
+           "a: $a" ")";
+  }
+}
 const int kProvider_echoString_name = 0;
 const int kProvider_echoStrings_name = 1;
 const int kProvider_echoMessagePipeHandle_name = 2;
 const int kProvider_echoEnum_name = 3;
+const int kProvider_echoInt_name = 4;
 
 const String ProviderName =
       'sample::Provider';
@@ -457,6 +562,7 @@ abstract class Provider {
   Future<ProviderEchoStringsResponseParams> echoStrings(String a,String b,[Function responseFactory = null]);
   Future<ProviderEchoMessagePipeHandleResponseParams> echoMessagePipeHandle(core.MojoMessagePipeEndpoint a,[Function responseFactory = null]);
   Future<ProviderEchoEnumResponseParams> echoEnum(int a,[Function responseFactory = null]);
+  Future<ProviderEchoIntResponseParams> echoInt(int a,[Function responseFactory = null]);
 
 }
 
@@ -534,6 +640,20 @@ class ProviderProxyImpl extends bindings.Proxy {
         assert(!c.isCompleted);
         c.complete(r);
         break;
+      case kProvider_echoInt_name:
+        var r = ProviderEchoIntResponseParams.deserialize(
+            message.payload);
+        if (!message.header.hasRequestId) {
+          throw 'Expected a message with a valid request Id.';
+        }
+        Completer c = completerMap[message.header.requestId];
+        if (c == null) {
+          throw 'Message had unknown request Id: ${message.header.requestId}';
+        }
+        completerMap.remove(message.header.requestId);
+        assert(!c.isCompleted);
+        c.complete(r);
+        break;
       default:
         throw new bindings.MojoCodecError("Unexpected message name");
         break;
@@ -589,6 +709,16 @@ class _ProviderProxyCalls implements Provider {
       return _proxyImpl.sendMessageWithRequestId(
           params,
           kProvider_echoEnum_name,
+          -1,
+          bindings.MessageHeader.kMessageExpectsResponse);
+    }
+    Future<ProviderEchoIntResponseParams> echoInt(int a,[Function responseFactory = null]) {
+      assert(_proxyImpl.isBound);
+      var params = new ProviderEchoIntParams();
+      params.a = a;
+      return _proxyImpl.sendMessageWithRequestId(
+          params,
+          kProvider_echoInt_name,
           -1,
           bindings.MessageHeader.kMessageExpectsResponse);
     }
@@ -672,6 +802,11 @@ class ProviderStub extends bindings.Stub {
     result.a = a;
     return result;
   }
+  ProviderEchoIntResponseParams _ProviderEchoIntResponseParamsFactory(int a) {
+    var result = new ProviderEchoIntResponseParams();
+    result.a = a;
+    return result;
+  }
 
   Future<bindings.Message> handleMessage(bindings.ServiceMessage message) {
     assert(_impl != null);
@@ -723,6 +858,19 @@ class ProviderStub extends bindings.Stub {
             return buildResponseWithId(
                 response,
                 kProvider_echoEnum_name,
+                message.header.requestId,
+                bindings.MessageHeader.kMessageIsResponse);
+          }
+        });
+        break;
+      case kProvider_echoInt_name:
+        var params = ProviderEchoIntParams.deserialize(
+            message.payload);
+        return _impl.echoInt(params.a,_ProviderEchoIntResponseParamsFactory).then((response) {
+          if (response != null) {
+            return buildResponseWithId(
+                response,
+                kProvider_echoInt_name,
                 message.header.requestId,
                 bindings.MessageHeader.kMessageIsResponse);
           }

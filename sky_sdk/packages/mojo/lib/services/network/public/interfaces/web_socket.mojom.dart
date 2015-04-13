@@ -721,7 +721,7 @@ class WebSocketProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new WebSocketProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "WebSocketProxy($impl)";
@@ -917,7 +917,7 @@ class WebSocketClientProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new WebSocketClientProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "WebSocketClientProxy($impl)";
