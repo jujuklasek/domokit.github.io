@@ -705,7 +705,7 @@ class CheckMethodWithEmptyResponseProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new CheckMethodWithEmptyResponseProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "CheckMethodWithEmptyResponseProxy($impl)";
@@ -891,7 +891,7 @@ class CheckNameCollisionProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new CheckNameCollisionProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "CheckNameCollisionProxy($impl)";

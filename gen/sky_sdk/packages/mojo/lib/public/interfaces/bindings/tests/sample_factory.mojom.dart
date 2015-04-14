@@ -889,7 +889,7 @@ class NamedObjectProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new NamedObjectProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "NamedObjectProxy($impl)";
@@ -1151,7 +1151,7 @@ class FactoryProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new FactoryProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "FactoryProxy($impl)";

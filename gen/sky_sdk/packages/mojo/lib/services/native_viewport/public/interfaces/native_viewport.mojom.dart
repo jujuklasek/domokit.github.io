@@ -839,7 +839,7 @@ class NativeViewportProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new NativeViewportProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "NativeViewportProxy($impl)";
@@ -1056,7 +1056,7 @@ class NativeViewportEventDispatcherProxy implements bindings.ProxyBase {
       core.MojoMessagePipeEndpoint endpoint) =>
       new NativeViewportEventDispatcherProxy.fromEndpoint(endpoint);
 
-  Future close({bool nodefer: false}) => impl.close(nodefer: nodefer);
+  Future close({bool immediate: false}) => impl.close(immediate: immediate);
 
   String toString() {
     return "NativeViewportEventDispatcherProxy($impl)";
