@@ -31,7 +31,6 @@ class SkyHome extends App {
     List<UINode> children = [
         new SkyLink('Stocks App', '/sky_sdk/examples/stocks/main.sky'),
         new SkyLink('Touch Demo', '/sky_sdk/examples/raw/touch-demo.sky'),
-        new SkyLink('Widgets Demo', '/sky_sdk/examples/widgets/main.sky'),
         new SkyLink('Spinning Square', '/sky_sdk/examples/raw/spinning-square.sky'),
         new SkyLink('Licences', '/sky_sdk/LICENSES.sky'),
     ];
