@@ -1,16 +1,10 @@
 #!mojo mojo:sky_viewer
 <sky>
-<style>
- a { line-height: 120% }
- h1 { font-size: 2em; margin: 1em; }
- h2 { font-size: 1.2em; margin: 1em; }
- p { margin: 0.5em 1em; color: #bcd8f5; font-weight: 900; }
- a { font-size: 1.642874em; }
-</style>
-<h1>Sky Demos</h1>
-<a href='/sky_sdk/examples/stocks/main.sky'>stocks app</a>
-<a href='/sky_sdk/examples/raw/touch-demo.sky'>touch demo</a>
-<a href='/sky_sdk/examples/widgets/main.sky'>widgets</a>
-<a href='/sky_sdk/examples/raw/spinning-square.sky'>spinning square</a>
-<a href='/sky_sdk/LICENSES.sky'>LICENCES</a>
+<script>
+import 'sky_home.dart';
+
+void main() {
+  new SkyHome();
+}
+</script>
 </sky>

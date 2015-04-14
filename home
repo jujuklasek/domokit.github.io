@@ -1,11 +1,9 @@
 #!mojo mojo:sky_viewer
 <sky>
 <style>
- a { line-height: 120% }
- h1 { font-size: 2em; margin: 1em; }
- h2 { font-size: 1.2em; margin: 1em; }
- p { margin: 0.5em 1em; color: #bcd8f5; font-weight: 900; }
- a { font-size: 1.642874em; }
+ a { font-size: 1.642874em; line-height: 120%; display: paragraph; }
+ h1 { font-size: 2em; margin: 1em; display: paragraph; }
+ h2 { font-size: 1.2em; margin: 1em; display: paragraph;}
 </style>
 <h1>Mojo Home</h1>
 <h2>C++ Apps</h2>
